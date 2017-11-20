@@ -1,8 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1">
-	<!-- TODO Add Nodes -->
-</AnchorPane>
 
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+   <children>
+      <Button id="newbtn" layoutX="-595.0" layoutY="-633.0" mnemonicParsing="false" text="New" />
+      <Button id="loadbtn" layoutX="-528.0" layoutY="-633.0" mnemonicParsing="false" text="Load" />
+      <Button id="exportbtn" layoutX="-398.0" layoutY="-633.0" mnemonicParsing="false" text="Export" />
+      <Button id="statsbtn" layoutX="-327.0" layoutY="-633.0" mnemonicParsing="false" text="Statistic" />
+      <TextField id="company" layoutX="-174.0" layoutY="-633.0" text="Company:" />
+      <ListView id="companyList" layoutX="-174.0" layoutY="-586.0" prefHeight="200.0" prefWidth="200.0" />
+      <ScrollBar id="companyScroll" layoutX="6.0" layoutY="-586.0" orientation="VERTICAL" prefHeight="200.0" prefWidth="14.0" />
+      <TabPane layoutX="-595.0" layoutY="-578.0" prefHeight="315.0" prefWidth="382.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab id="defect" text="Defect">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ScrollBar id="defectScroll" layoutX="361.0" layoutY="-20.0" orientation="VERTICAL" prefHeight="315.0" prefWidth="14.0" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab id="branch" text="Branch">
+            <content>
+              <AnchorPane id="defbra" minHeight="0.0" minWidth="0.0" prefHeight="225.0" prefWidth="382.0">
+                     <children>
+                        <ScrollBar id="branchScroll" layoutX="361.0" layoutY="-21.0" orientation="VERTICAL" prefHeight="315.0" prefWidth="14.0" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+      <ListView id="statsList" layoutX="-603.0" layoutY="-200.0" prefHeight="200.0" prefWidth="398.0" />
+      <Button id="filterbtn" layoutX="-465.0" layoutY="-633.0" mnemonicParsing="false" text="Filter" />
+      <TextField id="statstext" layoutX="-602.0" layoutY="-235.0" text="Statistic:" />
+      <ScrollBar id="statsScroll" layoutX="-227.0" layoutY="-200.0" orientation="VERTICAL" prefHeight="200.0" prefWidth="14.0" />
+   </children>
+</AnchorPane>
