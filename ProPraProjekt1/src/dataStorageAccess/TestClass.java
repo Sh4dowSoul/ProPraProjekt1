@@ -1,4 +1,4 @@
-package dataStoragAccess;
+package dataStorageAccess;
 
 import java.sql.SQLException;
 
