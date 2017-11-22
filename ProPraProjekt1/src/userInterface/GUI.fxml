@@ -5,23 +5,22 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Button id="newbtn" layoutX="-595.0" layoutY="-633.0" mnemonicParsing="false" text="New" />
-      <Button id="loadbtn" layoutX="-528.0" layoutY="-633.0" mnemonicParsing="false" text="Load" />
-      <Button id="exportbtn" layoutX="-398.0" layoutY="-633.0" mnemonicParsing="false" text="Export" />
-      <Button id="statsbtn" layoutX="-327.0" layoutY="-633.0" mnemonicParsing="false" text="Statistic" />
-      <TextField id="company" layoutX="-174.0" layoutY="-633.0" text="Company:" />
-      <ListView id="companyList" layoutX="-174.0" layoutY="-586.0" prefHeight="200.0" prefWidth="200.0" />
-      <ScrollBar id="companyScroll" layoutX="6.0" layoutY="-586.0" orientation="VERTICAL" prefHeight="200.0" prefWidth="14.0" />
-      <TabPane layoutX="-595.0" layoutY="-578.0" prefHeight="315.0" prefWidth="382.0" tabClosingPolicy="UNAVAILABLE">
+      <Button id="newbtn" layoutX="-1143.0" layoutY="-811.0" mnemonicParsing="false" text="New" />
+      <Button id="loadbtn" layoutX="-403.0" layoutY="-344.0" mnemonicParsing="false" text="Load Companys Defects/Branches" />
+      <Button id="exportbtn" layoutX="-754.0" layoutY="-811.0" mnemonicParsing="false" text="Export" />
+      <Button id="statsbtn" layoutX="-646.0" layoutY="-811.0" mnemonicParsing="false" text="Statistic" />
+      <TextField id="company" layoutX="-362.0" layoutY="-811.0" text="Company:" />
+      <ListView id="companyList" layoutX="-362.0" layoutY="-740.0" prefHeight="327.0" prefWidth="341.0" />
+      <ScrollBar id="companyScroll" layoutX="-43.0" layoutY="-740.0" orientation="VERTICAL" prefHeight="327.0" prefWidth="22.0" />
+      <TabPane layoutX="-403.0" layoutY="-284.0" prefHeight="315.0" prefWidth="382.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab id="defect" text="Defect">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="270.0" prefWidth="466.0">
                      <children>
-                        <ScrollBar id="defectScroll" layoutX="361.0" layoutY="-20.0" orientation="VERTICAL" prefHeight="315.0" prefWidth="14.0" />
+                        <ScrollBar id="defectScroll" layoutX="357.0" layoutY="-45.0" orientation="VERTICAL" prefHeight="315.0" prefWidth="14.0" />
                      </children>
                   </AnchorPane>
             </content>
@@ -37,9 +36,17 @@
           </Tab>
         </tabs>
       </TabPane>
-      <ListView id="statsList" layoutX="-603.0" layoutY="-200.0" prefHeight="200.0" prefWidth="398.0" />
-      <Button id="filterbtn" layoutX="-465.0" layoutY="-633.0" mnemonicParsing="false" text="Filter" />
-      <TextField id="statstext" layoutX="-602.0" layoutY="-235.0" text="Statistic:" />
-      <ScrollBar id="statsScroll" layoutX="-227.0" layoutY="-200.0" orientation="VERTICAL" prefHeight="200.0" prefWidth="14.0" />
+      <ListView id="statsList" layoutX="-1143.0" layoutY="-200.0" prefHeight="200.0" prefWidth="398.0" />
+      <Button id="filterbtn" layoutX="-962.0" layoutY="-811.0" mnemonicParsing="false" text="Filter" />
+      <TextField id="statstext" layoutX="-1143.0" layoutY="-284.0" text="Statistic:" />
+      <ScrollBar id="statsScroll" layoutX="-772.0" layoutY="-200.0" orientation="VERTICAL" prefHeight="200.0" prefWidth="14.0" />
+      <TextField id="defectdescription" layoutX="-1143.0" layoutY="-700.0" promptText="description" />
+      <TextField id="defectnr" layoutX="-1143.0" layoutY="-619.0" promptText="number" />
+      <TextField id="branchdescription" layoutX="-1143.0" layoutY="-544.0" promptText="description" />
+      <TextField id="branchID" layoutX="-1143.0" layoutY="-459.0" promptText="branch ID" />
+      <Label id="defectlabel" layoutX="-1143.0" layoutY="-747.0" text="Defect" />
+      <Label id="branchlabel" layoutX="-1139.0" layoutY="-577.0" text="Branch" />
+      <Button layoutX="-1049.0" layoutY="-811.0" mnemonicParsing="false" text="Delete" />
+      <Button id="sortbtn" layoutX="-854.0" layoutY="-811.0" mnemonicParsing="false" text="Sort" />
    </children>
 </AnchorPane>
