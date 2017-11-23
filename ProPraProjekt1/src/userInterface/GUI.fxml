@@ -1,52 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
+<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userInterface.GUIController">
    <children>
-      <Button id="newbtn" layoutX="-1143.0" layoutY="-811.0" mnemonicParsing="false" text="New" />
-      <Button id="loadbtn" layoutX="-403.0" layoutY="-344.0" mnemonicParsing="false" text="Load Companys Defects/Branches" />
-      <Button id="exportbtn" layoutX="-754.0" layoutY="-811.0" mnemonicParsing="false" text="Export" />
-      <Button id="statsbtn" layoutX="-646.0" layoutY="-811.0" mnemonicParsing="false" text="Statistic" />
-      <TextField id="company" layoutX="-362.0" layoutY="-811.0" text="Company:" />
-      <ListView id="companyList" layoutX="-362.0" layoutY="-740.0" prefHeight="327.0" prefWidth="341.0" />
-      <ScrollBar id="companyScroll" layoutX="-43.0" layoutY="-740.0" orientation="VERTICAL" prefHeight="327.0" prefWidth="22.0" />
-      <TabPane layoutX="-403.0" layoutY="-284.0" prefHeight="315.0" prefWidth="382.0" tabClosingPolicy="UNAVAILABLE">
+      <Accordion layoutX="194.0" layoutY="89.0" />
+      <Button id="addButton" layoutX="8.0" layoutY="36.0" mnemonicParsing="false" onAction="#add" text="Hinzufügen" />
+      <Button id="delButton" layoutX="129.0" layoutY="36.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="82.0" text="Löschen" />
+      <Button id="filterButton" layoutX="222.0" layoutY="36.0" mnemonicParsing="false" text="Filtern" />
+      <Button id="sortButton" layoutX="595.0" layoutY="36.0" mnemonicParsing="false" text="Sortieren nach" />
+      <Button id="expButton" layoutX="297.0" layoutY="36.0" mnemonicParsing="false" text="Exportieren" />
+      <ListView id="companysField" layoutX="780.0" layoutY="93.0" prefHeight="200.0" prefWidth="200.0" />
+      <TextField id="defectName" layoutX="35.0" layoutY="162.0" promptText="Name" />
+      <TextField id="numberField" layoutX="35.0" layoutY="206.0" promptText="Nummer" />
+      <TextField id="descriptionField" layoutX="35.0" layoutY="303.0" promptText="Beschreibung" />
+      <TextField id="branchIDField" layoutX="35.0" layoutY="361.0" promptText="Branchen ID" />
+      <TextArea id="statsField" layoutX="47.0" layoutY="545.0" prefHeight="211.0" prefWidth="364.0" />
+      <Label id="statsLabel" layoutX="47.0" layoutY="473.0" text="Statistic" />
+      <Label id="companyLabel" layoutX="780.0" layoutY="41.0" text="Firmen" />
+      <TabPane layoutX="514.0" layoutY="345.0" prefHeight="376.0" prefWidth="412.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab id="defect" text="Defect">
+          <Tab id="defectTab" text="Mängel">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="270.0" prefWidth="466.0">
-                     <children>
-                        <ScrollBar id="defectScroll" layoutX="357.0" layoutY="-45.0" orientation="VERTICAL" prefHeight="315.0" prefWidth="14.0" />
-                     </children>
-                  </AnchorPane>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="500.0" prefWidth="500.0" />
             </content>
           </Tab>
-          <Tab id="branch" text="Branch">
+          <Tab id="branchTab" text="Branchen">
             <content>
-              <AnchorPane id="defbra" minHeight="0.0" minWidth="0.0" prefHeight="225.0" prefWidth="382.0">
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <ScrollBar id="branchScroll" layoutX="361.0" layoutY="-21.0" orientation="VERTICAL" prefHeight="315.0" prefWidth="14.0" />
+                        <ScrollBar id="defectScroll" layoutX="398.0" layoutY="-3.0" orientation="VERTICAL" prefHeight="344.0" prefWidth="18.0" />
                      </children>
                   </AnchorPane>
             </content>
           </Tab>
         </tabs>
       </TabPane>
-      <ListView id="statsList" layoutX="-1143.0" layoutY="-200.0" prefHeight="200.0" prefWidth="398.0" />
-      <Button id="filterbtn" layoutX="-962.0" layoutY="-811.0" mnemonicParsing="false" text="Filter" />
-      <TextField id="statstext" layoutX="-1143.0" layoutY="-284.0" text="Statistic:" />
-      <ScrollBar id="statsScroll" layoutX="-772.0" layoutY="-200.0" orientation="VERTICAL" prefHeight="200.0" prefWidth="14.0" />
-      <TextField id="defectdescription" layoutX="-1143.0" layoutY="-700.0" promptText="description" />
-      <TextField id="defectnr" layoutX="-1143.0" layoutY="-619.0" promptText="number" />
-      <TextField id="branchdescription" layoutX="-1143.0" layoutY="-544.0" promptText="description" />
-      <TextField id="branchID" layoutX="-1143.0" layoutY="-459.0" promptText="branch ID" />
-      <Label id="defectlabel" layoutX="-1143.0" layoutY="-747.0" text="Defect" />
-      <Label id="branchlabel" layoutX="-1139.0" layoutY="-577.0" text="Branch" />
-      <Button layoutX="-1049.0" layoutY="-811.0" mnemonicParsing="false" text="Delete" />
-      <Button id="sortbtn" layoutX="-854.0" layoutY="-811.0" mnemonicParsing="false" text="Sort" />
+      <Label id="defectLabel" layoutX="35.0" layoutY="108.0" text="Mangel" />
+      <Label id="branchLabel" layoutX="35.0" layoutY="257.0" text="Branche" />
+      <ListView layoutX="535.0" layoutY="94.0" prefHeight="200.0" prefWidth="200.0" />
+      <Button id="statsButton" layoutX="411.0" layoutY="36.0" mnemonicParsing="false" text="Statistik" />
+      <ScrollBar id="sortScroll" layoutX="711.0" layoutY="93.0" orientation="VERTICAL" prefHeight="200.0" prefWidth="18.0" />
+      <ScrollBar id="CompanysScroll" layoutX="962.0" layoutY="93.0" orientation="VERTICAL" prefHeight="200.0" prefWidth="18.0" />
+      <ScrollBar id="statsScroll" layoutX="393.0" layoutY="547.0" orientation="VERTICAL" prefHeight="211.0" prefWidth="18.0" />
+      <Label fx:id="testLabel" layoutX="367.0" layoutY="178.0" text="testLabel" />
    </children>
 </AnchorPane>
