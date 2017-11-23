@@ -3,5 +3,11 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="sqlite-jdbc-3.21.0.jar"/>
+	<classpathentry kind="lib" path="commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="fontbox-2.0.8.jar"/>
+	<classpathentry kind="lib" path="pdfbox-2.0.8.jar"/>
+	<classpathentry kind="lib" path="pdfbox-tools-2.0.8.jar"/>
+	<classpathentry kind="lib" path="preflight-2.0.8.jar"/>
+	<classpathentry kind="lib" path="xmpbox-2.0.8.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

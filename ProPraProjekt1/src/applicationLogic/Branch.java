@@ -11,6 +11,11 @@ public class Branch {
 	private int id;
 	private String description;
 
+	public Branch(int id, String description) {
+		this.id = id;
+		this.description = description;
+	}
+
 	public int getId() {
 		return id;
 	}

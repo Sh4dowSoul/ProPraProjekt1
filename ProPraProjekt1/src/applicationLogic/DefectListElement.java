@@ -13,6 +13,12 @@ public class DefectListElement {
 	private String danger;
 	private Date resolvedOn;
 	private String responsiblePerson;
+	
+	public DefectListElement(String danger, Date resolvedOn, String responsiblePerson) {
+		this.danger = danger;
+		this.resolvedOn = resolvedOn;
+		this.responsiblePerson = responsiblePerson;
+	}
 
 	public String getDanger() {
 		return danger;
