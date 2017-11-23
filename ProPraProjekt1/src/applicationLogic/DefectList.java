@@ -10,6 +10,11 @@ public class DefectList {
 
 	private int id;
 	private int diagnosisId;
+	
+	public DefectList(int id, int diagnosisId) {
+		this.id = id;
+		this.diagnosisId = diagnosisId;
+	}
 
 	public int getId() {
 		return id;
