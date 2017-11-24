@@ -21,12 +21,12 @@ public class TestClass {
 			//Get Preview of 3 last edited Diagnoses
 			ArrayList<DiagnosisPreview> previews = DiagnosisController.getLastEditedDiagnosesPreview(3);
 			for (DiagnosisPreview preview: previews) {
-				System.out.println(preview.getNiceDiagnosis_date() + " - " + preview.getCompany_name());
+				System.out.println(preview.getNiceDate() + " - " + preview.getCompanyName());
 			}
 			//Get Preview of all Diagnoses
 			ArrayList<DiagnosisPreview> Allpreviews = DiagnosisController.getDiagnosesPreview();
 			for (DiagnosisPreview preview: Allpreviews) {
-				System.out.println(preview.getCompany_name() + " - " + preview.getNiceDiagnosis_date());
+				System.out.println(preview.getCompanyName() + " - " + preview.getNiceDate());
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
