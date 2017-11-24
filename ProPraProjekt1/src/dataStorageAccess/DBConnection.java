@@ -24,7 +24,7 @@ public class DBConnection {
     }
 	
 	
-	protected Connection initConnection() throws SQLException {
+	public Connection initConnection() throws SQLException {
 		if (connection != null && !connection.isClosed()) {
 			//connection still open
 			System.out.println("Connection already opened");

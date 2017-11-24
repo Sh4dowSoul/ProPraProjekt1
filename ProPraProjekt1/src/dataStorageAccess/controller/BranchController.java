@@ -1,4 +1,4 @@
-package dataStorageAccess;
+package dataStorageAccess.controller;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import applicationLogic.Branch;
+import dataStorageAccess.DBConnection;
 
 public class BranchController {
 	//Get Branches starting with name --> Used for Autocomplete
