@@ -16,12 +16,13 @@ public class GUI extends Application {
 	public void start(Stage primaryStage) throws IOException {
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("DefectManager");
+		primaryStage.setMaximized(true);		//Maximize
 		showMainView();
 	}
 	
 	private void showMainView() throws IOException {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(GUI.class.getResource("GUI.fxml"));
+		loader.setLocation(GUI.class.getResource("GUI1.fxml"));
 		mainLayout = loader.load();
 		Scene scene = new Scene(mainLayout);
 		primaryStage.setScene(scene);
