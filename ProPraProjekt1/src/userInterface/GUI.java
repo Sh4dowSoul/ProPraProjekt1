@@ -11,12 +11,11 @@ import javafx.stage.Stage;
 public class GUI extends Application {
 	private Stage primaryStage;
 	private AnchorPane mainLayout;
-	
 	@Override
 	public void start(Stage primaryStage) throws IOException {
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("DefectManager");
-		primaryStage.setMaximized(true);		//Maximize
+		primaryStage.setWidth(1160);	//width of anchorpane/mainLayout
 		showMainView();
 		show();
 	}
