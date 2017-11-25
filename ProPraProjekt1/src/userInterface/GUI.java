@@ -18,6 +18,7 @@ public class GUI extends Application {
 		this.primaryStage.setTitle("DefectManager");
 		primaryStage.setMaximized(true);		//Maximize
 		showMainView();
+		show();
 	}
 	
 	private void showMainView() throws IOException {
@@ -27,6 +28,16 @@ public class GUI extends Application {
 		Scene scene = new Scene(mainLayout);
 		primaryStage.setScene(scene);
 		primaryStage.show();
+	}
+	
+	public void show() throws IOException {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(GUI.class.getResource("GUI2.fxml"));
+		mainLayout = loader.load();
+		Scene scene = new Scene(mainLayout);
+		primaryStage.setScene(scene);
+		primaryStage.show();
+		
 	}
 	
 	public static void main(String[] args) {

@@ -8,6 +8,7 @@ public class GUIController {
 	@FXML
 	private Label testLabel;
 	
+	
 	public void add(ActionEvent add) {
 		testLabel.setText("jojo");
 	}

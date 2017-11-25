@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="904.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+  <!-- TODO Add Nodes -->
+  <children>
+    <TabPane layoutX="0.0" layoutY="0.0" prefHeight="500.0" prefWidth="700.0" tabClosingPolicy="UNAVAILABLE">
+      <tabs>
+        <Tab text="Statistik">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <children>
+                        <TabPane layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+                          <tabs>
+                            <Tab text="Firma">
+                              <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <TableView prefHeight="200.0" prefWidth="200.0">
+                                            <columns>
+                                              <TableColumn prefWidth="75.0" text="C1" />
+                                              <TableColumn prefWidth="75.0" text="C2" />
+                                            </columns>
+                                          </TableView>
+                                       </children></AnchorPane>
+                              </content>
+                            </Tab>
+                            <Tab text="Branche">
+                              <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <TableView prefHeight="200.0" prefWidth="200.0">
+                                            <columns>
+                                              <TableColumn prefWidth="75.0" text="C1" />
+                                              <TableColumn prefWidth="75.0" text="C2" />
+                                            </columns>
+                                          </TableView>
+                                       </children></AnchorPane>
+                              </content>
+                            </Tab>
+                          </tabs>
+                        </TabPane>
+                        <TableView layoutX="350.0" layoutY="12.0" prefHeight="352.0" prefWidth="347.0">
+                          <columns>
+                            <TableColumn prefWidth="32.0" />
+                            <TableColumn prefWidth="139.0" text="Topcharts der Mängel" />
+                              <TableColumn prefWidth="99.0" text="Betriebsbereich" />
+                              <TableColumn prefWidth="76.0" text="Anzahl" />
+                          </columns>
+                        </TableView>
+                        <Button layoutX="601.0" layoutY="426.0" mnemonicParsing="false" text="XML - Export" />
+              </children>
+            </AnchorPane>
+          </content>
+        </Tab>
+            <Tab text="PDF Export">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Button layoutX="74.0" layoutY="72.0" mnemonicParsing="false" text="in PDF exportieren" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+      </tabs>
+    </TabPane>
+  </children>
+</AnchorPane>
