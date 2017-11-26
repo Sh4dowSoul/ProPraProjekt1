@@ -17,12 +17,12 @@ public class GUI extends Application {
 		this.primaryStage.setTitle("DefectManager");
 		primaryStage.setWidth(1160);	//width of anchorpane/mainLayout
 		showMainView();
-		show();
+		//show();
 	}
 	
 	private void showMainView() throws IOException {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(GUI.class.getResource("GUI1.fxml"));
+		loader.setLocation(GUI.class.getResource("GUI.fxml"));
 		mainLayout = loader.load();
 		Scene scene = new Scene(mainLayout);
 		primaryStage.setScene(scene);
