@@ -45,7 +45,7 @@
                             </Tab>
                           </tabs>
                         </TabPane>
-                        <TableView layoutX="687.0" layoutY="12.0" prefHeight="638.0" prefWidth="478.0">
+                        <TableView layoutX="687.0" layoutY="12.0" prefHeight="469.0" prefWidth="478.0">
                           <columns>
                             <TableColumn prefWidth="32.0" />
                             <TableColumn prefWidth="205.0" text="Topcharts der Mängel" />
