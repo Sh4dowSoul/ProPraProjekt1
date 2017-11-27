@@ -24,6 +24,10 @@ public class DBConnection {
     }
 	
 	
+	/**
+	 * @return Returns either a new connection to the Database, or an old already opened one
+	 * @throws SQLException
+	 */
 	public Connection initConnection() throws SQLException {
 		if (connection != null && !connection.isClosed()) {
 			//connection still open
