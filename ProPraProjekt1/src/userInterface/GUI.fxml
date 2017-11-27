@@ -15,15 +15,15 @@
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="697.0" prefWidth="811.0">
                      <children>
                         <Label id="recentLabel" layoutX="33.0" layoutY="34.0" text="Kürzlich bearbeitet:" />
-                        <ListView layoutX="33.0" layoutY="70.0" prefHeight="526.0" prefWidth="455.0" />
+                        <ListView id="recentlyUsedList" layoutX="33.0" layoutY="70.0" prefHeight="526.0" prefWidth="455.0" />
                         <TableView layoutX="599.0" layoutY="70.0" prefHeight="741.0" prefWidth="539.0">
                           <columns>
                             <TableColumn id="companysColumn" prefWidth="274.0" text="Firmen" />
                             <TableColumn id="diagnosisColumn" minWidth="0.0" prefWidth="264.0" text="Befundschein" />
                           </columns>
                         </TableView>
-                        <Button id="sortByCompany" layoutX="658.0" layoutY="19.0" mnemonicParsing="false" text="Sortieren nach Firmen" />
-                        <Button id="sortAlpha" layoutX="856.0" layoutY="19.0" mnemonicParsing="false" text="Alphabetisch sortieren" />
+                        <Button id="sortByCompany" layoutX="658.0" layoutY="19.0" mnemonicParsing="false" onAction="#sortByCompany" text="Sortieren nach Firmen" />
+                        <Button id="sortAlpha" layoutX="856.0" layoutY="19.0" mnemonicParsing="false" onAction="#sortByName" text="Alphabetisch sortieren" />
                      </children>
                   </AnchorPane>
             </content>
@@ -53,13 +53,13 @@
                                  <children>
                                     <Label id="companyPLantField" layoutX="319.0" layoutY="6.0" text="Risikoanschrift" />
                                     <Label id="insuranceCompanyField" layoutX="23.0" layoutY="6.0" text="Versicherungsnehmer (VN)" />
-                                    <TextField id="companyField" layoutX="23.0" layoutY="33.0" promptText="Company" />
-                                    <TextField id="zipPlantField" layoutX="23.0" layoutY="110.0" promptText="PLZ" />
-                                    <TextField id="streetPlantField" layoutX="23.0" layoutY="72.0" promptText="Straße" />
-                                    <TextField id="cityPlantField" layoutX="23.0" layoutY="146.0" promptText="Ort" />
-                                    <TextField id="cityPlantField" layoutX="301.0" layoutY="109.0" promptText="Ort" />
-                                    <TextField id="zipPlantField" layoutX="301.0" layoutY="73.0" promptText="PLZ" />
-                                    <TextField id="streetPlantField" layoutX="301.0" layoutY="35.0" promptText="Straße" />
+                                    <TextField id="compNameField" layoutX="23.0" layoutY="33.0" promptText="Company" />
+                                    <TextField id="compZipField" layoutX="23.0" layoutY="110.0" promptText="PLZ" />
+                                    <TextField id="streetCompField" layoutX="23.0" layoutY="72.0" promptText="Straße" />
+                                    <TextField id="compCityField" layoutX="23.0" layoutY="146.0" promptText="Ort" />
+                                    <TextField id="plantCityField" layoutX="301.0" layoutY="109.0" promptText="Ort" />
+                                    <TextField id="plantZipField" layoutX="301.0" layoutY="73.0" promptText="PLZ" />
+                                    <TextField id="plantStreetField" layoutX="301.0" layoutY="35.0" promptText="Straße" />
                                     <Label layoutX="19.0" layoutY="208.0" text="Sind frequenzgesteuerte Betriebsmittel(z.B. Motore) &#10;in der elektrischen Anlage installiert?" />
                                     <Label layoutX="19.0" layoutY="254.0" text="Sind Bereiche, die besondere Schutzmaßnahmen erfordern,&#10;durch den Betreiber ausgewiesen ?" />
                                     <Label layoutX="23.0" layoutY="305.0" text="Wurden alle Bereiche des Risikostandorts geprüft ?" />
@@ -76,40 +76,40 @@
                                        <font>
                                           <Font name="System Bold Italic" size="14.0" />
                                        </font></Label>
-                                    <RadioButton layoutX="398.0" layoutY="217.0" mnemonicParsing="false" text="Ja">
+                                    <RadioButton id="freqYesBtn" layoutX="398.0" layoutY="217.0" mnemonicParsing="false" text="Ja">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="freqGroup" />
                                        </toggleGroup></RadioButton>
-                                    <RadioButton layoutX="463.0" layoutY="217.0" mnemonicParsing="false" text="Nein" toggleGroup="$freqGroup" />
-                                    <RadioButton layoutX="398.0" layoutY="263.0" mnemonicParsing="false" text="Ja">
+                                    <RadioButton id="freqNoBtn" layoutX="463.0" layoutY="217.0" mnemonicParsing="false" text="Nein" toggleGroup="$freqGroup" />
+                                    <RadioButton id="precautionYesBtn" layoutX="398.0" layoutY="263.0" mnemonicParsing="false" text="Ja">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="precautionGroup" />
                                        </toggleGroup></RadioButton>
-                                    <RadioButton layoutX="463.0" layoutY="263.0" mnemonicParsing="false" text="Nein" toggleGroup="$precautionGroup" />
-                                    <RadioButton layoutX="463.0" layoutY="305.0" mnemonicParsing="false" text="Nein">
+                                    <RadioButton id="precautionNoBtn" layoutX="463.0" layoutY="263.0" mnemonicParsing="false" text="Nein" toggleGroup="$precautionGroup" />
+                                    <RadioButton id="completeNoBtn" layoutX="463.0" layoutY="305.0" mnemonicParsing="false" text="Nein">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="completeGroup" />
                                        </toggleGroup></RadioButton>
-                                    <RadioButton layoutX="398.0" layoutY="305.0" mnemonicParsing="false" text="Ja" toggleGroup="$completeGroup" />
-                                    <RadioButton layoutX="463.0" layoutY="345.0" mnemonicParsing="false" text="Nein">
+                                    <RadioButton id="comleteYesBtn" layoutX="398.0" layoutY="305.0" mnemonicParsing="false" text="Ja" toggleGroup="$completeGroup" />
+                                    <RadioButton id="changesSinceLastExaminationNoBtn" layoutX="463.0" layoutY="345.0" mnemonicParsing="false" text="Nein">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="changesSinceLastExaminationGroup" />
                                        </toggleGroup></RadioButton>
-                                    <RadioButton layoutX="398.0" layoutY="345.0" mnemonicParsing="false" text="Ja" toggleGroup="$changesSinceLastExaminationGroup" />
-                                    <RadioButton layoutX="435.0" layoutY="370.0" mnemonicParsing="false" text="Erstprüfung" toggleGroup="$changesSinceLastExaminationGroup" />
-                                    <RadioButton layoutX="398.0" layoutY="403.0" mnemonicParsing="false" text="Ja">
+                                    <RadioButton id="changesSinceLastExaminationYesBtn" layoutX="398.0" layoutY="345.0" mnemonicParsing="false" text="Ja" toggleGroup="$changesSinceLastExaminationGroup" />
+                                    <RadioButton id="changesSinceLastExaminationFirstExaminationBtn" layoutX="435.0" layoutY="370.0" mnemonicParsing="false" text="Erstprüfung" toggleGroup="$changesSinceLastExaminationGroup" />
+                                    <RadioButton id="defectsLastExaminationYesBtn" layoutX="398.0" layoutY="403.0" mnemonicParsing="false" text="Ja">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="defectsLastExaminationFixedGroup" />
                                        </toggleGroup></RadioButton>
-                                    <RadioButton layoutX="463.0" layoutY="403.0" mnemonicParsing="false" text="Nein" toggleGroup="$defectsLastExaminationFixedGroup" />
-                                    <RadioButton layoutX="438.0" layoutY="429.0" mnemonicParsing="false" text="Bericht fehlt" toggleGroup="$defectsLastExaminationFixedGroup" />
-                                    <RadioButton layoutX="402.0" layoutY="469.0" mnemonicParsing="false" text="(a)">
+                                    <RadioButton id="defectsLastExaminationNoBtn" layoutX="463.0" layoutY="403.0" mnemonicParsing="false" text="Nein" toggleGroup="$defectsLastExaminationFixedGroup" />
+                                    <RadioButton id="defectsLastExaminationNoReportBtn" layoutX="438.0" layoutY="429.0" mnemonicParsing="false" text="Bericht fehlt" toggleGroup="$defectsLastExaminationFixedGroup" />
+                                    <RadioButton id="dangerCategorieGroupABtn" layoutX="402.0" layoutY="469.0" mnemonicParsing="false" text="(a)">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="dangerCategorieGroup" />
                                        </toggleGroup></RadioButton>
-                                    <RadioButton layoutX="467.0" layoutY="469.0" mnemonicParsing="false" text="(b)" toggleGroup="$dangerCategorieGroup" />
-                                    <RadioButton layoutX="403.0" layoutY="497.0" mnemonicParsing="false" text="(c)" toggleGroup="$dangerCategorieGroup" />
-                                    <RadioButton layoutX="467.0" layoutY="497.0" mnemonicParsing="false" text="(d)" toggleGroup="$dangerCategorieGroup" />
+                                    <RadioButton id="dangerCategorieGroupBBtn" layoutX="467.0" layoutY="469.0" mnemonicParsing="false" text="(b)" toggleGroup="$dangerCategorieGroup" />
+                                    <RadioButton id="dangerCategorieGroupCBtn" layoutX="403.0" layoutY="497.0" mnemonicParsing="false" text="(c)" toggleGroup="$dangerCategorieGroup" />
+                                    <RadioButton id="dangerCategorieGroupDBtn" layoutX="467.0" layoutY="497.0" mnemonicParsing="false" text="(d)" toggleGroup="$dangerCategorieGroup" />
                                     <Label layoutX="24.0" layoutY="808.0" text="Dieser Befundschein besteht einschließlich des Anhangs aus " />
                                     <TextField layoutX="369.0" layoutY="804.0" prefHeight="25.0" prefWidth="58.0" />
                                     <Label layoutX="449.0" layoutY="808.0" text="Seiten" />
@@ -299,12 +299,14 @@
                                           <TableColumn prefWidth="58.0" text="Verantw." />
                                       </columns>
                                     </TableView>
+                                    <Button id="vnLoadBtn" layoutX="184.0" layoutY="2.0" mnemonicParsing="false" onAction="#loadVN" text="VN laden" />
+                                    <Button id="plantLoadBtn" layoutX="405.0" layoutY="2.0" mnemonicParsing="false" onAction="#loadPlant" text="Risikoanschrift laden" />
                                  </children>
                               </AnchorPane>
                           </content>
                         </ScrollPane>
-                        <Button layoutX="590.0" layoutY="696.0" mnemonicParsing="false" prefHeight="143.0" prefWidth="333.0" text="Befundschein hinzufügen" />
-                        <Button id="pdfExpBtn" fx:id="pdfExpBtn" layoutX="950.0" layoutY="694.0" mnemonicParsing="false" onAction="#export" prefHeight="145.0" prefWidth="308.0" text="in PDF exportieren" />
+                        <Button id="AddBtn" layoutX="590.0" layoutY="696.0" mnemonicParsing="false" onAction="#add" prefHeight="143.0" prefWidth="333.0" text="Befundschein hinzufügen" />
+                        <Button id="pdfExpBtn" fx:id="pdfExpBtn" layoutX="950.0" layoutY="694.0" mnemonicParsing="false" onAction="#pdfExport" prefHeight="145.0" prefWidth="308.0" text="in PDF exportieren" />
                      </children>
                   </AnchorPane>
             </content>
@@ -341,8 +343,7 @@
                               <TableColumn prefWidth="227.0" text="Anzahl" />
                           </columns>
                         </TableView>
-                        <Button layoutX="462.0" layoutY="581.0" mnemonicParsing="false" onAction="#add" prefHeight="136.0" prefWidth="319.0" text="XML - Export" />
-                        <Label id="testLabel" fx:id="testLabel" layoutX="201.0" layoutY="641.0" text="Label" />
+                        <Button id="xmlExpBtn" layoutX="462.0" layoutY="581.0" mnemonicParsing="false" onAction="#xmlExport" prefHeight="136.0" prefWidth="319.0" text="XML - Export" />
               </children>
             </AnchorPane>
           </content>
