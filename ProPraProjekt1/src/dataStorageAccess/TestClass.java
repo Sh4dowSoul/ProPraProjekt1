@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import applicationLogic.Branch;
 import applicationLogic.Company;
+import applicationLogic.CompanyPlant;
 import applicationLogic.Diagnosis;
 import applicationLogic.DiagnosisPreview;
 import dataStorageAccess.controller.BranchController;
@@ -39,7 +40,11 @@ public class TestClass {
 			ArrayList<Company> AllCompanies = CompanyController.getCompanies();
 			System.out.println("\n");
 			for (Company company: AllCompanies) {
-				System.out.println(company.getName() + " " + company.getHqStreet());
+				System.out.println("COMPANY " +company.getName() + " " + company.getHqStreet());
+				ArrayList<CompanyPlant> plants = CompanyController.getPlantsOfcompany(company.getId());
+				for (CompanyPlant plant : plants) {
+					System.out.println("PLANT " + plant.getPlantStreet());
+				}
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
