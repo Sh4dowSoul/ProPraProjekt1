@@ -9,9 +9,11 @@ import applicationLogic.Company;
 import applicationLogic.CompanyPlant;
 import applicationLogic.Diagnosis;
 import applicationLogic.DiagnosisPreview;
+import applicationLogic.StatisticElement;
 import dataStorageAccess.controller.BranchController;
 import dataStorageAccess.controller.CompanyController;
 import dataStorageAccess.controller.DiagnosisController;
+import dataStorageAccess.controller.StatisticController;
 
 public class TestClass {
 	public static void main(String[] args) {
@@ -45,6 +47,13 @@ public class TestClass {
 				for (CompanyPlant plant : plants) {
 					System.out.println("PLANT " + plant.getPlantStreet());
 				}
+			}
+			
+			//Get statistic by company
+			ArrayList<StatisticElement> statistics = StatisticController.getMostFrequentDefectCompany(1);
+			System.out.println("\n");
+			for (StatisticElement stat: statistics) {
+				System.out.println("Stat " + stat.getDefectId() + " " + stat.getNumberOccurrence());
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

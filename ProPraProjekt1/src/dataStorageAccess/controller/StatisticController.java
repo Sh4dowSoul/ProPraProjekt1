@@ -1,0 +1,36 @@
+package dataStorageAccess.controller;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+
+import applicationLogic.DiagnosisPreview;
+import applicationLogic.StatisticElement;
+import dataStorageAccess.DBConnection;
+
+public class StatisticController {
+	public static ArrayList<StatisticElement> getMostFrequentDefectCompany(int id) throws SQLException{
+		ArrayList<StatisticElement> result = new ArrayList<StatisticElement>();
+		try (
+				Connection connection = DBConnection.getInstance().initConnection();
+				Statement statement = connection.createStatement();
+				ResultSet resultSet = statement.executeQuery(
+						"SELECT defect_id, count(defect_id), branch_id " + 
+						"FROM DefectElement NATURAL JOIN Diagnosis NATURAL JOIN CompanyPlant NATURAL JOIN Company " + 
+						"WHERE company_id = " + id + " " +
+						"GROUP BY defect_id " + 
+						"ORDER BY count(defect_id) desc " + 
+						"Limit 3");
+			) {
+				while (resultSet.next()) {
+					result.add(new StatisticElement(resultSet.getInt("defect_id"), resultSet.getInt("count(defect_id)")));
+				}
+		}
+		return result;
+	}
+		
+}
