@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import applicationLogic.Company;
 import applicationLogic.CompanyPlant;
 import dataStorageAccess.DBConnection;
+import javafx.collections.ObservableList;
 
 public class CompanyController {
 

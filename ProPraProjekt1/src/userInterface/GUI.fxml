@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="914.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="914.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userInterface.GUIController">
    <children>
       <TabPane prefHeight="914.0" prefWidth="1280.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -304,7 +304,7 @@
                           </content>
                         </ScrollPane>
                         <Button layoutX="590.0" layoutY="696.0" mnemonicParsing="false" prefHeight="143.0" prefWidth="333.0" text="Befundschein hinzufügen" />
-                        <Button layoutX="950.0" layoutY="694.0" mnemonicParsing="false" prefHeight="145.0" prefWidth="308.0" text="in PDF exportieren" />
+                        <Button id="pdfExpBtn" fx:id="pdfExpBtn" layoutX="950.0" layoutY="694.0" mnemonicParsing="false" onAction="#export" prefHeight="145.0" prefWidth="308.0" text="in PDF exportieren" />
                      </children>
                   </AnchorPane>
             </content>
@@ -341,7 +341,8 @@
                               <TableColumn prefWidth="227.0" text="Anzahl" />
                           </columns>
                         </TableView>
-                        <Button layoutX="462.0" layoutY="581.0" mnemonicParsing="false" prefHeight="136.0" prefWidth="319.0" text="XML - Export" />
+                        <Button layoutX="462.0" layoutY="581.0" mnemonicParsing="false" onAction="#add" prefHeight="136.0" prefWidth="319.0" text="XML - Export" />
+                        <Label id="testLabel" fx:id="testLabel" layoutX="201.0" layoutY="641.0" text="Label" />
               </children>
             </AnchorPane>
           </content>
