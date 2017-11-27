@@ -5,9 +5,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import applicationLogic.Branch;
+import applicationLogic.Company;
 import applicationLogic.Diagnosis;
 import applicationLogic.DiagnosisPreview;
 import dataStorageAccess.controller.BranchController;
+import dataStorageAccess.controller.CompanyController;
 import dataStorageAccess.controller.DiagnosisController;
 
 public class TestClass {
@@ -32,6 +34,13 @@ public class TestClass {
 			//Get Diagnosis
 			Diagnosis test = DiagnosisController.getDiagnosis(1);
 			System.out.println("Diagnois : " + test.isExaminationResultNoDefect());
+			
+			//Get companies
+			ArrayList<Company> AllCompanies = CompanyController.getCompanies();
+			System.out.println("\n");
+			for (Company company: AllCompanies) {
+				System.out.println(company.getName() + " " + company.getHqStreet());
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
