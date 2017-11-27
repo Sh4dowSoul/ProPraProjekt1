@@ -55,6 +55,13 @@ public class TestClass {
 			for (StatisticElement stat: statistics) {
 				System.out.println("Stat " + stat.getDefectId() + " " + stat.getNumberOccurrence());
 			}
+			
+			//Get statistic by branch
+			ArrayList<StatisticElement> statisticsBranch = StatisticController.getMostFrequentDefectBranch(701);
+			System.out.println("\n");
+			for (StatisticElement stat: statisticsBranch) {
+				System.out.println("Stat in Branch 701 " + stat.getDefectId() + " " + stat.getNumberOccurrence());
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
