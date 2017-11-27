@@ -74,22 +74,40 @@
                                        <font>
                                           <Font name="System Bold Italic" size="14.0" />
                                        </font></Label>
-                                    <RadioButton layoutX="398.0" layoutY="217.0" mnemonicParsing="false" text="Ja" />
-                                    <RadioButton layoutX="463.0" layoutY="217.0" mnemonicParsing="false" text="Nein" />
-                                    <RadioButton layoutX="398.0" layoutY="263.0" mnemonicParsing="false" text="Ja" />
-                                    <RadioButton layoutX="463.0" layoutY="263.0" mnemonicParsing="false" text="Nein" />
-                                    <RadioButton layoutX="463.0" layoutY="305.0" mnemonicParsing="false" text="Nein" />
-                                    <RadioButton layoutX="398.0" layoutY="305.0" mnemonicParsing="false" text="Ja" />
-                                    <RadioButton layoutX="463.0" layoutY="345.0" mnemonicParsing="false" text="Nein" />
-                                    <RadioButton layoutX="398.0" layoutY="345.0" mnemonicParsing="false" text="Ja" />
-                                    <RadioButton layoutX="435.0" layoutY="370.0" mnemonicParsing="false" text="Erstprüfung" />
-                                    <RadioButton layoutX="398.0" layoutY="403.0" mnemonicParsing="false" text="Ja" />
-                                    <RadioButton layoutX="463.0" layoutY="403.0" mnemonicParsing="false" text="Nein" />
-                                    <RadioButton layoutX="438.0" layoutY="429.0" mnemonicParsing="false" text="Bericht fehlt" />
-                                    <RadioButton layoutX="402.0" layoutY="469.0" mnemonicParsing="false" text="(a)" />
-                                    <RadioButton layoutX="467.0" layoutY="469.0" mnemonicParsing="false" text="(b)" />
-                                    <RadioButton layoutX="403.0" layoutY="497.0" mnemonicParsing="false" text="(c)" />
-                                    <RadioButton layoutX="467.0" layoutY="497.0" mnemonicParsing="false" text="(d)" />
+                                    <RadioButton layoutX="398.0" layoutY="217.0" mnemonicParsing="false" text="Ja">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="freqGroup" />
+                                       </toggleGroup></RadioButton>
+                                    <RadioButton layoutX="463.0" layoutY="217.0" mnemonicParsing="false" text="Nein" toggleGroup="$freqGroup" />
+                                    <RadioButton layoutX="398.0" layoutY="263.0" mnemonicParsing="false" text="Ja">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="precautionGroup" />
+                                       </toggleGroup></RadioButton>
+                                    <RadioButton layoutX="463.0" layoutY="263.0" mnemonicParsing="false" text="Nein" toggleGroup="$precautionGroup" />
+                                    <RadioButton layoutX="463.0" layoutY="305.0" mnemonicParsing="false" text="Nein">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="completeGroup" />
+                                       </toggleGroup></RadioButton>
+                                    <RadioButton layoutX="398.0" layoutY="305.0" mnemonicParsing="false" text="Ja" toggleGroup="$completeGroup" />
+                                    <RadioButton layoutX="463.0" layoutY="345.0" mnemonicParsing="false" text="Nein">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="changesSinceLastExaminationGroup" />
+                                       </toggleGroup></RadioButton>
+                                    <RadioButton layoutX="398.0" layoutY="345.0" mnemonicParsing="false" text="Ja" toggleGroup="$changesSinceLastExaminationGroup" />
+                                    <RadioButton layoutX="435.0" layoutY="370.0" mnemonicParsing="false" text="Erstprüfung" toggleGroup="$changesSinceLastExaminationGroup" />
+                                    <RadioButton layoutX="398.0" layoutY="403.0" mnemonicParsing="false" text="Ja">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="defectsLastExaminationFixedGroup" />
+                                       </toggleGroup></RadioButton>
+                                    <RadioButton layoutX="463.0" layoutY="403.0" mnemonicParsing="false" text="Nein" toggleGroup="$defectsLastExaminationFixedGroup" />
+                                    <RadioButton layoutX="438.0" layoutY="429.0" mnemonicParsing="false" text="Bericht fehlt" toggleGroup="$defectsLastExaminationFixedGroup" />
+                                    <RadioButton layoutX="402.0" layoutY="469.0" mnemonicParsing="false" text="(a)">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="dangerCategorieGroup" />
+                                       </toggleGroup></RadioButton>
+                                    <RadioButton layoutX="467.0" layoutY="469.0" mnemonicParsing="false" text="(b)" toggleGroup="$dangerCategorieGroup" />
+                                    <RadioButton layoutX="403.0" layoutY="497.0" mnemonicParsing="false" text="(c)" toggleGroup="$dangerCategorieGroup" />
+                                    <RadioButton layoutX="467.0" layoutY="497.0" mnemonicParsing="false" text="(d)" toggleGroup="$dangerCategorieGroup" />
                                     <Label layoutX="24.0" layoutY="808.0" text="Dieser Befundschein besteht einschließlich des Anhangs aus " />
                                     <TextField layoutX="369.0" layoutY="804.0" prefHeight="25.0" prefWidth="58.0" />
                                     <Label layoutX="449.0" layoutY="808.0" text="Seiten" />
@@ -126,21 +144,33 @@
                                           <Font name="System Bold Italic" size="14.0" />
                                        </font>
                                     </Label>
-                                    <RadioButton layoutX="486.0" layoutY="1053.0" mnemonicParsing="false" text="Nein" />
-                                    <RadioButton layoutX="421.0" layoutY="1053.0" mnemonicParsing="false" text="Ja" />
-                                    <RadioButton layoutX="421.0" layoutY="1093.0" mnemonicParsing="false" text="Ja" />
-                                    <RadioButton layoutX="486.0" layoutY="1093.0" mnemonicParsing="false" text="Nein" />
+                                    <RadioButton layoutX="486.0" layoutY="1053.0" mnemonicParsing="false" text="Nein">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="IsoMinGroup" />
+                                       </toggleGroup></RadioButton>
+                                    <RadioButton layoutX="421.0" layoutY="1053.0" mnemonicParsing="false" text="Ja" toggleGroup="$IsoMinGroup" />
+                                    <RadioButton layoutX="421.0" layoutY="1093.0" mnemonicParsing="false" text="Ja">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="IsoProtocollGroup" />
+                                       </toggleGroup></RadioButton>
+                                    <RadioButton layoutX="486.0" layoutY="1093.0" mnemonicParsing="false" text="Nein" toggleGroup="$IsoProtocollGroup" />
                                     <TextField layoutX="169.0" layoutY="1223.0" prefHeight="25.0" prefWidth="366.0" />
-                                    <RadioButton layoutX="421.0" layoutY="1125.0" mnemonicParsing="false" text="Ja" />
-                                    <RadioButton layoutX="486.0" layoutY="1125.0" mnemonicParsing="false" text="Nein" />
+                                    <RadioButton layoutX="421.0" layoutY="1125.0" mnemonicParsing="false" text="Ja">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="IsoCompensationGroup" />
+                                       </toggleGroup></RadioButton>
+                                    <RadioButton layoutX="486.0" layoutY="1125.0" mnemonicParsing="false" text="Nein" toggleGroup="$IsoCompensationGroup" />
                                     <Label layoutX="23.0" layoutY="1052.0" text="-">
                                        <font>
                                           <Font name="System Bold Italic" size="14.0" />
                                        </font>
                                     </Label>
                                     <Label layoutX="36.0" layoutY="1202.0" text="Fehlerstrom-Schutzeinrichtungen (RCDs)" />
-                                    <RadioButton layoutX="311.0" layoutY="1202.0" mnemonicParsing="false" text="alle oder" />
-                                    <RadioButton layoutX="490.0" layoutY="1201.0" mnemonicParsing="false" text="Nein" />
+                                    <RadioButton layoutX="311.0" layoutY="1202.0" mnemonicParsing="false" text="alle oder">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="RcdGroup" />
+                                       </toggleGroup></RadioButton>
+                                    <RadioButton layoutX="490.0" layoutY="1201.0" mnemonicParsing="false" text="Nein" toggleGroup="$RcdGroup" />
                                     <TextField layoutX="416.0" layoutY="1198.0" prefHeight="25.0" prefWidth="47.0" promptText="\%" />
                                     <Label layoutX="36.0" layoutY="1171.0" text="Bemerkung hierzu: " />
                                     <TextField layoutX="169.0" layoutY="1167.0" prefHeight="25.0" prefWidth="366.0" />
@@ -150,9 +180,12 @@
                                        </font>
                                     </Label>
                                     <Label layoutX="39.0" layoutY="1257.0" text="Schleifenwiderstand" />
-                                    <RadioButton layoutX="494.0" layoutY="1256.0" mnemonicParsing="false" text="Nein" />
+                                    <RadioButton layoutX="494.0" layoutY="1256.0" mnemonicParsing="false" text="Nein">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="ResistanceGroup" />
+                                       </toggleGroup></RadioButton>
                                     <TextField layoutX="416.0" layoutY="1253.0" prefHeight="25.0" prefWidth="47.0" promptText="\%" />
-                                    <RadioButton layoutX="315.0" layoutY="1257.0" mnemonicParsing="false" text="ja, Anzahl:" />
+                                    <RadioButton layoutX="315.0" layoutY="1257.0" mnemonicParsing="false" text="ja, Anzahl:" toggleGroup="$ResistanceGroup" />
                                     <Label layoutX="36.0" layoutY="1288.0" text="Bemerkung hierzu: " />
                                     <TextField layoutX="169.0" layoutY="1284.0" prefHeight="25.0" prefWidth="366.0" />
                                     <Label layoutX="35.0" layoutY="1315.0" text="-">
@@ -161,8 +194,11 @@
                                        </font>
                                     </Label>
                                     <Label layoutX="43.0" layoutY="1316.0" text="Wurden thermische Auffälligkeiten messtechnisch vorgefunden?" />
-                                    <RadioButton layoutX="421.0" layoutY="1317.0" mnemonicParsing="false" text="Ja" />
-                                    <RadioButton layoutX="486.0" layoutY="1317.0" mnemonicParsing="false" text="Nein" />
+                                    <RadioButton layoutX="421.0" layoutY="1317.0" mnemonicParsing="false" text="Ja">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="ThermicGroup" />
+                                       </toggleGroup></RadioButton>
+                                    <RadioButton layoutX="486.0" layoutY="1317.0" mnemonicParsing="false" text="Nein" toggleGroup="$ThermicGroup" />
                                     <Label layoutX="36.0" layoutY="1347.0" text="Bemerkung hierzu: " />
                                     <TextField layoutX="169.0" layoutY="1343.0" prefHeight="25.0" prefWidth="366.0" />
                                     <Label layoutX="23.0" layoutY="1378.0" text="Ortsveränderliche Betriebsmittel">
@@ -171,12 +207,18 @@
                                        </font>
                                     </Label>
                                     <Label layoutX="35.0" layoutY="1406.0" text="Werden nach Aussage des Betreibers die ortsveränderlichen &#10;Betriebsmittel regelmäßig geprüft (z. B. gemäß BetrSichV oder &#10;BGV A3)?" />
-                                    <RadioButton layoutX="421.0" layoutY="1415.0" mnemonicParsing="false" text="Ja" />
-                                    <RadioButton layoutX="486.0" layoutY="1415.0" mnemonicParsing="false" text="Nein" />
+                                    <RadioButton layoutX="421.0" layoutY="1415.0" mnemonicParsing="false" text="Ja">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="PortableUtilitiesGroup" />
+                                       </toggleGroup></RadioButton>
+                                    <RadioButton layoutX="486.0" layoutY="1415.0" mnemonicParsing="false" text="Nein" toggleGroup="$PortableUtilitiesGroup" />
                                     <Label layoutX="35.0" layoutY="1473.0" text="Beinhalten diese Prüfungen nach Aussage des Betreibers &#10;auch fremde ortsveränderliche Betriebsmittel, d. h. privat &#10;mitgebrachte, gemietete, geleaste oder durch Dritte &#10;bereitgestellte Betriebsmittel?" />
-                                    <RadioButton layoutX="421.0" layoutY="1499.0" mnemonicParsing="false" text="Ja" />
-                                    <RadioButton layoutX="486.0" layoutY="1499.0" mnemonicParsing="false" text="Nein" />
-                                    <RadioButton layoutX="451.0" layoutY="1533.0" mnemonicParsing="false" text="Nr" />
+                                    <RadioButton layoutX="421.0" layoutY="1499.0" mnemonicParsing="false" text="Ja">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="ExternalPortableUtilitiesGroup" />
+                                       </toggleGroup></RadioButton>
+                                    <RadioButton layoutX="486.0" layoutY="1499.0" mnemonicParsing="false" text="Nein" toggleGroup="$ExternalPortableUtilitiesGroup" />
+                                    <RadioButton layoutX="451.0" layoutY="1533.0" mnemonicParsing="false" text="Nr" toggleGroup="$ExternalPortableUtilitiesGroup" />
                                     <Label layoutX="23.0" layoutY="1550.0" text="Allgemeine Informationen zur geprüften elektrischen Anlage">
                                        <font>
                                           <Font name="System Bold Italic" size="14.0" />
@@ -187,10 +229,13 @@
                                           <Font name="System Bold Italic" size="12.0" />
                                        </font>
                                     </Label>
-                                    <RadioButton layoutX="60.0" layoutY="1607.0" mnemonicParsing="false" text="TN " />
-                                    <RadioButton layoutX="153.0" layoutY="1608.0" mnemonicParsing="false" text="TT" />
-                                    <RadioButton layoutX="367.0" layoutY="1608.0" mnemonicParsing="false" text="Ringeinspeisung" />
-                                    <RadioButton layoutX="258.0" layoutY="1608.0" mnemonicParsing="false" text="IT" />
+                                    <RadioButton layoutX="60.0" layoutY="1607.0" mnemonicParsing="false" text="TN ">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="SupplySystemGroup" />
+                                       </toggleGroup></RadioButton>
+                                    <RadioButton layoutX="153.0" layoutY="1608.0" mnemonicParsing="false" text="TT" toggleGroup="$SupplySystemGroup" />
+                                    <RadioButton layoutX="367.0" layoutY="1608.0" mnemonicParsing="false" text="Ringeinspeisung" toggleGroup="$SupplySystemGroup" />
+                                    <RadioButton layoutX="258.0" layoutY="1608.0" mnemonicParsing="false" text="IT" toggleGroup="$SupplySystemGroup" />
                                     <Label layoutX="39.0" layoutY="1638.0" text="Leistungsbedarf der Gesamtanlage:">
                                        <font>
                                           <Font name="System Bold Italic" size="12.0" />
@@ -216,11 +261,14 @@
                                        </font>
                                     </Label>
                                     <Label layoutX="41.0" layoutY="1844.0" text="Geschätzte Anzahl der fest angeschlossenen &#10;Verbraucher in der elektrischen Anlage:" />
-                                    <RadioButton layoutX="123.0" layoutY="1898.0" mnemonicParsing="false" text="&lt;= 500" />
-                                    <RadioButton layoutX="328.0" layoutY="1898.0" mnemonicParsing="false" text="&lt;= 5000" />
-                                    <RadioButton layoutX="26.0" layoutY="1898.0" mnemonicParsing="false" text="&lt;= 250" />
-                                    <RadioButton layoutX="223.0" layoutY="1898.0" mnemonicParsing="false" text="&lt;= 1000" />
-                                    <RadioButton layoutX="435.0" layoutY="1898.0" mnemonicParsing="false" text="&gt; 5000" />
+                                    <RadioButton layoutX="123.0" layoutY="1898.0" mnemonicParsing="false" text="&lt;= 500">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="HardWiredLoadsGroup" />
+                                       </toggleGroup></RadioButton>
+                                    <RadioButton layoutX="328.0" layoutY="1898.0" mnemonicParsing="false" text="&lt;= 5000" toggleGroup="$HardWiredLoadsGroup" />
+                                    <RadioButton layoutX="26.0" layoutY="1898.0" mnemonicParsing="false" text="&lt;= 250" toggleGroup="$HardWiredLoadsGroup" />
+                                    <RadioButton layoutX="223.0" layoutY="1898.0" mnemonicParsing="false" text="&lt;= 1000" toggleGroup="$HardWiredLoadsGroup" />
+                                    <RadioButton layoutX="435.0" layoutY="1898.0" mnemonicParsing="false" text="&gt; 5000" toggleGroup="$HardWiredLoadsGroup" />
                                     <Label layoutX="43.0" layoutY="1935.0" text="Weitere Erläuterungen wie z. B. verwendete Messgeräte (optional):">
                                        <font>
                                           <Font name="System Bold Italic" size="12.0" />
