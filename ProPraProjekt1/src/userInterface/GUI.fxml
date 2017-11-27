@@ -304,7 +304,7 @@
                           </content>
                         </ScrollPane>
                         <Button layoutX="590.0" layoutY="696.0" mnemonicParsing="false" prefHeight="143.0" prefWidth="333.0" text="Befundschein hinzufügen" />
-                        <Button layoutX="966.0" layoutY="698.0" mnemonicParsing="false" prefHeight="135.0" prefWidth="292.0" text="in PDF exportieren" />
+                        <Button layoutX="950.0" layoutY="694.0" mnemonicParsing="false" prefHeight="145.0" prefWidth="308.0" text="in PDF exportieren" />
                      </children>
                   </AnchorPane>
             </content>
