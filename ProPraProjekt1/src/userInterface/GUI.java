@@ -15,7 +15,7 @@ public class GUI extends Application {
 	public void start(Stage primaryStage) throws IOException {
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("DefectManager");
-		primaryStage.setWidth(1160);	//width of anchorpane/mainLayout
+		primaryStage.setWidth(1300);	//width of anchorpane/mainLayout
 		showMainView();
 		//show();
 	}

@@ -303,7 +303,8 @@
                               </AnchorPane>
                           </content>
                         </ScrollPane>
-                        <Button layoutX="733.0" layoutY="705.0" mnemonicParsing="false" prefHeight="143.0" prefWidth="333.0" text="Befundschein hinzufügen" />
+                        <Button layoutX="590.0" layoutY="696.0" mnemonicParsing="false" prefHeight="143.0" prefWidth="333.0" text="Befundschein hinzufügen" />
+                        <Button layoutX="950.0" layoutY="694.0" mnemonicParsing="false" prefHeight="145.0" prefWidth="308.0" text="in PDF exportieren" />
                      </children>
                   </AnchorPane>
             </content>
@@ -312,18 +313,13 @@
           <content>
             <AnchorPane id="Content" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
               <children>
-                        <TabPane layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+                        <TabPane layoutX="15.0" layoutY="24.0" prefHeight="455.0" prefWidth="549.0" tabClosingPolicy="UNAVAILABLE">
                           <tabs>
                             <Tab text="Firma">
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <TableView prefHeight="200.0" prefWidth="200.0">
-                                            <columns>
-                                              <TableColumn prefWidth="75.0" text="C1" />
-                                              <TableColumn prefWidth="75.0" text="C2" />
-                                            </columns>
-                                          </TableView>
+                                          <ListView id="companyList" prefHeight="418.0" prefWidth="555.0" />
                                        </children></AnchorPane>
                               </content>
                             </Tab>
@@ -331,39 +327,25 @@
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <TableView prefHeight="200.0" prefWidth="200.0">
-                                            <columns>
-                                              <TableColumn prefWidth="75.0" text="C1" />
-                                              <TableColumn prefWidth="75.0" text="C2" />
-                                            </columns>
-                                          </TableView>
+                                          <ListView id="branchList" layoutY="-3.0" prefHeight="422.0" prefWidth="550.0" />
                                        </children></AnchorPane>
                               </content>
                             </Tab>
                           </tabs>
                         </TabPane>
-                        <TableView layoutX="345.0" layoutY="12.0" prefHeight="352.0" prefWidth="347.0">
+                        <TableView layoutX="603.0" layoutY="23.0" prefHeight="456.0" prefWidth="661.0">
                           <columns>
-                            <TableColumn prefWidth="32.0" />
-                            <TableColumn prefWidth="139.0" text="Topcharts der Mängel" />
-                              <TableColumn prefWidth="99.0" text="Betriebsbereich" />
-                              <TableColumn prefWidth="76.0" text="Anzahl" />
+                            <TableColumn minWidth="0.0" prefWidth="0.0" />
+                            <TableColumn prefWidth="201.0" text="Topcharts der Mängel" />
+                              <TableColumn prefWidth="232.0" text="Betriebsbereich" />
+                              <TableColumn prefWidth="227.0" text="Anzahl" />
                           </columns>
                         </TableView>
-                        <Button layoutX="601.0" layoutY="426.0" mnemonicParsing="false" text="XML - Export" />
+                        <Button layoutX="462.0" layoutY="581.0" mnemonicParsing="false" prefHeight="136.0" prefWidth="319.0" text="XML - Export" />
               </children>
             </AnchorPane>
           </content>
         </Tab>
-            <Tab text="PDF Export">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <Button layoutX="74.0" layoutY="72.0" mnemonicParsing="false" text="in PDF exportieren" />
-                     </children>
-                  </AnchorPane>
-              </content>
-            </Tab>
         </tabs>
       </TabPane>
    </children>
