@@ -8,7 +8,7 @@
 
 <AnchorPane prefHeight="914.0" prefWidth="1160.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <TabPane prefHeight="914.0" prefWidth="1175.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane layoutX="-14.0" prefHeight="914.0" prefWidth="1175.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab id="homeTab" text="Home">
             <content>
@@ -310,13 +310,13 @@
           <content>
             <AnchorPane id="Content" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
               <children>
-                        <TabPane layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+                        <TabPane layoutX="52.0" layoutY="29.0" prefHeight="439.0" prefWidth="427.0" tabClosingPolicy="UNAVAILABLE">
                           <tabs>
                             <Tab text="Firma">
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <TableView prefHeight="200.0" prefWidth="200.0">
+                                          <TableView prefHeight="411.0" prefWidth="427.0">
                                             <columns>
                                               <TableColumn prefWidth="75.0" text="C1" />
                                               <TableColumn prefWidth="75.0" text="C2" />
@@ -329,7 +329,7 @@
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <TableView prefHeight="200.0" prefWidth="200.0">
+                                          <TableView prefHeight="410.0" prefWidth="428.0">
                                             <columns>
                                               <TableColumn prefWidth="75.0" text="C1" />
                                               <TableColumn prefWidth="75.0" text="C2" />
@@ -340,7 +340,7 @@
                             </Tab>
                           </tabs>
                         </TabPane>
-                        <TableView layoutX="345.0" layoutY="12.0" prefHeight="352.0" prefWidth="347.0">
+                        <TableView layoutX="665.0" layoutY="29.0" prefHeight="440.0" prefWidth="486.0">
                           <columns>
                             <TableColumn prefWidth="32.0" />
                             <TableColumn prefWidth="139.0" text="Topcharts der Mängel" />
@@ -348,7 +348,7 @@
                               <TableColumn prefWidth="76.0" text="Anzahl" />
                           </columns>
                         </TableView>
-                        <Button layoutX="601.0" layoutY="426.0" mnemonicParsing="false" text="XML - Export" />
+                        <Button layoutX="1066.0" layoutY="846.0" mnemonicParsing="false" text="XML - Export" />
               </children>
             </AnchorPane>
           </content>
