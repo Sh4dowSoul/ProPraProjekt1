@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import applicationLogic.Branch;
 import applicationLogic.Diagnosis;
 import applicationLogic.DiagnosisPreview;
+import applicationLogic.StatisticElement;
 import dataStorageAccess.DBConnection;
 
 public class DiagnosisController {
@@ -127,5 +129,77 @@ public class DiagnosisController {
 				}
 			}
 			return result;
+	}
+	
+	/**
+	 * Inserts Diagnosis into Database
+	 * @param diagnosis - Diagnosis, which should be inserted into the Database
+	 * @throws SQLException
+	 */
+	public static void insertDiagnosis(Diagnosis diagnosis) throws SQLException {
+		String statement = "INSERT INTO Diagnosis "
+				+ "(diagnosis_lastEdited, plant_id, companion, "
+				+ "surveyor, vds_approval_nr, examination_date, "
+				+ "examination_duration, frequency_controlled_utilities, precautions_declared, "
+				+ "precautions_declared_where, examination_completed, subsequent_examination_date, "
+				+ "subsequent_examination_reason, changes_sincel_last_examination, defects_last_examination_fixed, "
+				+ "danger_categorie_vds, danger_categorie_vds_description, examination_resultNoDefect, "
+				+ "examination_resultDefect, examination_resultDanger, isolation_checkedEnough, "
+				+ "isolation_measurementProtocols, isolation_compensationMeasures, isolation_compensationMeasures_annotation, "
+				+ "rcd_available, rcd_available_percent, rcd_annotation, "
+				+ "resistance, resistance_number, resistance_annotation, "
+				+ "thermalAbnormality, thermalAbnormality_annotation, internalPortableUtilities, "
+				+ "externalPortableUtilities, supplySystem, energyDemand, "
+				+ "maxEnergyDemandExternal, maxEnergyDemandInternal, protectedCircuitsPercent, "
+				+ "hardWiredLoads, additionalAnnotations) "
+				+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		PreparedStatement preparedStatement = null;
+		Connection connection = null;
+		try {
+			connection = DBConnection.getInstance().initConnection();
+			preparedStatement = connection.prepareStatement(statement);
+
+			setValues(preparedStatement,
+					diagnosis.getLastEdited(), diagnosis.getPlantId(), diagnosis.getCompanion(), 
+					diagnosis.getSurveyor(), diagnosis.getVdsApprovalNr(), diagnosis.getExaminationDate(),
+					diagnosis.getExaminationDuration(), diagnosis.isFrequencyControlledUtilities(),diagnosis.isPrecautionsDeclared(),
+					diagnosis.getPrecautionsDeclaredLocation(), diagnosis.isExaminationComplete(), diagnosis.getSubsequentExaminationDate(),
+					diagnosis.getExaminationIncompleteReason(), diagnosis.getChangesSinceLastExamination(), diagnosis.getDefectsLastExaminationFixed(),
+					diagnosis.getDangerCategory(), diagnosis.getDangerCategoryDescription(), diagnosis.isExaminationResultNoDefect(),
+					diagnosis.isExaminationResultDefect(), diagnosis.isExaminationResultDanger(), diagnosis.isIsolationChecked(),
+					diagnosis.isIsolationMesasurementProtocols(), diagnosis.isIsolationCompensationMeasures(), diagnosis.getIsolationCompensationMeasuresAnnotation(),
+					diagnosis.getRcdAvailable(), diagnosis.getRcdAvailablePercent(), diagnosis.getRcdAnnotation(),
+					diagnosis.isResistance(), diagnosis.getResistanceNumber(), diagnosis.getResistanceAnnotation(),
+					diagnosis.isThermalAbnormality(), diagnosis.getThermalAbnormalityAnnotation(), diagnosis.isInternalPortableUtilities(),
+					diagnosis.isExternalPortableUtilities(), diagnosis.getSupplySystem(), diagnosis.getEnergyDemand(),
+					diagnosis.getMaxEnergyDemandExternal(), diagnosis.getMaxEnergyDemandInternal(), diagnosis.getProtectedCircuitsPercent(),
+					diagnosis.getHardWiredLoads(), diagnosis.getAdditionalAnnotations());
+			
+			// execute insert SQL stetement
+			preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} finally {
+			if (preparedStatement != null) {
+				preparedStatement.close();
+			}
+			if (connection != null) {
+				connection.close();
+			}
+		}
+	}
+		
+	
+	
+	/**
+	 * Helper Method to simplify inserting multiple Objects into Database
+	 * @param preparedStatement
+	 * @param values
+	 * @throws SQLException
+	 */
+	public static void setValues(PreparedStatement preparedStatement, Object... values) throws SQLException {
+	    for (int i = 0; i < values.length; i++) {
+	        preparedStatement.setObject(i + 1, values[i]);
+	    }
 	}
 }

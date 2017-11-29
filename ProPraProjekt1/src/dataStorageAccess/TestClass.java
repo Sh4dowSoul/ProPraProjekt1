@@ -62,6 +62,10 @@ public class TestClass {
 			for (StatisticElement stat: statisticsBranch) {
 				System.out.println("Stat in Branch 701 " + stat.getDefectId() + " " + stat.getNumberOccurrence());
 			}
+			
+			//Insert Diagnosis
+			DiagnosisController.insertDiagnosis(test);
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
