@@ -32,7 +32,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="2217.0" prefWidth="1280.0">
                      <children>
-                        <TextField layoutX="597.0" layoutY="19.0" promptText="&quot;Mängel&quot;" />
+                        <TextField id="defectSearchField" layoutX="597.0" layoutY="19.0" promptText="&quot;Mängel&quot;" />
                         <TableView layoutX="591.0" layoutY="218.0" prefHeight="565.0" prefWidth="677.0">
                           <columns>
                             <TableColumn id="ifdnrColumn" prefWidth="50.0" text="Ifd. Nr." />
