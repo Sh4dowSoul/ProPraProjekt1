@@ -6,9 +6,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="950.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userInterface.GUIController">
+<AnchorPane prefHeight="909.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userInterface.GUIController">
    <children>
-      <TabPane prefHeight="950.0" prefWidth="1280.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane prefHeight="924.0" prefWidth="1280.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab id="homeTab" text="Home">
             <content>
@@ -33,7 +33,7 @@
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="2217.0" prefWidth="1280.0">
                      <children>
                         <TextField layoutX="597.0" layoutY="19.0" promptText="&quot;Mängel&quot;" />
-                        <TableView layoutX="591.0" layoutY="218.0" prefHeight="573.0" prefWidth="677.0">
+                        <TableView layoutX="591.0" layoutY="218.0" prefHeight="565.0" prefWidth="677.0">
                           <columns>
                             <TableColumn id="ifdnrColumn" prefWidth="50.0" text="Ifd. Nr." />
                             <TableColumn id="dangerColumn" prefWidth="129.0" text="Gefahr" />
@@ -47,9 +47,9 @@
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
                         </TableView>
-                        <ScrollPane layoutX="14.0" layoutY="19.0" prefHeight="850.0" prefWidth="557.0">
+                        <ScrollPane layoutX="14.0" layoutY="19.0" prefHeight="843.0" prefWidth="558.0">
                           <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="2080.0" prefWidth="548.0">
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1851.0" prefWidth="539.0">
                                  <children>
                                     <Label id="companyPLantField" layoutX="319.0" layoutY="6.0" text="Risikoanschrift" />
                                     <Label id="insuranceCompanyField" layoutX="23.0" layoutY="6.0" text="Versicherungsnehmer (VN)" />
@@ -110,12 +110,6 @@
                                     <RadioButton id="dangerCategorieGroupBBtn" layoutX="467.0" layoutY="469.0" mnemonicParsing="false" text="(b)" toggleGroup="$dangerCategorieGroup" />
                                     <RadioButton id="dangerCategorieGroupCBtn" layoutX="403.0" layoutY="497.0" mnemonicParsing="false" text="(c)" toggleGroup="$dangerCategorieGroup" />
                                     <RadioButton id="dangerCategorieGroupDBtn" layoutX="467.0" layoutY="497.0" mnemonicParsing="false" text="(d)" toggleGroup="$dangerCategorieGroup" />
-                                    <Label layoutX="24.0" layoutY="808.0" text="Dieser Befundschein besteht einschließlich des Anhangs aus " />
-                                    <TextField id="diagnosisPlusAttachmentPagesField" layoutX="369.0" layoutY="804.0" prefHeight="25.0" prefWidth="58.0" />
-                                    <Label layoutX="449.0" layoutY="808.0" text="Seiten" />
-                                    <Label layoutX="26.0" layoutY="856.0" text="Die elektrische(n) Anlage(n) wurde(n) gemäß den Prüfrichtlinien VdS 2871 nach bestem &#10;Wissen und Gewissen geprüft. Bei den nicht im Anhang dieses Befundscheins aufgeführten &#10;Anlagenteilen und Bereichen wurden keine Mängel festgestellt." />
-                                    <Label layoutX="36.0" layoutY="996.0" text="Firmenstempel" />
-                                    <Label layoutX="141.0" layoutY="996.0" text="Datum und Unterschrift des VdS-anerkannten Sachverständigen" />
                                     <Label layoutX="14.0" layoutY="436.0" text="Gesamtbeurteilung der Anlage">
                                        <font>
                                           <Font name="System Bold Italic" size="14.0" />
@@ -126,161 +120,159 @@
                                           <Font name="System Bold Italic" size="14.0" />
                                        </font>
                                     </Label>
-                                    <Label layoutX="20.0" layoutY="1024.0" text="Messungen">
+                                    <Label layoutX="18.0" layoutY="787.0" text="Messungen">
                                        <font>
                                           <Font name="System Bold Italic" size="14.0" />
                                        </font>
                                     </Label>
-                                    <Label layoutX="31.0" layoutY="1053.0" text="Isolationswiderstand: Messung in mind. 50 % aller Stromkreise" />
-                                    <Label layoutX="29.0" layoutY="1076.0" text="Wenn Isolationswiderstandsmessungen nicht möglich sind: Lagen &#10;ersatzweise Messprotokolle über Isolationswiderstandsmessungen vor?" />
-                                    <Label layoutX="29.0" layoutY="1125.0" text="Wenn nein: Sind Ersatzmaßnahmen nach Aussage des Betreibers &#10;vorhanden?" />
-                                    <Label layoutX="36.0" layoutY="1227.0" text="Bemerkung hierzu: " />
-                                    <Label layoutX="28.0" layoutY="1201.0" text="-">
+                                    <Label layoutX="29.0" layoutY="816.0" text="Isolationswiderstand: Messung in mind. 50 % aller Stromkreise" />
+                                    <Label layoutX="27.0" layoutY="839.0" text="Wenn Isolationswiderstandsmessungen nicht möglich sind: Lagen &#10;ersatzweise Messprotokolle über Isolationswiderstandsmessungen vor?" />
+                                    <Label layoutX="27.0" layoutY="888.0" text="Wenn nein: Sind Ersatzmaßnahmen nach Aussage des Betreibers &#10;vorhanden?" />
+                                    <Label layoutX="34.0" layoutY="990.0" text="Bemerkung hierzu: " />
+                                    <Label layoutX="19.0" layoutY="964.0" text="-">
                                        <font>
                                           <Font name="System Bold Italic" size="14.0" />
                                        </font>
                                     </Label>
-                                    <RadioButton id="IsoMinNoBtn" layoutX="486.0" layoutY="1053.0" mnemonicParsing="false" text="Nein">
+                                    <RadioButton id="IsoMinNoBtn" layoutX="484.0" layoutY="816.0" mnemonicParsing="false" text="Nein">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="IsoMinGroup" />
                                        </toggleGroup></RadioButton>
-                                    <RadioButton id="isoMinYesBtn" layoutX="421.0" layoutY="1053.0" mnemonicParsing="false" text="Ja" toggleGroup="$IsoMinGroup" />
-                                    <RadioButton id="isoProtocolYesBtn" layoutX="421.0" layoutY="1093.0" mnemonicParsing="false" text="Ja">
+                                    <RadioButton id="isoMinYesBtn" layoutX="419.0" layoutY="816.0" mnemonicParsing="false" text="Ja" toggleGroup="$IsoMinGroup" />
+                                    <RadioButton id="isoProtocolYesBtn" layoutX="419.0" layoutY="856.0" mnemonicParsing="false" text="Ja">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="IsoProtocollGroup" />
                                        </toggleGroup></RadioButton>
-                                    <RadioButton id="isoProtocolNoBtn" layoutX="486.0" layoutY="1093.0" mnemonicParsing="false" text="Nein" toggleGroup="$IsoProtocollGroup" />
-                                    <TextField id="rcdCommentField" layoutX="169.0" layoutY="1223.0" prefHeight="25.0" prefWidth="366.0" />
-                                    <RadioButton id="isoCompensationYesBtn" layoutX="421.0" layoutY="1125.0" mnemonicParsing="false" text="Ja">
+                                    <RadioButton id="isoProtocolNoBtn" layoutX="484.0" layoutY="856.0" mnemonicParsing="false" text="Nein" toggleGroup="$IsoProtocollGroup" />
+                                    <TextField id="rcdCommentField" layoutX="167.0" layoutY="986.0" prefHeight="25.0" prefWidth="366.0" />
+                                    <RadioButton id="isoCompensationYesBtn" layoutX="419.0" layoutY="888.0" mnemonicParsing="false" text="Ja">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="IsoCompensationGroup" />
                                        </toggleGroup></RadioButton>
-                                    <RadioButton id="isoCompensationNoBtn" layoutX="486.0" layoutY="1125.0" mnemonicParsing="false" text="Nein" toggleGroup="$IsoCompensationGroup" />
-                                    <Label layoutX="23.0" layoutY="1052.0" text="-">
+                                    <RadioButton id="isoCompensationNoBtn" layoutX="484.0" layoutY="888.0" mnemonicParsing="false" text="Nein" toggleGroup="$IsoCompensationGroup" />
+                                    <Label layoutX="21.0" layoutY="815.0" text="-">
                                        <font>
                                           <Font name="System Bold Italic" size="14.0" />
                                        </font>
                                     </Label>
-                                    <Label layoutX="36.0" layoutY="1202.0" text="Fehlerstrom-Schutzeinrichtungen (RCDs)" />
-                                    <RadioButton id="rcdAllBtn" layoutX="311.0" layoutY="1202.0" mnemonicParsing="false" text="alle oder">
+                                    <Label layoutX="25.0" layoutY="966.0" text="Fehlerstrom-Schutzeinrichtungen (RCDs)" />
+                                    <RadioButton id="rcdAllBtn" layoutX="309.0" layoutY="965.0" mnemonicParsing="false" text="alle oder">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="RcdGroup" />
                                        </toggleGroup></RadioButton>
-                                    <RadioButton id="rcdNotBtn" layoutX="490.0" layoutY="1201.0" mnemonicParsing="false" text="Nein" toggleGroup="$RcdGroup" />
-                                    <TextField id="rcdPercentageField" layoutX="416.0" layoutY="1198.0" prefHeight="25.0" prefWidth="47.0" promptText="\%" />
-                                    <Label layoutX="36.0" layoutY="1171.0" text="Bemerkung hierzu: " />
-                                    <TextField id="isoCompensationCommentField" layoutX="169.0" layoutY="1167.0" prefHeight="25.0" prefWidth="366.0" />
-                                    <Label layoutX="31.0" layoutY="1256.0" text="-">
+                                    <RadioButton id="rcdNotBtn" layoutX="488.0" layoutY="964.0" mnemonicParsing="false" text="Nein" toggleGroup="$RcdGroup" />
+                                    <TextField id="rcdPercentageField" layoutX="414.0" layoutY="961.0" prefHeight="25.0" prefWidth="47.0" promptText="\%" />
+                                    <Label layoutX="34.0" layoutY="934.0" text="Bemerkung hierzu: " />
+                                    <TextField id="isoCompensationCommentField" layoutX="167.0" layoutY="930.0" prefHeight="25.0" prefWidth="366.0" />
+                                    <Label layoutX="18.0" layoutY="1019.0" text="-">
                                        <font>
                                           <Font name="System Bold Italic" size="14.0" />
                                        </font>
                                     </Label>
-                                    <Label layoutX="39.0" layoutY="1257.0" text="Schleifenwiderstand" />
-                                    <RadioButton id="resistanceNoBtn" layoutX="494.0" layoutY="1256.0" mnemonicParsing="false" text="Nein">
+                                    <Label layoutX="22.0" layoutY="1020.0" text="Schleifenwiderstand" />
+                                    <RadioButton id="resistanceNoBtn" layoutX="492.0" layoutY="1019.0" mnemonicParsing="false" text="Nein">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="ResistanceGroup" />
                                        </toggleGroup></RadioButton>
-                                    <TextField id="resistancePercentageField" layoutX="416.0" layoutY="1253.0" prefHeight="25.0" prefWidth="47.0" promptText="\%" />
-                                    <RadioButton id="resistanceYesBtn" layoutX="315.0" layoutY="1257.0" mnemonicParsing="false" text="ja, Anzahl:" toggleGroup="$ResistanceGroup" />
-                                    <Label layoutX="36.0" layoutY="1288.0" text="Bemerkung hierzu: " />
-                                    <TextField id="resistanceCommentField" layoutX="169.0" layoutY="1284.0" prefHeight="25.0" prefWidth="366.0" />
-                                    <Label layoutX="35.0" layoutY="1315.0" text="-">
+                                    <TextField id="resistancePercentageField" layoutX="414.0" layoutY="1016.0" prefHeight="25.0" prefWidth="47.0" promptText="\%" />
+                                    <RadioButton id="resistanceYesBtn" layoutX="313.0" layoutY="1020.0" mnemonicParsing="false" text="ja, Anzahl:" toggleGroup="$ResistanceGroup" />
+                                    <Label layoutX="34.0" layoutY="1051.0" text="Bemerkung hierzu: " />
+                                    <TextField id="resistanceCommentField" layoutX="167.0" layoutY="1047.0" prefHeight="25.0" prefWidth="366.0" />
+                                    <Label layoutX="20.0" layoutY="1079.0" text="-">
                                        <font>
                                           <Font name="System Bold Italic" size="14.0" />
                                        </font>
                                     </Label>
-                                    <Label layoutX="43.0" layoutY="1316.0" text="Wurden thermische Auffälligkeiten messtechnisch vorgefunden?" />
-                                    <RadioButton id="thermicYesBtn" layoutX="421.0" layoutY="1317.0" mnemonicParsing="false" text="Ja">
+                                    <Label layoutX="28.0" layoutY="1080.0" text="Wurden thermische Auffälligkeiten messtechnisch vorgefunden?" />
+                                    <RadioButton id="thermicYesBtn" layoutX="419.0" layoutY="1080.0" mnemonicParsing="false" text="Ja">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="ThermicGroup" />
                                        </toggleGroup></RadioButton>
-                                    <RadioButton id="thermicNoBtn" layoutX="486.0" layoutY="1317.0" mnemonicParsing="false" text="Nein" toggleGroup="$ThermicGroup" />
-                                    <Label layoutX="36.0" layoutY="1347.0" text="Bemerkung hierzu: " />
-                                    <TextField id="thermicCommentField" layoutX="169.0" layoutY="1343.0" prefHeight="25.0" prefWidth="366.0" />
-                                    <Label layoutX="23.0" layoutY="1378.0" text="Ortsveränderliche Betriebsmittel">
+                                    <RadioButton id="thermicNoBtn" layoutX="484.0" layoutY="1080.0" mnemonicParsing="false" text="Nein" toggleGroup="$ThermicGroup" />
+                                    <Label layoutX="34.0" layoutY="1110.0" text="Bemerkung hierzu: " />
+                                    <TextField id="thermicCommentField" layoutX="167.0" layoutY="1106.0" prefHeight="25.0" prefWidth="366.0" />
+                                    <Label layoutX="20.0" layoutY="1150.0" text="Ortsveränderliche Betriebsmittel">
                                        <font>
                                           <Font name="System Bold Italic" size="14.0" />
                                        </font>
                                     </Label>
-                                    <Label layoutX="35.0" layoutY="1406.0" text="Werden nach Aussage des Betreibers die ortsveränderlichen &#10;Betriebsmittel regelmäßig geprüft (z. B. gemäß BetrSichV oder &#10;BGV A3)?" />
-                                    <RadioButton id="portableUtilitiesYesBtn" layoutX="421.0" layoutY="1415.0" mnemonicParsing="false" text="Ja">
+                                    <Label layoutX="32.0" layoutY="1178.0" text="Werden nach Aussage des Betreibers die ortsveränderlichen &#10;Betriebsmittel regelmäßig geprüft (z. B. gemäß BetrSichV oder &#10;BGV A3)?" />
+                                    <RadioButton id="portableUtilitiesYesBtn" layoutX="418.0" layoutY="1187.0" mnemonicParsing="false" text="Ja">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="PortableUtilitiesGroup" />
                                        </toggleGroup></RadioButton>
-                                    <RadioButton id="portableUtilitiesNoBtn" layoutX="486.0" layoutY="1415.0" mnemonicParsing="false" text="Nein" toggleGroup="$PortableUtilitiesGroup" />
-                                    <Label layoutX="35.0" layoutY="1473.0" text="Beinhalten diese Prüfungen nach Aussage des Betreibers &#10;auch fremde ortsveränderliche Betriebsmittel, d. h. privat &#10;mitgebrachte, gemietete, geleaste oder durch Dritte &#10;bereitgestellte Betriebsmittel?" />
-                                    <RadioButton id="externalPortableUtilitiesYesBtn" layoutX="421.0" layoutY="1499.0" mnemonicParsing="false" text="Ja">
+                                    <RadioButton id="portableUtilitiesNoBtn" layoutX="483.0" layoutY="1187.0" mnemonicParsing="false" text="Nein" toggleGroup="$PortableUtilitiesGroup" />
+                                    <Label layoutX="32.0" layoutY="1245.0" text="Beinhalten diese Prüfungen nach Aussage des Betreibers &#10;auch fremde ortsveränderliche Betriebsmittel, d. h. privat &#10;mitgebrachte, gemietete, geleaste oder durch Dritte &#10;bereitgestellte Betriebsmittel?" />
+                                    <RadioButton id="externalPortableUtilitiesYesBtn" layoutX="418.0" layoutY="1271.0" mnemonicParsing="false" text="Ja">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="ExternalPortableUtilitiesGroup" />
                                        </toggleGroup></RadioButton>
-                                    <RadioButton id="externalPortableUtilitiesNoBtn" layoutX="486.0" layoutY="1499.0" mnemonicParsing="false" text="Nein" toggleGroup="$ExternalPortableUtilitiesGroup" />
-                                    <RadioButton id="externalPortableUtilitiesNrBtn" layoutX="451.0" layoutY="1533.0" mnemonicParsing="false" text="Nr" toggleGroup="$ExternalPortableUtilitiesGroup" />
-                                    <Label layoutX="23.0" layoutY="1550.0" text="Allgemeine Informationen zur geprüften elektrischen Anlage">
+                                    <RadioButton id="externalPortableUtilitiesNoBtn" layoutX="483.0" layoutY="1271.0" mnemonicParsing="false" text="Nein" toggleGroup="$ExternalPortableUtilitiesGroup" />
+                                    <RadioButton id="externalPortableUtilitiesNrBtn" layoutX="448.0" layoutY="1305.0" mnemonicParsing="false" text="Nr" toggleGroup="$ExternalPortableUtilitiesGroup" />
+                                    <Label layoutX="20.0" layoutY="1322.0" text="Allgemeine Informationen zur geprüften elektrischen Anlage">
                                        <font>
                                           <Font name="System Bold Italic" size="14.0" />
                                        </font>
                                     </Label>
-                                    <Label layoutX="36.0" layoutY="1578.0" text="Versorgungssystem">
+                                    <Label layoutX="33.0" layoutY="1350.0" text="Versorgungssystem">
                                        <font>
                                           <Font name="System Bold Italic" size="12.0" />
                                        </font>
                                     </Label>
-                                    <RadioButton id="supplySystemTNBtn" layoutX="60.0" layoutY="1607.0" mnemonicParsing="false" text="TN ">
+                                    <RadioButton id="supplySystemTNBtn" layoutX="57.0" layoutY="1379.0" mnemonicParsing="false" text="TN ">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="SupplySystemGroup" />
                                        </toggleGroup></RadioButton>
-                                    <RadioButton id="supplySystemTTBtn" layoutX="153.0" layoutY="1608.0" mnemonicParsing="false" text="TT" toggleGroup="$SupplySystemGroup" />
-                                    <RadioButton id="supplySystemCircleBtn" layoutX="367.0" layoutY="1608.0" mnemonicParsing="false" text="Ringeinspeisung" toggleGroup="$SupplySystemGroup" />
-                                    <RadioButton id="supplySystemITBtn" layoutX="258.0" layoutY="1608.0" mnemonicParsing="false" text="IT" toggleGroup="$SupplySystemGroup" />
-                                    <Label layoutX="39.0" layoutY="1638.0" text="Leistungsbedarf der Gesamtanlage:">
+                                    <RadioButton id="supplySystemTTBtn" layoutX="150.0" layoutY="1380.0" mnemonicParsing="false" text="TT" toggleGroup="$SupplySystemGroup" />
+                                    <RadioButton id="supplySystemCircleBtn" layoutX="364.0" layoutY="1380.0" mnemonicParsing="false" text="Ringeinspeisung" toggleGroup="$SupplySystemGroup" />
+                                    <RadioButton id="supplySystemITBtn" layoutX="255.0" layoutY="1380.0" mnemonicParsing="false" text="IT" toggleGroup="$SupplySystemGroup" />
+                                    <Label layoutX="36.0" layoutY="1410.0" text="Leistungsbedarf der Gesamtanlage:">
                                        <font>
                                           <Font name="System Bold Italic" size="12.0" />
                                        </font>
                                     </Label>
-                                    <TextField id="powerConsumptionField" layoutX="258.0" layoutY="1634.0" prefHeight="25.0" prefWidth="76.0" />
-                                    <Label layoutX="359.0" layoutY="1638.0" text="kVa" />
-                                    <Label layoutX="38.0" layoutY="1672.0" text="Maximal möglicher Fremdbezug in %, bezogen auf o. g. Gesamtleistungsbedarf" />
-                                    <TextField id="externalPowerPercentageField" layoutX="485.0" layoutY="1668.0" prefHeight="25.0" prefWidth="47.0" promptText="\%" />
-                                    <Label layoutX="36.0" layoutY="1701.0" text="Maximal mögliche Eigenerzeugung (ohne Ersatzstrom) in %, &#10;bezogen auf o. g. Gesamtleistungsbedarf" />
-                                    <TextField id="maxCapacityPercentageField" layoutX="485.0" layoutY="1706.0" prefHeight="25.0" prefWidth="47.0" promptText="\%" />
-                                    <Label layoutX="39.0" layoutY="1744.0" text="Schutzeinrichtungen (RCD / RCM):">
+                                    <TextField id="powerConsumptionField" layoutX="255.0" layoutY="1406.0" prefHeight="25.0" prefWidth="76.0" />
+                                    <Label layoutX="356.0" layoutY="1410.0" text="kVa" />
+                                    <Label layoutX="35.0" layoutY="1444.0" text="Maximal möglicher Fremdbezug in %, bezogen auf o. g. Gesamtleistungsbedarf" />
+                                    <TextField id="externalPowerPercentageField" layoutX="482.0" layoutY="1440.0" prefHeight="25.0" prefWidth="47.0" promptText="\%" />
+                                    <Label layoutX="33.0" layoutY="1473.0" text="Maximal mögliche Eigenerzeugung (ohne Ersatzstrom) in %, &#10;bezogen auf o. g. Gesamtleistungsbedarf" />
+                                    <TextField id="maxCapacityPercentageField" layoutX="482.0" layoutY="1478.0" prefHeight="25.0" prefWidth="47.0" promptText="\%" />
+                                    <Label layoutX="36.0" layoutY="1516.0" text="Schutzeinrichtungen (RCD / RCM):">
                                        <font>
                                           <Font name="System Bold Italic" size="12.0" />
                                        </font>
                                     </Label>
-                                    <Label layoutX="42.0" layoutY="1773.0" text="Fehlerstrom-Schutzeinrichtung (RCD)oder &#10;Differenzstrom-Überwachung (RCM)" />
-                                    <Label layoutX="281.0" layoutY="1782.0" text="geschützte Stromkreise in %: " />
-                                    <TextField id="protectedCirclesPercentageField" layoutX="485.0" layoutY="1778.0" prefHeight="25.0" prefWidth="47.0" />
-                                    <Label layoutX="42.0" layoutY="1818.0" text="Für statistische Zwecke">
+                                    <Label layoutX="39.0" layoutY="1545.0" text="Fehlerstrom-Schutzeinrichtung (RCD)oder &#10;Differenzstrom-Überwachung (RCM)" />
+                                    <Label layoutX="278.0" layoutY="1554.0" text="geschützte Stromkreise in %: " />
+                                    <TextField id="protectedCirclesPercentageField" layoutX="482.0" layoutY="1550.0" prefHeight="25.0" prefWidth="47.0" />
+                                    <Label layoutX="39.0" layoutY="1590.0" text="Für statistische Zwecke">
                                        <font>
                                           <Font name="System Bold Italic" size="12.0" />
                                        </font>
                                     </Label>
-                                    <Label layoutX="41.0" layoutY="1844.0" text="Geschätzte Anzahl der fest angeschlossenen &#10;Verbraucher in der elektrischen Anlage:" />
-                                    <RadioButton id="hardWiredLoadsUnder500Btn" layoutX="123.0" layoutY="1898.0" mnemonicParsing="false" text="&lt;= 500">
+                                    <Label layoutX="38.0" layoutY="1616.0" text="Geschätzte Anzahl der fest angeschlossenen &#10;Verbraucher in der elektrischen Anlage:" />
+                                    <RadioButton id="hardWiredLoadsUnder500Btn" layoutX="120.0" layoutY="1670.0" mnemonicParsing="false" text="&lt;= 500">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="HardWiredLoadsGroup" />
                                        </toggleGroup></RadioButton>
-                                    <RadioButton id="hardWiredLoadsUnder5000Btn" layoutX="328.0" layoutY="1898.0" mnemonicParsing="false" text="&lt;= 5000" toggleGroup="$HardWiredLoadsGroup" />
-                                    <RadioButton id="hardWiredLoadsUnder250Btn" layoutX="26.0" layoutY="1898.0" mnemonicParsing="false" text="&lt;= 250" toggleGroup="$HardWiredLoadsGroup" />
-                                    <RadioButton id="hardWiredLoadsUnder1000Btn" layoutX="223.0" layoutY="1898.0" mnemonicParsing="false" text="&lt;= 1000" toggleGroup="$HardWiredLoadsGroup" />
-                                    <RadioButton id="hardWiredLoadsAbove5000Btn" layoutX="435.0" layoutY="1898.0" mnemonicParsing="false" text="&gt; 5000" toggleGroup="$HardWiredLoadsGroup" />
-                                    <Label layoutX="43.0" layoutY="1935.0" text="Weitere Erläuterungen wie z. B. verwendete Messgeräte (optional):">
+                                    <RadioButton id="hardWiredLoadsUnder5000Btn" layoutX="325.0" layoutY="1670.0" mnemonicParsing="false" text="&lt;= 5000" toggleGroup="$HardWiredLoadsGroup" />
+                                    <RadioButton id="hardWiredLoadsUnder250Btn" layoutX="23.0" layoutY="1670.0" mnemonicParsing="false" text="&lt;= 250" toggleGroup="$HardWiredLoadsGroup" />
+                                    <RadioButton id="hardWiredLoadsUnder1000Btn" layoutX="220.0" layoutY="1670.0" mnemonicParsing="false" text="&lt;= 1000" toggleGroup="$HardWiredLoadsGroup" />
+                                    <RadioButton id="hardWiredLoadsAbove5000Btn" layoutX="432.0" layoutY="1670.0" mnemonicParsing="false" text="&gt; 5000" toggleGroup="$HardWiredLoadsGroup" />
+                                    <Label layoutX="40.0" layoutY="1707.0" text="Weitere Erläuterungen wie z. B. verwendete Messgeräte (optional):">
                                        <font>
                                           <Font name="System Bold Italic" size="12.0" />
                                        </font>
                                     </Label>
-                                    <TextArea id="furtherExplanationsField" layoutX="36.0" layoutY="1965.0" prefHeight="81.0" prefWidth="476.0" />
+                                    <TextArea id="furtherExplanationsField" layoutX="33.0" layoutY="1737.0" prefHeight="81.0" prefWidth="476.0" />
                                     <Button id="vnLoadBtn" layoutX="184.0" layoutY="2.0" mnemonicParsing="false" onAction="#loadVN" text="VN laden" />
                                     <Button id="plantLoadBtn" layoutX="405.0" layoutY="2.0" mnemonicParsing="false" onAction="#loadPlant" text="Risikoanschrift laden" />
-                                    <TextField id="surveyorSignatureField" layoutX="143.0" layoutY="957.0" prefHeight="25.0" prefWidth="359.0" />
-                                    <TextArea id="companyStampField" layoutX="23.0" layoutY="919.0" prefHeight="77.0" prefWidth="101.0" />
                                  </children>
                               </AnchorPane>
                           </content>
                         </ScrollPane>
-                        <Button id="AddBtn" layoutX="597.0" layoutY="798.0" mnemonicParsing="false" onAction="#add" prefHeight="69.0" prefWidth="333.0" text="Befundschein hinzufügen" />
-                        <Button id="pdfExpBtn" fx:id="pdfExpBtn" layoutX="949.0" layoutY="797.0" mnemonicParsing="false" onAction="#pdfExport" prefHeight="71.0" prefWidth="305.0" text="in PDF exportieren" />
+                        <Button id="AddBtn" layoutX="597.0" layoutY="793.0" mnemonicParsing="false" onAction="#add" prefHeight="69.0" prefWidth="333.0" text="Befundschein hinzufügen" />
+                        <Button id="pdfExpBtn" fx:id="pdfExpBtn" layoutX="949.0" layoutY="792.0" mnemonicParsing="false" onAction="#pdfExport" prefHeight="71.0" prefWidth="305.0" text="in PDF exportieren" />
                         <Label layoutX="596.0" layoutY="54.0" text="Anhang A zum Befundschein-Nr.:">
                            <font>
                               <Font name="System Bold Italic" size="14.0" />
