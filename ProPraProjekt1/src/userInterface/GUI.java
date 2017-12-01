@@ -21,10 +21,13 @@ import javafx.stage.Stage;
 public class GUI extends Application {
 	private Stage primaryStage;
 	private AnchorPane mainLayout;
-	private TabPane statsTab;
+	private TabPane mainTabPane;
+	private Tab statsTab;
 	private AnchorPane statsPane;
-	private TabPane companiesTab;
+	private TabPane compAndBranchTabPane;
+	private Tab companiesTab;
 	private AnchorPane companiesAnchorPane;
+	private ListView companyList1;
 	@FXML
 	ListView<String> companyList;
 	ListView<String> recentlyUsedList;
@@ -42,21 +45,37 @@ public class GUI extends Application {
 		showMainView();
 		//show();
 	}
-	//alle panes etc adden
+	//alle panes etc adden bzw aufeinander adden
 	private void showMainView() throws IOException {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(GUI.class.getResource("GUI.fxml"));
 		mainLayout = loader.load();
 		
-		TabPane statsTab = new TabPane();
+		TabPane mainTabPane = new TabPane();
+		Tab statsTab = new Tab();
 		AnchorPane statsPane = new AnchorPane();
-		TabPane companiesTab = new TabPane();
+		TabPane compAndBranchTabPane = new TabPane();
+		Tab companiesTab = new Tab();
 		AnchorPane companiesAnchorPane = new AnchorPane();
+		ListView companyList1 = new ListView();
 		
-		mainLayout.getChildren().add(statsTab);
+		mainLayout.getChildren().add(mainTabPane);
+		
+		mainTabPane.getTabs().add(statsTab);
+		//statsPane auf statsTab
 		mainLayout.getChildren().add(statsPane);
-		mainLayout.getChildren().add(companiesTab);
+		
+		compAndBranchTabPane.getTabs().add(companiesTab);
+		//compAndBranchTabPane auf statsPane
+		mainLayout.getChildren().add(compAndBranchTabPane);
+		
+		//companiesAnchorPane auf companiesTab
 		mainLayout.getChildren().add(companiesAnchorPane);
+		
+		//companyList1 auf companiesAnchorPane
+		mainLayout.getChildren().add(companyList1);
+		
+		
 		
 		Scene scene = new Scene(mainLayout);
 		primaryStage.setScene(scene);
