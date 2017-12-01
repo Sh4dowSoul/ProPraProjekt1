@@ -446,7 +446,8 @@ public class PDFExport {
 		setText(fontArialBoldCursive, 9, 59, 668, "• Fehlerstrom-Schutzeinrichtungen (RCDs)");
 		setCheckboxChecked(353, 668);
 		setText(fontArialCursive, 9, 365, 668, "alle oder");
-		setTextPlaceholder(fontArialCursive, 9, 424, 668, "50 %");
+		setTextPlaceholder(fontArialCursive, 9, 424, 668, "50");
+		setText(fontArialCursive, 9, 439, 668, "%");
 		setCheckboxUnchecked(463, 668);
 		setText(fontArialCursive, 9, 475, 668, "nein");
 		setText(fontArialBoldCursive, 6, 493, 671, "3");
@@ -458,7 +459,8 @@ public class PDFExport {
 		setCheckboxUnchecked(353, 638);
 		setText(fontArialCursive, 9, 365, 638, "ja, Anzahl  :");
 		setText(fontArialBoldCursive, 6, 406, 641, "4");
-		setTextPlaceholder(fontArialCursive, 9, 424, 638, "30 %");
+		setTextPlaceholder(fontArialCursive, 9, 424, 638, "30");
+		setText(fontArialCursive, 9, 439, 638, "%");
 		setCheckboxChecked(463, 638);
 		setText(fontArialCursive, 9, 475, 638, "nein");
 		setText(fontArialBoldCursive, 6, 493, 641, "3");
@@ -513,16 +515,16 @@ public class PDFExport {
 		
 		setText(fontArialBoldCursive, 9, 59, 450, "Leistungsbedarf der Gesamtanlage:");
 		setTextPlaceholder(fontArial, 9, 240, 450, "2500");
-		setTextPlaceholder(fontArial, 9, 260, 450, "kVA");
+		setText(fontArial, 9, 268, 450, "kVA");
 		
 		setText(fontArialCursive, 9, 59, 434, "Maximal möglicher Fremdbezug in %, bezogen auf o. g. Gesamtleistungsbedarf");
 		setTextPlaceholder(fontArial, 9, 490, 434, "100");
-		setTextPlaceholder(fontArial, 9, 530, 434, "%");
+		setText(fontArial, 9, 530, 434, "%");
 		
 		
 		setText(fontArialCursive, 9, 59, 420, "Maximal mögliche Eigenerzeugung (ohne Ersatzstrom) in %, bezogen auf o. g.");
 		setTextPlaceholder(fontArial, 9, 490, 420, "0");
-		setTextPlaceholder(fontArial, 9, 530, 420, "%");
+		setText(fontArial, 9, 530, 420, "%");
 		setText(fontArialCursive, 9, 59, 410, "Gesamtleistungsbedarf");
 		
 		setText(fontArialBoldCursive, 9, 59, 390, "Schutzeinrichtung (RCD / RCM):");
@@ -576,19 +578,54 @@ public class PDFExport {
 
 		/////// PAGE 3 ///////
 
-		// // Retrieving the third page
-		// PDPage page3 = new PDPage(PDRectangle.A4);
-		// document.addPage(page3);
-		//
-		// // Creating the PDPageContentStream object
-		// contentStream = new PDPageContentStream(document, page3);
-		//
-		// /// setFrame & setTextField 1)
-		// setFrame(54, 365, 501, 165);
-		// setText(fontArialCursive, 9, 59, 300, "Das ist ein Test");
-		//
-		// // Closing the ContentStream
-		// contentStream.close();
+		// Retrieving the third page
+		PDPage page3 = new PDPage(PDRectangle.A4);
+		document.addPage(page3);
+		
+		// Creating the PDPageContentStream object
+		contentStream = new PDPageContentStream(document, page3);
+		
+		// setTexField 2a)
+		setTextPlaceholderManual(fontArialCursive, 9, 474, 810, "Blatt-Nr. 3 von 3");
+		
+		// setFrame & setTextField 1)
+		setFrame(54, 755, 501, 35);
+		setText(fontArialBoldCursive, 12, 59, 768, "Anhang A zum Befundschein-Nr.:");
+		setTextPlaceholder(fontArialCursive, 10, 280, 768, "26/04/17");
+		
+		setFrame(54, 700, 501, 55);
+		setText(fontArialBoldCursive, 9, 59, 745, "Allgemeine Bemerkungen");
+		setText(fontArialCursive, 9, 59, 735, "Wenn in der elektrischen Anlage z. B. aus betrieblichen Gründen keine oder nicht im ausreichenden Umfang Isolations-");
+		setText(fontArialCursive, 9, 59, 725, "widerstandsmessungen durchgeführt werden können, wird dringend empfohlen, nach VdS 2349 für eine konstante Iso-");
+		setText(fontArialCursive, 9, 59, 715, "lationsüberwachung zu sorgen. In Einzelfällen kann der Sachversicherer auch ergänzende oder alternative Maßnahmen");
+		setText(fontArialCursive, 9, 59, 705, "fordern. Aus der Sicht des Sachversicherers kann dies auch eine thermografische Untersuchung sein.");
+		
+		setFrame(54, 678, 18, 22);
+		setText(fontArialBold, 8, 57, 691, "lfd.");
+		setText(fontArialBold, 8, 57, 681, "Nr.");
+		setFrame(72, 678, 32, 22);
+		setText(fontArialBold, 8, 74, 686, "Gefahr");
+		setText(fontArialBoldCursive, 6, 100, 689, "1");
+		setFrame(104, 678, 341, 22);
+		setText(fontArialBold, 8, 112, 691, "Gebäude / Anlage / Raum sowie");
+		setText(fontArialBold, 8, 112, 681, "Mängelbeschreibung und empfohlene Maßnahmen");
+		setFrame(445, 678, 55, 22);
+		setText(fontArialBold, 8, 448, 691, "Mangel-");
+		setText(fontArialBold, 8, 448, 681, "Nummer");
+		setText(fontArialBoldCursive, 6, 481, 684, "2");
+		setFrame(500, 678, 55, 22);
+		setText(fontArialBold, 8, 503, 691, "Betriebs-");
+		setText(fontArialBold, 8, 503, 681, "Bereich");
+		setText(fontArialBoldCursive, 6, 533, 683, "2");
+		
+		setFrame(54, 630, 18, 48);
+		setFrame(72, 630, 32, 48);
+		setFrame(104, 630, 341, 48);
+		setFrame(445, 630, 55, 48);
+		setFrame(500, 630, 55, 48);
+		
+		// Closing the ContentStream
+		contentStream.close();
 
 		/////// PAGE X ///////
 	}
