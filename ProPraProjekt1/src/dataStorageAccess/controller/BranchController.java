@@ -24,5 +24,24 @@ public class BranchController {
 		}
 		return result;
 	}
+	
+	
+	/**
+	 * @return A List off all Branches
+	 * @throws SQLException
+	 */
+	public static ArrayList<Branch> getAllBranches() throws SQLException {
+		ArrayList<Branch> result = new ArrayList<Branch>();
+		try (
+			Connection connection = DBConnection.getInstance().initConnection();
+			PreparedStatement statement = connection.prepareStatement("SELECT * FROM Branches");
+			ResultSet resultSet = statement.executeQuery();
+		) {
+			while (resultSet.next()) {
+				result.add(new Branch(resultSet.getInt("branch_id"), resultSet.getString("branch_name")));
+			}
+		}
+		return result;
+	}
 
 }
