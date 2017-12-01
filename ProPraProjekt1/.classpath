@@ -9,5 +9,6 @@
 	<classpathentry kind="lib" path="pdfbox-tools-2.0.8.jar"/>
 	<classpathentry kind="lib" path="preflight-2.0.8.jar"/>
 	<classpathentry kind="lib" path="xmpbox-2.0.8.jar"/>
+	<classpathentry kind="lib" path="controlsfx-8.40.14.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
