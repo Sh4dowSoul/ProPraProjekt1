@@ -295,11 +295,11 @@
               <children>
                         <TabPane layoutX="15.0" layoutY="24.0" prefHeight="455.0" prefWidth="549.0" tabClosingPolicy="UNAVAILABLE">
                           <tabs>
-                            <Tab id="companyList" text="Firma">
+                            <Tab id="companyListTab" text="Firma">
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <ListView id="companyList" prefHeight="418.0" prefWidth="555.0" />
+                                          <ListView fx:id="companyList" prefHeight="418.0" prefWidth="555.0" />
                                        </children></AnchorPane>
                               </content>
                             </Tab>
