@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+
 import org.controlsfx.control.textfield.AutoCompletionBinding;
 import org.controlsfx.control.textfield.TextFields;
 
@@ -14,6 +15,8 @@ import applicationLogic.Company;
 import applicationLogic.PDFExport;
 import dataStorageAccess.controller.BranchController;
 import dataStorageAccess.controller.DefectController;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -88,6 +91,12 @@ public class GUIController implements Initializable{
     					setText(item.getName() + " - ID: " + item.getId());
     				} 
     			}
+    		});
+    		companyList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Company>() {
+    			@Override
+                public void changed(ObservableValue<? extends Company> observable, Company oldValue, Company newValue) {
+            		System.out.println("Selected " + newValue.getId());  
+                }
     		});
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
