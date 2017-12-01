@@ -60,7 +60,7 @@
                                     <TextField id="plantCityField" layoutX="301.0" layoutY="109.0" promptText="Ort" />
                                     <TextField id="plantZipField" layoutX="301.0" layoutY="73.0" promptText="PLZ" />
                                     <TextField id="plantStreetField" layoutX="301.0" layoutY="35.0" promptText="Straße" />
-                                    <Label layoutX="19.0" layoutY="208.0" text="Sind frequenzgesteuerte Betriebsmittel(z.B. Motore) &#10;in der elektrischen Anlage installiert?" />
+                                    <Label layoutX="19.0" layoutY="208.0" text="Sind frequenzgesteuerte Betriebsmittel (z.B. Motoren) &#10;in der elektrischen Anlage installiert?" />
                                     <Label layoutX="19.0" layoutY="254.0" text="Sind Bereiche, die besondere Schutzmaßnahmen erfordern,&#10;durch den Betreiber ausgewiesen ?" />
                                     <Label layoutX="23.0" layoutY="305.0" text="Wurden alle Bereiche des Risikostandorts geprüft ?" />
                                     <Label layoutX="23.0" layoutY="336.0" text="Wurden nach Aussagen des Betreibers Teilbereiche der Anlage&#10;seit der letzten Revision erneuert, erweiter oder umgebaut?" />
@@ -115,7 +115,7 @@
                                           <Font name="System Bold Italic" size="14.0" />
                                        </font>
                                     </Label>
-                                    <Label layoutX="14.0" layoutY="180.0" text="Arte des Betriebes oder der Anlage:">
+                                    <Label layoutX="14.0" layoutY="180.0" text="Art des Betriebes oder der Anlage:">
                                        <font>
                                           <Font name="System Bold Italic" size="14.0" />
                                        </font>
@@ -267,6 +267,7 @@
                                     <TextArea id="furtherExplanationsField" layoutX="33.0" layoutY="1737.0" prefHeight="81.0" prefWidth="476.0" />
                                     <Button id="vnLoadBtn" layoutX="184.0" layoutY="2.0" mnemonicParsing="false" onAction="#loadVN" text="VN laden" />
                                     <Button id="plantLoadBtn" layoutX="405.0" layoutY="2.0" mnemonicParsing="false" onAction="#loadPlant" text="Risikoanschrift laden" />
+                                    <TextField layoutX="282.0" layoutY="175.0" />
                                  </children>
                               </AnchorPane>
                           </content>
