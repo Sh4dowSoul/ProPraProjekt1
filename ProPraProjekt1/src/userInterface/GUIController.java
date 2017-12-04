@@ -12,6 +12,7 @@ import org.controlsfx.control.textfield.AutoCompletionBinding;
 import org.controlsfx.control.textfield.TextFields;
 
 import applicationLogic.Company;
+import applicationLogic.Diagnosis;
 import applicationLogic.PDFExport;
 import applicationLogic.StatisticElement;
 import dataStorageAccess.controller.BranchController;
@@ -35,17 +36,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 
 public class GUIController implements Initializable{
-	@FXML private Label testLabel;
 	@FXML private TextField defectSearchField;
 	@FXML private ListView<Company> companyList;
 	@FXML private TableView statisticTableView;
 	@FXML private TableColumn statsDefectsColumn;
 	@FXML private TableColumn statsDefectDescriptionColumn;
 	@FXML private TableColumn statsQuantityColumn;
-	
-	public void add(ActionEvent add) {
-		testLabel.setText("jojo");
-	}
 	
 	public void pdfExport(ActionEvent pdfExport) throws IOException {
 		PDFExport.export();
@@ -73,6 +69,96 @@ public class GUIController implements Initializable{
 	
 	public void loadPlant(ActionEvent loadPlant) {
 		
+	}
+	
+	public void addDiagnosis(add) {
+		int id;
+		String lastEdited;
+		int plantId;
+		String companion;
+		String surveyor;
+		int vdsApprovalNr;
+		String examinationDate;
+		double examinationDuration;
+		boolean frequencyControlledUtilities;
+		boolean precautionsDeclared;
+		String precautionsDeclaredLocation;
+		boolean examinationComplete;
+		String subsequentExaminationDate;
+		String examinationIncompleteReason;
+		int changesSinceLastExamination;
+		int defectsLastExaminationFixed;
+		int dangerCategory;
+		String dangerCategoryDescription;
+		boolean examinationResultNoDefect;
+		boolean examinationResultDefect;
+		boolean examinationResultDanger;
+		int pages;
+		boolean isolationChecked;
+		boolean isolationMesasurementProtocols;
+		boolean isolationCompensationMeasures;
+		String isolationCompensationMeasuresAnnotation;
+		Boolean rcdAvailable;
+		int rcdAvailablePercent;
+		String rcdAnnotation;
+		boolean resistance;
+		int resistanceNumber;
+		String resistanceAnnotation;
+		boolean thermalAbnormality;
+		String thermalAbnormalityAnnotation;
+		boolean internalPortableUtilities;
+		boolean externalPortableUtilities;
+		int supplySystem;
+		int energyDemand;
+		int maxEnergyDemandExternal;
+		int maxEnergyDemandInternal;
+		int protectedCircuitsPercent;
+		int hardWiredLoads;
+		String additionalAnnotations;
+//		Diagnosis diagnosis = new Diagnosis(id,
+//				 lastEdited,
+//				 plantId,
+//				 companion,
+//				 surveyor,
+//				 vdsApprovalNr,
+//				 examinationDate,
+//				 examinationDuration,
+//				 frequencyControlledUtilities,
+//				 precautionsDeclared,
+//				 precautionsDeclaredLocation,
+//				 examinationComplete,
+//				 subsequentExaminationDate,
+//				 examinationIncompleteReason,
+//				 changesSinceLastExamination,
+//				 defectsLastExaminationFixed,
+//				 dangerCategory,
+//				 dangerCategoryDescription,
+//				 examinationResultNoDefect,
+//				 examinationResultDefect,
+//				 examinationResultDanger,
+//				 pages,
+//				 isolationChecked,
+//				 isolationMesasurementProtocols,
+//				 isolationCompensationMeasures,
+//				 isolationCompensationMeasuresAnnotation,
+//				 rcdAvailable,
+//				 rcdAvailablePercent,
+//				 rcdAnnotation,
+//				 resistance,
+//				 resistanceNumber,
+//				 resistanceAnnotation,
+//				 thermalAbnormality,
+//				 thermalAbnormalityAnnotation,
+//				 internalPortableUtilities,
+//				 externalPortableUtilities,
+//				 supplySystem,
+//				 energyDemand,
+//				 maxEnergyDemandExternal,
+//				 maxEnergyDemandInternal,
+//				 protectedCircuitsPercent,
+//				 hardWiredLoads,
+//				 additionalAnnotations
+//				);		
 	}
 	
 	@Override
