@@ -104,7 +104,8 @@ public class GUIController implements Initializable{
 	@FXML private CheckBox defectsAttachedBtn;
 	@FXML private TextField defectsAttachedDateField;
 	@FXML private CheckBox removeDefectsImmediatelyBtn;
-	@FXML private TextField pageCount
+	@FXML private TextField pageCount;
+
 // Messungen
 	@FXML private RadioButton isoMinYesBtn;
 	@FXML private RadioButton IsoMinNoBtn;
