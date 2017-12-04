@@ -16,7 +16,7 @@
                      <children>
                         <Label id="recentLabel" layoutX="33.0" layoutY="34.0" text="Kürzlich bearbeitet:" />
                         <ListView id="recentlyUsedList" layoutX="33.0" layoutY="70.0" prefHeight="526.0" prefWidth="455.0" />
-                        <TableView layoutX="599.0" layoutY="70.0" prefHeight="741.0" prefWidth="539.0">
+                        <TableView layoutX="599.0" layoutY="70.0" prefHeight="526.0" prefWidth="539.0">
                           <columns>
                             <TableColumn id="companysColumn" prefWidth="274.0" text="Firmen" />
                             <TableColumn id="diagnosisColumn" minWidth="0.0" prefWidth="264.0" text="Befundschein" />
@@ -32,7 +32,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="2217.0" prefWidth="1280.0">
                      <children>
-                        <TextField fx:id="defectSearchField" layoutX="597.0" layoutY="19.0" promptText="&quot;Mängel&quot;" />
+                        <TextField fx:id="defectSearchField" layoutX="597.0" layoutY="19.0" prefHeight="25.0" prefWidth="535.0" promptText="&quot;Mängel&quot;" />
                         <TableView layoutX="591.0" layoutY="218.0" prefHeight="565.0" prefWidth="677.0">
                           <columns>
                             <TableColumn id="ifdnrColumn" prefWidth="50.0" text="Ifd. Nr." />
@@ -47,7 +47,7 @@
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
                         </TableView>
-                        <ScrollPane layoutX="14.0" layoutY="19.0" prefHeight="843.0" prefWidth="558.0">
+                        <ScrollPane layoutX="14.0" layoutY="14.0" prefHeight="843.0" prefWidth="558.0">
                           <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1851.0" prefWidth="539.0">
                                  <children>
@@ -208,7 +208,6 @@
                                           <ToggleGroup fx:id="ExternalPortableUtilitiesGroup" />
                                        </toggleGroup></RadioButton>
                                     <RadioButton id="externalPortableUtilitiesNoBtn" layoutX="483.0" layoutY="1271.0" mnemonicParsing="false" text="Nein" toggleGroup="$ExternalPortableUtilitiesGroup" />
-                                    <RadioButton id="externalPortableUtilitiesNrBtn" layoutX="448.0" layoutY="1305.0" mnemonicParsing="false" text="Nr" toggleGroup="$ExternalPortableUtilitiesGroup" />
                                     <Label layoutX="20.0" layoutY="1322.0" text="Allgemeine Informationen zur geprüften elektrischen Anlage">
                                        <font>
                                           <Font name="System Bold Italic" size="14.0" />
@@ -285,6 +284,7 @@
                            </font>
                         </Label>
                         <Label layoutX="597.0" layoutY="97.0" text="Wenn in der elektrischen Anlage z. B. aus betrieblichen Gründen keine oder nicht &#10;im ausreichenden Umfang Isolationswiderstandsmessungen durchgeführt werden &#10;können, wird dringend empfohlen, nach VdS 2349 für eine konstante Isolationsüberwachung &#10;zu sorgen. In Einzelfällen kann der Sachversicherer auch ergänzende oder alternative &#10;Maßnahmen fordern. Aus der Sicht des Sachversicherers kann dies auch eine thermografische &#10;Untersuchung sein." />
+                        <TextField layoutX="815.0" layoutY="52.0" prefHeight="25.0" prefWidth="180.0" />
                      </children>
                   </AnchorPane>
             </content>
