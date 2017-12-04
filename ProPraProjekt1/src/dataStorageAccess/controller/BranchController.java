@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import applicationLogic.Branch;
@@ -36,6 +37,31 @@ public class BranchController {
 			Connection connection = DBConnection.getInstance().initConnection();
 			PreparedStatement statement = connection.prepareStatement("SELECT * FROM Branches");
 			ResultSet resultSet = statement.executeQuery();
+		) {
+			while (resultSet.next()) {
+				result.add(new Branch(resultSet.getInt("branch_id"), resultSet.getString("branch_name")));
+			}
+		}
+		return result;
+	}
+	
+	
+	/**
+	 * @return A List off all Branches which had defects
+	 * @throws SQLException
+	 */
+	public static ArrayList<Branch> getAllBranchesWithDefect() throws SQLException {
+		ArrayList<Branch> result = new ArrayList<Branch>();
+		try (
+			Connection connection = DBConnection.getInstance().initConnection();
+				Statement statement = connection.createStatement();
+				ResultSet resultSet = statement.executeQuery(
+					"SELECT * " +
+					"FROM Branches " +
+					"WHERE branch_id IN ( " +		
+						"SELECT branch_id " +
+						"FROM DefectElement )"
+			);
 		) {
 			while (resultSet.next()) {
 				result.add(new Branch(resultSet.getInt("branch_id"), resultSet.getString("branch_name")));

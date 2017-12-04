@@ -76,7 +76,7 @@ public class StatisticController {
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(
 					"SELECT defect_id, defect_description, count(defect_id), branch_id " + 
-					"FROM DefectElement NATURAL JOIN defects" + 
+					"FROM DefectElement NATURAL JOIN defects " + 
 					"WHERE branch_id = " + id + " " +
 					"GROUP BY branch_id " + 
 					"ORDER BY count(defect_id) desc " + 

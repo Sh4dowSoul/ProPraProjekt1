@@ -315,7 +315,7 @@
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <ListView id="branchList" layoutY="-3.0" prefHeight="422.0" prefWidth="550.0" />
+                                          <ListView fx:id="branchList" layoutY="-3.0" prefHeight="422.0" prefWidth="550.0" />
                                           <ProgressIndicator fx:id="statBranchProgress" layoutX="250.0" layoutY="200.0" />
                                        </children></AnchorPane>
                               </content>
