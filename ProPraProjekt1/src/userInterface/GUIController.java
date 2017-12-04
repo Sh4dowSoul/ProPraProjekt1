@@ -46,7 +46,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 
 public class GUIController implements Initializable{
-//*** GENAERL ***
+//*** GENERAL ***
 	@FXML private TabPane mainTabPane;
 	
 // *** HOME TAB ***
@@ -54,8 +54,6 @@ public class GUIController implements Initializable{
 	@FXML private TableView companyTableView;
 	@FXML private TableColumn compNameColumn;
 	@FXML private TableColumn compDiagnosisColumn;
-
-	
 	
 // *** BEFUNDSCHEIN TAB ***
 // Versicherungsnehmer Adresse
@@ -101,13 +99,12 @@ public class GUIController implements Initializable{
 	@FXML private RadioButton dangerCategorieGroupDBtn;
 	@FXML private TextField dangerCategoryExtensionField;
 	
-//Prüfergebnis
+//PrÃ¼fergebnis
 	@FXML private CheckBox noDefectsBtn;
 	@FXML private CheckBox defectsAttachedBtn;
 	@FXML private TextField defectsAttachedDateField;
 	@FXML private CheckBox removeDefectsImmediatelyBtn;
-	@FXML private TextField pageCount;
-	
+	@FXML private TextField pageCount
 // Messungen
 	@FXML private RadioButton isoMinYesBtn;
 	@FXML private RadioButton IsoMinNoBtn;
@@ -128,14 +125,14 @@ public class GUIController implements Initializable{
 	@FXML private RadioButton thermicNoBtn;
 	@FXML private TextField thermicCommentField;
 	
-//Ortsveränderliche Betriebsmittel
+//OrtsverÃ¤nderliche Betriebsmittel
 	@FXML private RadioButton portableUtilitiesYesBtn;
 	@FXML private RadioButton portableUtilitiesNoBtn;
 	@FXML private RadioButton externalPortableUtilitiesYesBtn;
 	@FXML private RadioButton externalPortableUtilitiesNoBtn;
 	@FXML private RadioButton externalPortableUtilitiesNrBtn;
 	
-//Allgemeine Informationen zur geprüften elektrischen Anlage
+//Allgemeine Informationen zur geprÃ¼ften elektrischen Anlage
 	@FXML private RadioButton supplySystemTNBtn;
 	@FXML private RadioButton supplySystemTTBtn;
 	@FXML private RadioButton supplySystemITBtn;
@@ -178,7 +175,8 @@ public class GUIController implements Initializable{
 	@FXML private ProgressIndicator statCompanyProgress;
 	@FXML private ProgressIndicator statBranchProgress;
 	@FXML private ProgressIndicator statResultProgress;
-
+  
+  
 	private boolean statsFirstTme = true;
 	private AutoCompletionBinding ab;
 	
