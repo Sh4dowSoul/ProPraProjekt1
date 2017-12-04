@@ -40,7 +40,7 @@ public class GUIController implements Initializable{
 	@FXML private ListView<Company> companyList;
 	@FXML private TableView statisticTableView;
 	@FXML private TableColumn statsDefectsColumn;
-	@FXML private TableColumn statsBranchColumn;
+	@FXML private TableColumn statsDefectDescriptionColumn;
 	@FXML private TableColumn statsQuantityColumn;
 	
 	public void add(ActionEvent add) {
@@ -86,6 +86,7 @@ public class GUIController implements Initializable{
         	
         	//Tabelle
         	statsDefectsColumn.setCellValueFactory(new PropertyValueFactory<StatisticElement,String>("defectId"));
+        	statsDefectDescriptionColumn.setCellValueFactory(new PropertyValueFactory<StatisticElement,String>("defectDescription"));
         	statsQuantityColumn.setCellValueFactory(new PropertyValueFactory<StatisticElement,String>("numberOccurrence"));
     		//CompanyList
     		ObservableList<Company> items = FXCollections.observableArrayList(dataStorageAccess.controller.CompanyController.getCompanies());

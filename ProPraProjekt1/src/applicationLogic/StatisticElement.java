@@ -2,11 +2,13 @@ package applicationLogic;
 
 public class StatisticElement {
 	private int defectId;
+	private String defectDescription;
 	private int numberOccurrence;
 	
-	public StatisticElement(int defectId, int numberOccurrence) {
+	public StatisticElement(int defectId,String defectDescription, int numberOccurrence) {
 		super();
 		this.defectId = defectId;
+		this.defectDescription = defectDescription;
 		this.numberOccurrence = numberOccurrence;
 	}
 
@@ -16,5 +18,9 @@ public class StatisticElement {
 
 	public int getNumberOccurrence() {
 		return numberOccurrence;
+	}
+
+	public String getDefectDescription() {
+		return defectDescription;
 	}
 }
