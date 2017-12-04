@@ -313,12 +313,11 @@
                             </Tab>
                           </tabs>
                         </TabPane>
-                        <TableView layoutX="603.0" layoutY="23.0" prefHeight="456.0" prefWidth="661.0">
+                        <TableView fx:id="statisticTableView" layoutX="603.0" layoutY="23.0" prefHeight="456.0" prefWidth="661.0">
                           <columns>
-                            <TableColumn minWidth="0.0" prefWidth="0.0" />
-                            <TableColumn id="defectsColumn" prefWidth="201.0" text="Topcharts der Mängel" />
-                              <TableColumn id="branchColumnStats" prefWidth="232.0" text="Betriebsbereich" />
-                              <TableColumn id="quantityColumn" prefWidth="227.0" text="Anzahl" />
+                            <TableColumn fx:id="statsDefectsColumn" prefWidth="201.0" text="Topcharts der Mängel" />
+                              <TableColumn fx:id="statsBranchColumn" prefWidth="232.0" text="Betriebsbereich" />
+                              <TableColumn fx:id="statsQuantityColumn" prefWidth="227.0" text="Anzahl" />
                           </columns>
                         </TableView>
                         <Button id="xmlExpBtn" layoutX="462.0" layoutY="581.0" mnemonicParsing="false" onAction="#xmlExport" prefHeight="136.0" prefWidth="319.0" text="XML - Export" />

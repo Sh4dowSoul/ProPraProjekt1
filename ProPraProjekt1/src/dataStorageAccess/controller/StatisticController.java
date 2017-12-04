@@ -30,7 +30,7 @@ public class StatisticController {
 					"WHERE company_id = " + id + " " +
 					"GROUP BY defect_id " + 
 					"ORDER BY count(defect_id) desc " + 
-					"Limit 3");
+					"Limit 10");
 			) {
 			while (resultSet.next()) {
 				result.add(new StatisticElement(resultSet.getInt("defect_id"), resultSet.getInt("count(defect_id)")));

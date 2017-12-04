@@ -13,8 +13,10 @@ import org.controlsfx.control.textfield.TextFields;
 
 import applicationLogic.Company;
 import applicationLogic.PDFExport;
+import applicationLogic.StatisticElement;
 import dataStorageAccess.controller.BranchController;
 import dataStorageAccess.controller.DefectController;
+import dataStorageAccess.controller.StatisticController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -26,14 +28,20 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 
 public class GUIController implements Initializable{
-	@FXML
-	private Label testLabel;
+	@FXML private Label testLabel;
 	@FXML private TextField defectSearchField;
 	@FXML private ListView<Company> companyList;
+	@FXML private TableView statisticTableView;
+	@FXML private TableColumn statsDefectsColumn;
+	@FXML private TableColumn statsBranchColumn;
+	@FXML private TableColumn statsQuantityColumn;
 	
 	public void add(ActionEvent add) {
 		testLabel.setText("jojo");
@@ -76,6 +84,9 @@ public class GUIController implements Initializable{
         	ab.setMinWidth(600);
         	//ab.setOnAutoCompleted(e -> System.out.println(ab.getOnAutoCompleted())); --> Wenn man etwas ausgewählt hat
         	
+        	//Tabelle
+        	statsDefectsColumn.setCellValueFactory(new PropertyValueFactory<StatisticElement,String>("defectId"));
+        	statsQuantityColumn.setCellValueFactory(new PropertyValueFactory<StatisticElement,String>("numberOccurrence"));
     		//CompanyList
     		ObservableList<Company> items = FXCollections.observableArrayList(dataStorageAccess.controller.CompanyController.getCompanies());
     		companyList.setItems(items);
@@ -95,7 +106,14 @@ public class GUIController implements Initializable{
     		companyList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Company>() {
     			@Override
                 public void changed(ObservableValue<? extends Company> observable, Company oldValue, Company newValue) {
-            		System.out.println("Selected " + newValue.getId());  
+            		System.out.println("Selected " + newValue.getId()); 
+            		//Get statistic by company
+					try {
+	        			statisticTableView.setItems(FXCollections.observableArrayList(StatisticController.getMostFrequentDefectCompany(newValue.getId())));
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
                 }
     		});
 		} catch (SQLException e) {
