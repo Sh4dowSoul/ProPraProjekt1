@@ -8,7 +8,11 @@
 
 <AnchorPane prefHeight="909.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userInterface.GUIController">
    <children>
+<<<<<<< HEAD
       <TabPane prefHeight="840.0" prefWidth="1280.0" tabClosingPolicy="UNAVAILABLE">
+=======
+      <TabPane fx:id="mainTabPane" prefHeight="2300.0" prefWidth="1280.0" tabClosingPolicy="UNAVAILABLE">
+>>>>>>> branch 'master' of https://github.com/Sh4dowSoul/ProPraProjekt1
         <tabs>
           <Tab id="homeTab" text="Home">
             <content>
@@ -290,7 +294,7 @@
                   </AnchorPane>
             </content>
           </Tab>
-          <Tab text="Statistik">
+          <Tab id="statTab" text="Statistik">
           <content>
             <AnchorPane id="Content" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
               <children>
@@ -301,6 +305,7 @@
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
                                           <ListView fx:id="companyList" prefHeight="418.0" prefWidth="555.0" />
+                                          <ProgressIndicator fx:id="statCompanyProgress" layoutX="250.0" layoutY="200.0" />
                                        </children></AnchorPane>
                               </content>
                             </Tab>
@@ -308,7 +313,12 @@
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
+<<<<<<< HEAD
                                           <ListView id="branchList" fx:id="branchList" layoutY="-3.0" prefHeight="422.0" prefWidth="550.0" />
+=======
+                                          <ListView fx:id="branchList" layoutY="-3.0" prefHeight="422.0" prefWidth="550.0" />
+                                          <ProgressIndicator fx:id="statBranchProgress" layoutX="250.0" layoutY="200.0" />
+>>>>>>> branch 'master' of https://github.com/Sh4dowSoul/ProPraProjekt1
                                        </children></AnchorPane>
                               </content>
                             </Tab>
@@ -322,6 +332,7 @@
                           </columns>
                         </TableView>
                         <Button id="xmlExpBtn" layoutX="462.0" layoutY="581.0" mnemonicParsing="false" onAction="#xmlExport" prefHeight="136.0" prefWidth="319.0" text="XML - Export" />
+                        <ProgressIndicator fx:id="statResultProgress" layoutX="910.0" layoutY="240.0" />
               </children>
             </AnchorPane>
           </content>
