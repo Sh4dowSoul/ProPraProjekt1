@@ -30,13 +30,17 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.Tab;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
@@ -46,59 +50,135 @@ public class GUIController implements Initializable{
 	@FXML private TabPane mainTabPane;
 	
 // *** HOME TAB ***
-//	@FXML private
-//	@FXML private
-//	@FXML private
-//	@FXML private
-//	@FXML private
-//	@FXML private
-//	@FXML private
+	@FXML private Button sortAlphaBtn;
+	@FXML private TableView companyTableView;
+	@FXML private TableColumn compNameColumn;
+	@FXML private TableColumn compDiagnosisColumn;
+
 	
 	
 // *** BEFUNDSCHEIN TAB ***
-	@FXML private TextField defectSearchField;
+// Versicherungsnehmer Adresse
 	@FXML private Button vnLoadBtn;
-	@FXML private Button plantLoadBtn;
 	@FXML private TextField compNameField;
-//	@FXML private
-//	@FXML private
-//	@FXML private
-//	@FXML private
-//	@FXML private
-//	@FXML private
-//	@FXML private
-//	@FXML private
-//	@FXML private
-//	@FXML private
-//	@FXML private
-//	@FXML private
-//	@FXML private
-//	@FXML private
-//	@FXML private
-//	@FXML private
-//	@FXML private
-//	@FXML private
-//	@FXML private
-//	@FXML private
-//	@FXML private
-//	@FXML private
-//	@FXML private
-//	@FXML private
+	@FXML private TextField streetCompField;
+	@FXML private TextField compZipField;
+	@FXML private TextField compCityField;
 	
+// Risikoanschrift
+	@FXML private Button plantLoadBtn;
+	@FXML private TextField plantStreetField;
+	@FXML private TextField plantZipField;
+	@FXML private TextField plantCityField;
+	@FXML private TextField plantCompanionField;
+	@FXML private TextField plantExpertField;
+	@FXML private TextField plantAnerkNrField;
+	@FXML private TextField plantInspectionField;
+	@FXML private TextField plantInspectionTimeField;
+	
+//Art des Betriebes oder der Anlage
+	@FXML private TextField branchName;
+	@FXML private RadioButton freqYesBtn;
+	@FXML private RadioButton freqNoBtn;
+	@FXML private RadioButton precautionYesBtn;
+	@FXML private RadioButton precautionNoBtn;
+	@FXML private TextField precautionField;
+	@FXML private RadioButton comleteYesBtn;
+	@FXML private RadioButton comleteNoBtn;
+	@FXML private TextField completeDateField;
+	@FXML private TextField completeReasonField;
+	@FXML private RadioButton changesSinceLastExaminationYesBtn;
+	@FXML private RadioButton changesSinceLastExaminationNoBtn;
+	@FXML private RadioButton changesSinceLastExaminationFirstExaminationBtn;
+	@FXML private RadioButton defectsLastExaminationYesBtn;
+	@FXML private RadioButton defectsLastExaminationNoBtn;
+	@FXML private RadioButton defectsLastExaminationNoReportBtn;
+	
+//Gesamtbeurteilung der Anlage
+	@FXML private RadioButton dangerCategorieGroupABtn;
+	@FXML private RadioButton dangerCategorieGroupBBtn;
+	@FXML private RadioButton dangerCategorieGroupCBtn;
+	@FXML private RadioButton dangerCategorieGroupDBtn;
+	@FXML private TextField dangerCategoryExtensionField;
+	
+//Prüfergebnis
+	@FXML private CheckBox noDefectsBtn;
+	@FXML private CheckBox defectsAttachedBtn;
+	@FXML private TextField defectsAttachedDateField;
+	@FXML private CheckBox removeDefectsImmediatelyBtn;
+	@FXML private TextField pageCount;
+	
+// Messungen
+	@FXML private RadioButton isoMinYesBtn;
+	@FXML private RadioButton IsoMinNoBtn;
+	@FXML private RadioButton isoProtocolYesBtn;
+	@FXML private RadioButton isoProtocolNoBtn;
+	@FXML private RadioButton isoCompensationYesBtn;
+	@FXML private RadioButton isoCompensationNoBtn;
+	@FXML private TextField isoCompensationCommentField;
+	@FXML private RadioButton rcdAllBtn;
+	@FXML private TextField rcdPercentageField;
+	@FXML private RadioButton rcdNotBtn;
+	@FXML private TextField rcdCommentField;
+	@FXML private RadioButton resistanceYesBtn;
+	@FXML private TextField resistancePercentageField;
+	@FXML private RadioButton resistanceNoBtn;
+	@FXML private TextField resistanceCommentField;
+	@FXML private RadioButton thermicYesBtn;
+	@FXML private RadioButton thermicNoBtn;
+	@FXML private TextField thermicCommentField;
+	
+//Ortsveränderliche Betriebsmittel
+	@FXML private RadioButton portableUtilitiesYesBtn;
+	@FXML private RadioButton portableUtilitiesNoBtn;
+	@FXML private RadioButton externalPortableUtilitiesYesBtn;
+	@FXML private RadioButton externalPortableUtilitiesNoBtn;
+	@FXML private RadioButton externalPortableUtilitiesNrBtn;
+	
+//Allgemeine Informationen zur geprüften elektrischen Anlage
+	@FXML private RadioButton supplySystemTNBtn;
+	@FXML private RadioButton supplySystemTTBtn;
+	@FXML private RadioButton supplySystemITBtn;
+	@FXML private RadioButton supplySystemCircleBtn;
+	@FXML private TextField powerConsumptionField;
+	@FXML private TextField externalPowerPercentageField;
+	@FXML private TextField maxCapacityPercentageField;
+	@FXML private TextField protectedCirclesPercentageField;
+	@FXML private RadioButton hardWiredLoadsUnder250Btn;
+	@FXML private RadioButton hardWiredLoadsUnder500Btn;
+	@FXML private RadioButton hardWiredLoadsUnder1000Btn;
+	@FXML private RadioButton hardWiredLoadsUnder5000Btn;
+	@FXML private RadioButton hardWiredLoadsAbove5000Btn;
+	@FXML private TextArea furtherExplanationsField;
+
+// Anhang A
+	@FXML private TextField defectSearchField;
+	@FXML private TextField diagnosisDate;
+	@FXML private TableView defectTableView;
+	@FXML private TableColumn ifdnrColumn;
+	@FXML private TableColumn dangerColumn;
+	@FXML private TableColumn buildingColumn;
+	@FXML private TableColumn RoomColumn;
+	@FXML private TableColumn maschineColumn;
+	@FXML private TableColumn branchColumn;
+	@FXML private TableColumn recommodationClumn;
+	@FXML private Button AddDiagnosisBtn;
+	@FXML private Button pdfExpBtn;
 	
 //*** STATISTIC TAB ***
 	@FXML private ListView<Company> companyList;
+	@FXML private Tab companyListTab;
 	@FXML private ListView<Branch> branchList;
+	@FXML private Tab branchListTab;
 	@FXML private TableView statisticTableView;
 	@FXML private TableColumn statsDefectsColumn;
 	@FXML private TableColumn statsDefectDescriptionColumn;
 	@FXML private TableColumn statsQuantityColumn;
+	@FXML private Button xmlExpBtn;
 	@FXML private ProgressIndicator statCompanyProgress;
 	@FXML private ProgressIndicator statBranchProgress;
 	@FXML private ProgressIndicator statResultProgress;
-//	@FXML private für xml export..
-	
-	
+
 	private boolean statsFirstTme = true;
 	private AutoCompletionBinding ab;
 	
