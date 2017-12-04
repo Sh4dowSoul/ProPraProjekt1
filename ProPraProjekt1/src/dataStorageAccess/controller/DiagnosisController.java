@@ -26,12 +26,12 @@ public class DiagnosisController {
 		ArrayList<DiagnosisPreview> result = new ArrayList<DiagnosisPreview>();
 		try (
 			Connection connection = DBConnection.getInstance().initConnection();
-			PreparedStatement statement = connection.prepareStatement(
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(
 					"SELECT diagnosis_id, examination_date, company_id, company_name, diagnosis_lastedited "+ 
 					"FROM Diagnosis join (Company Natural join CompanyPlant as CompanyWhosPlant) on Diagnosis.plant_id = companyWhosPlant.plant_id "+ 
 					"ORDER BY diagnosis_lastedited desc "+
 					"LIMIT " + number);
-			ResultSet resultSet = statement.executeQuery();
 		) {
 			while (resultSet.next()) {
 				result.add(new DiagnosisPreview(resultSet.getInt("diagnosis_id"), new SimpleDateFormat("yyyy-MM-dd").parse(resultSet.getString("examination_date")), resultSet.getInt("company_id"), resultSet.getString("company_name")));
@@ -51,11 +51,11 @@ public class DiagnosisController {
 		ArrayList<DiagnosisPreview> result = new ArrayList<DiagnosisPreview>();
 		try (
 			Connection connection = DBConnection.getInstance().initConnection();
-			PreparedStatement statement = connection.prepareStatement(
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(
 					"SELECT diagnosis_id, examination_date, company_id, company_name "+ 
 					"FROM Diagnosis join (Company Natural join CompanyPlant as CompanyWhosPlant) on Diagnosis.plant_id = companyWhosPlant.plant_id "+ 
 					"ORDER BY company_name asc ");
-			ResultSet resultSet = statement.executeQuery();
 		) {
 			while (resultSet.next()) {
 				result.add(new DiagnosisPreview(resultSet.getInt("diagnosis_id"), new SimpleDateFormat("yyyy-MM-dd").parse(resultSet.getString("examination_date")), resultSet.getInt("company_id"), resultSet.getString("company_name")));
@@ -76,11 +76,11 @@ public class DiagnosisController {
 		Diagnosis result = null;
 		try (
 				Connection connection = DBConnection.getInstance().initConnection();
-				PreparedStatement statement = connection.prepareStatement(
+				Statement statement = connection.createStatement();
+				ResultSet resultSet = statement.executeQuery(
 						"SELECT * "+ 
 						"FROM Diagnosis  "+ 
 						"WHERE diagnosis_id = " + id);
-				ResultSet resultSet = statement.executeQuery();
 			) {
 				while (resultSet.next()) {
 					result = new Diagnosis(resultSet.getInt("diagnosis_id"), 

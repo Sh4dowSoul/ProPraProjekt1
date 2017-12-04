@@ -16,8 +16,8 @@ public class BranchController {
 		ArrayList<Branch> result = new ArrayList<Branch>();
 		try (
 			Connection connection = DBConnection.getInstance().initConnection();
-			PreparedStatement statement = connection.prepareStatement("SELECT * FROM Branches WHERE branch_name LIKE '" + name + "%'");
-			ResultSet resultSet = statement.executeQuery();
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery("SELECT * FROM Branches WHERE branch_name LIKE '" + name + "%'");
 		) {
 			while (resultSet.next()) {
 				result.add(new Branch(resultSet.getInt("branch_id"), resultSet.getString("branch_name")));
@@ -35,8 +35,8 @@ public class BranchController {
 		ArrayList<Branch> result = new ArrayList<Branch>();
 		try (
 			Connection connection = DBConnection.getInstance().initConnection();
-			PreparedStatement statement = connection.prepareStatement("SELECT * FROM Branches");
-			ResultSet resultSet = statement.executeQuery();
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery("SELECT * FROM Branches");
 		) {
 			while (resultSet.next()) {
 				result.add(new Branch(resultSet.getInt("branch_id"), resultSet.getString("branch_name")));
