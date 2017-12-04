@@ -30,18 +30,17 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-//<<<<<<< HEAD
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
-//=======
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TabPane;
-//>>>>>>> branch 'master' of https://github.com/Sh4dowSoul/ProPraProjekt1
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
@@ -51,8 +50,7 @@ public class GUIController implements Initializable{
 	@FXML private TabPane mainTabPane;
 	
 // *** HOME TAB ***
-//	@FXML private
-	@FXML private Label sortAlphaBtn;
+	@FXML private Button sortAlphaBtn;
 	@FXML private TableView companyTableView;
 	@FXML private TableColumn compNameColumn;
 	@FXML private TableColumn compDiagnosisColumn;
@@ -101,13 +99,12 @@ public class GUIController implements Initializable{
 	@FXML private RadioButton dangerCategorieGroupDBtn;
 	@FXML private TextField dangerCategoryExtensionField;
 	
-//Prüfergebnis
-	@FXML private RadioButton noDefectsBtn;
-	@FXML private RadioButton defectsAttachedBtn;
+//PrÃ¼fergebnis
+	@FXML private CheckBox noDefectsBtn;
+	@FXML private CheckBox defectsAttachedBtn;
 	@FXML private TextField defectsAttachedDateField;
-	@FXML private RadioButton removeDefectsImmediatelyBtn;
-	@FXML private TextField pageCount;
-	
+	@FXML private CheckBox removeDefectsImmediatelyBtn;
+	@FXML private TextField pageCount
 // Messungen
 	@FXML private RadioButton isoMinYesBtn;
 	@FXML private RadioButton IsoMinNoBtn;
@@ -128,14 +125,14 @@ public class GUIController implements Initializable{
 	@FXML private RadioButton thermicNoBtn;
 	@FXML private TextField thermicCommentField;
 	
-//Ortsveränderliche Betriebsmittel
+//OrtsverÃ¤nderliche Betriebsmittel
 	@FXML private RadioButton portableUtilitiesYesBtn;
 	@FXML private RadioButton portableUtilitiesNoBtn;
 	@FXML private RadioButton externalPortableUtilitiesYesBtn;
 	@FXML private RadioButton externalPortableUtilitiesNoBtn;
 	@FXML private RadioButton externalPortableUtilitiesNrBtn;
 	
-//Allgemeine Informationen zur geprüften elektrischen Anlage
+//Allgemeine Informationen zur geprÃ¼ften elektrischen Anlage
 	@FXML private RadioButton supplySystemTNBtn;
 	@FXML private RadioButton supplySystemTTBtn;
 	@FXML private RadioButton supplySystemITBtn;
@@ -149,7 +146,7 @@ public class GUIController implements Initializable{
 	@FXML private RadioButton hardWiredLoadsUnder1000Btn;
 	@FXML private RadioButton hardWiredLoadsUnder5000Btn;
 	@FXML private RadioButton hardWiredLoadsAbove5000Btn;
-	@FXML private TextField furtherExplanationsField;
+	@FXML private TextArea furtherExplanationsField;
 
 // Anhang A
 	@FXML private TextField defectSearchField;
@@ -168,9 +165,8 @@ public class GUIController implements Initializable{
 //*** STATISTIC TAB ***
 	@FXML private ListView<Company> companyList;
 	@FXML private Tab companyListTab;
-//	@FXML private ListView<Branch> branchList;
-	@FXML private Tab branchListTab;
 	@FXML private ListView<Branch> branchList;
+	@FXML private Tab branchListTab;
 	@FXML private TableView statisticTableView;
 	@FXML private TableColumn statsDefectsColumn;
 	@FXML private TableColumn statsDefectDescriptionColumn;
@@ -179,9 +175,8 @@ public class GUIController implements Initializable{
 	@FXML private ProgressIndicator statCompanyProgress;
 	@FXML private ProgressIndicator statBranchProgress;
 	@FXML private ProgressIndicator statResultProgress;
-
-//############################################################################################################
-	
+  
+  
 	private boolean statsFirstTme = true;
 	private AutoCompletionBinding ab;
 	
