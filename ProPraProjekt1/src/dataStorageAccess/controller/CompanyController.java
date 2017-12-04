@@ -22,11 +22,11 @@ public class CompanyController {
 		ArrayList<Company> result = new ArrayList<Company>();
 		try (
 			Connection connection = DBConnection.getInstance().initConnection();
-			PreparedStatement statement = connection.prepareStatement(
+				Statement statement = connection.createStatement();
+				ResultSet resultSet = statement.executeQuery(
 					"SELECT * "+ 
 					"FROM Company "+ 
 					"ORDER BY company_name desc ");
-			ResultSet resultSet = statement.executeQuery();
 		) {
 			while (resultSet.next()) {
 				result.add(new Company(resultSet.getInt("company_id"), resultSet.getString("company_name"), resultSet.getString("hq_street"), resultSet.getString("hq_zip")));
@@ -51,7 +51,7 @@ public class CompanyController {
 					"WHERE company_id IN ( " +		
 					"SELECT company_id " +
 					"FROM DefectElement NATURAL JOIN diagnosis NATURAL JOIN CompanyPlant NATURAL JOIN company) " +
-					"ORDER BY company_name desc ");
+					"ORDER BY company_name asc ");
 		) {
 			while (resultSet.next()) {
 				result.add(new Company(resultSet.getInt("company_id"), resultSet.getString("company_name"), resultSet.getString("hq_street"), resultSet.getString("hq_zip")));
@@ -69,12 +69,12 @@ public class CompanyController {
 		ArrayList<CompanyPlant> result = new ArrayList<CompanyPlant>();
 		try (
 			Connection connection = DBConnection.getInstance().initConnection();
-			PreparedStatement statement = connection.prepareStatement(
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(
 					"SELECT * "+ 
 					"FROM CompanyPlant "+ 
 					"WHERE company_id = " + company_id+ " "+
 					"ORDER BY plant_street desc ");
-			ResultSet resultSet = statement.executeQuery();
 		) {
 			while (resultSet.next()) {
 				result.add(new CompanyPlant(resultSet.getInt("plant_id"), resultSet.getInt("company_id"), resultSet.getString("plant_street"), resultSet.getString("plant_zip")));
