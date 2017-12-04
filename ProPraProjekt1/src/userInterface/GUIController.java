@@ -86,9 +86,8 @@ public class GUIController implements Initializable{
 	@FXML private TableColumn statsQuantityColumn;
 //	@FXML private für xml export..
 	
-	
-	public void add(ActionEvent add) {
-		testLabel.setText("jojo");
+	public void add(ActionEvent add) throws IOException{
+		
 	}
 	
 	public void pdfExport(ActionEvent pdfExport) throws IOException {
