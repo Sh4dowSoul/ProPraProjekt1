@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import applicationLogic.Company;
@@ -13,6 +14,10 @@ import javafx.collections.ObservableList;
 
 public class CompanyController {
 
+	/**
+	 * @return A List of all Companies
+	 * @throws SQLException
+	 */
 	public static ArrayList<Company> getCompanies() throws SQLException {
 		ArrayList<Company> result = new ArrayList<Company>();
 		try (
@@ -30,6 +35,36 @@ public class CompanyController {
 		return result;
 	}
 	
+	
+	/**
+	 * @return A List of all Companies which had a Defect
+	 * @throws SQLException
+	 */
+	public static ArrayList<Company> getCompaniesWithDefect() throws SQLException {
+		ArrayList<Company> result = new ArrayList<Company>();
+		try (
+			Connection connection = DBConnection.getInstance().initConnection();
+				Statement statement = connection.createStatement();
+				ResultSet resultSet = statement.executeQuery(
+					"SELECT * "+ 
+					"FROM Company "+
+					"WHERE company_id IN ( " +		
+					"SELECT company_id " +
+					"FROM DefectElement NATURAL JOIN diagnosis NATURAL JOIN CompanyPlant NATURAL JOIN company) " +
+					"ORDER BY company_name desc ");
+		) {
+			while (resultSet.next()) {
+				result.add(new Company(resultSet.getInt("company_id"), resultSet.getString("company_name"), resultSet.getString("hq_street"), resultSet.getString("hq_zip")));
+			}
+		}
+		return result;
+	}
+	
+	/**
+	 * @param company_id - The Id of the Company
+	 * @return A List of Plants of a specific Company
+	 * @throws SQLException
+	 */
 	public static ArrayList<CompanyPlant> getPlantsOfcompany(int company_id) throws SQLException{
 		ArrayList<CompanyPlant> result = new ArrayList<CompanyPlant>();
 		try (

@@ -239,7 +239,7 @@ public class GUIController implements Initializable{
 		final Task<ObservableList<Company>> companyListTask = new Task<ObservableList<Company>>() {
             @Override
             protected ObservableList<Company> call() throws Exception {
-        		return FXCollections.observableArrayList(dataStorageAccess.controller.CompanyController.getCompanies());
+        		return FXCollections.observableArrayList(dataStorageAccess.controller.CompanyController.getCompaniesWithDefect());
             }
         };
         statCompanyProgress.visibleProperty().bind(companyListTask.runningProperty());
