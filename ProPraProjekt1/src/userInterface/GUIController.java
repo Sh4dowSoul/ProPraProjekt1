@@ -35,13 +35,57 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 
 public class GUIController implements Initializable{
-	@FXML private Label testLabel;
+
+// *** HOME TAB ***
+//	@FXML private
+//	@FXML private
+//	@FXML private
+//	@FXML private
+//	@FXML private
+//	@FXML private
+//	@FXML private
+	
+	
+// *** BEFUNDSCHEIN TAB ***
 	@FXML private TextField defectSearchField;
+	@FXML private Button vnLoadBtn;
+	@FXML private Button plantLoadBtn;
+	@FXML private TextField compNameField;
+//	@FXML private
+//	@FXML private
+//	@FXML private
+//	@FXML private
+//	@FXML private
+//	@FXML private
+//	@FXML private
+//	@FXML private
+//	@FXML private
+//	@FXML private
+//	@FXML private
+//	@FXML private
+//	@FXML private
+//	@FXML private
+//	@FXML private
+//	@FXML private
+//	@FXML private
+//	@FXML private
+//	@FXML private
+//	@FXML private
+//	@FXML private
+//	@FXML private
+//	@FXML private
+//	@FXML private
+	
+	
+//*** STATISTIC TAB ***
 	@FXML private ListView<Company> companyList;
+//	@FXML private ListView<Business> BusinessList;
 	@FXML private TableView statisticTableView;
 	@FXML private TableColumn statsDefectsColumn;
 	@FXML private TableColumn statsDefectDescriptionColumn;
 	@FXML private TableColumn statsQuantityColumn;
+//	@FXML private für xml export..
+	
 	
 	public void add(ActionEvent add) {
 		testLabel.setText("jojo");

@@ -6,9 +6,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="909.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userInterface.GUIController">
+<AnchorPane prefHeight="2300.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userInterface.GUIController">
    <children>
-      <TabPane prefHeight="924.0" prefWidth="1280.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane prefHeight="2300.0" prefWidth="1280.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab id="homeTab" text="Home">
             <content>
@@ -47,13 +47,13 @@
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
                         </TableView>
-                        <ScrollPane layoutX="14.0" layoutY="14.0" prefHeight="843.0" prefWidth="558.0">
+                        <ScrollPane layoutX="14.0" layoutY="14.0" prefHeight="2300.0" prefWidth="558.0">
                           <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1851.0" prefWidth="539.0">
                                  <children>
                                     <Label id="companyPLantField" layoutX="319.0" layoutY="6.0" text="Risikoanschrift" />
                                     <Label id="insuranceCompanyField" layoutX="23.0" layoutY="6.0" text="Versicherungsnehmer (VN)" />
-                                    <TextField id="compNameField" layoutX="23.0" layoutY="33.0" promptText="Company" />
+                                    <TextField id="compNameField" fx:id="compNameField" layoutX="23.0" layoutY="33.0" promptText="Company" />
                                     <TextField id="compZipField" layoutX="23.0" layoutY="110.0" promptText="PLZ" />
                                     <TextField id="streetCompField" layoutX="23.0" layoutY="72.0" promptText="Straße" />
                                     <TextField id="compCityField" layoutX="23.0" layoutY="146.0" promptText="Ort" />
@@ -264,8 +264,8 @@
                                        </font>
                                     </Label>
                                     <TextArea id="furtherExplanationsField" layoutX="33.0" layoutY="1737.0" prefHeight="81.0" prefWidth="476.0" />
-                                    <Button id="vnLoadBtn" layoutX="184.0" layoutY="2.0" mnemonicParsing="false" onAction="#loadVN" text="VN laden" />
-                                    <Button id="plantLoadBtn" layoutX="405.0" layoutY="2.0" mnemonicParsing="false" onAction="#loadPlant" text="Risikoanschrift laden" />
+                                    <Button id="vnLoadBtn" fx:id="vnLoadBtn" layoutX="184.0" layoutY="2.0" mnemonicParsing="false" onAction="#loadVN" text="VN laden" />
+                                    <Button id="plantLoadBtn" fx:id="plantLoadBtn" layoutX="405.0" layoutY="2.0" mnemonicParsing="false" onAction="#loadPlant" text="Risikoanschrift laden" />
                                     <TextField layoutX="282.0" layoutY="175.0" />
                                  </children>
                               </AnchorPane>
