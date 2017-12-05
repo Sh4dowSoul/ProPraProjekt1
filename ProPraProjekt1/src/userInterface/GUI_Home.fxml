@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<SplitPane dividerPositions="0.3" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userInterface.HomeController">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0">
+               <children>
+                	<Label id="recentLabel" layoutX="14.0" layoutY="14.0" text="Kürzlich bearbeitet:" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0" />
+                    <ListView id="recentlyUsedList" fx:id="recentlyUsedList" prefHeight="596.0" prefWidth="448.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="50.0" />
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0">
+               <children>
+                    <TableView id="companyTableView" fx:id="companyTableView" layoutX="130.0" layoutY="40.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+                    	<columns>
+                            <TableColumn id="compDiagnosisColumn" fx:id="compDiagnosisColumn" maxWidth="-Infinity" minWidth="200.0" prefWidth="200.0" resizable="false" text="Befundschein" />
+                        	<TableColumn id="companysColumn" fx:id="compNameColumn" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="200.0" resizable="false" text="Firmen" />
+                        </columns>
+                    </TableView>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>

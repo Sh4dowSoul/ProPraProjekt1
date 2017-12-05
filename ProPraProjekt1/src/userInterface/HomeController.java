@@ -45,18 +45,15 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 
-public class GUIController implements Initializable{
-//*** GENERAL ***
-	@FXML private TabPane mainTabPane;
-	
-
-	
-	
+public class HomeController implements Initializable{
+// *** HOME TAB ***
+	@FXML private Button sortAlphaBtn;
+	@FXML private TableView companyTableView;
+	@FXML private TableColumn compNameColumn;
+	@FXML private TableColumn compDiagnosisColumn;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
     }
-	
 	
 }

@@ -27,7 +27,7 @@ public class GUI extends Application {
      */
 	private void showMainView() throws IOException {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(GUI.class.getResource("GUI.fxml"));
+		loader.setLocation(GUI.class.getResource("GUI_Main.fxml"));
 		mainLayout = loader.load();
 		Scene scene = new Scene(mainLayout);
 		primaryStage.setScene(scene);
