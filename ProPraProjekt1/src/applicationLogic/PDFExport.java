@@ -553,7 +553,7 @@ public class PDFExport {
 		/// Frame: topTopRight (Befundschein-Nr)
 		setStaticFrame(404, 660, 150, 16);
 		setStaticText(fontArialCursive, 9, 409, 665, "Befundschein-Nr.:");
-		setDatabaseText(fontArial, 9, 495, 665, String.valueOf(data.getPlantId()));
+		setDatabaseText(fontArial, 9, 495, 665, String.valueOf(data.getId()));
 
 		// Frame: topLeft (Versicherungsnehmer)
 		setStaticFrame(55.37f, 535, 247, 118);
@@ -697,7 +697,7 @@ public class PDFExport {
 		/// setFrame & setTextField 2)
 		setStaticFrame(406, 779.63f, 147.9f, 16f);
 		setStaticText(fontArialCursive, 9, 409, 785, "Befundschein-Nr.:");
-		setDatabaseText(fontArial, 9, 495, 785, String.valueOf(data.getPlantId()));
+		setDatabaseText(fontArial, 9, 495, 785, String.valueOf(data.getId()));
 
 		////
 		setStaticText(fontArialBoldCursive, 12, 59, 764, "Messungen");
