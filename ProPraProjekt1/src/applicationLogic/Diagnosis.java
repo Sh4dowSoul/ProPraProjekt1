@@ -45,7 +45,7 @@ public class Diagnosis {
 	private boolean thermalAbnormality;
 	private String thermalAbnormalityAnnotation;
 	private boolean internalPortableUtilities;
-	private boolean externalPortableUtilities;
+	private int externalPortableUtilities;
 	private int supplySystem;
 	private int energyDemand;
 	private int maxEnergyDemandExternal;
@@ -90,7 +90,7 @@ public class Diagnosis {
 	 boolean thermalAbnormality,
 	 String thermalAbnormalityAnnotation,
 	 boolean internalPortableUtilities,
-	 boolean externalPortableUtilities,
+	 int externalPortableUtilities,
 	 int supplySystem,
 	 int energyDemand,
 	 int maxEnergyDemandExternal,
@@ -314,7 +314,7 @@ public class Diagnosis {
 	}
 
 
-	public boolean isExternalPortableUtilities() {
+	public int getExternalPortableUtilities() {
 		return externalPortableUtilities;
 	}
 

@@ -118,7 +118,7 @@ public class DiagnosisController {
 											resultSet.getBoolean("thermalAbnormality"),
 											resultSet.getString("thermalAbnormality_annotation"),
 											resultSet.getBoolean("internalPortableUtilities"),
-											resultSet.getBoolean("externalPortableUtilities"),
+											resultSet.getInt("externalPortableUtilities"),
 											resultSet.getInt("supplySystem"),
 											resultSet.getInt("energyDemand"),
 											resultSet.getInt("maxEnergyDemandExternal"),
@@ -171,11 +171,11 @@ public class DiagnosisController {
 					diagnosis.getRcdAvailable(), diagnosis.getRcdAvailablePercent(), diagnosis.getRcdAnnotation(),
 					diagnosis.isResistance(), diagnosis.getResistanceNumber(), diagnosis.getResistanceAnnotation(),
 					diagnosis.isThermalAbnormality(), diagnosis.getThermalAbnormalityAnnotation(), diagnosis.isInternalPortableUtilities(),
-					diagnosis.isExternalPortableUtilities(), diagnosis.getSupplySystem(), diagnosis.getEnergyDemand(),
+					diagnosis.getExternalPortableUtilities(), diagnosis.getSupplySystem(), diagnosis.getEnergyDemand(),
 					diagnosis.getMaxEnergyDemandExternal(), diagnosis.getMaxEnergyDemandInternal(), diagnosis.getProtectedCircuitsPercent(),
 					diagnosis.getHardWiredLoads(), diagnosis.getAdditionalAnnotations());
 			
-			// execute insert SQL stetement
+			// execute insert SQL statement
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
