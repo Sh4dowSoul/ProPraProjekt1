@@ -60,11 +60,13 @@ public class CompanyController {
 		return result;
 	}
 	
+	//TODO Fix this
 	/**
 	 * @param company_id - The Id of the Company
 	 * @return A List of Plants of a specific Company
 	 * @throws SQLException
 	 */
+	/*
 	public static ArrayList<CompanyPlant> getPlantsOfcompany(int company_id) throws SQLException{
 		ArrayList<CompanyPlant> result = new ArrayList<CompanyPlant>();
 		try (
@@ -77,9 +79,9 @@ public class CompanyController {
 					"ORDER BY plant_street desc ");
 		) {
 			while (resultSet.next()) {
-				result.add(new CompanyPlant(resultSet.getInt("plant_id"), resultSet.getInt("company_id"), resultSet.getString("plant_street"), resultSet.getString("plant_zip")));
+				result.add(new CompanyPlant(resultSet.getInt("plant_id"), resultSet.getInt("company_id"), resultSet.getString("plant_street"), resultSet.getString("plant_zip"), ));
 			}
 		}
 		return result;
-	}
+	} */
 }

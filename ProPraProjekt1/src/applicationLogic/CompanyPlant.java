@@ -2,23 +2,23 @@ package applicationLogic;
 
 public class CompanyPlant {
 	private int id;
-	private int companyId;
 	private String plantStreet;
 	private String plantZip;
+	private Company company;
 	
-	public CompanyPlant(int id, int companyId, String plantStreet, String plantZip) {
+	public CompanyPlant(int id, String plantStreet, String plantZip, Company company) {
 		this.id = id;
-		this.companyId = companyId;
 		this.plantStreet = plantStreet;
 		this.plantZip = plantZip;
+		this.company = company;
 	}
 
 	public int getId() {
 		return id;
 	}
 
-	public int getCompanyId() {
-		return companyId;
+	public Company getCompany() {
+		return company;
 	}
 
 	public String getPlantStreet() {

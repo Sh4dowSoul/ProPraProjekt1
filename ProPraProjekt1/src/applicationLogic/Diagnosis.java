@@ -12,7 +12,6 @@ public class Diagnosis {
 
 	private int id;
 	private String lastEdited;
-	public int plantId;
 	private String companion;
 	private String surveyor;
 	private int vdsApprovalNr;
@@ -53,11 +52,11 @@ public class Diagnosis {
 	private int protectedCircuitsPercent;
 	private int hardWiredLoads;
 	private String additionalAnnotations;
+	private CompanyPlant companyPlant;
 	
 	
 	public Diagnosis(int id,
 	 String lastEdited,
-	 int plantId,
 	 String companion,
 	 String surveyor,
 	 int vdsApprovalNr,
@@ -97,10 +96,10 @@ public class Diagnosis {
 	 int maxEnergyDemandInternal,
 	 int protectedCircuitsPercent,
 	 int hardWiredLoads,
-	 String additionalAnnotations) {
+	 String additionalAnnotations,
+	 CompanyPlant companyPlant) {
 		this.id = id;
 		this.lastEdited = lastEdited;
-		this.plantId = plantId;
 		this.companion = companion;
 		this.surveyor = surveyor;
 		this.vdsApprovalNr = vdsApprovalNr;
@@ -141,6 +140,7 @@ public class Diagnosis {
 		this.protectedCircuitsPercent = protectedCircuitsPercent;
 		this.hardWiredLoads = hardWiredLoads;
 		this.additionalAnnotations = additionalAnnotations;
+		this.companyPlant = companyPlant;
 	}
 
 
@@ -148,14 +148,14 @@ public class Diagnosis {
 		return lastEdited;
 	}
 
-
-	public int getId() {
-		return id;
+	
+	public CompanyPlant getCompanyPlant() {
+		return companyPlant;
 	}
 
 
-	public int getPlantId() {
-		return plantId;
+	public int getId() {
+		return id;
 	}
 
 

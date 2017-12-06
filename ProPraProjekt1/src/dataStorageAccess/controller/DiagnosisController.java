@@ -10,6 +10,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import applicationLogic.Branch;
+import applicationLogic.Company;
+import applicationLogic.CompanyPlant;
 import applicationLogic.Diagnosis;
 import applicationLogic.DiagnosisPreview;
 import applicationLogic.DiagnosisXML;
@@ -80,13 +82,12 @@ public class DiagnosisController {
 				Statement statement = connection.createStatement();
 				ResultSet resultSet = statement.executeQuery(
 						"SELECT * "+ 
-						"FROM Diagnosis  "+ 
+						"FROM Diagnosis NATURAL JOIN CompanyPlant Natural JOIN Company "+ 
 						"WHERE diagnosis_id = " + id);
 			) {
 				while (resultSet.next()) {
 					result = new Diagnosis(resultSet.getInt("diagnosis_id"), 
 											resultSet.getString("diagnosis_lastEdited"),
-											resultSet.getInt("plant_id"), 
 											resultSet.getString("companion"), 
 											resultSet.getString("surveyor"),
 											resultSet.getInt("vds_approval_nr"), 
@@ -126,7 +127,19 @@ public class DiagnosisController {
 											resultSet.getInt("maxEnergyDemandInternal"),
 											resultSet.getInt("protectedCircuitsPercent"),
 											resultSet.getInt("hardWiredLoads"),
-											resultSet.getString("additionalAnnotations"));
+											resultSet.getString("additionalAnnotations"),
+											new CompanyPlant(
+													resultSet.getInt("plant_id"),
+													resultSet.getString("plant_street"),
+													resultSet.getString("plant_zip"),
+													new Company(
+															resultSet.getInt("company_id"),
+															resultSet.getString("company_name"),
+															resultSet.getString("hq_street"),
+															resultSet.getString("hq_zip")
+															)
+													)
+											);
 				}
 			}
 			return result;
@@ -182,7 +195,7 @@ public class DiagnosisController {
 			preparedStatement = connection.prepareStatement(statement);
 
 			setValues(preparedStatement,
-					diagnosis.getLastEdited(), diagnosis.getPlantId(), diagnosis.getCompanion(), 
+					diagnosis.getLastEdited(), diagnosis.getCompanyPlant().getId(), diagnosis.getCompanion(), 
 					diagnosis.getSurveyor(), diagnosis.getVdsApprovalNr(), diagnosis.getExaminationDate(),
 					diagnosis.getExaminationDuration(), diagnosis.isFrequencyControlledUtilities(),diagnosis.isPrecautionsDeclared(),
 					diagnosis.getPrecautionsDeclaredLocation(), diagnosis.isExaminationComplete(), diagnosis.getSubsequentExaminationDate(),
