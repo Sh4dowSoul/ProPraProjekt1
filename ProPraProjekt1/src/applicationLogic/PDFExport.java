@@ -128,7 +128,7 @@ public class PDFExport {
 		}
 		contentStream.endText();
 
-		// defines padding 
+		// defines padding
 		boolean stringRuns = true;
 		int counter = 1;
 		float paddingOfString = 0;
@@ -558,16 +558,18 @@ public class PDFExport {
 		// Frame: topLeft (Versicherungsnehmer)
 		setStaticFrame(55.37f, 535, 247, 118);
 		setStaticText(fontArialBoldCursive, 9, 59, 642, "Versicherungsnehmer (VN)");
-		// sm. setTextPlaceholder(fontArial, 9, 65, 620, "Deutsche Telekom AG");
-		// sm. setTextPlaceholder(fontArial, 9, 65, 605, "12345 Berlin");
-		// sm. setTextPlaceholder(fontArial, 9, 65, 590, "Telekomstraße 2");
-		// sm. setTextPlaceholder(fontArial, 9, 65, 575, "Deutschland");
+		
+		// System.out.println(data.getCompanyPlant().toString());
+		setDatabaseText(fontArial, 9, 65, 620, data.getCompanyPlant().getCompany().getName().toString());
+		setDatabaseText(fontArial, 9, 65, 605, "Holzwerk?");
+		setDatabaseText(fontArial, 9, 65, 590, data.getCompanyPlant().getPlantStreet());
+		setDatabaseText(fontArial, 9, 65, 560,  data.getCompanyPlant().getPlantZip());
 
 		// Frame: topRight (Risikoanschrift)
 		setStaticFrame(307, 535, 247, 118);
 		setStaticText(fontArialBoldCursive, 9, 313, 642, "Risikoanschrift: ");
-		// sm. setTextPlaceholder(fontArial, 9, 313, 630, "Westerwald");
-		// sm. setTextPlaceholder(fontArial, 9, 313, 618, "12587 Schwarzwald");
+		setDatabaseText(fontArial, 9, 313, 630, data.getCompanyPlant().getCompany().getHqZip().toString());
+		setDatabaseText(fontArial, 9, 313, 618, data.getCompanyPlant().getCompany().getHqStreet().toString());
 		setStaticText(fontArialCursive, 9, 313, 603, "Begleiter vom VN: ");
 		setDatabaseText(fontArial, 9, 400, 603, data.getCompanion());
 		setStaticText(fontArialCursive, 9, 313, 588, "Sachverständiger: ");
