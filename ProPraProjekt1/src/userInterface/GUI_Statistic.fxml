@@ -58,7 +58,7 @@
         </StackPane>
     </center>
     <right>
-        <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" text="Export" BorderPane.alignment="CENTER">
+        <Button mnemonicParsing="false" onAction="#handleExportButton" prefHeight="50.0" prefWidth="100.0" text="Export" BorderPane.alignment="CENTER">
             <BorderPane.margin>
                 <Insets right="15.0" />
             </BorderPane.margin>

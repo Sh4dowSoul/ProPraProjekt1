@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import applicationLogic.Branch;
 import applicationLogic.Diagnosis;
 import applicationLogic.DiagnosisPreview;
+import applicationLogic.DiagnosisXML;
 import applicationLogic.StatisticElement;
 import dataStorageAccess.DBConnection;
 
@@ -129,6 +130,27 @@ public class DiagnosisController {
 				}
 			}
 			return result;
+	}
+	
+	
+	public static ArrayList<DiagnosisXML> getDiagnosesAndDefectsOfCompany(int companyId) throws SQLException{
+		ArrayList<DiagnosisXML> result = new ArrayList<DiagnosisXML>();
+		try (
+			Connection connection = DBConnection.getInstance().initConnection();
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(
+					"SELECT diagnosis_id, examination_date, company_id, company_name "+
+					"FROM Diagnosis join (Company Natural join CompanyPlant as CompanyWhosPlant) on Diagnosis.plant_id = companyWhosPlant.plant_id " +
+					"WHERE company_id = " + companyId);
+		) {
+			while (resultSet.next()) {
+				result.add(new DiagnosisXML(resultSet.getInt("diagnosis_id"), new SimpleDateFormat("yyyy-MM-dd").parse(resultSet.getString("examination_date")), resultSet.getInt("company_id"), resultSet.getString("company_name")));
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
 	}
 	
 	/**

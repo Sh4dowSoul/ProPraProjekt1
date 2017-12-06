@@ -1,6 +1,7 @@
 package userInterface;
 
 import java.awt.List;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -16,6 +17,7 @@ import applicationLogic.Company;
 import applicationLogic.Defect;
 import applicationLogic.PDFExport;
 import applicationLogic.StatisticElement;
+import dataStorageAccess.StatisticAccess;
 import dataStorageAccess.controller.BranchController;
 import dataStorageAccess.controller.DefectController;
 import dataStorageAccess.controller.StatisticController;
@@ -60,7 +62,7 @@ public class Tab_Stats implements Initializable{
 	@FXML private ProgressIndicator statBranchProgress;
 	@FXML private ProgressIndicator statResultProgress;
   
-  
+	private int currentCompany = 0;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -109,6 +111,7 @@ public class Tab_Stats implements Initializable{
 		companyList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Company>() {
 			@Override
 			public void changed(ObservableValue<? extends Company> observable, Company oldValue, Company newValue) {
+				currentCompany = newValue.getId();
 				loadCompanyStatistic(newValue.getId());
 			}
 		});
@@ -221,5 +224,20 @@ public class Tab_Stats implements Initializable{
 	    );
 	    new Thread(branchStatisticListTask).start();
 	}
+	
+	 @FXML
+	 private void handleExportButton(ActionEvent event) {
+	     System.out.println("Exporting");
+	     // TODO Zwischen Firmen und BranchenExport unterscheiden
+	     try {
+			StatisticAccess.exportStatisticCompany(currentCompany);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	 }
 	
 }

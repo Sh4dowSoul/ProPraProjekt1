@@ -3,6 +3,9 @@ package applicationLogic;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 /**
  * The Class Diagnosis
  * 
@@ -11,9 +14,21 @@ import java.util.Date;
 
 public class DiagnosisPreview {
 
+	@XStreamAlias("ESNummer")
 	private int id;
+	@XStreamAlias("datei")
+	private String fileName = "TODO";
+	@XStreamAlias("Jahr")
+	private String year;
+	@XStreamAlias("GZA")
+	private String gza ="TODO";
+	@XStreamAlias("Branche")
+	private String branch ="TODO";
+	@XStreamOmitField
 	private Date date;
+	@XStreamOmitField
 	private int companyId;
+	@XStreamOmitField
 	private String companyName;
 	
 	public DiagnosisPreview(int diagnosis_id, Date diagnosis_date, int company_id, String company_name) {
@@ -21,6 +36,7 @@ public class DiagnosisPreview {
 		this.date = diagnosis_date;
 		this.companyId = company_id;
 		this.companyName = company_name;
+		this.year = new SimpleDateFormat("YYYY").format(date);
 	}
 
 	public int getId() {

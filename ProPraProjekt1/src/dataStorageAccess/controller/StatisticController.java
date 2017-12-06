@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import applicationLogic.DiagnosisPreview;
 import applicationLogic.StatisticElement;
+import applicationLogic.StatisticElementBase;
 import dataStorageAccess.DBConnection;
 
 public class StatisticController {
@@ -33,7 +34,7 @@ public class StatisticController {
 					"Limit 10");
 			) {
 			while (resultSet.next()) {
-				result.add(new StatisticElement(resultSet.getInt("defect_id"), resultSet.getString("defect_description"), resultSet.getInt("count(defect_id)")));
+				result.add(new StatisticElement(resultSet.getInt("defect_id"), resultSet.getString("defect_description"), resultSet.getInt("count(defect_id)"), resultSet.getInt("branch_id")));
 			}
 		}
 	return result;
@@ -57,7 +58,7 @@ public class StatisticController {
 					"Limit 3");
 			) {
 			while (resultSet.next()) {
-				result.add(new StatisticElement(resultSet.getInt("defect_id"), resultSet.getString("defect_description"), resultSet.getInt("count(defect_id)")));
+				result.add(new StatisticElement(resultSet.getInt("defect_id"), resultSet.getString("defect_description"), resultSet.getInt("count(defect_id)"), resultSet.getInt("branch_id")));
 			}
 		}
 	return result;
@@ -83,10 +84,28 @@ public class StatisticController {
 					"Limit 3");
 			) {
 			while (resultSet.next()) {
-				result.add(new StatisticElement(resultSet.getInt("defect_id"), resultSet.getString("defect_description"), resultSet.getInt("count(defect_id)")));
+				result.add(new StatisticElement(resultSet.getInt("defect_id"), resultSet.getString("defect_description"), resultSet.getInt("count(defect_id)"), resultSet.getInt("branch_id")));
 			}
 		}
 	return result;
 	}
+	
+	public static ArrayList<StatisticElementBase> getDefectsOfDiagnosis(int diagnosisId) throws SQLException{
+		ArrayList<StatisticElementBase> result = new ArrayList<StatisticElementBase>();
+		try (
+			Connection connection = DBConnection.getInstance().initConnection();
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(
+					"SELECT defect_id, branch_id " + 
+					"FROM Diagnosis NATURAL JOIN DefectElement " + 
+					"WHERE diagnosis_id = " + diagnosisId);
+			) {
+			while (resultSet.next()) {
+				result.add(new StatisticElementBase(resultSet.getInt("branch_id"), resultSet.getInt("defect_id")));
+			}
+		}
+			return result;
+	}
+	
 		
 }

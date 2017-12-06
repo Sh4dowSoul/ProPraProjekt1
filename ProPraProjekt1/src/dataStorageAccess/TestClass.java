@@ -1,14 +1,20 @@
 package dataStorageAccess;
 
+import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
+
 import applicationLogic.Branch;
 import applicationLogic.Company;
 import applicationLogic.CompanyPlant;
+import applicationLogic.DiagnosesXML;
 import applicationLogic.Diagnosis;
 import applicationLogic.DiagnosisPreview;
+import applicationLogic.DiagnosisXML;
 import applicationLogic.StatisticElement;
 import dataStorageAccess.controller.BranchController;
 import dataStorageAccess.controller.CompanyController;
@@ -18,7 +24,16 @@ import dataStorageAccess.controller.StatisticController;
 public class TestClass {
 	public static void main(String[] args) {
 		try {
-			//Get Branches starting with 'TA'
+			StatisticAccess.exportStatisticCompany(1);
+		} catch (FileNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+			
+		
+			
+			/*
 			ArrayList<Branch> branches = BranchController.filterBranch("Ta");
 			for (Branch branch: branches) {
 				System.out.println(branch.getDescription());
@@ -64,11 +79,13 @@ public class TestClass {
 			}
 			
 			//Insert Diagnosis
-			DiagnosisController.insertDiagnosis(test);
+			DiagnosisController.insertDiagnosis(test); */
 			
-		} catch (SQLException e) {
+			
+			
+		//} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//	e.printStackTrace();
+		//}
 	}
 }

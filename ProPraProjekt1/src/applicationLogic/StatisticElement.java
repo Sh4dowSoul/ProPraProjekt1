@@ -1,24 +1,17 @@
 package applicationLogic;
 
-public class StatisticElement {
-	private int defectId;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+
+public class StatisticElement extends StatisticElementBase {
 	private String defectDescription;
-	private int numberOccurrence;
 	
-	public StatisticElement(int defectId,String defectDescription, int numberOccurrence) {
-		super();
-		this.defectId = defectId;
+	public StatisticElement(int defectId, String defectDescription, int numberOccurrence, int branchId) {
+		super(branchId, defectId );
 		this.defectDescription = defectDescription;
-		this.numberOccurrence = numberOccurrence;
+		super.setNumberOccurrence(numberOccurrence);
 	}
 
-	public int getDefectId() {
-		return defectId;
-	}
-
-	public int getNumberOccurrence() {
-		return numberOccurrence;
-	}
 
 	public String getDefectDescription() {
 		return defectDescription;
