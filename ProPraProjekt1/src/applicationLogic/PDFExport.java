@@ -515,7 +515,7 @@ public class PDFExport {
 
 		//// LoadData /////
 		// sm. Diagnosis muss noch richtig geladen werden
-		Diagnosis data = DiagnosisController.getDiagnosis(1);
+		ResultComplete data = DiagnosisController.getDiagnosis(1);
 		// System.out.println("Diagnois : " +
 		// data.isFrequencyControlledUtilities());
 
@@ -578,7 +578,7 @@ public class PDFExport {
 		setStaticText(fontArialCursive, 9, 313, 573, "VdS-Anerk.-Nr.: ");
 		setDatabaseText(fontArial, 9, 400, 573, String.valueOf(data.getVdsApprovalNr()));
 		setStaticText(fontArialCursive, 9, 313, 558, "Datum der Prüfung: ");
-		setDatabaseText(fontArial, 9, 400, 558, data.getExaminationDate());
+		setDatabaseText(fontArial, 9, 400, 558, data.getNiceDate());
 		setStaticText(fontArialCursive, 9, 313, 543, "Prüfungsdauer: ");
 		setDatabaseText(fontArial, 9, 400, 543, String.valueOf(data.getExaminationDuration()));
 		setStaticText(fontArialCursive, 9, 463, 543, "Std.");
