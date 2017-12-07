@@ -16,5 +16,6 @@
 	<classpathentry kind="lib" path="commons-csv-1.2.jar"/>
 	<classpathentry kind="lib" path="guava-18.0.jar"/>
 	<classpathentry kind="lib" path="xstream-1.4.10.jar"/>
+	<classpathentry kind="lib" path="HikariCP-2.7.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

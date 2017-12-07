@@ -41,6 +41,6 @@ public class DBConnection {
 				System.out.println("Connection established");
 			}
 		}
-		return connection;
+		return DriverManager.getConnection(DB_PATH);
 	}
 }

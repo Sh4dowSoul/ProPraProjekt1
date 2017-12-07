@@ -12,6 +12,7 @@ import applicationLogic.ResultPreview;
 import applicationLogic.DefectStatistic;
 import applicationLogic.DefectStatistic;
 import dataStorageAccess.DBConnection;
+import dataStorageAccess.DataSource;
 
 public class StatisticController {
 	
@@ -23,7 +24,7 @@ public class StatisticController {
 	public static ArrayList<DefectStatistic> getMostFrequentDefectCompany(int id) throws SQLException{
 		ArrayList<DefectStatistic> result = new ArrayList<DefectStatistic>();
 		try (
-			Connection connection = DBConnection.getInstance().initConnection();
+			Connection connection = DataSource.getConnection();
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(
 					"SELECT defect_id, defect_description, count(defect_id) " + 
@@ -48,7 +49,7 @@ public class StatisticController {
 	public static ArrayList<DefectStatistic> getMostFrequentDefectAllCompanies() throws SQLException{
 		ArrayList<DefectStatistic> result = new ArrayList<DefectStatistic>();
 		try (
-			Connection connection = DBConnection.getInstance().initConnection();
+			Connection connection = DataSource.getConnection();
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(
 					"SELECT defect_id, defect_description, count(defect_id) " + 
@@ -73,7 +74,7 @@ public class StatisticController {
 	public static ArrayList<DefectStatistic> getMostFrequentDefectBranch(int id) throws SQLException{
 		ArrayList<DefectStatistic> result = new ArrayList<DefectStatistic>();
 		try (
-			Connection connection = DBConnection.getInstance().initConnection();
+			Connection connection = DataSource.getConnection();
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(
 					"SELECT defect_id, defect_description, count(defect_id) " + 
@@ -93,7 +94,7 @@ public class StatisticController {
 	public static ArrayList<DefectStatistic> getDefectsOfDiagnosis(int diagnosisId) throws SQLException{
 		ArrayList<DefectStatistic> result = new ArrayList<DefectStatistic>();
 		try (
-			Connection connection = DBConnection.getInstance().initConnection();
+			Connection connection = DataSource.getConnection();
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(
 					"SELECT defect_id, branch_id " + 

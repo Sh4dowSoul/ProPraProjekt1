@@ -9,13 +9,14 @@ import java.util.ArrayList;
 
 import applicationLogic.Branch;
 import dataStorageAccess.DBConnection;
+import dataStorageAccess.DataSource;
 
 public class BranchController {
 	//Get Branches starting with name --> Used for Autocomplete
 	public static ArrayList<Branch> filterBranch(String name) throws SQLException {
 		ArrayList<Branch> result = new ArrayList<Branch>();
 		try (
-			Connection connection = DBConnection.getInstance().initConnection();
+			Connection connection = DataSource.getConnection();
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery("SELECT * FROM Branches WHERE branch_name LIKE '" + name + "%'");
 		) {
@@ -34,7 +35,7 @@ public class BranchController {
 	public static ArrayList<Branch> getAllBranches() throws SQLException {
 		ArrayList<Branch> result = new ArrayList<Branch>();
 		try (
-			Connection connection = DBConnection.getInstance().initConnection();
+			Connection connection = DataSource.getConnection();
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery("SELECT * FROM Branches");
 		) {
@@ -53,7 +54,7 @@ public class BranchController {
 	public static ArrayList<Branch> getAllBranchesWithDefect() throws SQLException {
 		ArrayList<Branch> result = new ArrayList<Branch>();
 		try (
-			Connection connection = DBConnection.getInstance().initConnection();
+				Connection connection = DataSource.getConnection();
 				Statement statement = connection.createStatement();
 				ResultSet resultSet = statement.executeQuery(
 					"SELECT * " +

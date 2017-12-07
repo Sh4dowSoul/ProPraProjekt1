@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import applicationLogic.Branch;
 import applicationLogic.DefectAtomic;
 import dataStorageAccess.DBConnection;
+import dataStorageAccess.DataSource;
 
 public class DefectController {
 	/**
@@ -19,7 +20,7 @@ public class DefectController {
 	public static ArrayList<DefectAtomic> getAllDefects() throws SQLException {
 		ArrayList<DefectAtomic> result = new ArrayList<DefectAtomic>();
 		try (
-			Connection connection = DBConnection.getInstance().initConnection();
+			Connection connection = DataSource.getConnection();
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery("SELECT * FROM Defects");
 		) {

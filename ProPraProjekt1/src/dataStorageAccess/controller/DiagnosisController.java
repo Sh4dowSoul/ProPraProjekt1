@@ -18,6 +18,7 @@ import applicationLogic.ResultPreview;
 import applicationLogic.StatisticResult;
 import applicationLogic.DefectStatistic;
 import dataStorageAccess.DBConnection;
+import dataStorageAccess.DataSource;
 
 public class DiagnosisController {
 	
@@ -29,7 +30,7 @@ public class DiagnosisController {
 	public static ArrayList<ResultPreview> getLastEditedDiagnosesPreview(int number) throws SQLException {
 		ArrayList<ResultPreview> result = new ArrayList<ResultPreview>();
 		try (
-			Connection connection = DBConnection.getInstance().initConnection();
+			Connection connection = DataSource.getConnection();
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(
 					"SELECT diagnosis_id, examination_date, company_id, company_name, diagnosis_lastedited "+ 
@@ -51,7 +52,7 @@ public class DiagnosisController {
 	public static ArrayList<ResultPreview> getDiagnosesPreview() throws SQLException {
 		ArrayList<ResultPreview> result = new ArrayList<ResultPreview>();
 		try (
-			Connection connection = DBConnection.getInstance().initConnection();
+			Connection connection = DataSource.getConnection();
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(
 					"SELECT diagnosis_id, examination_date, company_id, company_name "+ 
@@ -73,7 +74,7 @@ public class DiagnosisController {
 	public static ResultComplete getDiagnosis(int id) throws SQLException {
 		ResultComplete result = null;
 		try (
-				Connection connection = DBConnection.getInstance().initConnection();
+				Connection connection = DataSource.getConnection();
 				Statement statement = connection.createStatement();
 				ResultSet resultSet = statement.executeQuery(
 						"SELECT * "+ 
@@ -144,7 +145,7 @@ public class DiagnosisController {
 	public static ArrayList<StatisticResult> getDiagnosesAndDefectsOfCompany(int companyId) throws SQLException{
 		ArrayList<StatisticResult> result = new ArrayList<StatisticResult>();
 		try (
-			Connection connection = DBConnection.getInstance().initConnection();
+			Connection connection = DataSource.getConnection();
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(
 					"SELECT diagnosis_id, examination_date, company_id, company_name "+
@@ -183,7 +184,7 @@ public class DiagnosisController {
 		PreparedStatement preparedStatement = null;
 		Connection connection = null;
 		try {
-			connection = DBConnection.getInstance().initConnection();
+			connection = DataSource.getConnection();
 			preparedStatement = connection.prepareStatement(statement);
 
 			setValues(preparedStatement,

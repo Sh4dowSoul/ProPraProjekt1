@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import applicationLogic.Company;
 import applicationLogic.CompanyPlant;
 import dataStorageAccess.DBConnection;
+import dataStorageAccess.DataSource;
 import javafx.collections.ObservableList;
 
 public class CompanyController {
@@ -21,7 +22,7 @@ public class CompanyController {
 	public static ArrayList<Company> getCompanies() throws SQLException {
 		ArrayList<Company> result = new ArrayList<Company>();
 		try (
-			Connection connection = DBConnection.getInstance().initConnection();
+				Connection connection = DataSource.getConnection();
 				Statement statement = connection.createStatement();
 				ResultSet resultSet = statement.executeQuery(
 					"SELECT * "+ 
@@ -43,7 +44,7 @@ public class CompanyController {
 	public static ArrayList<Company> getCompaniesWithDefect() throws SQLException {
 		ArrayList<Company> result = new ArrayList<Company>();
 		try (
-			Connection connection = DBConnection.getInstance().initConnection();
+			Connection connection = DataSource.getConnection();
 				Statement statement = connection.createStatement();
 				ResultSet resultSet = statement.executeQuery(
 					"SELECT * "+ 
