@@ -1,17 +1,12 @@
 package dataStorageAccess.controller;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import applicationLogic.ResultPreview;
 import applicationLogic.DefectStatistic;
-import applicationLogic.DefectStatistic;
-import dataStorageAccess.DBConnection;
 import dataStorageAccess.DataSource;
 
 public class StatisticController {
