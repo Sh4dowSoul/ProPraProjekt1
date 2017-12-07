@@ -5,19 +5,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import applicationLogic.Branch;
 import applicationLogic.Company;
 import applicationLogic.CompanyPlant;
 import applicationLogic.ResultComplete;
 import applicationLogic.ResultPreview;
 import applicationLogic.StatisticResult;
-import applicationLogic.DefectStatistic;
-import dataStorageAccess.DBConnection;
 import dataStorageAccess.DataSource;
 
 public class DiagnosisController {
