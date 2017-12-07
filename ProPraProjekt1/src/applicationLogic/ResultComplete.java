@@ -1,5 +1,6 @@
 package applicationLogic;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -8,14 +9,12 @@ import java.util.Date;
  * @author Niklas Schnettler
  */
 
-public class Diagnosis {
+public class ResultComplete extends ResultBase {
 
-	private int id;
-	private String lastEdited;
+	private LocalDate lastEdited;
 	private String companion;
 	private String surveyor;
 	private int vdsApprovalNr;
-	private String examinationDate;
 	private double examinationDuration;
 	boolean frequencyControlledUtilities;
 	private boolean precautionsDeclared;
@@ -54,56 +53,24 @@ public class Diagnosis {
 	private String additionalAnnotations;
 	private CompanyPlant companyPlant;
 	
-	
-	public Diagnosis(int id,
-	 String lastEdited,
-	 String companion,
-	 String surveyor,
-	 int vdsApprovalNr,
-	 String examinationDate,
-	 double examinationDuration,
-	 boolean frequencyControlledUtilities,
-	 boolean precautionsDeclared,
-	 String precautionsDeclaredLocation,
-	 boolean examinationComplete,
-	 String subsequentExaminationDate,
-	 String examinationIncompleteReason,
-	 int changesSinceLastExamination,
-	 int defectsLastExaminationFixed,
-	 int dangerCategory,
-	 String dangerCategoryDescription,
-	 boolean examinationResultNoDefect,
-	 boolean examinationResultDefect,
-	 boolean examinationResultDanger,
-	 int pages,
-	 boolean isolationChecked,
-	 boolean isolationMesasurementProtocols,
-	 boolean isolationCompensationMeasures,
-	 String isolationCompensationMeasuresAnnotation,
-	 Boolean rcdAvailable,
-	 int rcdAvailablePercent,
-	 String rcdAnnotation,
-	 boolean resistance,
-	 int resistanceNumber,
-	 String resistanceAnnotation,
-	 boolean thermalAbnormality,
-	 String thermalAbnormalityAnnotation,
-	 boolean internalPortableUtilities,
-	 int externalPortableUtilities,
-	 int supplySystem,
-	 int energyDemand,
-	 int maxEnergyDemandExternal,
-	 int maxEnergyDemandInternal,
-	 int protectedCircuitsPercent,
-	 int hardWiredLoads,
-	 String additionalAnnotations,
-	 CompanyPlant companyPlant) {
-		this.id = id;
+	public ResultComplete(int id, LocalDate date, LocalDate lastEdited, String companion, String surveyor, int vdsApprovalNr,
+			double examinationDuration, boolean frequencyControlledUtilities, boolean precautionsDeclared,
+			String precautionsDeclaredLocation, boolean examinationComplete, String subsequentExaminationDate,
+			String examinationIncompleteReason, int changesSinceLastExamination, int defectsLastExaminationFixed,
+			int dangerCategory, String dangerCategoryDescription, boolean examinationResultNoDefect,
+			boolean examinationResultDefect, boolean examinationResultDanger, int pages, boolean isolationChecked,
+			boolean isolationMesasurementProtocols, boolean isolationCompensationMeasures,
+			String isolationCompensationMeasuresAnnotation, Boolean rcdAvailable, int rcdAvailablePercent,
+			String rcdAnnotation, boolean resistance, int resistanceNumber, String resistanceAnnotation,
+			boolean thermalAbnormality, String thermalAbnormalityAnnotation, boolean internalPortableUtilities,
+			int externalPortableUtilities, int supplySystem, int energyDemand, int maxEnergyDemandExternal,
+			int maxEnergyDemandInternal, int protectedCircuitsPercent, int hardWiredLoads, String additionalAnnotations,
+			CompanyPlant companyPlant) {
+		super(id, date);
 		this.lastEdited = lastEdited;
 		this.companion = companion;
 		this.surveyor = surveyor;
 		this.vdsApprovalNr = vdsApprovalNr;
-		this.examinationDate = examinationDate;
 		this.examinationDuration = examinationDuration;
 		this.frequencyControlledUtilities = frequencyControlledUtilities;
 		this.precautionsDeclared = precautionsDeclared;
@@ -144,18 +111,13 @@ public class Diagnosis {
 	}
 
 
-	public String getLastEdited() {
+	public LocalDate getLastEdited() {
 		return lastEdited;
 	}
 
 	
 	public CompanyPlant getCompanyPlant() {
 		return companyPlant;
-	}
-
-
-	public int getId() {
-		return id;
 	}
 
 
@@ -171,11 +133,6 @@ public class Diagnosis {
 
 	public int getVdsApprovalNr() {
 		return vdsApprovalNr;
-	}
-
-
-	public String getExaminationDate() {
-		return examinationDate;
 	}
 
 

@@ -8,7 +8,7 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import applicationLogic.DiagnosisPreview;
+import applicationLogic.ResultPreview;
 import applicationLogic.StatisticElement;
 import applicationLogic.StatisticElementBase;
 import dataStorageAccess.DBConnection;

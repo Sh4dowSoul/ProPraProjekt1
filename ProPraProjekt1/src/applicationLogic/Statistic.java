@@ -1,11 +1,22 @@
 package applicationLogic;
 
+import java.util.ArrayList;
+
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamImplicit;
+
 /**
- * The Class Statistic
+ * Used as Wrapper Class for the XML Export of a list of Diagnoses
  * 
- * @author name
+ * @author Niklas Schnettler
+ *
  */
-
+@XStreamAlias("Befundscheine")
 public class Statistic {
-
+	@XStreamImplicit
+	private ArrayList<ResultStatistic> diagnosesList;
+	
+	public Statistic(ArrayList<ResultStatistic> diagnosesList) {
+		this.diagnosesList = diagnosesList;
+	};
 }

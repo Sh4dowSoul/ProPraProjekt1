@@ -10,8 +10,8 @@ import java.util.Calendar;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
-import applicationLogic.DiagnosesXML;
-import applicationLogic.DiagnosisXML;
+import applicationLogic.Statistic;
+import applicationLogic.ResultStatistic;
 import dataStorageAccess.controller.DiagnosisController;
 import dataStorageAccess.controller.StatisticController;
 
@@ -19,13 +19,13 @@ public class StatisticAccess {
 	
 	public static void exportStatisticCompany(int companyId) throws SQLException, FileNotFoundException {
 		//Get list of Diagnoses
-		ArrayList<DiagnosisXML> diagnosesList= DiagnosisController.getDiagnosesAndDefectsOfCompany(1);
-		for (DiagnosisXML diagnosis : diagnosesList) {
+		ArrayList<ResultStatistic> diagnosesList= DiagnosisController.getDiagnosesAndDefectsOfCompany(1);
+		for (ResultStatistic diagnosis : diagnosesList) {
 			//Get defects from Diagnosis
 			diagnosis.setDefects(StatisticController.getDefectsOfDiagnosis(diagnosis.getId()));
 		}
 		//Wrap result of Diagnosis + Defects in own Class
-		DiagnosesXML diagnoses = new DiagnosesXML(diagnosesList);
+		Statistic diagnoses = new Statistic(diagnosesList);
 			
 		XStream xStream = new XStream(new DomDriver());
 		xStream.autodetectAnnotations(true);

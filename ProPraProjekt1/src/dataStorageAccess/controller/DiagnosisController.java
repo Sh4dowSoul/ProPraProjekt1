@@ -7,14 +7,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import applicationLogic.Branch;
 import applicationLogic.Company;
 import applicationLogic.CompanyPlant;
-import applicationLogic.Diagnosis;
-import applicationLogic.DiagnosisPreview;
-import applicationLogic.DiagnosisXML;
+import applicationLogic.ResultComplete;
+import applicationLogic.ResultPreview;
+import applicationLogic.ResultStatistic;
 import applicationLogic.StatisticElement;
 import dataStorageAccess.DBConnection;
 
@@ -25,8 +26,8 @@ public class DiagnosisController {
 	 * @return a list of the "n" last edited Diagnoses 
 	 * @throws SQLException
 	 */
-	public static ArrayList<DiagnosisPreview> getLastEditedDiagnosesPreview(int number) throws SQLException {
-		ArrayList<DiagnosisPreview> result = new ArrayList<DiagnosisPreview>();
+	public static ArrayList<ResultPreview> getLastEditedDiagnosesPreview(int number) throws SQLException {
+		ArrayList<ResultPreview> result = new ArrayList<ResultPreview>();
 		try (
 			Connection connection = DBConnection.getInstance().initConnection();
 			Statement statement = connection.createStatement();
@@ -37,11 +38,8 @@ public class DiagnosisController {
 					"LIMIT " + number);
 		) {
 			while (resultSet.next()) {
-				result.add(new DiagnosisPreview(resultSet.getInt("diagnosis_id"), new SimpleDateFormat("yyyy-MM-dd").parse(resultSet.getString("examination_date")), resultSet.getInt("company_id"), resultSet.getString("company_name")));
+				result.add(new ResultPreview(resultSet.getInt("diagnosis_id"), LocalDate.parse(resultSet.getString("examination_date")), resultSet.getInt("company_id"), resultSet.getString("company_name")));
 			}
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		return result;
 	}
@@ -50,8 +48,8 @@ public class DiagnosisController {
 	 * @return A List of Previews of Diagnoses (id, date, companyId, companyName)
 	 * @throws SQLException
 	 */
-	public static ArrayList<DiagnosisPreview> getDiagnosesPreview() throws SQLException {
-		ArrayList<DiagnosisPreview> result = new ArrayList<DiagnosisPreview>();
+	public static ArrayList<ResultPreview> getDiagnosesPreview() throws SQLException {
+		ArrayList<ResultPreview> result = new ArrayList<ResultPreview>();
 		try (
 			Connection connection = DBConnection.getInstance().initConnection();
 			Statement statement = connection.createStatement();
@@ -61,11 +59,8 @@ public class DiagnosisController {
 					"ORDER BY company_name asc ");
 		) {
 			while (resultSet.next()) {
-				result.add(new DiagnosisPreview(resultSet.getInt("diagnosis_id"), new SimpleDateFormat("yyyy-MM-dd").parse(resultSet.getString("examination_date")), resultSet.getInt("company_id"), resultSet.getString("company_name")));
+				result.add(new ResultPreview(resultSet.getInt("diagnosis_id"), LocalDate.parse(resultSet.getString("examination_date")), resultSet.getInt("company_id"), resultSet.getString("company_name")));
 			}
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		return result;
 	}
@@ -75,8 +70,8 @@ public class DiagnosisController {
 	 * @return the whole Diagnosis, loaded from the database
 	 * @throws SQLException
 	 */
-	public static Diagnosis getDiagnosis(int id) throws SQLException {
-		Diagnosis result = null;
+	public static ResultComplete getDiagnosis(int id) throws SQLException {
+		ResultComplete result = null;
 		try (
 				Connection connection = DBConnection.getInstance().initConnection();
 				Statement statement = connection.createStatement();
@@ -86,12 +81,12 @@ public class DiagnosisController {
 						"WHERE diagnosis_id = " + id);
 			) {
 				while (resultSet.next()) {
-					result = new Diagnosis(resultSet.getInt("diagnosis_id"), 
-											resultSet.getString("diagnosis_lastEdited"),
+					result = new ResultComplete(resultSet.getInt("diagnosis_id"),
+											LocalDate.parse(resultSet.getString("examination_date")),
+											LocalDate.parse(resultSet.getString("diagnosis_lastEdited")),
 											resultSet.getString("companion"), 
 											resultSet.getString("surveyor"),
 											resultSet.getInt("vds_approval_nr"), 
-											resultSet.getString("examination_date"),
 											resultSet.getDouble("examination_duration"), 
 											resultSet.getBoolean("frequency_controlled_utilities"), 
 											resultSet.getBoolean("precautions_declared"),
@@ -146,8 +141,8 @@ public class DiagnosisController {
 	}
 	
 	
-	public static ArrayList<DiagnosisXML> getDiagnosesAndDefectsOfCompany(int companyId) throws SQLException{
-		ArrayList<DiagnosisXML> result = new ArrayList<DiagnosisXML>();
+	public static ArrayList<ResultStatistic> getDiagnosesAndDefectsOfCompany(int companyId) throws SQLException{
+		ArrayList<ResultStatistic> result = new ArrayList<ResultStatistic>();
 		try (
 			Connection connection = DBConnection.getInstance().initConnection();
 			Statement statement = connection.createStatement();
@@ -157,11 +152,8 @@ public class DiagnosisController {
 					"WHERE company_id = " + companyId);
 		) {
 			while (resultSet.next()) {
-				result.add(new DiagnosisXML(resultSet.getInt("diagnosis_id"), new SimpleDateFormat("yyyy-MM-dd").parse(resultSet.getString("examination_date")), resultSet.getInt("company_id"), resultSet.getString("company_name")));
+				result.add(new ResultStatistic(resultSet.getInt("diagnosis_id"), LocalDate.parse(resultSet.getString("examination_date")),"TODO","TODO","TODO"));
 			}
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		return result;
 	}
@@ -171,7 +163,7 @@ public class DiagnosisController {
 	 * @param diagnosis - Diagnosis, which should be inserted into the Database
 	 * @throws SQLException
 	 */
-	public static void insertDiagnosis(Diagnosis diagnosis) throws SQLException {
+	public static void insertDiagnosis(ResultComplete diagnosis) throws SQLException {
 		String statement = "INSERT INTO Diagnosis "
 				+ "(diagnosis_lastEdited, plant_id, companion, "
 				+ "surveyor, vds_approval_nr, examination_date, "
@@ -196,7 +188,7 @@ public class DiagnosisController {
 
 			setValues(preparedStatement,
 					diagnosis.getLastEdited(), diagnosis.getCompanyPlant().getId(), diagnosis.getCompanion(), 
-					diagnosis.getSurveyor(), diagnosis.getVdsApprovalNr(), diagnosis.getExaminationDate(),
+					diagnosis.getSurveyor(), diagnosis.getVdsApprovalNr(), diagnosis.getDate(),
 					diagnosis.getExaminationDuration(), diagnosis.isFrequencyControlledUtilities(),diagnosis.isPrecautionsDeclared(),
 					diagnosis.getPrecautionsDeclaredLocation(), diagnosis.isExaminationComplete(), diagnosis.getSubsequentExaminationDate(),
 					diagnosis.getExaminationIncompleteReason(), diagnosis.getChangesSinceLastExamination(), diagnosis.getDefectsLastExaminationFixed(),
