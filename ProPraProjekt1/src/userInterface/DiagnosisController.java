@@ -4,6 +4,7 @@ import java.awt.List;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -13,9 +14,10 @@ import org.controlsfx.control.textfield.TextFields;
 
 import applicationLogic.Branch;
 import applicationLogic.Company;
+import applicationLogic.CompanyPlant;
 import applicationLogic.DefectAtomic;
 import applicationLogic.PDFExport;
-import applicationLogic.DefectStatistic;
+import applicationLogic.ResultComplete;
 import dataStorageAccess.controller.BranchController;
 import dataStorageAccess.controller.DefectController;
 import dataStorageAccess.controller.StatisticController;
@@ -72,8 +74,8 @@ public class DiagnosisController implements Initializable{
 	@FXML private RadioButton precautionYesBtn;
 	@FXML private RadioButton precautionNoBtn;
 	@FXML private TextField precautionField;
-	@FXML private RadioButton comleteYesBtn;
-	@FXML private RadioButton comleteNoBtn;
+	@FXML private RadioButton completeYesBtn;
+	@FXML private RadioButton completeNoBtn;
 	@FXML private TextField completeDateField;
 	@FXML private TextField completeReasonField;
 	@FXML private RadioButton changesSinceLastExaminationYesBtn;
@@ -162,7 +164,165 @@ public class DiagnosisController implements Initializable{
 		prepareAutocomplete();
     }
 	
-	
+	/**
+	 * Adds diagnosis to the database
+	 * @throws SQLException 
+	 */
+	public void addDiagnosis(ActionEvent add) throws SQLException {
+		boolean dangerGroupA = dangerCategorieGroupABtn.isArmed();
+		boolean dangerGroupB = dangerCategorieGroupBBtn.isArmed();
+		boolean dangerGroupC = dangerCategorieGroupCBtn.isArmed();
+		boolean dangerGroupD = dangerCategorieGroupDBtn.isArmed();
+		int dangerGroup = 0;
+		
+		boolean supplySystemTN = supplySystemTNBtn.isArmed();
+		boolean supplySystemTT = supplySystemTTBtn.isArmed();
+		boolean supplySystemIT = supplySystemITBtn.isArmed();
+		boolean supplySystemCircle = supplySystemCircleBtn.isArmed();
+		int supplySys = 0;
+
+		boolean hardWiredLoadsUnder250 = hardWiredLoadsUnder250Btn.isArmed();
+		boolean hardWiredLoadsUnder500 = hardWiredLoadsUnder500Btn.isArmed();
+		boolean hardWiredLoadsUnder1000 = hardWiredLoadsUnder1000Btn.isArmed();
+		boolean hardWiredLoadsUnder5000 = hardWiredLoadsUnder5000Btn.isArmed();
+		boolean hardWiredLoadsAbove5000 = hardWiredLoadsAbove5000Btn.isArmed();
+		int hwl = 0;
+		
+		if(dangerGroupA) {
+			dangerGroup = 0;
+		}else if(dangerGroupB){
+			dangerGroup = 1;
+		}else if(dangerGroupC){
+			dangerGroup = 2;
+		}else if(dangerGroupD){
+			dangerGroup = 3;
+		}
+		
+		if(supplySystemTN) {
+			supplySys = 0;
+		}else if (supplySystemTT) {
+			supplySys = 1;
+		}else if (supplySystemIT) {
+			supplySys = 2;
+		}else if (supplySystemCircle) {
+			supplySys = 3;
+		}
+		
+		if(hardWiredLoadsUnder250) {
+			hwl = 0;
+		}else if(hardWiredLoadsUnder500) {
+			hwl = 1;
+		}else if(hardWiredLoadsUnder1000) {
+			hwl = 2;
+		}else if(hardWiredLoadsUnder5000) {
+			hwl = 3;
+		}else if(hardWiredLoadsAbove5000) {
+			hwl = 4;
+		}
+		//unused?
+		boolean defectsLastExaminationNoReport =  defectsLastExaminationNoReportBtn.isArmed();//Wurden alle Mängel der vorhergehenden Revision beseitigt?
+		boolean changesSinceLastExaminationFirstExamination = changesSinceLastExaminationFirstExaminationBtn.isArmed();//Wurden nach Aussagen des Betreibers ..
+		
+		int id = 0;
+		LocalDate date = null;
+		LocalDate lastEdited = null;
+		String companion = plantCompanionField.getText();
+		String surveyor = plantExpertField.getText();
+		int vdsApprovalNr = Integer.parseInt(plantAnerkNrField.getText());
+		double examinationDuration = Integer.parseInt(plantInspectionTimeField.getText());
+		boolean frequencyControlledUtilities = freqYesBtn.isArmed();
+		boolean precautionsDeclared = precautionYesBtn.isArmed();
+		String precautionsDeclaredLocation = precautionField.getText();
+		boolean examinationComplete = completeYesBtn.isArmed();
+		String subsequentExaminationDate  = defectsAttachedDateField.getText(); 
+		String examinationIncompleteReason = completeReasonField.getText();
+		int changesSinceLastExamination = 0;									//boolean? changesSinceLastExaminationYesBtn
+		int defectsLastExaminationFixed = 0;									//boolean? defectsLastExaminationYesBtn
+		int dangerCategory = dangerGroup;										// 0 = A ,1 = B,... ?
+		String dangerCategoryDescription = dangerCategoryExtensionField.getText();
+		boolean examinationResultNoDefect = noDefectsBtn.isArmed();
+		boolean examinationResultDefect = defectsAttachedBtn.isArmed();
+		boolean examinationResultDanger = removeDefectsImmediatelyBtn.isArmed();
+		int pages = 0;
+		boolean isolationChecked = isoMinYesBtn.isArmed();
+		boolean isolationMesasurementProtocols = isoProtocolYesBtn.isArmed();
+		boolean isolationCompensationMeasures = isoCompensationYesBtn.isArmed();
+		String isolationCompensationMeasuresAnnotation = isoCompensationCommentField.getText();
+		boolean rcdAvailable = rcdAllBtn.isArmed();
+		int rcdAvailablePercent = Integer.parseInt(rcdPercentageField.getText());
+		String rcdAnnotation = rcdCommentField.getText();
+		boolean resistance = resistanceYesBtn.isArmed();
+		int resistanceNumber = Integer.parseInt(resistancePercentageField.getText());
+		String resistanceAnnotation = resistanceCommentField.getText();
+		boolean thermalAbnormality = thermicYesBtn.isArmed();
+		String thermalAbnormalityAnnotation = thermicCommentField.getText();
+		boolean internalPortableUtilities = portableUtilitiesYesBtn.isArmed();
+		int externalPortableUtilities = 0 ; 									//boolean? externalPortableUtilitiesNrBtn.isArmed();
+		int supplySystem = supplySys;
+		int energyDemand = Integer.parseInt(powerConsumptionField.getText());
+		int maxEnergyDemandExternal = Integer.parseInt(externalPowerPercentageField.getText());
+		int maxEnergyDemandInternal = Integer.parseInt(maxCapacityPercentageField.getText());
+		int protectedCircuitsPercent = Integer.parseInt(protectedCirclesPercentageField.getText());
+		int hardWiredLoads = hwl;
+		String additionalAnnotations = furtherExplanationsField.getText();
+		
+		int plantId = 0;
+		String plantStreet = plantStreetField.getText();
+		String plantZip = plantZipField.getText();
+		
+		int compId = 0;
+		String companyName = compNameField.getText();
+		String hqStreet = streetCompField.getText();
+		String hqZip = compZipField.getText();
+		
+		Company company = new Company(compId, companyName, hqStreet, hqZip);
+		CompanyPlant companyPlant = new CompanyPlant(plantId, plantStreet, plantZip, company);
+		ResultComplete resultComplete = new ResultComplete(id,
+				 date,
+				 lastEdited,
+				 companion,
+				 surveyor,
+				 vdsApprovalNr,
+				 examinationDuration,
+				 frequencyControlledUtilities,
+				 precautionsDeclared,
+				 precautionsDeclaredLocation,
+				 examinationComplete,
+				 subsequentExaminationDate,
+				 examinationIncompleteReason,
+				 changesSinceLastExamination,
+				 defectsLastExaminationFixed,
+				 dangerCategory,
+				 dangerCategoryDescription,
+				 examinationResultNoDefect,
+				 examinationResultDefect,
+				 examinationResultDanger,
+				 pages,
+				 isolationChecked,
+				 isolationMesasurementProtocols,
+				 isolationCompensationMeasures,
+				 isolationCompensationMeasuresAnnotation,
+				 rcdAvailable,
+				 rcdAvailablePercent,
+				 rcdAnnotation,
+				 resistance,
+				 resistanceNumber,
+				 resistanceAnnotation,
+				 thermalAbnormality,
+				 thermalAbnormalityAnnotation,
+				 internalPortableUtilities,
+				 externalPortableUtilities,
+				 supplySystem,
+				 energyDemand,
+				 maxEnergyDemandExternal,
+				 maxEnergyDemandInternal,
+				 protectedCircuitsPercent,
+				 hardWiredLoads,
+				 additionalAnnotations,
+				 companyPlant
+				);
+		dataStorageAccess.controller.DiagnosisController.insertDiagnosis(resultComplete);
+	}
 
 	/**
 	 * Prepares the Autocomplete TextField
