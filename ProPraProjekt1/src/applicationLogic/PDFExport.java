@@ -19,7 +19,7 @@ import be.quodlibet.boxable.BaseTable;
 import be.quodlibet.boxable.Cell;
 import be.quodlibet.boxable.Row;
 import be.quodlibet.boxable.line.LineStyle;
-import dataStorageAccess.controller.DiagnosisController;
+import dataStorageAccess.ResultAccess;
 
 /**
  * PDFExport class
@@ -515,7 +515,7 @@ public class PDFExport {
 
 		//// LoadData /////
 		// sm. Diagnosis muss noch richtig geladen werden
-		ResultComplete data = DiagnosisController.getDiagnosis(1);
+		ResultComplete data = ResultAccess.getCompleteResult(1);
 		// System.out.println("Diagnois : " +
 		// data.isFrequencyControlledUtilities());
 

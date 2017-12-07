@@ -1,7 +1,7 @@
 package applicationLogic;
 
 import java.time.LocalDate;
-import java.util.Date;
+import java.util.ArrayList;
 
 /**
  * The Class Diagnosis
@@ -52,6 +52,7 @@ public class ResultComplete extends ResultBase {
 	private int hardWiredLoads;
 	private String additionalAnnotations;
 	private CompanyPlant companyPlant;
+	private ArrayList<DefectResult> defects;
 	
 	public ResultComplete(int id, LocalDate date, LocalDate lastEdited, String companion, String surveyor, int vdsApprovalNr,
 			double examinationDuration, boolean frequencyControlledUtilities, boolean precautionsDeclared,
@@ -308,5 +309,14 @@ public class ResultComplete extends ResultBase {
 
 	public String getAdditionalAnnotations() {
 		return additionalAnnotations;
+	}
+	
+	public ArrayList<DefectResult> getDefects() {
+		return defects;
+	}
+
+
+	public void setDefects(ArrayList<DefectResult> defects) {
+		this.defects = defects;
 	}
 }
