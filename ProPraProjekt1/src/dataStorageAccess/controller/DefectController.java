@@ -8,7 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import applicationLogic.Branch;
-import applicationLogic.Defect;
+import applicationLogic.DefectAtomic;
 import dataStorageAccess.DBConnection;
 
 public class DefectController {
@@ -16,15 +16,15 @@ public class DefectController {
 	 * @return A List off all Defects
 	 * @throws SQLException
 	 */
-	public static ArrayList<Defect> getAllDefects() throws SQLException {
-		ArrayList<Defect> result = new ArrayList<Defect>();
+	public static ArrayList<DefectAtomic> getAllDefects() throws SQLException {
+		ArrayList<DefectAtomic> result = new ArrayList<DefectAtomic>();
 		try (
 			Connection connection = DBConnection.getInstance().initConnection();
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery("SELECT * FROM Defects");
 		) {
 			while (resultSet.next()) {
-				result.add(new Defect(resultSet.getInt("defect_id"), resultSet.getString("defect_description")));
+				result.add(new DefectAtomic(resultSet.getInt("defect_id"), resultSet.getString("defect_description")));
 			}
 		}
 		return result;

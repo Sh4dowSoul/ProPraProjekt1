@@ -2,24 +2,6 @@ package dataStorageAccess;
 
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
-
-import applicationLogic.Branch;
-import applicationLogic.Company;
-import applicationLogic.CompanyPlant;
-import applicationLogic.Statistic;
-import applicationLogic.ResultComplete;
-import applicationLogic.ResultPreview;
-import applicationLogic.ResultStatistic;
-import applicationLogic.StatisticElement;
-import dataStorageAccess.controller.BranchController;
-import dataStorageAccess.controller.CompanyController;
-import dataStorageAccess.controller.DiagnosisController;
-import dataStorageAccess.controller.StatisticController;
 
 public class TestClass {
 	public static void main(String[] args) {

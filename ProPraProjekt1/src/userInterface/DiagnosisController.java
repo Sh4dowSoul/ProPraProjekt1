@@ -13,9 +13,9 @@ import org.controlsfx.control.textfield.TextFields;
 
 import applicationLogic.Branch;
 import applicationLogic.Company;
-import applicationLogic.Defect;
+import applicationLogic.DefectAtomic;
 import applicationLogic.PDFExport;
-import applicationLogic.StatisticElement;
+import applicationLogic.DefectStatistic;
 import dataStorageAccess.controller.BranchController;
 import dataStorageAccess.controller.DefectController;
 import dataStorageAccess.controller.StatisticController;
@@ -168,9 +168,9 @@ public class DiagnosisController implements Initializable{
 	 * Prepares the Autocomplete TextField
 	 */
 	private void prepareAutocomplete() {
-		final Task<ArrayList<Defect>> autocompleteTask = new Task<ArrayList<Defect>>() {
+		final Task<ArrayList<DefectAtomic>> autocompleteTask = new Task<ArrayList<DefectAtomic>>() {
             @Override
-            protected ArrayList<Defect> call() throws Exception {
+            protected ArrayList<DefectAtomic> call() throws Exception {
         		return DefectController.getAllDefects();
             }
         };

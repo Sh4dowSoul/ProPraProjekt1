@@ -11,7 +11,7 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
 import applicationLogic.Statistic;
-import applicationLogic.ResultStatistic;
+import applicationLogic.StatisticResult;
 import dataStorageAccess.controller.DiagnosisController;
 import dataStorageAccess.controller.StatisticController;
 
@@ -19,8 +19,8 @@ public class StatisticAccess {
 	
 	public static void exportStatisticCompany(int companyId) throws SQLException, FileNotFoundException {
 		//Get list of Diagnoses
-		ArrayList<ResultStatistic> diagnosesList= DiagnosisController.getDiagnosesAndDefectsOfCompany(1);
-		for (ResultStatistic diagnosis : diagnosesList) {
+		ArrayList<StatisticResult> diagnosesList= DiagnosisController.getDiagnosesAndDefectsOfCompany(1);
+		for (StatisticResult diagnosis : diagnosesList) {
 			//Get defects from Diagnosis
 			diagnosis.setDefects(StatisticController.getDefectsOfDiagnosis(diagnosis.getId()));
 		}

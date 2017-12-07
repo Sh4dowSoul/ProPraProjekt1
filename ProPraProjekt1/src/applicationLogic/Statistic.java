@@ -14,9 +14,9 @@ import com.thoughtworks.xstream.annotations.XStreamImplicit;
 @XStreamAlias("Befundscheine")
 public class Statistic {
 	@XStreamImplicit
-	private ArrayList<ResultStatistic> diagnosesList;
+	private ArrayList<StatisticResult> diagnosesList;
 	
-	public Statistic(ArrayList<ResultStatistic> diagnosesList) {
+	public Statistic(ArrayList<StatisticResult> diagnosesList) {
 		this.diagnosesList = diagnosesList;
 	};
 }

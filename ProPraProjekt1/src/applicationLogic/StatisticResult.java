@@ -6,7 +6,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 
 @XStreamAlias("Befundschein")
-public class ResultStatistic extends ResultBase {
+public class StatisticResult extends ResultBase {
 	
 	@XStreamAlias("datei")
 	private String fileName = "TODO";
@@ -17,9 +17,9 @@ public class ResultStatistic extends ResultBase {
 	@XStreamAlias("Branche")
 	private String branch ="TODO";
 	@XStreamImplicit
-	private ArrayList<StatisticElementBase> defects;
+	private ArrayList<DefectStatistic> defects;
 	
-	public ResultStatistic(int id, LocalDate date, String fileName, String gza, String branch) {
+	public StatisticResult(int id, LocalDate date, String fileName, String gza, String branch) {
 		super(id, date);
 		this.fileName = fileName;
 		this.year = date.getYear();
@@ -27,7 +27,7 @@ public class ResultStatistic extends ResultBase {
 		this.branch = branch;
 	}
 
-	public void setDefects(ArrayList<StatisticElementBase> arrayList) {
+	public void setDefects(ArrayList<DefectStatistic> arrayList) {
 		this.defects = arrayList;
 	}
 }

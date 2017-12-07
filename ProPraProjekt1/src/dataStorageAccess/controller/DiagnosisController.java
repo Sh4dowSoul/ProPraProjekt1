@@ -15,8 +15,8 @@ import applicationLogic.Company;
 import applicationLogic.CompanyPlant;
 import applicationLogic.ResultComplete;
 import applicationLogic.ResultPreview;
-import applicationLogic.ResultStatistic;
-import applicationLogic.StatisticElement;
+import applicationLogic.StatisticResult;
+import applicationLogic.DefectStatistic;
 import dataStorageAccess.DBConnection;
 
 public class DiagnosisController {
@@ -141,8 +141,8 @@ public class DiagnosisController {
 	}
 	
 	
-	public static ArrayList<ResultStatistic> getDiagnosesAndDefectsOfCompany(int companyId) throws SQLException{
-		ArrayList<ResultStatistic> result = new ArrayList<ResultStatistic>();
+	public static ArrayList<StatisticResult> getDiagnosesAndDefectsOfCompany(int companyId) throws SQLException{
+		ArrayList<StatisticResult> result = new ArrayList<StatisticResult>();
 		try (
 			Connection connection = DBConnection.getInstance().initConnection();
 			Statement statement = connection.createStatement();
@@ -152,7 +152,7 @@ public class DiagnosisController {
 					"WHERE company_id = " + companyId);
 		) {
 			while (resultSet.next()) {
-				result.add(new ResultStatistic(resultSet.getInt("diagnosis_id"), LocalDate.parse(resultSet.getString("examination_date")),"TODO","TODO","TODO"));
+				result.add(new StatisticResult(resultSet.getInt("diagnosis_id"), LocalDate.parse(resultSet.getString("examination_date")),"TODO","TODO","TODO"));
 			}
 		}
 		return result;
