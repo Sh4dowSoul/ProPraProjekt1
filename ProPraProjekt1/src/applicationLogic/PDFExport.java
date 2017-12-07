@@ -38,6 +38,7 @@ public class PDFExport {
 
 	static PDDocument document = null;
 	static PDPageContentStream contentStream;
+	static int pageCounter;
 
 	/**
 	 * Creates new PDFDocument, sets the Fonts, calls createPDF method for
@@ -536,10 +537,10 @@ public class PDFExport {
 		// Drawing the small line on the left side of the document
 		drawPartingLine(0.75f, 0, 542, 15, 542, false);
 
-		// PageOfTotalPages (top) and DocumentVersion (bottom)
-		setConstTextPageOf(fontArialCursive, 1, 3);
+		// NumberOfTotalPages (top) and DocumentVersion (bottom)
+		setConstTextPageOf(fontArialCursive, ++pageCounter, document.getNumberOfPages());
 		setConstTextVersion(fontArial);
-
+		
 		// PageCounter, only page 1 and page 2
 		setStaticText(fontArialCursive, 9, 513, 682, "Seite - 1 -");
 
@@ -558,12 +559,12 @@ public class PDFExport {
 		// Frame: topLeft (Versicherungsnehmer)
 		setStaticFrame(55.37f, 535, 247, 118);
 		setStaticText(fontArialBoldCursive, 9, 59, 642, "Versicherungsnehmer (VN)");
-		
+
 		// System.out.println(data.getCompanyPlant().toString());
 		setDatabaseText(fontArial, 9, 65, 620, data.getCompanyPlant().getCompany().getName().toString());
 		setDatabaseText(fontArial, 9, 65, 605, "Holzwerk?");
 		setDatabaseText(fontArial, 9, 65, 590, data.getCompanyPlant().getPlantStreet());
-		setDatabaseText(fontArial, 9, 65, 560,  data.getCompanyPlant().getPlantZip());
+		setDatabaseText(fontArial, 9, 65, 560, data.getCompanyPlant().getPlantZip());
 
 		// Frame: topRight (Risikoanschrift)
 		setStaticFrame(307, 535, 247, 118);
@@ -631,8 +632,11 @@ public class PDFExport {
 		setStaticText(fontArialBoldCursive, 10, 405, 325, "(c)");
 		setStaticText(fontArialBoldCursive, 10, 460, 325, "(d)");
 		setStaticText(fontArialCursive, 9, 59, 312, "Ergänzende Erläuterungen:");
-		float paddingDangerCategory = setDynamicText(page1, fontArial, 9, 1.25f, 370f, 175f, 312f,
-				data.getDangerCategoryDescription(), true);
+		// float paddingDangerCategory = setDynamicText(page1, fontArial, 9,
+		// 1.25f, 370f, 175f, 312f,
+		// data.getDangerCategoryDescription(), true);
+
+		float paddingDangerCategory = setDynamicText(page1, fontArial, 9, 1.25f, 370f, 175f, 312f, "", true);
 		paddingP1 = paddingDangerCategory;
 		drawSingleCellTable(page1, 351.5f, 60f + paddingP1, 100f);
 
@@ -691,7 +695,7 @@ public class PDFExport {
 		// setTexField 2a)
 		// sm. setTextPlaceholderManual(fontArialCursive, 9, 474, 810,
 		// "Blatt-Nr. 2 von 3");
-		setConstTextPageOf(fontArialCursive, 2, 3);
+		setConstTextPageOf(fontArialCursive, 2, document.getNumberOfPages());
 
 		// setTexField 3a)
 		setStaticText(fontArialCursive, 9, 513, 798, "Seite - 2 -");
@@ -737,8 +741,10 @@ public class PDFExport {
 		setStaticText(fontArialCursive, 9, 475, 676 - paddingP2, "nein");
 		setStaticText(fontArialBoldCursive, 6, 493, 679 - paddingP2, "3");
 		setStaticText(fontArialCursive, 9, 64, 664 - paddingP2, "Bemerkung hierzu:");
-		float paddingRcd = setDynamicText(page2, fontArial, 9, 1.25f, 400f, 142, 664f - paddingP2,
-				data.getRcdAnnotation(), false);
+		// float paddingRcd = setDynamicText(page2, fontArial, 9, 1.25f, 400f,
+		// 142, 664f - paddingP2,
+		// data.getRcdAnnotation(), false);
+		float paddingRcd = setDynamicText(page2, fontArial, 9, 1.25f, 400f, 142, 664f - paddingP2, "", false);
 		paddingP2 += paddingRcd;
 		drawPartingLine(0.75f, 55.5f, 658f - paddingP2, 554f, 658f - paddingP2, true);
 		setStaticText(fontArialBoldCursive, 9, 59, 646 - paddingP2, "• Schleifenwiderstand");
@@ -750,8 +756,10 @@ public class PDFExport {
 		setStaticText(fontArialCursive, 9, 475, 646 - paddingP2, "nein");
 		setStaticText(fontArialBoldCursive, 6, 493, 649 - paddingP2, "3");
 		setStaticText(fontArialCursive, 9, 64, 634 - paddingP2, "Bemerkung hierzu:");
-		float paddingResistance = setDynamicText(page2, fontArial, 9, 1.25f, 400f, 142, 634f - paddingP2,
-				data.getResistanceAnnotation(), false);
+		// float paddingResistance = setDynamicText(page2, fontArial, 9, 1.25f,
+		// 400f, 142, 634f - paddingP2,
+		// data.getResistanceAnnotation(), false);
+		float paddingResistance = setDynamicText(page2, fontArial, 9, 1.25f, 400f, 142, 634f - paddingP2, "", false);
 		paddingP2 += paddingResistance;
 		drawPartingLine(0.75f, 55.5f, 628f - paddingP2, 554f, 628f - paddingP2, true);
 		setStaticText(fontArialBoldCursive, 9, 59, 616 - paddingP2,
@@ -855,7 +863,8 @@ public class PDFExport {
 		////
 		setStaticText(fontArialBoldCursive, 9, 59, 208 - paddingP2,
 				"Weitere Erläuterungen wie z. B. verwendete Messgeräte (optional):");
-		setDynamicText(page2, fontArial, 10, 1.25f, 490f, 59, 193 - paddingP2, data.getAdditionalAnnotations(), false);
+//		setDynamicText(page2, fontArial, 10, 1.25f, 490f, 59, 193 - paddingP2, data.getAdditionalAnnotations(), false);
+		setDynamicText(page2, fontArial, 10, 1.25f, 490f, 59, 193 - paddingP2, "", false);
 		setConstTextVersion(fontArial);
 
 		// Closing the ContentStream
@@ -871,7 +880,7 @@ public class PDFExport {
 		contentStream = new PDPageContentStream(document, page3);
 
 		// setTexField 2a)
-		setConstTextPageOf(fontArialCursive, 3, 3);
+		setConstTextPageOf(fontArialCursive, 3, document.getNumberOfPages());
 
 		// setFrame & setTextField 1)
 		setStaticFrame(54, 755, 501, 35);
@@ -912,7 +921,13 @@ public class PDFExport {
 		setStaticFrame(104, 630, 341, 48);
 		setStaticFrame(445, 630, 55, 48);
 		setStaticFrame(500, 630, 55, 48);
-
+		
+		setStaticText(fontArialBoldCursive, 6, 59, 61, "1");
+		setStaticText(fontArialCursive, 8, 64, 58,
+				"Mängel, die eine Brandgefahr darstellen, werden mit „X“ und Mängel, die eine Personengefahr darstellen, mit „O“ gekennzeichnet");
+		setStaticText(fontArialBoldCursive, 6, 59, 51, "2");
+		setStaticText(fontArialCursive, 8, 64, 48,
+				"Mangelnummer und die Nummern für die Betriebsbereiche sind der VdS-Mängelstatistik (VdS 2837) zu entnehmen");
 		setConstTextVersion(fontArial);
 
 		// Closing the ContentStream
@@ -927,9 +942,9 @@ public class PDFExport {
 		// Creating the PDPageContentStream object
 		contentStream = new PDPageContentStream(document, page4);
 		setStaticText(fontArialBold, 14, 150f, 520f, "Das ASD ASDASD ASDASD  ein Test");
-
+		
 		contentStream.close();
-
+		
 	}
 
 }

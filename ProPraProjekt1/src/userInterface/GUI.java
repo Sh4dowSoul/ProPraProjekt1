@@ -3,6 +3,7 @@ package userInterface;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import applicationLogic.PDFExport;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -34,8 +35,9 @@ public class GUI extends Application {
 		primaryStage.show();
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException, SQLException {
 		launch(args);
+		PDFExport.export();
 	}
 	
 }
