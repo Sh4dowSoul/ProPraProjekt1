@@ -1,6 +1,7 @@
 package applicationLogic;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 /**
@@ -28,6 +29,7 @@ public class ResultComplete extends ResultBase {
 	private String dangerCategoryDescription;
 	private boolean examinationResultNoDefect;
 	private boolean examinationResultDefect;
+	private LocalDate examinationResultDefectDate;
 	private boolean examinationResultDanger;
 	private int pages;
 	private boolean isolationChecked;
@@ -59,7 +61,7 @@ public class ResultComplete extends ResultBase {
 			String precautionsDeclaredLocation, boolean examinationComplete, String subsequentExaminationDate,
 			String examinationIncompleteReason, int changesSinceLastExamination, int defectsLastExaminationFixed,
 			int dangerCategory, String dangerCategoryDescription, boolean examinationResultNoDefect,
-			boolean examinationResultDefect, boolean examinationResultDanger, int pages, boolean isolationChecked,
+			boolean examinationResultDefect, LocalDate examinationResultDefectDate,  boolean examinationResultDanger, int pages, boolean isolationChecked,
 			boolean isolationMesasurementProtocols, boolean isolationCompensationMeasures,
 			String isolationCompensationMeasuresAnnotation, Boolean rcdAvailable, int rcdAvailablePercent,
 			String rcdAnnotation, boolean resistance, int resistanceNumber, String resistanceAnnotation,
@@ -85,6 +87,7 @@ public class ResultComplete extends ResultBase {
 		this.dangerCategoryDescription = dangerCategoryDescription;
 		this.examinationResultNoDefect = examinationResultNoDefect;
 		this.examinationResultDefect = examinationResultDefect;
+		this.examinationResultDefectDate = examinationResultDefectDate;
 		this.examinationResultDanger = examinationResultDanger;
 		this.pages = pages;
 		this.isolationChecked = isolationChecked;
@@ -109,6 +112,15 @@ public class ResultComplete extends ResultBase {
 		this.hardWiredLoads = hardWiredLoads;
 		this.additionalAnnotations = additionalAnnotations;
 		this.companyPlant = companyPlant;
+	}
+
+
+	public LocalDate getExaminationResultDefectDate() {
+		return examinationResultDefectDate;
+	}
+	
+	public String getExaminationResultDefectDateNice() {
+		return examinationResultDefectDate.format(DateTimeFormatter.ofPattern("dd.MM.YYYY"));
 	}
 
 

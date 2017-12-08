@@ -251,13 +251,14 @@ public class Tab_InspectionResult implements Initializable{
 		boolean precautionsDeclared = precautionYesBtn.isArmed();
 		String precautionsDeclaredLocation = precautionField.getText();
 		boolean examinationComplete = completeYesBtn.isArmed();
-		String subsequentExaminationDate  = defectsAttachedDateField.getText(); 
+		String subsequentExaminationDate  = completeDateField.getText(); 
 		String examinationIncompleteReason = completeReasonField.getText();
 		int changesSinceLastExamination = changesSinceLastEx;
 		int defectsLastExaminationFixed = defectsLastEx;
 		int dangerCategory = dangerGroup;										
 		String dangerCategoryDescription = dangerCategoryExtensionField.getText();
 		boolean examinationResultNoDefect = noDefectsBtn.isArmed();
+		LocalDate examinationResultDefectDate = LocalDate.parse(defectsAttachedDateField.getText()) ; 	
 		boolean examinationResultDefect = defectsAttachedBtn.isArmed();
 		boolean examinationResultDanger = removeDefectsImmediatelyBtn.isArmed();
 		int pages = 0;
@@ -315,6 +316,7 @@ public class Tab_InspectionResult implements Initializable{
 				 dangerCategoryDescription,
 				 examinationResultNoDefect,
 				 examinationResultDefect,
+				 examinationResultDefectDate,
 				 examinationResultDanger,
 				 pages,
 				 isolationChecked,

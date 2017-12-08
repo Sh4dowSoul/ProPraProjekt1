@@ -96,6 +96,7 @@ public class DiagnosisController {
 											resultSet.getString("danger_categorie_vds_description"),
 											resultSet.getBoolean("examination_resultNoDefect"),
 											resultSet.getBoolean("examination_resultDefect"),
+											LocalDate.parse(resultSet.getString("examinationResultDefectDate")),
 											resultSet.getBoolean("examination_resultDanger"),
 											resultSet.getInt("examination_pages"),
 											resultSet.getBoolean("isolation_checkedEnough"),
@@ -177,7 +178,7 @@ public class DiagnosisController {
 				+ "externalPortableUtilities, supplySystem, energyDemand, "
 				+ "maxEnergyDemandExternal, maxEnergyDemandInternal, protectedCircuitsPercent, "
 				+ "hardWiredLoads, additionalAnnotations) "
-				+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		PreparedStatement preparedStatement = null;
 		Connection connection = null;
 		try {
@@ -191,7 +192,7 @@ public class DiagnosisController {
 					diagnosis.getPrecautionsDeclaredLocation(), diagnosis.isExaminationComplete(), diagnosis.getSubsequentExaminationDate(),
 					diagnosis.getExaminationIncompleteReason(), diagnosis.getChangesSinceLastExamination(), diagnosis.getDefectsLastExaminationFixed(),
 					diagnosis.getDangerCategory(), diagnosis.getDangerCategoryDescription(), diagnosis.isExaminationResultNoDefect(),
-					diagnosis.isExaminationResultDefect(), diagnosis.isExaminationResultDanger(), diagnosis.isIsolationChecked(),
+					diagnosis.isExaminationResultDefect(),diagnosis.getExaminationResultDefectDate(), diagnosis.isExaminationResultDanger(), diagnosis.isIsolationChecked(),
 					diagnosis.isIsolationMesasurementProtocols(), diagnosis.isIsolationCompensationMeasures(), diagnosis.getIsolationCompensationMeasuresAnnotation(),
 					diagnosis.getRcdAvailable(), diagnosis.getRcdAvailablePercent(), diagnosis.getRcdAnnotation(),
 					diagnosis.isResistance(), diagnosis.getResistanceNumber(), diagnosis.getResistanceAnnotation(),
