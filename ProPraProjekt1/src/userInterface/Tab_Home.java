@@ -4,15 +4,13 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import applicationLogic.Company;
-import applicationLogic.ResultComplete;
 import applicationLogic.ResultPreview;
 import dataStorageAccess.controller.DiagnosisController;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -24,6 +22,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.stage.StageStyle;
 
 public class Tab_Home implements Initializable{
 	// *** HOME TAB ***
@@ -51,7 +50,32 @@ public class Tab_Home implements Initializable{
 				}
 				else {
 					setText("Befundschein " + item.getId() + " - Firma " + item.getCompanyName() + " - Änderung " + item.getLastEditedNice());
-					setOnMouseClicked(ev -> System.out.println("SELECTED ID " + item.getId()));
+					setOnMouseClicked(new EventHandler<Event>() {
+						@Override
+						public void handle(Event event) {
+							System.out.println("TEST");
+							Alert alert = new Alert(AlertType.CONFIRMATION);
+							alert.setTitle("Befundschein " + item.getId() + " - " + item.getCompanyName());
+							alert.setHeaderText("Aktion für Befundschein " + item.getId() + " wählen");
+							alert.setContentText("Befundschein Nr: " +item.getId() +"\nFirma: " + item.getCompanyName()+ "\nZuletzt bearbeitet: " + item.getLastEditedNice());
+							alert.initStyle(StageStyle.UTILITY);
+
+							ButtonType editButton = new ButtonType("Bearbeiten");
+							ButtonType exportButton = new ButtonType("Exportieren");
+							ButtonType cancelButton = new ButtonType("Abbrechen", ButtonData.CANCEL_CLOSE);
+
+							alert.getButtonTypes().setAll(editButton, exportButton, cancelButton);
+
+							Optional<ButtonType> result = alert.showAndWait();
+							if (result.get() == editButton){
+							    // ... user chose "One"
+							} else if (result.get() == exportButton) {
+							    // ... user chose "Two"
+							}  else {
+							    // ... user chose CANCEL or closed the dialog
+							}
+						}
+			        });
 				} 
 			}
 		});
