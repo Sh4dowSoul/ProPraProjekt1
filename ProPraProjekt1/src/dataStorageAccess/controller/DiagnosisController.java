@@ -122,12 +122,14 @@ public class DiagnosisController {
 											new CompanyPlant(
 													resultSet.getInt("plant_id"),
 													resultSet.getString("plant_street"),
-													resultSet.getString("plant_zip"),
+													resultSet.getInt("plant_zip"),
+													resultSet.getString("plant_city"),
 													new Company(
 															resultSet.getInt("company_id"),
 															resultSet.getString("company_name"),
 															resultSet.getString("hq_street"),
-															resultSet.getString("hq_zip")
+															resultSet.getInt("hq_zip"),
+															resultSet.getString("hq_city")
 															)
 													)
 											);

@@ -285,15 +285,17 @@ public class Tab_InspectionResult implements Initializable{
 		
 		int plantId = 0;
 		String plantStreet = plantStreetField.getText();
-		String plantZip = plantZipField.getText();
+		int plantZip = Integer.parseInt(plantZipField.getText());
+		String plantCity = plantCityField.getText();
 		
 		int compId = 0;
 		String companyName = compNameField.getText();
 		String hqStreet = streetCompField.getText();
-		String hqZip = compZipField.getText();
+		int hqZip = Integer.parseInt(compZipField.getText());
+		String hqCity = compCityField.getText();
 		
-		Company company = new Company(compId, companyName, hqStreet, hqZip);
-		CompanyPlant companyPlant = new CompanyPlant(plantId, plantStreet, plantZip, company);
+		Company company = new Company(compId, companyName, hqStreet, hqZip, hqCity);
+		CompanyPlant companyPlant = new CompanyPlant(plantId, plantStreet, plantZip, plantCity, company);
 		ResultComplete resultComplete = new ResultComplete(id,
 				 date,
 				 lastEdited,

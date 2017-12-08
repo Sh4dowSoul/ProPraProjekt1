@@ -3,7 +3,7 @@ package applicationLogic;
 /**
  * The Class Company
  * 
- * @author name
+ * @author Niklas Schnettler
  */
 
 public class Company {
@@ -11,13 +11,15 @@ public class Company {
 	private int id;
 	private String name;
 	private String hqStreet;
-	private String hqZip;
+	private int hqZip;
+	private String hqCity;
 	
-	public Company(int id, String name, String hqStreet, String hqZip) {
+	public Company(int id, String name, String hqStreet, int hqZip, String hqCity) {
 		this.id = id;
 		this.name = name;
 		this.hqStreet = hqStreet;
 		this.hqZip = hqZip;
+		this.hqCity = hqCity;
 	}
 
 	public int getId() {
@@ -32,7 +34,15 @@ public class Company {
 		return hqStreet;
 	}
 
-	public String getHqZip() {
+	public int getHqZip() {
 		return hqZip;
+	}
+	
+	public String getHqCity() {
+		return hqCity;
+	}
+	
+	public String getZipCity() {
+		return hqZip + " " + hqCity;
 	}
 }

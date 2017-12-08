@@ -564,12 +564,12 @@ public class PDFExport {
 		setDatabaseText(fontArial, 9, 65, 620, data.getCompanyPlant().getCompany().getName().toString());
 		setDatabaseText(fontArial, 9, 65, 605, "Holzwerk?");
 		setDatabaseText(fontArial, 9, 65, 590, data.getCompanyPlant().getPlantStreet());
-		setDatabaseText(fontArial, 9, 65, 560, data.getCompanyPlant().getPlantZip());
+		setDatabaseText(fontArial, 9, 65, 560, data.getCompanyPlant().getZipCity());
 
 		// Frame: topRight (Risikoanschrift)
 		setStaticFrame(307, 535, 247, 118);
 		setStaticText(fontArialBoldCursive, 9, 313, 642, "Risikoanschrift: ");
-		setDatabaseText(fontArial, 9, 313, 630, data.getCompanyPlant().getCompany().getHqZip().toString());
+		setDatabaseText(fontArial, 9, 313, 630, data.getCompanyPlant().getCompany().getZipCity());
 		setDatabaseText(fontArial, 9, 313, 618, data.getCompanyPlant().getCompany().getHqStreet().toString());
 		setStaticText(fontArialCursive, 9, 313, 603, "Begleiter vom VN: ");
 		setDatabaseText(fontArial, 9, 400, 603, data.getCompanion());

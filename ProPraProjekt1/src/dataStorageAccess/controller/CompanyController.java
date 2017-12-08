@@ -26,7 +26,7 @@ public class CompanyController {
 					"ORDER BY company_name desc ");
 		) {
 			while (resultSet.next()) {
-				result.add(new Company(resultSet.getInt("company_id"), resultSet.getString("company_name"), resultSet.getString("hq_street"), resultSet.getString("hq_zip")));
+				result.add(new Company(resultSet.getInt("company_id"), resultSet.getString("company_name"), resultSet.getString("hq_street"), resultSet.getInt("hq_zip"), resultSet.getString("hq_city")));
 			}
 		}
 		return result;
@@ -51,7 +51,7 @@ public class CompanyController {
 					"ORDER BY company_name asc ");
 		) {
 			while (resultSet.next()) {
-				result.add(new Company(resultSet.getInt("company_id"), resultSet.getString("company_name"), resultSet.getString("hq_street"), resultSet.getString("hq_zip")));
+				result.add(new Company(resultSet.getInt("company_id"), resultSet.getString("company_name"), resultSet.getString("hq_street"), resultSet.getInt("hq_zip"), resultSet.getString("hq_city")));
 			}
 		}
 		return result;

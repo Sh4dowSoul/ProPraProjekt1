@@ -3,14 +3,16 @@ package applicationLogic;
 public class CompanyPlant {
 	private int id;
 	private String plantStreet;
-	private String plantZip;
+	private int plantZip;
+	private String plantCity;
 	private Company company;
 	
-	public CompanyPlant(int id, String plantStreet, String plantZip, Company company) {
+	public CompanyPlant(int id, String plantStreet, int plantZip, String plantCity, Company company) {
 		this.id = id;
 		this.plantStreet = plantStreet;
 		this.plantZip = plantZip;
 		this.company = company;
+		this.plantCity = plantCity;
 	}
 
 	public int getId() {
@@ -25,8 +27,15 @@ public class CompanyPlant {
 		return plantStreet;
 	}
 
-	public String getPlantZip() {
+	public int getPlantZip() {
 		return plantZip;
 	}
-
+	
+	public String getPlantCity() {
+		return plantCity;
+	}
+	
+	public String getZipCity() {
+		return plantZip + " " + plantCity;
+	}
 }
