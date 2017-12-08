@@ -188,6 +188,14 @@ public class DiagnosisController implements Initializable{
 		boolean hardWiredLoadsAbove5000 = hardWiredLoadsAbove5000Btn.isArmed();
 		int hwl = 0;
 		
+		boolean dlenr = defectsLastExaminationNoReportBtn.isArmed();
+		boolean dflf = defectsLastExaminationYesBtn.isArmed();
+		int defectsLastEx = 0;
+		
+		boolean csle = changesSinceLastExaminationYesBtn.isArmed();
+		boolean cslefe = changesSinceLastExaminationFirstExaminationBtn.isArmed();
+		int changesSinceLastEx = 0;
+		
 		if(dangerGroupA) {
 			dangerGroup = 0;
 		}else if(dangerGroupB){
@@ -219,9 +227,18 @@ public class DiagnosisController implements Initializable{
 		}else if(hardWiredLoadsAbove5000) {
 			hwl = 4;
 		}
-		//unused?
-		boolean defectsLastExaminationNoReport =  defectsLastExaminationNoReportBtn.isArmed();//Wurden alle Mängel der vorhergehenden Revision beseitigt?
-		boolean changesSinceLastExaminationFirstExamination = changesSinceLastExaminationFirstExaminationBtn.isArmed();//Wurden nach Aussagen des Betreibers ..
+		
+		if(dlenr) {
+			defectsLastEx = 0;
+		}else if (dflf) {
+			defectsLastEx = 1;
+		}
+		
+		if(csle) {
+			changesSinceLastEx = 0;
+		}else if (cslefe) {
+			changesSinceLastEx = 1;
+		}
 		
 		int id = 0;
 		LocalDate date = null;
@@ -236,9 +253,9 @@ public class DiagnosisController implements Initializable{
 		boolean examinationComplete = completeYesBtn.isArmed();
 		String subsequentExaminationDate  = defectsAttachedDateField.getText(); 
 		String examinationIncompleteReason = completeReasonField.getText();
-		int changesSinceLastExamination = 0;									//boolean? changesSinceLastExaminationYesBtn
-		int defectsLastExaminationFixed = 0;									//boolean? defectsLastExaminationYesBtn
-		int dangerCategory = dangerGroup;										// 0 = A ,1 = B,... ?
+		int changesSinceLastExamination = changesSinceLastEx;
+		int defectsLastExaminationFixed = defectsLastEx;
+		int dangerCategory = dangerGroup;										
 		String dangerCategoryDescription = dangerCategoryExtensionField.getText();
 		boolean examinationResultNoDefect = noDefectsBtn.isArmed();
 		boolean examinationResultDefect = defectsAttachedBtn.isArmed();
