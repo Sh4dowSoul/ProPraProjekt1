@@ -38,7 +38,7 @@ public class GUI extends Application {
 	
 	public static void main(String[] args) throws IOException, SQLException {
 		launch(args);
-		PDFExport.export();
+		PDFExport.export(1);
 	}
 	
 }

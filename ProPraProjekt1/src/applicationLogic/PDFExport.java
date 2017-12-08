@@ -47,7 +47,7 @@ public class PDFExport {
 	 * @throws IOException
 	 * @throws SQLException
 	 */
-	public static void export() throws IOException, SQLException {
+	public static void export(int inspectionresultId) throws IOException, SQLException {
 		try {
 			// Creating PDF document object
 			document = new PDDocument();
@@ -59,7 +59,7 @@ public class PDFExport {
 			PDFont fontArialCursive = PDType0Font.load(document, arialCursive);
 
 			// erstellt die eigentliche PDF-Datei, Methode ganz unten
-			createPDF(fontArial, fontArialBold, fontArialBoldCursive, fontArialCursive);
+			createPDF(inspectionresultId, fontArial, fontArialBold, fontArialBoldCursive, fontArialCursive);
 
 			// Saving the document
 			// sm. "Save as..."
@@ -510,12 +510,12 @@ public class PDFExport {
 	 * @throws IOException
 	 * @throws SQLException
 	 */
-	public static void createPDF(PDFont fontArial, PDFont fontArialBold, PDFont fontArialBoldCursive,
+	public static void createPDF(int inspectionresultId, PDFont fontArial, PDFont fontArialBold, PDFont fontArialBoldCursive,
 			PDFont fontArialCursive) throws IOException, SQLException {
 
 		//// LoadData /////
 		// sm. Diagnosis muss noch richtig geladen werden
-		ResultComplete data = ResultAccess.getCompleteResult(1);
+		ResultComplete data = ResultAccess.getCompleteResult(inspectionresultId);
 		// System.out.println("Diagnois : " +
 		// data.isFrequencyControlledUtilities());
 
