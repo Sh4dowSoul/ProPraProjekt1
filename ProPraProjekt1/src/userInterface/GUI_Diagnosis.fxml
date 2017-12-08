@@ -379,7 +379,7 @@
                                     <Insets right="15.0" />
                                  </HBox.margin>
                               </Button>
-                                                      <Button id="AddBtn" fx:id="AddDiagnosisBtn" mnemonicParsing="false" prefHeight="100.0" prefWidth="200.0" text="Speichern">
+                                                      <Button id="AddBtn" fx:id="AddDiagnosisBtn" mnemonicParsing="false" onAction="#addDiagnosis" prefHeight="100.0" prefWidth="200.0" text="Speichern">
                                  <padding>
                                     <Insets bottom="15.0" />
                                  </padding>
