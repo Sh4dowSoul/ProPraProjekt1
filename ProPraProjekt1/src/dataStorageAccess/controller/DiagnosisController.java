@@ -34,7 +34,7 @@ public class DiagnosisController {
 					"LIMIT " + number);
 		) {
 			while (resultSet.next()) {
-				result.add(new ResultPreview(resultSet.getInt("diagnosis_id"), LocalDate.parse(resultSet.getString("examination_date")), resultSet.getInt("company_id"), resultSet.getString("company_name")));
+				result.add(new ResultPreview(resultSet.getInt("diagnosis_id"), LocalDate.parse(resultSet.getString("examination_date")), resultSet.getInt("company_id"), resultSet.getString("company_name"), LocalDate.parse(resultSet.getString("diagnosis_lastedited"))));
 			}
 		}
 		return result;
@@ -55,7 +55,7 @@ public class DiagnosisController {
 					"ORDER BY company_name asc ");
 		) {
 			while (resultSet.next()) {
-				result.add(new ResultPreview(resultSet.getInt("diagnosis_id"), LocalDate.parse(resultSet.getString("examination_date")), resultSet.getInt("company_id"), resultSet.getString("company_name")));
+				result.add(new ResultPreview(resultSet.getInt("diagnosis_id"), LocalDate.parse(resultSet.getString("examination_date")), resultSet.getInt("company_id"), resultSet.getString("company_name"), LocalDate.parse(resultSet.getString("diagnosis_lastedited"))));
 			}
 		}
 		return result;
