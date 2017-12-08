@@ -1,9 +1,12 @@
 package userInterface;
 
+import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import applicationLogic.PDFExport;
 import applicationLogic.ResultPreview;
 import dataStorageAccess.controller.DiagnosisController;
 import javafx.collections.FXCollections;
@@ -53,7 +56,6 @@ public class Tab_Home implements Initializable{
 					setOnMouseClicked(new EventHandler<Event>() {
 						@Override
 						public void handle(Event event) {
-							System.out.println("TEST");
 							Alert alert = new Alert(AlertType.CONFIRMATION);
 							alert.setTitle("Befundschein " + item.getId() + " - " + item.getCompanyName());
 							alert.setHeaderText("Aktion für Befundschein " + item.getId() + " wählen");
@@ -68,9 +70,17 @@ public class Tab_Home implements Initializable{
 
 							Optional<ButtonType> result = alert.showAndWait();
 							if (result.get() == editButton){
-							    // ... user chose "One"
+							//Bearbeiten
 							} else if (result.get() == exportButton) {
-							    // ... user chose "Two"
+								try {
+									PDFExport.export(item.getId());
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								} catch (SQLException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
 							}  else {
 							    // ... user chose CANCEL or closed the dialog
 							}
