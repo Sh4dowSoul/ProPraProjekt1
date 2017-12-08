@@ -10,7 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
-public class HomeController implements Initializable{
+public class Tab_Home implements Initializable{
 	// *** HOME TAB ***
 	@FXML private Button sortAlphaBtn;
 	@FXML private TableView companyTableView;

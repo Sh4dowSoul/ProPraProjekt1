@@ -47,7 +47,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 
-public class DiagnosisController implements Initializable{
+public class Tab_InspectionResult implements Initializable{
 // *** BEFUNDSCHEIN TAB ***
 // Versicherungsnehmer Adresse
 	@FXML private Button vnLoadBtn;
