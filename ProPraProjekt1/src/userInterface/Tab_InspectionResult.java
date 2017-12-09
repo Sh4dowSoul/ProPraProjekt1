@@ -30,7 +30,11 @@ import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -45,6 +49,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 public class Tab_InspectionResult implements Initializable{
@@ -345,6 +350,39 @@ public class Tab_InspectionResult implements Initializable{
 		dataStorageAccess.controller.DiagnosisController.insertDiagnosis(resultComplete);
 	}
 
+	public void changeScreenVNBtn (ActionEvent event) throws IOException{
+		
+		Parent tableViewParent = FXMLLoader.load(getClass().getResource("GUI_VNBtn.fxml"));
+		Scene tableViewScene = new Scene (tableViewParent);
+		
+		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		window.setScene(tableViewScene);
+		window.show();
+		
+	}
+	
+public void changeScreenplantBtn (ActionEvent event) throws IOException{
+		
+		Parent tableViewParent = FXMLLoader.load(getClass().getResource("GUI_PlantBtn.fxml"));
+		Scene tableViewScene = new Scene (tableViewParent);
+		
+		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		window.setScene(tableViewScene);
+		window.show();
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * Prepares the Autocomplete TextField
 	 */
