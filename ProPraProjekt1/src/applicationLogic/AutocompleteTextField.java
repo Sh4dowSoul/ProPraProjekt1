@@ -6,6 +6,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
+import javafx.event.EventHandler;
 import javafx.geometry.Side;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.CustomMenuItem;
@@ -22,14 +23,20 @@ public class AutocompleteTextField extends TextField {
     private final SortedSet<AutocompleteSuggestion> entries;      
     //Suggestion PopUp
     private ContextMenu entriesPopup;
+    
+    private AutoCompletionEvent event;
 
 
     public AutocompleteTextField() {
         this.entries = new TreeSet<>();
         this.entriesPopup = new ContextMenu();
-        
+      
         setListner();
     }  
+    
+    public void setAutoCompletionEvent(AutoCompletionEvent event) {
+    	this.event = event;
+    }
 
 
 
@@ -88,8 +95,8 @@ public class AutocompleteTextField extends TextField {
 
           //Suggestion selected Listener
           item.setOnAction(actionEvent -> {
-        	  System.out.println("Selected" + result.getId());
               setText(result.getDescription());
+              event.onAutoCompleteResult(result);
               positionCaret(result.getDescription().length());
               entriesPopup.hide();
           });
@@ -119,7 +126,7 @@ public class AutocompleteTextField extends TextField {
         textFilter.setFill(Color.BLUE);
         textFilter.setFont(Font.font("Helvetica", FontWeight.BOLD, 12));  
         return new TextFlow(textBefore, textFilter, textAfter);
-    }    
+    }   
     
     
 }

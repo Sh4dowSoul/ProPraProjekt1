@@ -9,6 +9,9 @@ import java.util.ResourceBundle;
 
 
 import org.controlsfx.control.textfield.AutoCompletionBinding;
+
+import applicationLogic.AutoCompletionEvent;
+import applicationLogic.AutocompleteSuggestion;
 import applicationLogic.AutocompleteTextField;
 import applicationLogic.Company;
 import applicationLogic.CompanyPlant;
@@ -141,13 +144,19 @@ public class Tab_InspectionResult implements Initializable{
 	@FXML private TableColumn recommodationClumn;
 	@FXML private Button AddDiagnosisBtn;
 	@FXML private Button pdfExpBtn;
-	@FXML private ComboBox test;
-	private AutoCompletionBinding ab;
+	
+	@FXML private TextField resultDefectId;
 	
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		prepareAutocomplete();
+		defectSearchField.setAutoCompletionEvent(new AutoCompletionEvent() {
+			@Override
+			public void onAutoCompleteResult(AutocompleteSuggestion suggestion) {
+				resultDefectId.setText(Integer.toString(suggestion.getId()));
+			}
+		});
     }
 	
 	/**
@@ -425,5 +434,4 @@ public void changeScreenplantBtn (ActionEvent event) throws IOException{
 	    );
 	    new Thread(autocompleteTask).start();
 	}
-	
 }
