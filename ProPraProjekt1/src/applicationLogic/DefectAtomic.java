@@ -8,7 +8,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
  * @author name
  */
 
-public class DefectAtomic {
+public class DefectAtomic implements Comparable<DefectAtomic> {
 	
 	@XStreamAlias("MangelNr")
 	private int defectId;
@@ -30,6 +30,12 @@ public class DefectAtomic {
 	@Override
 	public String toString() { 
 		return defectDescription;
+	}
+
+	@Override
+	public int compareTo(DefectAtomic arg0) {
+		return this.defectDescription.compareTo(arg0.getDefectDescription());
+
 	}
 
 }

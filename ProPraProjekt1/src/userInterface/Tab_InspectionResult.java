@@ -6,6 +6,9 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.ResourceBundle;
 
 
@@ -37,6 +40,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -148,7 +152,7 @@ public class Tab_InspectionResult implements Initializable{
 	@FXML private TextArea furtherExplanationsField;
 
 // Anhang A
-	@FXML private TextField defectSearchField;
+	@FXML private BranchAutocompletionTextField defectSearchField;
 	@FXML private TextField diagnosisDate;
 	@FXML private TableView defectTableView;
 	@FXML private TableColumn ifdnrColumn;
@@ -160,7 +164,7 @@ public class Tab_InspectionResult implements Initializable{
 	@FXML private TableColumn recommodationClumn;
 	@FXML private Button AddDiagnosisBtn;
 	@FXML private Button pdfExpBtn;
-	
+	@FXML private ComboBox test;
 	private AutoCompletionBinding ab;
 	
 	
@@ -317,7 +321,7 @@ public class Tab_InspectionResult implements Initializable{
 			||dangerGroup == -1
 			//||dangerCategoryExtensionField.getText().isEmpty()		//not always used
 			||(!noDefectsBtn.isArmed() && !defectsAttachedBtn.isArmed() && !removeDefectsImmediatelyBtn.isArmed())
-			||pages == 0 		//eingabe im befundschein tab noch vorhanden ?  bzw wichtig für den Konstruktor?
+			||pages == 0 		//eingabe im befundschein tab noch vorhanden ?  bzw wichtig fï¿½r den Konstruktor?
 			||(!isoMinYesBtn.isArmed() && !isoMinNoBtn.isArmed())
 			||(!isoProtocolYesBtn.isArmed() && !isoProtocolNoBtn.isArmed())
 			||(!isoCompensationYesBtn.isArmed() && !isoCompensationNoBtn.isArmed())
@@ -340,7 +344,7 @@ public class Tab_InspectionResult implements Initializable{
 			||hwl == -1
 			//||furtherExplanationsField.getText().isEmpty()			//not always used
 			) {
-				System.out.println("Fehler: Nicht alle Felder ausgefüllt");
+				System.out.println("Fehler: Nicht alle Felder ausgefï¿½llt");
 				//addDiagnosis();
 		}
 		
@@ -436,13 +440,9 @@ public void changeScreenplantBtn (ActionEvent event) throws IOException{
         		return DefectController.getAllDefects();
             }
         };
-        autocompleteTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
-    		@Override
-    		public void handle(final WorkerStateEvent event) {
-    			ab = TextFields.bindAutoCompletion(defectSearchField, autocompleteTask.getValue());
-    			ab.setMinWidth(600);
-    		}
-    	});
+        autocompleteTask.setOnSucceeded(event ->
+        	defectSearchField.getEntries().addAll(autocompleteTask.getValue())
+    	);
         autocompleteTask.setOnFailed(event ->
 	    	System.out.println("ERROR: " + autocompleteTask.getException())
 	    );
