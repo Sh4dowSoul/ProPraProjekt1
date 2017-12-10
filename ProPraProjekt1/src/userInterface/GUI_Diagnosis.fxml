@@ -133,7 +133,7 @@
                                                                   <RadioButton id="precautionNoBtn" fx:id="precautionNoBtn" mnemonicParsing="false" text="Nein" toggleGroup="$precautionGroup" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                                                                   <TextField fx:id="precautionField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                                                                   <Label text="Wurden alle Bereiche des Risikostandorts geprüft ?" wrapText="true" GridPane.rowIndex="4" />
-                                                                  <RadioButton id="comleteYesBtn" fx:id="comleteYesBtn" mnemonicParsing="false" text="Ja" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                                                  <RadioButton id="comleteYesBtn" fx:id="completeYesBtn" mnemonicParsing="false" text="Ja" GridPane.columnIndex="1" GridPane.rowIndex="4">
                                                                      <toggleGroup>
                                                                         <ToggleGroup fx:id="completeGroup" />
                                                                      </toggleGroup>
@@ -360,7 +360,7 @@
                                                             <Font name="System Bold Italic" size="14.0" />
                                                          </font>
                                                       </Label>
-                                  	<TextField fx:id="defectSearchField" prefHeight="25.0" prefWidth="535.0" promptText="Mangel hinzufühen">
+                                  	<TextField fx:id="defectSearchField" prefHeight="25.0" prefWidth="535.0" promptText="Mangel hinzufügen">
                                  <VBox.margin>
                                     <Insets top="15.0" />
                                  </VBox.margin>
