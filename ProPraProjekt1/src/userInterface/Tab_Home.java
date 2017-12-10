@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import applicationLogic.DefectStatistic;
 import applicationLogic.PDFExport;
 import applicationLogic.ResultPreview;
 import dataStorageAccess.controller.DiagnosisController;
@@ -20,6 +21,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -40,12 +42,21 @@ public class Tab_Home implements Initializable{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		setupLastEditedList();
+		prepareTable();
 		loadLastEdited();
+		loadAllDiagnoses();
     }
 	
 	public void setParentController(GUIController parentController) {
 	    this.mainController = parentController;
 	}
+	
+	private void prepareTable() {
+		compDiagnosisColumn.setCellValueFactory(new PropertyValueFactory<ResultPreview,String>("id"));
+		compNameColumn.setCellValueFactory(new PropertyValueFactory<ResultPreview,String>("companyName"));
+	}
+	
+	
 	
 	private void setupLastEditedList() {
 		recentlyUsedList.setCellFactory(param -> new ListCell<ResultPreview>() {
@@ -115,5 +126,25 @@ public class Tab_Home implements Initializable{
 	    	System.out.println("ERROR: " + lastEditedListTask.getException())
 	    );
 	    new Thread(lastEditedListTask).start();
+	}
+	
+	/**
+	 * Load all Diagnoses
+	 */
+	private void loadAllDiagnoses() {
+		final Task<ObservableList<ResultPreview>> allDiagnosesTask = new Task<ObservableList<ResultPreview>>() {
+            @Override
+            protected ObservableList<ResultPreview> call() throws Exception {
+        		return FXCollections.observableArrayList(DiagnosisController.getDiagnosesPreview());
+            }
+        };
+        //statCompanyProgress.visibleProperty().bind(companyListTask.runningProperty());
+        allDiagnosesTask.setOnSucceeded(event ->
+        	companyTableView.setItems(allDiagnosesTask.getValue())
+	    );
+        allDiagnosesTask.setOnFailed(event ->
+	    	System.out.println("ERROR: " + allDiagnosesTask.getException())
+	    );
+	    new Thread(allDiagnosesTask).start();
 	}
 }
