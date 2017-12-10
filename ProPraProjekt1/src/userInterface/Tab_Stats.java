@@ -94,8 +94,8 @@ public class Tab_Stats implements Initializable{
 
 
 	private void prepareStatsTable() {
-    	statsDefectsColumn.setCellValueFactory(new PropertyValueFactory<DefectStatistic,String>("defectId"));
-    	statsDefectDescriptionColumn.setCellValueFactory(new PropertyValueFactory<DefectStatistic,String>("defectDescription"));
+    	statsDefectsColumn.setCellValueFactory(new PropertyValueFactory<DefectStatistic,String>("Id"));
+    	statsDefectDescriptionColumn.setCellValueFactory(new PropertyValueFactory<DefectStatistic,String>("Description"));
     	statsQuantityColumn.setCellValueFactory(new PropertyValueFactory<DefectStatistic,String>("numberOccurrence"));
 	}
 	

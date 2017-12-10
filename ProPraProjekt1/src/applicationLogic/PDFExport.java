@@ -933,7 +933,7 @@ public class PDFExport {
 			cell = row.createCell(5f, String.valueOf(output.getDanger()));
 			cell = row.createCell(70f, (output.getBuilding()) + "<br /> " + output.getRoom() + "<br />"
 					+ output.getMachine() + "<br />" + output.getDefectCustomDescription());
-			cell = row.createCell(10f, String.valueOf(output.getDefectId()));
+			cell = row.createCell(10f, String.valueOf(output.getDescription()));
 			cell = row.createCell(10f, String.valueOf(output.getBranchId()));
 
 			cell.setBorderStyle(BorderStyle);
