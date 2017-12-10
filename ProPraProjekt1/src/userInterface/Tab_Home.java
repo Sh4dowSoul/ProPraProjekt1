@@ -25,6 +25,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.StageStyle;
@@ -37,6 +38,7 @@ public class Tab_Home implements Initializable{
 	@FXML private TableColumn diagnosisCompany;
 	@FXML private TableColumn diagnosisId;
 	@FXML private TableColumn diagnosisDate;
+	@FXML private ProgressIndicator diagnosisTableProgress;
 
 	private GUIController mainController;
 	
@@ -140,7 +142,7 @@ public class Tab_Home implements Initializable{
         		return FXCollections.observableArrayList(DiagnosisController.getDiagnosesPreview());
             }
         };
-        //statCompanyProgress.visibleProperty().bind(companyListTask.runningProperty());
+        diagnosisTableProgress.visibleProperty().bind(allDiagnosesTask.runningProperty());
         allDiagnosesTask.setOnSucceeded(event ->
         	companyTableView.setItems(allDiagnosesTask.getValue())
 	    );

@@ -16,13 +16,18 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0">
                <children>
-                    <TableView id="companyTableView" fx:id="companyTableView" layoutX="130.0" layoutY="40.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
-                    	<columns>
-                            <TableColumn id="compDiagnosisColumn" fx:id="diagnosisId" maxWidth="500.0" minWidth="100.0" prefWidth="300.0" resizable="false" text="Befundschein" />
-                        	<TableColumn id="companysColumn" fx:id="diagnosisCompany" maxWidth="500.0" minWidth="100.0" prefWidth="300.0" resizable="false" text="Firma" />
-                  			<TableColumn fx:id="diagnosisDate" maxWidth="500.0" minWidth="100.0" prefWidth="300.0" text="Prüfungsdatum" />
-                        </columns>
-                    </TableView>
+            <StackPane prefHeight="661.0" prefWidth="876.0" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+               <children>
+                          <TableView id="companyTableView" fx:id="companyTableView">
+                          	<columns>
+                                  <TableColumn id="compDiagnosisColumn" fx:id="diagnosisId" maxWidth="500.0" minWidth="100.0" prefWidth="300.0" resizable="false" text="Befundschein" />
+                              	<TableColumn id="companysColumn" fx:id="diagnosisCompany" maxWidth="500.0" minWidth="100.0" prefWidth="300.0" resizable="false" text="Firma" />
+                        			<TableColumn fx:id="diagnosisDate" maxWidth="500.0" minWidth="100.0" prefWidth="300.0" text="Prüfungsdatum" />
+                              </columns>
+                          </TableView>
+                  <ProgressIndicator fx:id="diagnosisTableProgress" maxHeight="-Infinity" maxWidth="-Infinity" />
+               </children>
+            </StackPane>
                </children>
             </AnchorPane>
         </items>
