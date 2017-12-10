@@ -106,7 +106,7 @@ public class Tab_InspectionResult implements Initializable{
 
 // Messungen
 	@FXML private RadioButton isoMinYesBtn;
-	@FXML private RadioButton IsoMinNoBtn;
+	@FXML private RadioButton isoMinNoBtn;
 	@FXML private RadioButton isoProtocolYesBtn;
 	@FXML private RadioButton isoProtocolNoBtn;
 	@FXML private RadioButton isoCompensationYesBtn;
@@ -174,32 +174,45 @@ public class Tab_InspectionResult implements Initializable{
 	 * @throws SQLException 
 	 */
 	public void addDiagnosis(ActionEvent add) throws SQLException {
+		boolean ERNoDefects = noDefectsBtn.isArmed();
+		boolean ERDefect = defectsAttachedBtn.isArmed();
+		boolean ERDanger = removeDefectsImmediatelyBtn.isArmed();
+		int ER = -1;
+		
 		boolean dangerGroupA = dangerCategorieGroupABtn.isArmed();
 		boolean dangerGroupB = dangerCategorieGroupBBtn.isArmed();
 		boolean dangerGroupC = dangerCategorieGroupCBtn.isArmed();
 		boolean dangerGroupD = dangerCategorieGroupDBtn.isArmed();
-		int dangerGroup = 0;
+		int dangerGroup = -1;
 		
 		boolean supplySystemTN = supplySystemTNBtn.isArmed();
 		boolean supplySystemTT = supplySystemTTBtn.isArmed();
 		boolean supplySystemIT = supplySystemITBtn.isArmed();
 		boolean supplySystemCircle = supplySystemCircleBtn.isArmed();
-		int supplySys = 0;
+		int supplySys = -1;
 
 		boolean hardWiredLoadsUnder250 = hardWiredLoadsUnder250Btn.isArmed();
 		boolean hardWiredLoadsUnder500 = hardWiredLoadsUnder500Btn.isArmed();
 		boolean hardWiredLoadsUnder1000 = hardWiredLoadsUnder1000Btn.isArmed();
 		boolean hardWiredLoadsUnder5000 = hardWiredLoadsUnder5000Btn.isArmed();
 		boolean hardWiredLoadsAbove5000 = hardWiredLoadsAbove5000Btn.isArmed();
-		int hwl = 0;
+		int hwl = -1;
 		
 		boolean dlenr = defectsLastExaminationNoReportBtn.isArmed();
 		boolean dflf = defectsLastExaminationYesBtn.isArmed();
-		int defectsLastEx = 0;
+		int defectsLastEx = -1;
 		
 		boolean csle = changesSinceLastExaminationYesBtn.isArmed();
 		boolean cslefe = changesSinceLastExaminationFirstExaminationBtn.isArmed();
-		int changesSinceLastEx = 0;
+		int changesSinceLastEx = -1;
+		
+		if(ERNoDefects) {
+			ER = 0;
+		}else if(ERDefect) {
+			ER = 1;
+		}else if(ERDanger) {
+			ER = 2;
+		}
 		
 		if(dangerGroupA) {
 			dangerGroup = 0;
@@ -246,7 +259,7 @@ public class Tab_InspectionResult implements Initializable{
 		}
 		
 		int id = 0;
-		LocalDate date = null;
+		LocalDate date = LocalDate.parse(plantInspectionField.getText());
 		LocalDate lastEdited = null;
 		String companion = plantCompanionField.getText();
 		String surveyor = plantExpertField.getText();
@@ -262,9 +275,9 @@ public class Tab_InspectionResult implements Initializable{
 		int defectsLastExaminationFixed = defectsLastEx;
 		int dangerCategory = dangerGroup;										
 		String dangerCategoryDescription = dangerCategoryExtensionField.getText();
-		boolean examinationResultNoDefect = noDefectsBtn.isArmed();
-		LocalDate examinationResultDefectDate = LocalDate.parse(defectsAttachedDateField.getText()) ; 	
+		boolean examinationResultNoDefect = noDefectsBtn.isArmed();	
 		boolean examinationResultDefect = defectsAttachedBtn.isArmed();
+		LocalDate examinationResultDefectDate = LocalDate.parse(defectsAttachedDateField.getText()); 
 		boolean examinationResultDanger = removeDefectsImmediatelyBtn.isArmed();
 		int pages = 0;
 		boolean isolationChecked = isoMinYesBtn.isArmed();
@@ -299,6 +312,50 @@ public class Tab_InspectionResult implements Initializable{
 		String hqStreet = streetCompField.getText();
 		int hqZip = Integer.parseInt(compZipField.getText());
 		String hqCity = compCityField.getText();
+		
+		//Checking completeness
+		if(plantInspectionField.getText().isEmpty()
+			||plantCompanionField.getText().isEmpty()
+			||plantExpertField.getText().isEmpty()
+			||plantAnerkNrField.getText().isEmpty()
+			||plantInspectionTimeField.getText().isEmpty()
+			||(!freqYesBtn.isArmed() && !freqNoBtn.isArmed())
+ 			||(!precautionYesBtn.isArmed() && !precautionNoBtn.isArmed())
+			||precautionField.getText().isEmpty()
+			||(!completeYesBtn.isArmed() && !completeNoBtn.isArmed())
+			||completeDateField.getText().isEmpty()
+			//||completeReasonField.getText().isEmpty()			//not always used
+			||changesSinceLastEx == -1
+			||defectsLastEx == -1
+			||dangerGroup == -1
+			//||dangerCategoryExtensionField.getText().isEmpty()		//not always used
+			||ER == -1
+			||pages == 0 		//eingabe im befundschein tab noch vorhanden ?  bzw wichtig für den Konstruktor?
+			||(!isoMinYesBtn.isArmed() && !isoMinNoBtn.isArmed())
+			||(!isoProtocolYesBtn.isArmed() && !isoProtocolNoBtn.isArmed())
+			||(!isoCompensationYesBtn.isArmed() && !isoCompensationNoBtn.isArmed())
+			//||isoCompensationCommentField.getText().isEmpty()			//not always used
+			||(!rcdAllBtn.isArmed() && !rcdNotBtn.isArmed())
+			||rcdPercentageField.getText().isEmpty()
+			//||rcdCommentField.getText().isEmpty()			//not always used
+			||(!resistanceYesBtn.isArmed() && !resistanceNoBtn.isArmed())
+			||resistanceYesBtn.isArmed() && resistancePercentageField.getText().isEmpty()
+			//||resistanceCommentField.getText()			//not always used
+			||(!thermicYesBtn.isArmed() && !thermicNoBtn.isArmed())
+			//||thermicCommentField.getText().isEmpty()			//not always used
+			||(!portableUtilitiesYesBtn.isArmed() && !portableUtilitiesNoBtn.isArmed())
+			||(!externalPortableUtilitiesYesBtn.isArmed() && !externalPortableUtilitiesNoBtn.isArmed())			//nrBtn ? -> group 
+			||supplySys == -1
+			||powerConsumptionField.getText().isEmpty()
+			||externalPowerPercentageField.getText().isEmpty()
+			||maxCapacityPercentageField.getText().isEmpty()
+			||protectedCirclesPercentageField.getText().isEmpty()
+			||hwl == -1
+			//||furtherExplanationsField.getText().isEmpty()			//not always used
+			) {
+				System.out.println("Fehler: Nicht alle Felder ausgefüllt");
+				//addDiagnosis();
+		}
 		
 		Company company = new Company(compId, companyName, hqStreet, hqZip, hqCity);
 		CompanyPlant companyPlant = new CompanyPlant(plantId, plantStreet, plantZip, plantCity, company);
@@ -349,7 +406,6 @@ public class Tab_InspectionResult implements Initializable{
 				);
 		dataStorageAccess.controller.DiagnosisController.insertDiagnosis(resultComplete);
 	}
-
 	public void changeScreenVNBtn (ActionEvent event) throws IOException{
 		
 		Parent tableViewParent = FXMLLoader.load(getClass().getResource("GUI_VNBtn.fxml"));
