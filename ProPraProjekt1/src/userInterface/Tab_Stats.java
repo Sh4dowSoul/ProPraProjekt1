@@ -1,14 +1,19 @@
 package userInterface;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 
 import applicationLogic.Branch;
 import applicationLogic.Company;
 import applicationLogic.DefectStatistic;
+import applicationLogic.PDFExport;
 import dataStorageAccess.StatisticAccess;
 import dataStorageAccess.controller.StatisticController;
 import javafx.beans.value.ChangeListener;
@@ -22,7 +27,9 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
@@ -30,7 +37,10 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.StageStyle;
 
 public class Tab_Stats implements Initializable{
 	
@@ -47,6 +57,7 @@ public class Tab_Stats implements Initializable{
 	@FXML private ProgressIndicator statCompanyProgress;
 	@FXML private ProgressIndicator statBranchProgress;
 	@FXML private ProgressIndicator statResultProgress;
+	@FXML private Button exportButton;
   
 	private Company currentCompany;
 	
@@ -72,6 +83,8 @@ public class Tab_Stats implements Initializable{
 			            		break;
 			            	case "branchListTab":
 			            		branchList.getSelectionModel().select(0);
+			            		currentCompany = null;
+			            		exportButton.setVisible(false);
 			            		break;
 			            }
 			        }
@@ -111,11 +124,14 @@ public class Tab_Stats implements Initializable{
 		companyList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Company>() {
 			@Override
 			public void changed(ObservableValue<? extends Company> observable, Company oldValue, Company newValue) {
-				currentCompany = newValue;
+				
 				if (newValue.getId() == -1) {
 					loadCompanyStatistic(newValue.getId(), true);
+					exportButton.setVisible(false);
 				}else {
 					loadCompanyStatistic(newValue.getId(), false);
+					currentCompany = newValue;
+					exportButton.setVisible(true);
 				}
 			}
 		});
@@ -260,18 +276,32 @@ public class Tab_Stats implements Initializable{
 	
 	 @FXML
 	 private void handleExportButton(ActionEvent event) {
-	     System.out.println("Exporting");
-	     // TODO Zwischen Firmen und BranchenExport unterscheiden
-	     try {
-	    	System.out.println(currentCompany);
-			StatisticAccess.exportStatisticCompany(currentCompany.getId());
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	     if(currentCompany != null) {
+	    	 String fileLocation = "exportedFiles/VdS-Statistik_" + new SimpleDateFormat("dd_MM_yyyy").format(Calendar.getInstance().getTime()) +".xml";
+	    	 Alert alert = new Alert(AlertType.CONFIRMATION);
+	    	 alert.setTitle("Statistik Export");
+	    	 alert.setHeaderText("Exportiere Statistiken der Firma " + currentCompany.getName() + "?");
+	    	 alert.setContentText(fileLocation);
+	    	 alert.initStyle(StageStyle.UTILITY);
+
+	    	 ButtonType yesButton = new ButtonType("Ja", ButtonData.YES);
+	    	 ButtonType cancelButton = new ButtonType("Abbrechen", ButtonData.CANCEL_CLOSE);
+	    	 
+	    	 alert.getButtonTypes().setAll(yesButton, cancelButton);
+	    	 Optional<ButtonType> result = alert.showAndWait();
+	    	 if (result.get() == yesButton){
+	    		 try {
+	    			System.out.println("Exporting "+ fileLocation);
+					StatisticAccess.exportStatisticCompany(currentCompany.getId(), fileLocation);
+				} catch (FileNotFoundException | SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}		
+	    	 }
+	     } else {
+	    	 System.out.println("ERROR");
+	     }
+	     
 	 }
 	
 }

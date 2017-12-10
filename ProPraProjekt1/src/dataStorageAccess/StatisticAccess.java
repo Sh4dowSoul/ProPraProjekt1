@@ -17,7 +17,7 @@ import dataStorageAccess.controller.StatisticController;
 
 public class StatisticAccess {
 	
-	public static void exportStatisticCompany(int companyId) throws SQLException, FileNotFoundException {
+	public static void exportStatisticCompany(int companyId, String fileName) throws SQLException, FileNotFoundException {
 		//Get list of Diagnoses
 		ArrayList<StatisticResult> diagnosesList= DiagnosisController.getDiagnosesAndDefectsOfCompany(1);
 		for (StatisticResult diagnosis : diagnosesList) {
@@ -29,9 +29,7 @@ public class StatisticAccess {
 			
 		XStream xStream = new XStream(new DomDriver());
 		xStream.autodetectAnnotations(true);
-		String timeStamp = new SimpleDateFormat("dd_MM_yyyy").format(Calendar.getInstance().getTime());
-		
-		FileOutputStream fs = new FileOutputStream("exportedFiles/VdS-Statistik_" + timeStamp +".xml");
+		FileOutputStream fs = new FileOutputStream(fileName);
 		xStream.toXML(diagnoses, fs);
 	}
 }
