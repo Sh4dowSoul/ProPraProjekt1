@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<GridPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userInterface.Tab_InspectionResult">
+<GridPane prefHeight="2000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userInterface.Tab_InspectionResult">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="500.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="500.0" />
@@ -201,7 +201,7 @@
                                                 <Insets left="10.0" />
                                              </padding>
                                           </RadioButton>
-                                                                  <RadioButton id="IsoMinNoBtn" fx:id="IsoMinNoBtn" mnemonicParsing="false" text="Nein" toggleGroup="$IsoMinGroup" GridPane.columnIndex="2" GridPane.rowIndex="16" />
+                                                                  <RadioButton id="IsoMinNoBtn" fx:id="isoMinNoBtn" mnemonicParsing="false" text="Nein" toggleGroup="$IsoMinGroup" GridPane.columnIndex="2" GridPane.rowIndex="16" />
                                                                   <Label text="Wenn Isolationswiderstandsmessungen nicht möglich sind: Lagen &#10;ersatzweise Messprotokolle über Isolationswiderstandsmessungen vor?" GridPane.rowIndex="17" />
                                                                   <RadioButton id="isoProtocolYesBtn" fx:id="isoProtocolYesBtn" mnemonicParsing="false" text="Ja" GridPane.columnIndex="1" GridPane.rowIndex="17">
                                                                      <toggleGroup>
