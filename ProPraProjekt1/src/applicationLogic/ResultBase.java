@@ -12,11 +12,14 @@ public abstract class ResultBase {
 	private int id;
 	@XStreamOmitField
 	private LocalDate date;
+	@XStreamOmitField
+	private String niceDate;
 	
 	
 	public ResultBase(int id, LocalDate date) {
 		this.id = id;
 		this.date = date;
+		this.niceDate = date.format(DateTimeFormatter.ofPattern("dd.MM.YYYY")); 
 	}
 	
 	public int getId() {
@@ -28,6 +31,6 @@ public abstract class ResultBase {
 	}
 	
 	public String getNiceDate() {
-		return date.format(DateTimeFormatter.ofPattern("dd.MM.YYYY"));
+		return niceDate;
 	}
 }

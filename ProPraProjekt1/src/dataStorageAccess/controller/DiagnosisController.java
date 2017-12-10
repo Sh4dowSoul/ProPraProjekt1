@@ -50,7 +50,7 @@ public class DiagnosisController {
 			Connection connection = DataSource.getConnection();
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(
-					"SELECT diagnosis_id, examination_date, company_id, company_name "+ 
+					"SELECT diagnosis_id, examination_date, company_id, company_name, diagnosis_lastedited "+ 
 					"FROM Diagnosis join (Company Natural join CompanyPlant as CompanyWhosPlant) on Diagnosis.plant_id = companyWhosPlant.plant_id "+ 
 					"ORDER BY company_name asc ");
 		) {

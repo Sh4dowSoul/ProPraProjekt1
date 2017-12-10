@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import applicationLogic.DefectStatistic;
 import applicationLogic.PDFExport;
 import applicationLogic.ResultPreview;
 import dataStorageAccess.controller.DiagnosisController;
@@ -20,9 +21,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.StageStyle;
@@ -32,14 +35,31 @@ public class Tab_Home implements Initializable{
 	@FXML private ListView<ResultPreview> recentlyUsedList;
 	@FXML private Button sortAlphaBtn;
 	@FXML private TableView companyTableView;
-	@FXML private TableColumn compNameColumn;
-	@FXML private TableColumn compDiagnosisColumn;
+	@FXML private TableColumn diagnosisCompany;
+	@FXML private TableColumn diagnosisId;
+	@FXML private TableColumn diagnosisDate;
+	@FXML private ProgressIndicator diagnosisTableProgress;
+
+	private GUIController mainController;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		setupLastEditedList();
+		prepareTable();
 		loadLastEdited();
+		loadAllDiagnoses();
     }
+	
+	public void setParentController(GUIController parentController) {
+	    this.mainController = parentController;
+	}
+	
+	private void prepareTable() {
+		diagnosisId.setCellValueFactory(new PropertyValueFactory<ResultPreview,String>("id"));
+		diagnosisCompany.setCellValueFactory(new PropertyValueFactory<ResultPreview,String>("companyName"));
+		diagnosisDate.setCellValueFactory(new PropertyValueFactory<ResultPreview,String>("niceDate"));
+	}
+	
 	
 	
 	private void setupLastEditedList() {
@@ -70,7 +90,7 @@ public class Tab_Home implements Initializable{
 
 							Optional<ButtonType> result = alert.showAndWait();
 							if (result.get() == editButton){
-							//Bearbeiten
+								mainController.changeTab();
 							} else if (result.get() == exportButton) {
 								try {
 									PDFExport.export(item.getId());
@@ -110,5 +130,25 @@ public class Tab_Home implements Initializable{
 	    	System.out.println("ERROR: " + lastEditedListTask.getException())
 	    );
 	    new Thread(lastEditedListTask).start();
+	}
+	
+	/**
+	 * Load all Diagnoses
+	 */
+	private void loadAllDiagnoses() {
+		final Task<ObservableList<ResultPreview>> allDiagnosesTask = new Task<ObservableList<ResultPreview>>() {
+            @Override
+            protected ObservableList<ResultPreview> call() throws Exception {
+        		return FXCollections.observableArrayList(DiagnosisController.getDiagnosesPreview());
+            }
+        };
+        diagnosisTableProgress.visibleProperty().bind(allDiagnosesTask.runningProperty());
+        allDiagnosesTask.setOnSucceeded(event ->
+        	companyTableView.setItems(allDiagnosesTask.getValue())
+	    );
+        allDiagnosesTask.setOnFailed(event ->
+	    	System.out.println("ERROR: " + allDiagnosesTask.getException())
+	    );
+	    new Thread(allDiagnosesTask).start();
 	}
 }
