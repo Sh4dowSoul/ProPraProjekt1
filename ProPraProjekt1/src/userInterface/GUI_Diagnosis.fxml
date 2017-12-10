@@ -6,7 +6,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import userInterface.BranchAutocompletionTextField?>
+<?import applicationLogic.AutocompleteTextField?>
 
 <GridPane prefHeight="2000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userInterface.Tab_InspectionResult">
     <columnConstraints>
@@ -361,12 +361,11 @@
                                 <Font name="System Bold Italic" size="14.0" />
                             </font>
                         </Label>
-                        <ComboBox fx:id="test" prefWidth="150.0" />
-                        <BranchAutocompletionTextField fx:id="defectSearchField" prefHeight="25.0" prefWidth="535.0" promptText="Mangel hinzufügen">
+                        <AutocompleteTextField fx:id="defectSearchField" prefHeight="25.0" prefWidth="535.0" promptText="Mangel hinzufügen">
                             <VBox.margin>
                                 <Insets top="15.0" />
                             </VBox.margin>
-                        </BranchAutocompletionTextField>
+                        </AutocompleteTextField>
                     </children>
                     <BorderPane.margin>
                         <Insets bottom="30.0" />

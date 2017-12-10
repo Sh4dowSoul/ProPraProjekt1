@@ -1,4 +1,4 @@
-package userInterface;
+package applicationLogic;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -6,7 +6,6 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
-import applicationLogic.DefectAtomic;
 import javafx.geometry.Side;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.CustomMenuItem;
@@ -18,14 +17,14 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
-public class BranchAutocompletionTextField extends TextField {
+public class AutocompleteTextField extends TextField {
 	//Possible Suggestions
-    private final SortedSet<DefectAtomic> entries;      
+    private final SortedSet<AutocompleteSuggestion> entries;      
     //Suggestion PopUp
     private ContextMenu entriesPopup;
 
 
-    public BranchAutocompletionTextField() {
+    public AutocompleteTextField() {
         this.entries = new TreeSet<>();
         this.entriesPopup = new ContextMenu();
         
@@ -46,14 +45,14 @@ public class BranchAutocompletionTextField extends TextField {
                 entriesPopup.hide();
             } else {
                 //Filter Suggestions
-                List<DefectAtomic> filteredEntries = entries.stream().filter(e -> e.getDefectDescription().toLowerCase().startsWith(enteredText.toLowerCase())).collect(Collectors.toList());
+                List<AutocompleteSuggestion> filteredEntries = entries.stream().filter(e -> e.getDescription().toLowerCase().startsWith(enteredText.toLowerCase())).collect(Collectors.toList());
                 //Check for remaining Suggestions
                 if (!filteredEntries.isEmpty()) {
                     //Suggestions found
                     populatePopup(filteredEntries, enteredText);
                     //If popUp is not visible yet, show it
                     if (!entriesPopup.isShowing()) {
-                        entriesPopup.show(BranchAutocompletionTextField.this, Side.BOTTOM, 0, 0); //position of popup
+                        entriesPopup.show(AutocompleteTextField.this, Side.BOTTOM, 0, 0); //position of popup
                     } 
                 //No Suggestions found - Hide PopUp
                 } else {
@@ -74,24 +73,24 @@ public class BranchAutocompletionTextField extends TextField {
     * 
     * @param searchResult The set of matching strings.
     */
-    private void populatePopup(List<DefectAtomic> searchResult, String searchReauest) {
+    private void populatePopup(List<AutocompleteSuggestion> searchResult, String searchReauest) {
         //List of Suggestions
         List<CustomMenuItem> menuItems = new LinkedList<>();
         //Build list as set of labels
         for (int i = 0; i < searchResult.size(); i++) {
-          final DefectAtomic result = searchResult.get(i);
+          final AutocompleteSuggestion result = searchResult.get(i);
           //Create a label for the text preview and style it
           Label entryLabel = new Label();
-          entryLabel.setGraphic(buildTextFlow(result.getDefectDescription(), searchReauest));  
+          entryLabel.setGraphic(buildTextFlow(result.getDescription(), searchReauest));  
           entryLabel.setPrefHeight(20);
           CustomMenuItem item = new CustomMenuItem(entryLabel, true);
           menuItems.add(item);
 
           //Suggestion selected Listener
           item.setOnAction(actionEvent -> {
-        	  System.out.println("Selected" + result.getDefectId());
-              setText(result.getDefectDescription());
-              positionCaret(result.getDefectDescription().length());
+        	  System.out.println("Selected" + result.getId());
+              setText(result.getDescription());
+              positionCaret(result.getDescription().length());
               entriesPopup.hide();
           });
         }
@@ -107,7 +106,7 @@ public class BranchAutocompletionTextField extends TextField {
     * 
     * @return The existing autocomplete entries.
     */
-    public SortedSet<DefectAtomic> getEntries() { 
+    public SortedSet<AutocompleteSuggestion> getEntries() { 
     	return entries; }
     
     
