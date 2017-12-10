@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 
-import org.controlsfx.control.textfield.AutoCompletionBinding;
-
 import applicationLogic.AutoCompletionEvent;
 import applicationLogic.AutocompleteSuggestion;
 import applicationLogic.AutocompleteTextField;
@@ -28,7 +26,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
