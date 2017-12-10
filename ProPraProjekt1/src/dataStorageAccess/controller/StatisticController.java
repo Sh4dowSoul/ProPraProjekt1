@@ -75,15 +75,40 @@ public class StatisticController {
 					"SELECT defect_id, defect_description, count(defect_id) " + 
 					"FROM DefectElement NATURAL JOIN defects " + 
 					"WHERE branch_id = " + id + " " +
-					"GROUP BY branch_id " + 
-					"ORDER BY count(defect_id) desc " + 
-					"Limit 3");
+					"GROUP BY defect_id " + 
+					"ORDER BY count(defect_id) desc "
+				);
 			) {
 			while (resultSet.next()) {
 				result.add(new DefectStatistic(resultSet.getInt("defect_id"), resultSet.getString("defect_description"), resultSet.getInt("count(defect_id)")));
 			}
 		}
-	return result;
+		return result;
+	}
+	
+	
+	/**
+	 * @param id - Id of a Branch
+	 * @return A List of the most Frequent Defects of a Branch
+	 * @throws SQLException
+	 */
+	public static ArrayList<DefectStatistic> getMostFrequentDefectAllBranches() throws SQLException{
+		ArrayList<DefectStatistic> result = new ArrayList<DefectStatistic>();
+		try (
+			Connection connection = DataSource.getConnection();
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(
+					"SELECT defect_id, defect_description, count(defect_id) " + 
+					"FROM DefectElement NATURAL JOIN defects " + 
+					"GROUP BY defect_id " + 
+					"ORDER BY count(defect_id) desc "
+				);
+			) {
+			while (resultSet.next()) {
+				result.add(new DefectStatistic(resultSet.getInt("defect_id"), resultSet.getString("defect_description"), resultSet.getInt("count(defect_id)")));
+			}
+		}
+		return result;
 	}
 	
 	public static ArrayList<DefectStatistic> getDefectsOfDiagnosis(int diagnosisId) throws SQLException{
