@@ -34,8 +34,9 @@ public class Tab_Home implements Initializable{
 	@FXML private ListView<ResultPreview> recentlyUsedList;
 	@FXML private Button sortAlphaBtn;
 	@FXML private TableView companyTableView;
-	@FXML private TableColumn compNameColumn;
-	@FXML private TableColumn compDiagnosisColumn;
+	@FXML private TableColumn diagnosisCompany;
+	@FXML private TableColumn diagnosisId;
+	@FXML private TableColumn diagnosisDate;
 
 	private GUIController mainController;
 	
@@ -52,8 +53,9 @@ public class Tab_Home implements Initializable{
 	}
 	
 	private void prepareTable() {
-		compDiagnosisColumn.setCellValueFactory(new PropertyValueFactory<ResultPreview,String>("id"));
-		compNameColumn.setCellValueFactory(new PropertyValueFactory<ResultPreview,String>("companyName"));
+		diagnosisId.setCellValueFactory(new PropertyValueFactory<ResultPreview,String>("id"));
+		diagnosisCompany.setCellValueFactory(new PropertyValueFactory<ResultPreview,String>("companyName"));
+		diagnosisDate.setCellValueFactory(new PropertyValueFactory<ResultPreview,String>("niceDate"));
 	}
 	
 	
