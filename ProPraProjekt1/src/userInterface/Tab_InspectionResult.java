@@ -174,11 +174,6 @@ public class Tab_InspectionResult implements Initializable{
 	 * @throws SQLException 
 	 */
 	public void addDiagnosis(ActionEvent add) throws SQLException {
-		boolean ERNoDefects = noDefectsBtn.isArmed();
-		boolean ERDefect = defectsAttachedBtn.isArmed();
-		boolean ERDanger = removeDefectsImmediatelyBtn.isArmed();
-		int ER = -1;
-		
 		boolean dangerGroupA = dangerCategorieGroupABtn.isArmed();
 		boolean dangerGroupB = dangerCategorieGroupBBtn.isArmed();
 		boolean dangerGroupC = dangerCategorieGroupCBtn.isArmed();
@@ -205,14 +200,6 @@ public class Tab_InspectionResult implements Initializable{
 		boolean csle = changesSinceLastExaminationYesBtn.isArmed();
 		boolean cslefe = changesSinceLastExaminationFirstExaminationBtn.isArmed();
 		int changesSinceLastEx = -1;
-		
-		if(ERNoDefects) {
-			ER = 0;
-		}else if(ERDefect) {
-			ER = 1;
-		}else if(ERDanger) {
-			ER = 2;
-		}
 		
 		if(dangerGroupA) {
 			dangerGroup = 0;
@@ -329,7 +316,7 @@ public class Tab_InspectionResult implements Initializable{
 			||defectsLastEx == -1
 			||dangerGroup == -1
 			//||dangerCategoryExtensionField.getText().isEmpty()		//not always used
-			||ER == -1
+			||(!noDefectsBtn.isArmed() && !defectsAttachedBtn.isArmed() && !removeDefectsImmediatelyBtn.isArmed())
 			||pages == 0 		//eingabe im befundschein tab noch vorhanden ?  bzw wichtig für den Konstruktor?
 			||(!isoMinYesBtn.isArmed() && !isoMinNoBtn.isArmed())
 			||(!isoProtocolYesBtn.isArmed() && !isoProtocolNoBtn.isArmed())
