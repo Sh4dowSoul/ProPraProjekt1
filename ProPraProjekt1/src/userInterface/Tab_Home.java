@@ -34,6 +34,8 @@ public class Tab_Home implements Initializable{
 	@FXML private TableView companyTableView;
 	@FXML private TableColumn compNameColumn;
 	@FXML private TableColumn compDiagnosisColumn;
+
+	private GUIController mainController;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -41,6 +43,9 @@ public class Tab_Home implements Initializable{
 		loadLastEdited();
     }
 	
+	public void setParentController(GUIController parentController) {
+	    this.mainController = parentController;
+	}
 	
 	private void setupLastEditedList() {
 		recentlyUsedList.setCellFactory(param -> new ListCell<ResultPreview>() {
@@ -70,7 +75,7 @@ public class Tab_Home implements Initializable{
 
 							Optional<ButtonType> result = alert.showAndWait();
 							if (result.get() == editButton){
-							//Bearbeiten
+								mainController.changeTab();
 							} else if (result.get() == exportButton) {
 								try {
 									PDFExport.export(item.getId());

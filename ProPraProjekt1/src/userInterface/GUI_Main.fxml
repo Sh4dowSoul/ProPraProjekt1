@@ -14,7 +14,7 @@
                <content>
                   <StackPane>
                      <children>
-                        <fx:include source="GUI_Home.fxml" />
+                        <fx:include fx:id="homeTab" source="GUI_Home.fxml" />
                      </children>
                   </StackPane>
                </content>
