@@ -247,7 +247,7 @@ public class Tab_InspectionResult implements Initializable{
 		
 		int id = 0;
 		LocalDate date = LocalDate.parse(plantInspectionField.getText());
-		LocalDate lastEdited = null;
+		LocalDate lastEdited = LocalDate.now();
 		String companion = plantCompanionField.getText();
 		String surveyor = plantExpertField.getText();
 		int vdsApprovalNr = Integer.parseInt(plantAnerkNrField.getText());
@@ -340,7 +340,7 @@ public class Tab_InspectionResult implements Initializable{
 			//||furtherExplanationsField.getText().isEmpty()			//not always used
 			) {
 				System.out.println("Fehler: Nicht alle Felder ausgefï¿½llt");
-				//label.setText("nicht alles ausgefüllt");
+				//label.setText("nicht alles ausgefï¿½llt");
 				//addDiagnosis();
 		}
 		
@@ -391,7 +391,7 @@ public class Tab_InspectionResult implements Initializable{
 				 companyPlant
 				);
 		dataStorageAccess.controller.DiagnosisController.insertDiagnosis(resultComplete);
-		System.out.println("Befundschein erfolgreich hinzugefügt");
+		System.out.println("Befundschein erfolgreich hinzugefï¿½gt");
 	}
 	
 	public void editDiagnosis() {

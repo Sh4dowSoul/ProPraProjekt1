@@ -169,7 +169,7 @@ public class DiagnosisController {
 				+ "precautions_declared_where, examination_completed, subsequent_examination_date, "
 				+ "subsequent_examination_reason, changes_sincel_last_examination, defects_last_examination_fixed, "
 				+ "danger_categorie_vds, danger_categorie_vds_description, examination_resultNoDefect, "
-				+ "examination_resultDefect, examination_resultDanger, isolation_checkedEnough, "
+				+ "examination_resultDefect, examinationResultDefectDate, examination_resultDanger, isolation_checkedEnough, "
 				+ "isolation_measurementProtocols, isolation_compensationMeasures, isolation_compensationMeasures_annotation, "
 				+ "rcd_available, rcd_available_percent, rcd_annotation, "
 				+ "resistance, resistance_number, resistance_annotation, "
