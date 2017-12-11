@@ -418,23 +418,23 @@ public class Tab_InspectionResult implements Initializable{
 		plantInspectionTimeField.setText(String.valueOf(result.getExaminationDuration()));
 		
 		if(result.isFrequencyControlledUtilities()) {
-			freqYesBtn.arm();
+			freqYesBtn.fire();
 		}else {
-			freqNoBtn.arm();
+			freqNoBtn.fire();
 		}
 		
 		if(result.isPrecautionsDeclared()) {
-			precautionYesBtn.arm();
+			precautionYesBtn.fire();
 		}else {
-			precautionNoBtn.arm();
+			precautionNoBtn.fire();
 		}
 		
 		precautionField.setText(result.getPrecautionsDeclaredLocation());
 		
 		if(result.isExaminationComplete()) {
-			completeYesBtn.arm();
+			completeYesBtn.fire();
 		}else {
-			completeNoBtn.arm();
+			completeNoBtn.fire();
 		}
 		
 		completeDateField.setText(LocalDate.parse(result.getSubsequentExaminationDate().toString()).toString());
@@ -442,111 +442,111 @@ public class Tab_InspectionResult implements Initializable{
 		
 		int changesSinceLastEx = result.getChangesSinceLastExamination();
 		if(changesSinceLastEx == 0) {
-			changesSinceLastExaminationYesBtn.arm();
+			changesSinceLastExaminationYesBtn.fire();
 		}else if (changesSinceLastEx == 1) {
-			changesSinceLastExaminationFirstExaminationBtn.arm();
+			changesSinceLastExaminationFirstExaminationBtn.fire();
 		}
 		
 		int defectsLastEx = result.getDefectsLastExaminationFixed();
 		if(defectsLastEx == 0) {
-			defectsLastExaminationNoReportBtn.arm();
+			defectsLastExaminationNoReportBtn.fire();
 		}else if (defectsLastEx == 1) {
-			defectsLastExaminationYesBtn.arm();
+			defectsLastExaminationYesBtn.fire();
 		}
 		
 		int dangerGroup = result.getDangerCategory();
 		if(dangerGroup == 0) {
-			dangerCategorieGroupABtn.arm();
+			dangerCategorieGroupABtn.fire();
 		}else if(dangerGroup == 1) {
-			dangerCategorieGroupBBtn.arm();
+			dangerCategorieGroupBBtn.fire();
 		}else if (dangerGroup == 2) {
-			dangerCategorieGroupCBtn.arm();
+			dangerCategorieGroupCBtn.fire();
 		}else if (dangerGroup == 3) {
-			dangerCategorieGroupDBtn.arm();
+			dangerCategorieGroupDBtn.fire();
 		}
 		
 		dangerCategoryExtensionField.setText(result.getDangerCategoryDescription());
 		
 		if(result.isExaminationResultNoDefect()){
-			noDefectsBtn.arm();
+			noDefectsBtn.fire();
 		}else if(result.isExaminationResultDefect()) {
-			defectsAttachedBtn.arm();
+			defectsAttachedBtn.fire();
 		}else if(result.isExaminationResultDanger()) {
-			removeDefectsImmediatelyBtn.arm();
+			removeDefectsImmediatelyBtn.fire();
 		}
 		
 		defectsAttachedDateField.setText(LocalDate.parse(result.getExaminationResultDefectDate().toString()).toString());
 		
 		if(result.isIsolationChecked()) {
-			isoMinYesBtn.arm();
+			isoMinYesBtn.fire();
 		}else {
-			isoMinNoBtn.arm();
+			isoMinNoBtn.fire();
 		}
 		
 		if(result.isIsolationMesasurementProtocols()) {
-			isoProtocolYesBtn.arm();
+			isoProtocolYesBtn.fire();
 		}else {
-			isoProtocolNoBtn.arm();
+			isoProtocolNoBtn.fire();
 		}
 		
 		if(result.isIsolationCompensationMeasures()) {
-			isoCompensationYesBtn.arm();
+			isoCompensationYesBtn.fire();
 		}else {
-			isoCompensationNoBtn.arm();
+			isoCompensationNoBtn.fire();
 		}
 		
 		isoCompensationCommentField.setText(result.getIsolationCompensationMeasuresAnnotation());
 		
 		if(result.getRcdAvailable()) {
-			rcdAllBtn.arm();
+			rcdAllBtn.fire();
 		}else {
-			rcdNotBtn.arm();
+			rcdNotBtn.fire();
 		}
 		
 		rcdPercentageField.setText(String.valueOf(result.getRcdAvailablePercent()));
 		rcdCommentField.setText(result.getRcdAnnotation());
 		
 		if(result.isResistance()) {
-			resistanceYesBtn.arm();
+			resistanceYesBtn.fire();
 		}else {
-			resistanceNoBtn.arm();
+			resistanceNoBtn.fire();
 		}
 		
 		resistancePercentageField.setText(String.valueOf(result.getResistanceNumber()));
 		resistanceCommentField.setText(result.getResistanceAnnotation());
 		
 		if(result.isThermalAbnormality()) {
-			thermicYesBtn.arm();
+			thermicYesBtn.fire();
 		}else {
-			thermicNoBtn.arm();
+			thermicNoBtn.fire();
 		}
 		
 		thermicCommentField.setText(result.getThermalAbnormalityAnnotation());
 		
 		if(result.isInternalPortableUtilities()) {
-			portableUtilitiesYesBtn.arm();
+			portableUtilitiesYesBtn.fire();
 		}else {
-			portableUtilitiesNoBtn.arm();
+			portableUtilitiesNoBtn.fire();
 		}
 		
 		int epu = result.getExternalPortableUtilities();
 		if(epu == 0) {
-			externalPortableUtilitiesYesBtn.arm();
+			externalPortableUtilitiesYesBtn.fire();
 		}else if(epu == 1) {
-			externalPortableUtilitiesNoBtn.arm();
+			externalPortableUtilitiesNoBtn.fire();
 		}else if(epu == 2) {
-			externalPortableUtilitiesNrBtn.arm();
+			externalPortableUtilitiesNrBtn.fire();
 		}
 		
 		int supplySystem = result.getSupplySystem();
 		if(supplySystem == 0) {
-			supplySystemTNBtn.arm();
+			supplySystemTNBtn.fire();
 		}else if(supplySystem == 1) {
-			supplySystemTTBtn.arm();
+			supplySystemTTBtn.fire();
 		}else if(supplySystem == 2) {
-			supplySystemITBtn.arm();
+			supplySystemITBtn.fire();
 		}else if(supplySystem == 3) {
-			supplySystemCircleBtn.arm();
+			supplySystemCircleBtn.fire();
 		}
 		
 		powerConsumptionField.setText(String.valueOf(result.getEnergyDemand()));
@@ -556,15 +556,15 @@ public class Tab_InspectionResult implements Initializable{
 		
 		int hardWiredLoads = result.getHardWiredLoads();
 		if(hardWiredLoads == 0) {
-			hardWiredLoadsUnder250Btn.arm();
+			hardWiredLoadsUnder250Btn.fire();
 		}else if(hardWiredLoads == 1) {
-			hardWiredLoadsUnder500Btn.arm();
+			hardWiredLoadsUnder500Btn.fire();
 		}else if(hardWiredLoads == 2) {
-			hardWiredLoadsUnder1000Btn.arm();
+			hardWiredLoadsUnder1000Btn.fire();
 		}else if(hardWiredLoads == 3) {
-			hardWiredLoadsUnder5000Btn.arm();
+			hardWiredLoadsUnder5000Btn.fire();
 		}else if(hardWiredLoads == 4) {
-			hardWiredLoadsAbove5000Btn.arm();
+			hardWiredLoadsAbove5000Btn.fire();
 		}
 		
 		furtherExplanationsField.setText(result.getAdditionalAnnotations());
