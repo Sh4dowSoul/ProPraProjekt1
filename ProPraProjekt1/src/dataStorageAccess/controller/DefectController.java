@@ -48,7 +48,7 @@ public class DefectController {
 			);
 		) {
 			while (resultSet.next()) {
-				result.add(new DefectResult(resultSet.getInt("defect_id"), resultSet.getInt("branch_id"), resultSet.getInt("element_id"), resultSet.getInt("danger"), resultSet.getString("building"), resultSet.getString("room"), resultSet.getString("machine"), resultSet.getString("defect_customDescription")));
+				result.add(new DefectResult(resultSet.getInt("defect_id"), resultSet.getInt("branch_id"), resultSet.getInt("danger"), resultSet.getString("building"), resultSet.getString("room"), resultSet.getString("machine"), resultSet.getString("defect_customDescription")));
 			}
 		}
 		return result;
