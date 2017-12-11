@@ -22,6 +22,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -34,10 +35,10 @@ public class Tab_Home implements Initializable{
 	// *** HOME TAB ***
 	@FXML private ListView<ResultPreview> recentlyUsedList;
 	@FXML private Button sortAlphaBtn;
-	@FXML private TableView companyTableView;
-	@FXML private TableColumn diagnosisCompany;
-	@FXML private TableColumn diagnosisId;
-	@FXML private TableColumn diagnosisDate;
+	@FXML private TableView<ResultPreview> companyTableView;
+	@FXML private TableColumn<ResultPreview,String> diagnosisCompany;
+	@FXML private TableColumn<ResultPreview,String> diagnosisId;
+	@FXML private TableColumn<ResultPreview,String> diagnosisDate;
 	@FXML private ProgressIndicator diagnosisTableProgress;
 
 	private GUIController mainController;
@@ -58,6 +59,10 @@ public class Tab_Home implements Initializable{
 		diagnosisId.setCellValueFactory(new PropertyValueFactory<ResultPreview,String>("id"));
 		diagnosisCompany.setCellValueFactory(new PropertyValueFactory<ResultPreview,String>("companyName"));
 		diagnosisDate.setCellValueFactory(new PropertyValueFactory<ResultPreview,String>("niceDate"));
+		
+		companyTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+			createDignosisOptionsDialog((ResultPreview) companyTableView.getSelectionModel().getSelectedItem());
+		});
 	}
 	
 	
@@ -76,42 +81,48 @@ public class Tab_Home implements Initializable{
 					setOnMouseClicked(new EventHandler<Event>() {
 						@Override
 						public void handle(Event event) {
-							Alert alert = new Alert(AlertType.CONFIRMATION);
-							alert.setTitle("Befundschein " + item.getId() + " - " + item.getCompanyName());
-							alert.setHeaderText("Aktion für Befundschein " + item.getId() + " wählen");
-							alert.setContentText("Befundschein Nr: " +item.getId() +"\nFirma: " + item.getCompanyName()+ "\nZuletzt bearbeitet: " + item.getLastEditedNice());
-							alert.initStyle(StageStyle.UTILITY);
-
-							ButtonType editButton = new ButtonType("Bearbeiten");
-							ButtonType exportButton = new ButtonType("Exportieren");
-							ButtonType cancelButton = new ButtonType("Abbrechen", ButtonData.CANCEL_CLOSE);
-
-							alert.getButtonTypes().setAll(editButton, exportButton, cancelButton);
-
-							Optional<ButtonType> result = alert.showAndWait();
-							if (result.get() == editButton){
-								mainController.changeTab();
-							} else if (result.get() == exportButton) {
-								try {
-									PDFExport.export(item.getId());
-								} catch (IOException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								} catch (SQLException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-							}  else {
-							    // ... user chose CANCEL or closed the dialog
-							}
+							createDignosisOptionsDialog(item);
 						}
+
+						
 			        });
 				} 
 			}
 		});
 	}
 
+	private void createDignosisOptionsDialog(ResultPreview item) {
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Befundschein " + item.getId() + " - " + item.getCompanyName());
+		alert.setHeaderText("Aktion für Befundschein " + item.getId() + " wählen");
+		alert.setContentText("Befundschein Nr: " +item.getId() +"\nFirma: " + item.getCompanyName()+ "\nZuletzt bearbeitet: " + item.getLastEditedNice());
+		alert.initStyle(StageStyle.UTILITY);
 
+		ButtonType editButton = new ButtonType("Bearbeiten");
+		ButtonType exportButton = new ButtonType("Exportieren");
+		ButtonType cancelButton = new ButtonType("Abbrechen", ButtonData.CANCEL_CLOSE);
+
+		alert.getButtonTypes().setAll(editButton, exportButton, cancelButton);
+
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == editButton){
+			mainController.changeTab();
+		} else if (result.get() == exportButton) {
+			try {
+				PDFExport.export(item.getId());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}  else {
+		    // ... user chose CANCEL or closed the dialog
+		}
+		
+	}
+	
 	/**
 	 * Load Last Edited List
 	 */
