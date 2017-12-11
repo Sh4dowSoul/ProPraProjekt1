@@ -34,9 +34,9 @@ public class DefectResult extends DefectStatistic{
 		case 1: 
 			return "X";
 		case 2: 
-			return "0";
+			return "O";
 		case 3: 
-			return "X,0";
+			return "X,O";
 		}
 	}
 
