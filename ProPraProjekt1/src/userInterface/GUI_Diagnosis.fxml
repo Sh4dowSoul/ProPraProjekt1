@@ -330,7 +330,7 @@
                                  </GridPane.margin>
                                         </RadioButton>
                                         <RadioButton id="externalPortableUtilitiesNoBtn" fx:id="externalPortableUtilitiesNoBtn" mnemonicParsing="false" text="Nein" toggleGroup="$ExternalPortableUtilitiesGroup" GridPane.columnIndex="2" GridPane.rowIndex="28" />
-                                        <RadioButton fx:id="externalPortableUtilitiesNrBtn" mnemonicParsing="false" text="nr " GridPane.columnIndex="3" GridPane.rowIndex="28" />
+                                        <RadioButton fx:id="externalPortableUtilitiesNrBtn" mnemonicParsing="false" text="nr " toggleGroup="$ExternalPortableUtilitiesGroup" GridPane.columnIndex="3" GridPane.rowIndex="28" />
                                         <Label text="Allgemeine Informationen zur geprüften elektrischen Anlage" wrapText="true" GridPane.rowIndex="29">
                                             <font>
                                                 <Font name="System Bold Italic" size="14.0" />
