@@ -167,6 +167,11 @@ public class Tab_InspectionResult implements Initializable{
 		boolean dangerGroupD = dangerCategorieGroupDBtn.isArmed();
 		int dangerGroup = -1;
 		
+		boolean externalPortableUtilitiesYes = externalPortableUtilitiesYesBtn.isArmed();
+		boolean externalPortableUtilitiesNo = externalPortableUtilitiesNoBtn.isArmed();
+		boolean externalPortableUtilitiesNr = externalPortableUtilitiesNrBtn.isArmed();
+		int epu = -1;
+		
 		boolean supplySystemTN = supplySystemTNBtn.isArmed();
 		boolean supplySystemTT = supplySystemTTBtn.isArmed();
 		boolean supplySystemIT = supplySystemITBtn.isArmed();
@@ -196,6 +201,14 @@ public class Tab_InspectionResult implements Initializable{
 			dangerGroup = 2;
 		}else if(dangerGroupD){
 			dangerGroup = 3;
+		}
+		
+		if(externalPortableUtilitiesYes) {
+			epu = 0;	
+		}else if(externalPortableUtilitiesNo) {
+			epu = 1;
+		}else if (externalPortableUtilitiesNr) {
+			epu = 2;
 		}
 		
 		if(supplySystemTN) {
@@ -253,7 +266,6 @@ public class Tab_InspectionResult implements Initializable{
 		boolean examinationResultDefect = defectsAttachedBtn.isArmed();
 		LocalDate examinationResultDefectDate = LocalDate.parse(defectsAttachedDateField.getText()); 
 		boolean examinationResultDanger = removeDefectsImmediatelyBtn.isArmed();
-		int pages = 0;
 		boolean isolationChecked = isoMinYesBtn.isArmed();
 		boolean isolationMesasurementProtocols = isoProtocolYesBtn.isArmed();
 		boolean isolationCompensationMeasures = isoCompensationYesBtn.isArmed();
@@ -267,7 +279,7 @@ public class Tab_InspectionResult implements Initializable{
 		boolean thermalAbnormality = thermicYesBtn.isArmed();
 		String thermalAbnormalityAnnotation = thermicCommentField.getText();
 		boolean internalPortableUtilities = portableUtilitiesYesBtn.isArmed();
-		int externalPortableUtilities = 0 ; 									//boolean? externalPortableUtilitiesNrBtn.isArmed();
+		int externalPortableUtilities = epu; 									//boolean? externalPortableUtilitiesNrBtn.isArmed();
 		int supplySystem = supplySys;
 		int energyDemand = Integer.parseInt(powerConsumptionField.getText());
 		int maxEnergyDemandExternal = Integer.parseInt(externalPowerPercentageField.getText());
@@ -295,22 +307,22 @@ public class Tab_InspectionResult implements Initializable{
 			||plantInspectionTimeField.getText().isEmpty()
 			||(!freqYesBtn.isArmed() && !freqNoBtn.isArmed())
  			||(!precautionYesBtn.isArmed() && !precautionNoBtn.isArmed())
-			||precautionField.getText().isEmpty()
+			||(precautionYesBtn.isArmed() && precautionField.getText().isEmpty())
 			||(!completeYesBtn.isArmed() && !completeNoBtn.isArmed())
-			||completeDateField.getText().isEmpty()
+			||(completeNoBtn.isArmed() && completeDateField.getText().isEmpty())
 			//||completeReasonField.getText().isEmpty()			//not always used
 			||changesSinceLastEx == -1
 			||defectsLastEx == -1
 			||dangerGroup == -1
 			//||dangerCategoryExtensionField.getText().isEmpty()		//not always used
 			||(!noDefectsBtn.isArmed() && !defectsAttachedBtn.isArmed() && !removeDefectsImmediatelyBtn.isArmed())
-			||pages == 0 		//eingabe im befundschein tab noch vorhanden ?  bzw wichtig fï¿½r den Konstruktor?
+			||(defectsAttachedBtn.isArmed() && defectsAttachedDateField.toString().isEmpty())
 			||(!isoMinYesBtn.isArmed() && !isoMinNoBtn.isArmed())
 			||(!isoProtocolYesBtn.isArmed() && !isoProtocolNoBtn.isArmed())
 			||(!isoCompensationYesBtn.isArmed() && !isoCompensationNoBtn.isArmed())
 			//||isoCompensationCommentField.getText().isEmpty()			//not always used
 			||(!rcdAllBtn.isArmed() && !rcdNotBtn.isArmed())
-			||rcdPercentageField.getText().isEmpty()
+			||(rcdAllBtn.isArmed() && rcdPercentageField.getText().isEmpty())
 			//||rcdCommentField.getText().isEmpty()			//not always used
 			||(!resistanceYesBtn.isArmed() && !resistanceNoBtn.isArmed())
 			||resistanceYesBtn.isArmed() && resistancePercentageField.getText().isEmpty()
@@ -328,6 +340,7 @@ public class Tab_InspectionResult implements Initializable{
 			//||furtherExplanationsField.getText().isEmpty()			//not always used
 			) {
 				System.out.println("Fehler: Nicht alle Felder ausgefï¿½llt");
+				//label.setText("nicht alles ausgefüllt");
 				//addDiagnosis();
 		}
 		
@@ -378,6 +391,11 @@ public class Tab_InspectionResult implements Initializable{
 				 companyPlant
 				);
 		dataStorageAccess.controller.DiagnosisController.insertDiagnosis(resultComplete);
+		System.out.println("Befundschein erfolgreich hinzugefügt");
+	}
+	
+	public void editDiagnosis() {
+		
 	}
 	public void changeScreenVNBtn (ActionEvent event) throws IOException{
 		
@@ -390,7 +408,7 @@ public class Tab_InspectionResult implements Initializable{
 		
 	}
 	
-public void changeScreenplantBtn (ActionEvent event) throws IOException{
+	public void changeScreenplantBtn (ActionEvent event) throws IOException{
 		
 		Parent tableViewParent = FXMLLoader.load(getClass().getResource("GUI_PlantBtn.fxml"));
 		Scene tableViewScene = new Scene (tableViewParent);
@@ -400,17 +418,6 @@ public void changeScreenplantBtn (ActionEvent event) throws IOException{
 		window.show();
 		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	/**
 	 * Prepares the Autocomplete TextField
