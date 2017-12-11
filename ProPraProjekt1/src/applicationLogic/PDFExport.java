@@ -66,7 +66,7 @@ public class PDFExport {
 
 			// Saving the document
 			// sm. "Save as..."
-			document.save("exportedFiles/Befundschein" + "_" + id + ".pdf");
+			document.save("exportedFiles/BS" + "_" + data.getCompanyPlant().getCompany().getName() + "_" + id + ".pdf");
 			System.out.println("Document saved");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -628,7 +628,7 @@ public class PDFExport {
 		float paddingDangerCategory = setDynamicText(page1, fontArial, 9, 1.25f, 370f, 175f, 324f - paddingP1,
 				"Das ist eine Testnachricht. Bla. Das ist eine Testnachricht. Das ist ein Test. Ein Test.");
 		paddingP1 += paddingDangerCategory;
-		drawSingleCellTable(page1, 363.5f - paddingPrecautions , 48f + paddingDangerCategory, 100f);
+		drawSingleCellTable(page1, 363.5f - paddingPrecautions, 48f + paddingDangerCategory, 100f);
 
 		// Frame: bottomMiddle (Prüfungsergebnis)
 		drawSingleCellTable(page1, 311.5f - paddingP1, 207f, 100f);
@@ -640,7 +640,7 @@ public class PDFExport {
 		setStaticText(fontArialCursive, 9, 77, 272 - paddingP1, "Die festgestellten Mängel sind im");
 		setStaticText(fontArialBoldCursive, 9, 212, 272 - paddingP1, "Anhang A");
 		setStaticText(fontArialCursive, 9, 258, 272 - paddingP1, "aufgeführt und spätestens zu beseitigen bis:");
-		// setTextPlaceholder(fontArial, 9, 450, 248, "01.09.2017");
+		setDatabaseText(fontArial, 9, 450, 272 - paddingP1, String.valueOf(data.getExaminationResultDefectDate()));
 		setOneCheckbox(data.isExaminationResultDanger(), 59, 248 - paddingP1);
 		setStaticText(fontArialBoldCursive, 9, 77, 260 - paddingP1,
 				"Es wurden Mängel festgestellt, die eine Brandgefahr (mit „X“ gekennzeichnet) bzw. eine Unfallgefahr (mit „O“");
@@ -931,9 +931,9 @@ public class PDFExport {
 			Row<PDPage> row = table.createRow(20f);
 			Cell<PDPage> cell = row.createCell(4f, String.valueOf(output.getIfdNR()));
 			cell = row.createCell(5f, String.valueOf(output.getDanger()));
-			cell = row.createCell(70f, (output.getBuilding()) + "<br /> " + output.getRoom() + "<br />"
+			cell = row.createCell(70f, (output.getBuilding()) + "<br />" + output.getRoom() + "<br />"
 					+ output.getMachine() + "<br />" + output.getDefectCustomDescription());
-			cell = row.createCell(10f, String.valueOf(output.getDescription()));
+			cell = row.createCell(10f, String.valueOf(output.getId()));
 			cell = row.createCell(10f, String.valueOf(output.getBranchId()));
 
 			cell.setBorderStyle(BorderStyle);
@@ -963,32 +963,32 @@ public class PDFExport {
 		setStaticText(fontArialBold, 14, 150f, 520f, "Das ASD ASDASD ASDASD  ein Test");
 
 		contentStream.close();
-		
+
 		// Page x von Page x, noch mit Loop und Methode
 		PDPageContentStream contentStream = new PDPageContentStream(document, page1, AppendMode.APPEND, true, true);
 		contentStream.beginText();
 		contentStream.setFont(fontArialCursive, 9);
 		contentStream.setNonStrokingColor(255, 0, 0);
 		contentStream.newLineAtOffset(474, 810);
-		contentStream.showText("Blatt-Nr. " + ++pageCounter + " von " + String.valueOf(document.getNumberOfPages()));
+		contentStream.showText("Blatt-Nr. " + (++pageCounter) + " von " + String.valueOf(document.getNumberOfPages()));
 		contentStream.endText();
 		contentStream.close();
-		
+
 		contentStream = new PDPageContentStream(document, page2, AppendMode.APPEND, true, true);
 		contentStream.beginText();
 		contentStream.setFont(fontArialCursive, 9);
 		contentStream.setNonStrokingColor(255, 0, 0);
 		contentStream.newLineAtOffset(474, 810);
-		contentStream.showText("Blatt-Nr. " + ++pageCounter + " von " + String.valueOf(document.getNumberOfPages()));
+		contentStream.showText("Blatt-Nr. " + (++pageCounter) + " von " + String.valueOf(document.getNumberOfPages()));
 		contentStream.endText();
 		contentStream.close();
-		
+
 		contentStream = new PDPageContentStream(document, page3, AppendMode.APPEND, true, true);
 		contentStream.beginText();
 		contentStream.setFont(fontArialCursive, 9);
 		contentStream.setNonStrokingColor(255, 0, 0);
 		contentStream.newLineAtOffset(474, 810);
-		contentStream.showText("Blatt-Nr. " + ++pageCounter + " von " + String.valueOf(document.getNumberOfPages()));
+		contentStream.showText("Blatt-Nr. " + (++pageCounter) + " von " + String.valueOf(document.getNumberOfPages()));
 		contentStream.endText();
 		contentStream.close();
 	}
