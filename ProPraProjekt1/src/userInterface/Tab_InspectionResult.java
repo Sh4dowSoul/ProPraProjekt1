@@ -17,9 +17,11 @@ import applicationLogic.DefectAtomic;
 import applicationLogic.DefectResult;
 import applicationLogic.ResultComplete;
 import applicationLogic.ResultPreview;
+import dataStorageAccess.ResultAccess;
 import dataStorageAccess.controller.DefectController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.css.PseudoClass;
@@ -477,7 +479,9 @@ public class Tab_InspectionResult implements Initializable{
 	 * @throws SQLException 
 	 */
 	public void editDiagnosis(int id) throws SQLException {
-		ResultComplete result = dataStorageAccess.controller.DiagnosisController.getDiagnosis(id);
+		ResultComplete result = ResultAccess.getCompleteResult(id);
+		
+		defectTableView.setItems(FXCollections.observableArrayList(result.getDefects()));
 		
 		//set maybe unused fields empty
 		completeReasonField.setText("");
