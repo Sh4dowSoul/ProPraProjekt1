@@ -14,9 +14,15 @@ import applicationLogic.AutocompleteTextField;
 import applicationLogic.Company;
 import applicationLogic.CompanyPlant;
 import applicationLogic.DefectAtomic;
+import applicationLogic.DefectResult;
 import applicationLogic.ResultComplete;
+import applicationLogic.ResultPreview;
 import dataStorageAccess.controller.DefectController;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -31,6 +37,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 public class Tab_InspectionResult implements Initializable{
@@ -129,32 +136,103 @@ public class Tab_InspectionResult implements Initializable{
 	@FXML private TextArea furtherExplanationsField;
 
 // Anhang A
-	@FXML private AutocompleteTextField defectSearchField;
 	@FXML private TextField diagnosisDate;
-	@FXML private TableView defectTableView;
-	@FXML private TableColumn ifdnrColumn;
-	@FXML private TableColumn dangerColumn;
-	@FXML private TableColumn buildingColumn;
-	@FXML private TableColumn RoomColumn;
-	@FXML private TableColumn maschineColumn;
-	@FXML private TableColumn branchColumn;
-	@FXML private TableColumn recommodationClumn;
+	@FXML private TableView<DefectResult> defectTableView;
+	@FXML private TableColumn<DefectResult,String> defectIdColumn;
+	@FXML private TableColumn<DefectResult,String> dangerColumn;
+	@FXML private TableColumn<DefectResult,String> buildingColumn;
+	@FXML private TableColumn<DefectResult,String> roomColumn;
+	@FXML private TableColumn<DefectResult,String> maschineColumn;
+	@FXML private TableColumn<DefectResult,String> branchColumn;
+	@FXML private TableColumn<DefectResult,String> descriptionColumn;
 	@FXML private Button AddDiagnosisBtn;
 	@FXML private Button pdfExpBtn;
-	
+	//Hinzufügen
+	@FXML private AutocompleteTextField defectSearchField;
 	@FXML private TextField resultDefectId;
+	@FXML private TextField branchText;
+	@FXML private TextField buildingText;
+	@FXML private TextField roomText;
+	@FXML private TextField machineText;
+	@FXML private TextField customDescriptionText;
+	@FXML private CheckBox dangerFireSwitchBox;
+	@FXML private CheckBox dangerPersonSwitchBox;
+	
+	
+	private int currentDefectId;
+	int currentDangerSituation;
 	
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		prepareAutocomplete();
+		prepareTable();
+		
 		defectSearchField.setAutoCompletionEvent(new AutoCompletionEvent() {
 			@Override
 			public void onAutoCompleteResult(AutocompleteSuggestion suggestion) {
 				resultDefectId.setText(Integer.toString(suggestion.getId()));
+				currentDefectId = suggestion.getId();
 			}
 		});
     }
+	private void prepareTable() {
+		defectIdColumn.setCellValueFactory(new PropertyValueFactory<DefectResult,String>("id"));
+		dangerColumn.setCellValueFactory(new PropertyValueFactory<DefectResult,String>("dangerString"));
+		buildingColumn.setCellValueFactory(new PropertyValueFactory<DefectResult,String>("building"));
+		roomColumn.setCellValueFactory(new PropertyValueFactory<DefectResult,String>("room"));
+		maschineColumn.setCellValueFactory(new PropertyValueFactory<DefectResult,String>("machine"));
+		branchColumn.setCellValueFactory(new PropertyValueFactory<DefectResult,String>("branchId"));
+		descriptionColumn.setCellValueFactory(new PropertyValueFactory<DefectResult,String>("defectCustomDescription"));
+	} 
+	
+	public void addToTable(ActionEvent add){
+		if (verifyNewTableInput()) {
+			currentDangerSituation = 0;
+			if (dangerFireSwitchBox.isSelected() && dangerPersonSwitchBox.isSelected()) {
+				currentDangerSituation = 3;
+			} else {
+				if(dangerFireSwitchBox.isSelected()) {
+					currentDangerSituation = 1;
+				} else {
+					if(dangerPersonSwitchBox.isSelected()) {
+					currentDangerSituation = 2;
+					}
+				}	
+			}
+			defectTableView.getItems().add(new DefectResult(currentDefectId,Integer.valueOf(branchText.getText()),currentDangerSituation,buildingText.getText(), roomText.getText(), machineText.getText(), customDescriptionText.getText()));
+			resetAddToTable();
+		}
+	}
+	
+	private void resetAddToTable() {
+		defectSearchField.setText("");
+		resultDefectId.setText("");
+		branchText.setText("");
+		dangerFireSwitchBox.setSelected(false);
+		dangerPersonSwitchBox.setSelected(false);
+		buildingText.setText("");
+		roomText.setText("");
+		machineText.setText("");
+		machineText.setText("");
+		customDescriptionText.setText("");
+		
+	}
+	public boolean verifyNewTableInput() {
+		return (validate(resultDefectId) & validate(branchText));
+	}
+
+	private boolean validate(TextField tf) {
+	    if (tf.getText().isEmpty()) {
+	    	tf.getStyleClass().add("error");
+	    	return false;
+	    }
+	    else{
+	    	tf.getStyleClass().remove("error");
+	    }
+	    return true;
+	}
+	
 	
 	/**
 	 * Adds diagnosis to the database

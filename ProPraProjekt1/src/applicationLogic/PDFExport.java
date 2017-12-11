@@ -929,7 +929,7 @@ public class PDFExport {
 		ArrayList<DefectResult> list = data.getDefects();
 		for (DefectResult output : list) {
 			Row<PDPage> row = table.createRow(20f);
-			Cell<PDPage> cell = row.createCell(4f, String.valueOf(output.getIfdNR()));
+			Cell<PDPage> cell = row.createCell(4f, String.valueOf(1));
 			cell = row.createCell(5f, String.valueOf(output.getDanger()));
 			cell = row.createCell(70f, (output.getBuilding()) + "<br />" + output.getRoom() + "<br />"
 					+ output.getMachine() + "<br />" + output.getDefectCustomDescription());

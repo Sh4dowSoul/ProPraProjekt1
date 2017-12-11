@@ -33,6 +33,7 @@ public class GUI extends Application {
 		loader.setLocation(GUI.class.getResource("GUI_Main.fxml"));
 		mainLayout = loader.load();
 		Scene scene = new Scene(mainLayout);
+		scene.getStylesheets().add(getClass().getResource("text-field-red-border.css").toExternalForm());
 		primaryStage.setMaximized(true);
 		primaryStage.setScene(scene);
 		primaryStage.show();
