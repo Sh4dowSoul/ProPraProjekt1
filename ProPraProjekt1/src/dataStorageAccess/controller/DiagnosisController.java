@@ -88,7 +88,7 @@ public class DiagnosisController {
 											resultSet.getBoolean("precautions_declared"),
 											resultSet.getString("precautions_declared_where"),
 											resultSet.getBoolean("examination_completed"),
-											resultSet.getString("subsequent_examination_date"),
+											LocalDate.parse(resultSet.getString("subsequent_examination_date")),
 											resultSet.getString("subsequent_examination_reason"),
 											resultSet.getInt("changes_sincel_last_examination"),
 											resultSet.getInt("defects_last_examination_fixed"),

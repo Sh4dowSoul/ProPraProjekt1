@@ -243,7 +243,7 @@ public class Tab_InspectionResult implements Initializable{
 		boolean precautionsDeclared = precautionYesBtn.isArmed();
 		String precautionsDeclaredLocation = precautionField.getText();
 		boolean examinationComplete = completeYesBtn.isArmed();
-		String subsequentExaminationDate  = completeDateField.getText(); 
+		LocalDate subsequentExaminationDate  = LocalDate.parse(completeDateField.getText()); 
 		String examinationIncompleteReason = completeReasonField.getText();
 		int changesSinceLastExamination = changesSinceLastEx;
 		int defectsLastExaminationFixed = defectsLastEx;

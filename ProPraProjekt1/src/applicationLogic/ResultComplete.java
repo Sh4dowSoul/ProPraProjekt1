@@ -21,7 +21,7 @@ public class ResultComplete extends ResultBase {
 	private boolean precautionsDeclared;
 	private String precautionsDeclaredLocation;
 	private boolean examinationComplete;
-	private String subsequentExaminationDate;
+	private LocalDate subsequentExaminationDate;
 	private String examinationIncompleteReason;
 	private int changesSinceLastExamination;
 	private int defectsLastExaminationFixed;
@@ -58,7 +58,7 @@ public class ResultComplete extends ResultBase {
 	
 	public ResultComplete(int id, LocalDate date, LocalDate lastEdited, String companion, String surveyor, int vdsApprovalNr,
 			double examinationDuration, boolean frequencyControlledUtilities, boolean precautionsDeclared,
-			String precautionsDeclaredLocation, boolean examinationComplete, String subsequentExaminationDate,
+			String precautionsDeclaredLocation, boolean examinationComplete, LocalDate subsequentExaminationDate,
 			String examinationIncompleteReason, int changesSinceLastExamination, int defectsLastExaminationFixed,
 			int dangerCategory, String dangerCategoryDescription, boolean examinationResultNoDefect,
 			boolean examinationResultDefect, LocalDate examinationResultDefectDate,  boolean examinationResultDanger, int pages, boolean isolationChecked,
@@ -174,10 +174,13 @@ public class ResultComplete extends ResultBase {
 	}
 
 
-	public String getSubsequentExaminationDate() {
+	public LocalDate getSubsequentExaminationDate() {
 		return subsequentExaminationDate;
 	}
 
+	public String getSubsequentExaminationDateNice() {
+		return subsequentExaminationDate.format(DateTimeFormatter.ofPattern("dd.MM.YYYY"));
+	}
 
 	public String getExaminationIncompleteReason() {
 		return examinationIncompleteReason;

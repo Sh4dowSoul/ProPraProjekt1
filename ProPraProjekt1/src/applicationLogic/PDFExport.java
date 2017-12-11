@@ -597,7 +597,7 @@ public class PDFExport {
 		setTwoCheckboxes(data.isExaminationComplete(), 177, 217, 437 - paddingP1);
 		setStaticText(fontArialCursive, 9, 190, 437 - paddingP1, "ja");
 		setStaticText(fontArialCursive, 9, 230, 437 - paddingP1, "nein - Nachbesichtigung (<6 Wo) vereinbart bis zum:");
-		setDatabaseText(fontArial, 9, 450, 437 - paddingP1, data.getSubsequentExaminationDate());
+		setDatabaseText(fontArial, 9, 450, 437 - paddingP1, data.getSubsequentExaminationDateNice());
 		setStaticText(fontArialCursive, 6, 505, 437 - paddingP1, "(Datum)");
 		setStaticText(fontArialCursive, 9, 59, 419 - paddingP1, "Begründung für nicht geprüfte Bereiche:");
 		setDatabaseText(fontArial, 9, 225, 419 - paddingP1, data.getExaminationIncompleteReason());
