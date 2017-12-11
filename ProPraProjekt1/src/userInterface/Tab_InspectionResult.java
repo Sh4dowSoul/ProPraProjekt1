@@ -339,7 +339,7 @@ public class Tab_InspectionResult implements Initializable{
 			||hwl == -1
 			//||furtherExplanationsField.getText().isEmpty()			//not always used
 			) {
-				System.out.println("Fehler: Nicht alle Felder ausgef�llt");
+				System.out.println("Fehler: Nicht alle Felder ausgefuellt");
 				//label.setText("nicht alles ausgef�llt");
 				//addDiagnosis();
 		}
@@ -391,12 +391,196 @@ public class Tab_InspectionResult implements Initializable{
 				 companyPlant
 				);
 		dataStorageAccess.controller.DiagnosisController.insertDiagnosis(resultComplete);
-		System.out.println("Befundschein erfolgreich hinzugef�gt");
+		System.out.println("Befundschein erfolgreich hinzugefuegt");
 	}
 	
-	public void editDiagnosis() {
+	/**
+	 * Takes diagnosis from database to edit it in GUI
+	 * @throws SQLException 
+	 */
+	public void editDiagnosis(int id) throws SQLException {
+		ResultComplete result = dataStorageAccess.controller.DiagnosisController.getDiagnosis(id);
 		
+		//set maybe unused fields empty
+		completeReasonField.setText("");
+		dangerCategoryExtensionField.setText("");
+		isoCompensationCommentField.setText("");
+		rcdCommentField.setText("");
+		resistanceCommentField.setText("");
+		thermicCommentField.setText("");
+		furtherExplanationsField.setText("");
+		
+		//fill fields and buttons
+		plantInspectionField.setText(LocalDate.parse(result.getDate().toString()).toString());
+		plantCompanionField.setText(result.getCompanion());
+		plantExpertField.setText(result.getSurveyor());
+		plantAnerkNrField.setText(String.valueOf(result.getVdsApprovalNr()));
+		plantInspectionTimeField.setText(String.valueOf(result.getExaminationDuration()));
+		
+		if(result.isFrequencyControlledUtilities()) {
+			freqYesBtn.arm();
+		}else {
+			freqNoBtn.arm();
+		}
+		
+		if(result.isPrecautionsDeclared()) {
+			precautionYesBtn.arm();
+		}else {
+			precautionNoBtn.arm();
+		}
+		
+		precautionField.setText(result.getPrecautionsDeclaredLocation());
+		
+		if(result.isExaminationComplete()) {
+			completeYesBtn.arm();
+		}else {
+			completeNoBtn.arm();
+		}
+		
+		completeDateField.setText(LocalDate.parse(result.getSubsequentExaminationDate().toString()).toString());
+		completeReasonField.setText(result.getExaminationIncompleteReason());
+		
+		int changesSinceLastEx = result.getChangesSinceLastExamination();
+		if(changesSinceLastEx == 0) {
+			changesSinceLastExaminationYesBtn.arm();
+		}else if (changesSinceLastEx == 1) {
+			changesSinceLastExaminationFirstExaminationBtn.arm();
+		}
+		
+		int defectsLastEx = result.getDefectsLastExaminationFixed();
+		if(defectsLastEx == 0) {
+			defectsLastExaminationNoReportBtn.arm();
+		}else if (defectsLastEx == 1) {
+			defectsLastExaminationYesBtn.arm();
+		}
+		
+		int dangerGroup = result.getDangerCategory();
+		if(dangerGroup == 0) {
+			dangerCategorieGroupABtn.arm();
+		}else if(dangerGroup == 1) {
+			dangerCategorieGroupBBtn.arm();
+		}else if (dangerGroup == 2) {
+			dangerCategorieGroupCBtn.arm();
+		}else if (dangerGroup == 3) {
+			dangerCategorieGroupDBtn.arm();
+		}
+		
+		dangerCategoryExtensionField.setText(result.getDangerCategoryDescription());
+		
+		if(result.isExaminationResultNoDefect()){
+			noDefectsBtn.arm();
+		}else if(result.isExaminationResultDefect()) {
+			defectsAttachedBtn.arm();
+		}else if(result.isExaminationResultDanger()) {
+			removeDefectsImmediatelyBtn.arm();
+		}
+		
+		defectsAttachedDateField.setText(LocalDate.parse(result.getExaminationResultDefectDate().toString()).toString());
+		
+		if(result.isIsolationChecked()) {
+			isoMinYesBtn.arm();
+		}else {
+			isoMinNoBtn.arm();
+		}
+		
+		if(result.isIsolationMesasurementProtocols()) {
+			isoProtocolYesBtn.arm();
+		}else {
+			isoProtocolNoBtn.arm();
+		}
+		
+		if(result.isIsolationCompensationMeasures()) {
+			isoCompensationYesBtn.arm();
+		}else {
+			isoCompensationNoBtn.arm();
+		}
+		
+		isoCompensationCommentField.setText(result.getIsolationCompensationMeasuresAnnotation());
+		
+		if(result.getRcdAvailable()) {
+			rcdAllBtn.arm();
+		}else {
+			rcdNotBtn.arm();
+		}
+		
+		rcdPercentageField.setText(String.valueOf(result.getRcdAvailablePercent()));
+		rcdCommentField.setText(result.getRcdAnnotation());
+		
+		if(result.isResistance()) {
+			resistanceYesBtn.arm();
+		}else {
+			resistanceNoBtn.arm();
+		}
+		
+		resistancePercentageField.setText(String.valueOf(result.getResistanceNumber()));
+		resistanceCommentField.setText(result.getResistanceAnnotation());
+		
+		if(result.isThermalAbnormality()) {
+			thermicYesBtn.arm();
+		}else {
+			thermicNoBtn.arm();
+		}
+		
+		thermicCommentField.setText(result.getThermalAbnormalityAnnotation());
+		
+		if(result.isInternalPortableUtilities()) {
+			portableUtilitiesYesBtn.arm();
+		}else {
+			portableUtilitiesNoBtn.arm();
+		}
+		
+		int epu = result.getExternalPortableUtilities();
+		if(epu == 0) {
+			externalPortableUtilitiesYesBtn.arm();
+		}else if(epu == 1) {
+			externalPortableUtilitiesNoBtn.arm();
+		}else if(epu == 2) {
+			externalPortableUtilitiesNrBtn.arm();
+		}
+		
+		int supplySystem = result.getSupplySystem();
+		if(supplySystem == 0) {
+			supplySystemTNBtn.arm();
+		}else if(supplySystem == 1) {
+			supplySystemTTBtn.arm();
+		}else if(supplySystem == 2) {
+			supplySystemITBtn.arm();
+		}else if(supplySystem == 3) {
+			supplySystemCircleBtn.arm();
+		}
+		
+		powerConsumptionField.setText(String.valueOf(result.getEnergyDemand()));
+		externalPowerPercentageField.setText(String.valueOf(result.getMaxEnergyDemandExternal()));
+		maxCapacityPercentageField.setText(String.valueOf(result.getMaxEnergyDemandInternal()));
+		protectedCirclesPercentageField.setText(String.valueOf(result.getProtectedCircuitsPercent()));
+		
+		int hardWiredLoads = result.getHardWiredLoads();
+		if(hardWiredLoads == 0) {
+			hardWiredLoadsUnder250Btn.arm();
+		}else if(hardWiredLoads == 1) {
+			hardWiredLoadsUnder500Btn.arm();
+		}else if(hardWiredLoads == 2) {
+			hardWiredLoadsUnder1000Btn.arm();
+		}else if(hardWiredLoads == 3) {
+			hardWiredLoadsUnder5000Btn.arm();
+		}else if(hardWiredLoads == 4) {
+			hardWiredLoadsAbove5000Btn.arm();
+		}
+		
+		furtherExplanationsField.setText(result.getAdditionalAnnotations());
+		
+		CompanyPlant cp = result.getCompanyPlant();
+		plantStreetField.setText(cp.getPlantStreet());
+		plantZipField.setText(String.valueOf(cp.getPlantZip()));
+		plantCityField.setText(cp.getPlantCity());
+		
+		Company c = cp.getCompany();
+		compNameField.setText(c.getName());
+		streetCompField.setText(c.getHqStreet());
+		compZipField.setText(String.valueOf(c.getHqStreet()));
+		compCityField.setText(c.getHqCity());
 	}
+	
 	public void changeScreenVNBtn (ActionEvent event) throws IOException{
 		
 		Parent tableViewParent = FXMLLoader.load(getClass().getResource("GUI_VNBtn.fxml"));
