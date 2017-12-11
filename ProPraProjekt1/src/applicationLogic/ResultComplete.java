@@ -31,7 +31,6 @@ public class ResultComplete extends ResultBase {
 	private boolean examinationResultDefect;
 	private LocalDate examinationResultDefectDate;
 	private boolean examinationResultDanger;
-	private int pages;
 	private boolean isolationChecked;
 	private boolean isolationMesasurementProtocols;
 	private boolean isolationCompensationMeasures;
@@ -61,7 +60,7 @@ public class ResultComplete extends ResultBase {
 			String precautionsDeclaredLocation, boolean examinationComplete, LocalDate subsequentExaminationDate,
 			String examinationIncompleteReason, int changesSinceLastExamination, int defectsLastExaminationFixed,
 			int dangerCategory, String dangerCategoryDescription, boolean examinationResultNoDefect,
-			boolean examinationResultDefect, LocalDate examinationResultDefectDate,  boolean examinationResultDanger, int pages, boolean isolationChecked,
+			boolean examinationResultDefect, LocalDate examinationResultDefectDate,  boolean examinationResultDanger, boolean isolationChecked,
 			boolean isolationMesasurementProtocols, boolean isolationCompensationMeasures,
 			String isolationCompensationMeasuresAnnotation, Boolean rcdAvailable, int rcdAvailablePercent,
 			String rcdAnnotation, boolean resistance, int resistanceNumber, String resistanceAnnotation,
@@ -89,7 +88,6 @@ public class ResultComplete extends ResultBase {
 		this.examinationResultDefect = examinationResultDefect;
 		this.examinationResultDefectDate = examinationResultDefectDate;
 		this.examinationResultDanger = examinationResultDanger;
-		this.pages = pages;
 		this.isolationChecked = isolationChecked;
 		this.isolationMesasurementProtocols = isolationMesasurementProtocols;
 		this.isolationCompensationMeasures = isolationCompensationMeasures;

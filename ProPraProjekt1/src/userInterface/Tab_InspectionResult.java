@@ -354,7 +354,6 @@ public class Tab_InspectionResult implements Initializable{
 				 examinationResultDefect,
 				 examinationResultDefectDate,
 				 examinationResultDanger,
-				 pages,
 				 isolationChecked,
 				 isolationMesasurementProtocols,
 				 isolationCompensationMeasures,

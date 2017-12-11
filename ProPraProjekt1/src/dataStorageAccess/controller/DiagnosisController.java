@@ -98,7 +98,6 @@ public class DiagnosisController {
 											resultSet.getBoolean("examination_resultDefect"),
 											LocalDate.parse(resultSet.getString("examinationResultDefectDate")),
 											resultSet.getBoolean("examination_resultDanger"),
-											resultSet.getInt("examination_pages"),
 											resultSet.getBoolean("isolation_checkedEnough"),
 											resultSet.getBoolean("isolation_measurementProtocols"),
 											resultSet.getBoolean("isolation_compensationMeasures"),
