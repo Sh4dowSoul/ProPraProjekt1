@@ -23,7 +23,7 @@
                <content>
                   <StackPane>
                      <children>
-                        <fx:include source="GUI_Diagnosis.fxml" />
+                        <fx:include fx:id="inspectionResultTab" source="GUI_Diagnosis.fxml" />
                      </children>
                   </StackPane>
                </content></Tab>

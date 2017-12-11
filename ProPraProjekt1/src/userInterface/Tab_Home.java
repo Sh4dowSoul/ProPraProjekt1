@@ -106,7 +106,8 @@ public class Tab_Home implements Initializable{
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == editButton){
-			mainController.changeTab();
+			mainController.changeTab(1);
+			mainController.editDiagnosis(item.getId());
 		} else if (result.get() == exportButton) {
 			try {
 				PDFExport.export(item.getId());
