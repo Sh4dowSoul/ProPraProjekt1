@@ -93,7 +93,6 @@ public class Tab_InspectionResult implements Initializable{
 	@FXML private CheckBox defectsAttachedBtn;
 	@FXML private TextField defectsAttachedDateField;
 	@FXML private CheckBox removeDefectsImmediatelyBtn;
-	@FXML private TextField pageCount;
 
 // Messungen
 	@FXML private RadioButton isoMinYesBtn;
@@ -242,36 +241,36 @@ public class Tab_InspectionResult implements Initializable{
 	 * @throws SQLException 
 	 */
 	public void addDiagnosis(ActionEvent add) throws SQLException {
-		boolean dangerGroupA = dangerCategorieGroupABtn.isArmed();
-		boolean dangerGroupB = dangerCategorieGroupBBtn.isArmed();
-		boolean dangerGroupC = dangerCategorieGroupCBtn.isArmed();
-		boolean dangerGroupD = dangerCategorieGroupDBtn.isArmed();
+		boolean dangerGroupA = dangerCategorieGroupABtn.isSelected();
+		boolean dangerGroupB = dangerCategorieGroupBBtn.isSelected();
+		boolean dangerGroupC = dangerCategorieGroupCBtn.isSelected();
+		boolean dangerGroupD = dangerCategorieGroupDBtn.isSelected();
 		int dangerGroup = -1;
 		
-		boolean externalPortableUtilitiesYes = externalPortableUtilitiesYesBtn.isArmed();
-		boolean externalPortableUtilitiesNo = externalPortableUtilitiesNoBtn.isArmed();
-		boolean externalPortableUtilitiesNr = externalPortableUtilitiesNrBtn.isArmed();
+		boolean externalPortableUtilitiesYes = externalPortableUtilitiesYesBtn.isSelected();
+		boolean externalPortableUtilitiesNo = externalPortableUtilitiesNoBtn.isSelected();
+		boolean externalPortableUtilitiesNr = externalPortableUtilitiesNrBtn.isSelected();
 		int epu = -1;
 		
-		boolean supplySystemTN = supplySystemTNBtn.isArmed();
-		boolean supplySystemTT = supplySystemTTBtn.isArmed();
-		boolean supplySystemIT = supplySystemITBtn.isArmed();
-		boolean supplySystemCircle = supplySystemCircleBtn.isArmed();
+		boolean supplySystemTN = supplySystemTNBtn.isSelected();
+		boolean supplySystemTT = supplySystemTTBtn.isSelected();
+		boolean supplySystemIT = supplySystemITBtn.isSelected();
+		boolean supplySystemCircle = supplySystemCircleBtn.isSelected();
 		int supplySys = -1;
 
-		boolean hardWiredLoadsUnder250 = hardWiredLoadsUnder250Btn.isArmed();
-		boolean hardWiredLoadsUnder500 = hardWiredLoadsUnder500Btn.isArmed();
-		boolean hardWiredLoadsUnder1000 = hardWiredLoadsUnder1000Btn.isArmed();
-		boolean hardWiredLoadsUnder5000 = hardWiredLoadsUnder5000Btn.isArmed();
-		boolean hardWiredLoadsAbove5000 = hardWiredLoadsAbove5000Btn.isArmed();
+		boolean hardWiredLoadsUnder250 = hardWiredLoadsUnder250Btn.isSelected();
+		boolean hardWiredLoadsUnder500 = hardWiredLoadsUnder500Btn.isSelected();
+		boolean hardWiredLoadsUnder1000 = hardWiredLoadsUnder1000Btn.isSelected();
+		boolean hardWiredLoadsUnder5000 = hardWiredLoadsUnder5000Btn.isSelected();
+		boolean hardWiredLoadsAbove5000 = hardWiredLoadsAbove5000Btn.isSelected();
 		int hwl = -1;
 		
-		boolean dlenr = defectsLastExaminationNoReportBtn.isArmed();
-		boolean dflf = defectsLastExaminationYesBtn.isArmed();
+		boolean dlenr = defectsLastExaminationNoReportBtn.isSelected();
+		boolean dflf = defectsLastExaminationYesBtn.isSelected();
 		int defectsLastEx = -1;
 		
-		boolean csle = changesSinceLastExaminationYesBtn.isArmed();
-		boolean cslefe = changesSinceLastExaminationFirstExaminationBtn.isArmed();
+		boolean csle = changesSinceLastExaminationYesBtn.isSelected();
+		boolean cslefe = changesSinceLastExaminationFirstExaminationBtn.isSelected();
 		int changesSinceLastEx = -1;
 		
 		if(dangerGroupA) {
@@ -333,34 +332,34 @@ public class Tab_InspectionResult implements Initializable{
 		String surveyor = plantExpertField.getText();
 		int vdsApprovalNr = Integer.parseInt(plantAnerkNrField.getText());
 		double examinationDuration = Double.parseDouble(plantInspectionTimeField.getText());
-		boolean frequencyControlledUtilities = freqYesBtn.isArmed();
-		boolean precautionsDeclared = precautionYesBtn.isArmed();
+		boolean frequencyControlledUtilities = freqYesBtn.isSelected();
+		boolean precautionsDeclared = precautionYesBtn.isSelected();
 		String precautionsDeclaredLocation = precautionField.getText();
-		boolean examinationComplete = completeYesBtn.isArmed();
+		boolean examinationComplete = completeYesBtn.isSelected();
 		LocalDate subsequentExaminationDate  = LocalDate.parse(completeDateField.getText()); 
 		String examinationIncompleteReason = completeReasonField.getText();
 		int changesSinceLastExamination = changesSinceLastEx;
 		int defectsLastExaminationFixed = defectsLastEx;
 		int dangerCategory = dangerGroup;										
 		String dangerCategoryDescription = dangerCategoryExtensionField.getText();
-		boolean examinationResultNoDefect = noDefectsBtn.isArmed();	
-		boolean examinationResultDefect = defectsAttachedBtn.isArmed();
+		boolean examinationResultNoDefect = noDefectsBtn.isSelected();	
+		boolean examinationResultDefect = defectsAttachedBtn.isSelected();
 		LocalDate examinationResultDefectDate = LocalDate.parse(defectsAttachedDateField.getText()); 
-		boolean examinationResultDanger = removeDefectsImmediatelyBtn.isArmed();
-		boolean isolationChecked = isoMinYesBtn.isArmed();
-		boolean isolationMesasurementProtocols = isoProtocolYesBtn.isArmed();
-		boolean isolationCompensationMeasures = isoCompensationYesBtn.isArmed();
+		boolean examinationResultDanger = removeDefectsImmediatelyBtn.isSelected();
+		boolean isolationChecked = isoMinYesBtn.isSelected();
+		boolean isolationMesasurementProtocols = isoProtocolYesBtn.isSelected();
+		boolean isolationCompensationMeasures = isoCompensationYesBtn.isSelected();
 		String isolationCompensationMeasuresAnnotation = isoCompensationCommentField.getText();
-		boolean rcdAvailable = rcdAllBtn.isArmed();
+		boolean rcdAvailable = rcdAllBtn.isSelected();
 		int rcdAvailablePercent = Integer.parseInt(rcdPercentageField.getText());
 		String rcdAnnotation = rcdCommentField.getText();
-		boolean resistance = resistanceYesBtn.isArmed();
+		boolean resistance = resistanceYesBtn.isSelected();
 		int resistanceNumber = Integer.parseInt(resistancePercentageField.getText());
 		String resistanceAnnotation = resistanceCommentField.getText();
-		boolean thermalAbnormality = thermicYesBtn.isArmed();
+		boolean thermalAbnormality = thermicYesBtn.isSelected();
 		String thermalAbnormalityAnnotation = thermicCommentField.getText();
-		boolean internalPortableUtilities = portableUtilitiesYesBtn.isArmed();
-		int externalPortableUtilities = epu; 									//boolean? externalPortableUtilitiesNrBtn.isArmed();
+		boolean internalPortableUtilities = portableUtilitiesYesBtn.isSelected();
+		int externalPortableUtilities = epu; 									//boolean? externalPortableUtilitiesNrBtn.isSelected();
 		int supplySystem = supplySys;
 		int energyDemand = Integer.parseInt(powerConsumptionField.getText());
 		int maxEnergyDemandExternal = Integer.parseInt(externalPowerPercentageField.getText());
@@ -554,9 +553,11 @@ public class Tab_InspectionResult implements Initializable{
 		
 		if(result.isExaminationResultNoDefect()){
 			noDefectsBtn.fire();
-		}else if(result.isExaminationResultDefect()) {
+		}	
+		if(result.isExaminationResultDefect()) {
 			defectsAttachedBtn.fire();
-		}else if(result.isExaminationResultDanger()) {
+		}
+		if(result.isExaminationResultDanger()) {
 			removeDefectsImmediatelyBtn.fire();
 		}
 		
