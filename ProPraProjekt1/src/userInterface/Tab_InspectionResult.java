@@ -164,9 +164,14 @@ public class Tab_InspectionResult implements Initializable{
 	private int currentDefectId;
 	int currentDangerSituation;
 	
+	public static Tab_InspectionResult instance;
 	
+	private Company selectedCompany;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+if(instance != null && instance.selectedCompany!= null) {
+	setSelectedCompany(instance.selectedCompany);
+		}	
 		prepareAutocomplete();
 		prepareTable();
 		
@@ -177,7 +182,18 @@ public class Tab_InspectionResult implements Initializable{
 				currentDefectId = suggestion.getId();
 			}
 		});
+		instance = this;
     }
+	
+	public void setSelectedCompany(Company company) {
+		selectedCompany=company;
+		compNameField.setText(company.getName());
+		compCityField.setText(company.getHqCity());
+		streetCompField.setText(company.getHqStreet());
+//		compZipField.setText(company.getHqZip());
+	}
+	
+	
 	private void prepareTable() {
 		defectIdColumn.setCellValueFactory(new PropertyValueFactory<DefectResult,String>("id"));
 		dangerColumn.setCellValueFactory(new PropertyValueFactory<DefectResult,String>("dangerString"));
@@ -224,6 +240,7 @@ public class Tab_InspectionResult implements Initializable{
 		return (validate(resultDefectId) & validate(branchText));
 	}
 
+	
 	private boolean validate(TextField tf) {
 	    if (tf.getText().isEmpty()) {
 	    	tf.getStyleClass().add("error");

@@ -22,6 +22,7 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public class Tab_VNBtn implements Initializable {
@@ -49,12 +50,12 @@ public class Tab_VNBtn implements Initializable {
 			e.printStackTrace();
 		}
 			
-//		
+		
 	}	
 
 		public void changeScreenDiagnosis (ActionEvent event) throws IOException{
 		
-		Parent tableViewParent = FXMLLoader.load(getClass().getResource("GUI_Diagnosis.fxml"));
+		Parent tableViewParent = FXMLLoader.load(getClass().getResource("GUI_Main.fxml"));
 		Scene tableViewScene = new Scene (tableViewParent);
 		
 		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -64,7 +65,16 @@ public class Tab_VNBtn implements Initializable {
 	}
 	
 		private void onDoubleClick(Company company) {
-			System.err.println(company.getName());
+//			FXMLLoader loader;
+//				 loader = new FXMLLoader(getClass().getResource( "GUI_Diagnosis.fxml") );
+////				Parent root = loader.load();
+//				Tab_InspectionResult controller = (Tab_InspectionResult) loader.getController();
+//				
+//				controller.setSelectedCompany(company);
+//				changeScreenDiagnosis(null); 
+
+				Tab_InspectionResult.instance.setSelectedCompany(company);
+	
 		}
 	
 

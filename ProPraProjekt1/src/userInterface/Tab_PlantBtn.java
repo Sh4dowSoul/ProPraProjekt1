@@ -19,7 +19,7 @@ public class Tab_PlantBtn {
 	
 	public void changeScreenDiagnosis (ActionEvent event) throws IOException{
 		
-	Parent tableViewParent = FXMLLoader.load(getClass().getResource("GUI_Diagnosis.fxml"));
+	Parent tableViewParent = FXMLLoader.load(getClass().getResource("GUI_Main.fxml"));
 	Scene tableViewScene = new Scene (tableViewParent);
 	
 	Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
