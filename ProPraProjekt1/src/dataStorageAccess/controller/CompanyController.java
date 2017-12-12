@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import applicationLogic.Company;
+import applicationLogic.CompanyPlant;
 import dataStorageAccess.DataSource;
 
 public class CompanyController {
@@ -57,28 +58,28 @@ public class CompanyController {
 		return result;
 	}
 	
-	//TODO Fix this
+	
 	/**
-	 * @param company_id - The Id of the Company
+	 * @param company - A Company
 	 * @return A List of Plants of a specific Company
 	 * @throws SQLException
 	 */
-	/*
-	public static ArrayList<CompanyPlant> getPlantsOfcompany(int company_id) throws SQLException{
+	
+	public static ArrayList<CompanyPlant> getPlantsOfcompany(Company company) throws SQLException{
 		ArrayList<CompanyPlant> result = new ArrayList<CompanyPlant>();
 		try (
-			Connection connection = DBConnection.getInstance().initConnection();
+			Connection connection = DataSource.getConnection();
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(
 					"SELECT * "+ 
 					"FROM CompanyPlant "+ 
-					"WHERE company_id = " + company_id+ " "+
+					"WHERE company_id = " + company.getId()+ " "+
 					"ORDER BY plant_street desc ");
 		) {
 			while (resultSet.next()) {
-				result.add(new CompanyPlant(resultSet.getInt("plant_id"), resultSet.getInt("company_id"), resultSet.getString("plant_street"), resultSet.getString("plant_zip"), ));
+				result.add(new CompanyPlant(resultSet.getInt("plant_id"), resultSet.getString("plant_street"), resultSet.getInt("plant_zip"), resultSet.getString("plant_city"), company ));
 			}
 		}
 		return result;
-	} */
+	}
 }
