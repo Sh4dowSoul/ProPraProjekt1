@@ -78,7 +78,4 @@ public class Tab_VNBtn implements Initializable {
 		}
 	
 
-	
-	
-	
 }

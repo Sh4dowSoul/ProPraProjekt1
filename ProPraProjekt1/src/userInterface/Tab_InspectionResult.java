@@ -167,6 +167,7 @@ public class Tab_InspectionResult implements Initializable{
 	public static Tab_InspectionResult instance;
 	
 	private Company selectedCompany;
+	private Company plantAdress;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 if(instance != null && instance.selectedCompany!= null) {
@@ -193,6 +194,17 @@ if(instance != null && instance.selectedCompany!= null) {
 //		compZipField.setText(company.getHqZip());
 	}
 	
+	public void setPlantAdress(Company company) {
+		selectedCompany=company;
+		plantStreetField.setText(company.getHqStreet());
+//		plantZipField.setText(value);
+//		plantCityField.setText(value);
+//		plantCompanionField.setText(value);
+//		plantExpertField.setText(value);
+//		plantAnerkNrField.setText(value);
+//		plantInspectionField.setText(value);
+//		plantInspectionTimeField.setText(value);
+	}
 	
 	private void prepareTable() {
 		defectIdColumn.setCellValueFactory(new PropertyValueFactory<DefectResult,String>("id"));
