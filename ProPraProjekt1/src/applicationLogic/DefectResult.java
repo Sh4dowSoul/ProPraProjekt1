@@ -41,18 +41,18 @@ public class DefectResult extends DefectStatistic{
 	}
 
 	public String getBuilding() {
-		return building;
+		return Util.getCheckedNull(building);
 	}
 
 	public String getRoom() {
-		return room;
+		return Util.getCheckedNull(room);
 	}
 
 	public String getMachine() {
-		return machine;
+		return Util.getCheckedNull(machine);
 	}
 
 	public String getDefectCustomDescription() {
-		return defectCustomDescription;
+		return Util.getCheckedNull(defectCustomDescription);
 	}
 }
