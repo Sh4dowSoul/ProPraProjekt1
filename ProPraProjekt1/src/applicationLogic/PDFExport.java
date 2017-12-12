@@ -18,7 +18,9 @@ import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
 import be.quodlibet.boxable.BaseTable;
 import be.quodlibet.boxable.Cell;
+import be.quodlibet.boxable.HorizontalAlignment;
 import be.quodlibet.boxable.Row;
+import be.quodlibet.boxable.VerticalAlignment;
 import be.quodlibet.boxable.line.LineStyle;
 import dataStorageAccess.ResultAccess;
 
@@ -43,8 +45,8 @@ public class PDFExport {
 	static int pageCounter;
 
 	/**
-	 * Creates new PDFDocument, sets the Fonts, calls createPDF method for
-	 * content and saves the File as PDF
+	 * Creates new PDFDocument, sets the Fonts, calls createPDF method for content
+	 * and saves the File as PDF
 	 * 
 	 * @throws IOException
 	 * @throws SQLException
@@ -495,6 +497,56 @@ public class PDFExport {
 		contentStream.endText();
 	}
 
+	public static void createTemplateLastPages(PDPage page, BaseTable table) throws IOException {
+		boolean isTrue = true;
+
+		PDFont fontArial = PDType0Font.load(document, arial);
+		PDFont fontArialBold = PDType0Font.load(document, arialBold);
+		PDFont fontArialBoldCursive = PDType0Font.load(document, arialBoldCursive);
+		PDFont fontArialCursive = PDType0Font.load(document, arialCursive);
+
+		if (table.getCurrentPage() != page) {
+			contentStream.close();
+			page = table.getCurrentPage();
+			int i = 3;
+			while (isTrue) {
+
+				contentStream = new PDPageContentStream(document, document.getPage(i), AppendMode.APPEND, false);
+				setConstTextPageOf(fontArialCursive, (++pageCounter), document.getNumberOfPages());
+				setStaticFrame(55.37f, 770, 21.8f, 22);
+				setStaticText(fontArialBold, 8, 60.6f, 783, "lfd.");
+				setStaticText(fontArialBold, 8, 60.6f, 773, "Nr.");
+				setStaticFrame(77.2f, 770, 32.4f, 22);
+				setStaticText(fontArialBold, 8, 78, 778, "Gefahr");
+				setStaticText(fontArialBoldCursive, 6, 104, 781, "1");
+				setStaticFrame(108.53f, 770, 346.1f, 22);
+				setStaticText(fontArialBold, 8, 116, 783, "Gebäude / Anlage / Raum sowie");
+				setStaticText(fontArialBold, 8, 116, 773, "Mängelbeschreibung und empfohlene Maßnahmen");
+				setStaticFrame(453.87f, 770, 50, 22);
+				setStaticText(fontArialBold, 8, 460, 783, "Mangel-");
+				setStaticText(fontArialBold, 8, 460, 773, "Nummer");
+				setStaticText(fontArialBoldCursive, 6, 494, 776, "2");
+				setStaticFrame(503.87f, 770, 50, 22);
+				setStaticText(fontArialBold, 8, 511, 783, "Betriebs-");
+				setStaticText(fontArialBold, 8, 511, 773, "Bereich");
+				setStaticText(fontArialBoldCursive, 6, 541, 776, "2");
+				setStaticText(fontArialBoldCursive, 6, 59, 61, "1");
+				setStaticText(fontArialCursive, 8, 64, 58,
+						"Mängel, die eine Brandgefahr darstellen, werden mit „X“ und Mängel, die eine Personengefahr darstellen, mit „O“ gekennzeichnet");
+				setStaticText(fontArialBoldCursive, 6, 59, 51, "2");
+				setStaticText(fontArialCursive, 8, 64, 48,
+						"Mangelnummer und die Nummern für die Betriebsbereiche sind der VdS-Mängelstatistik (VdS 2837) zu entnehmen");
+				setConstTextVersion(fontArial);
+				contentStream.close();
+				i++;
+				if (i == document.getNumberOfPages()) {
+					isTrue = false;
+				}
+			}
+
+		}
+	}
+
 	/**
 	 * creates the PDFDocument
 	 * 
@@ -640,7 +692,7 @@ public class PDFExport {
 		setStaticText(fontArialCursive, 9, 77, 272 - paddingP1, "Die festgestellten Mängel sind im");
 		setStaticText(fontArialBoldCursive, 9, 212, 272 - paddingP1, "Anhang A");
 		setStaticText(fontArialCursive, 9, 258, 272 - paddingP1, "aufgeführt und spätestens zu beseitigen bis:");
-		setDatabaseText(fontArial, 9, 450, 272 - paddingP1, String.valueOf(data.getExaminationResultDefectDate()));
+		setDatabaseText(fontArial, 9, 450, 272 - paddingP1, data.getExaminationResultDefectDateNice());
 		setOneCheckbox(data.isExaminationResultDanger(), 59, 248 - paddingP1);
 		setStaticText(fontArialBoldCursive, 9, 77, 260 - paddingP1,
 				"Es wurden Mängel festgestellt, die eine Brandgefahr (mit „X“ gekennzeichnet) bzw. eine Unfallgefahr (mit „O“");
@@ -861,21 +913,21 @@ public class PDFExport {
 		/////// PAGE 3 ///////
 
 		// Retrieving the third page
-		PDPage page3 = new PDPage(PDRectangle.A4);
-		document.addPage(page3);
+		PDPage page = new PDPage(PDRectangle.A4);
+		document.addPage(page);
 
 		// Creating the PDPageContentStream object
-		contentStream = new PDPageContentStream(document, page3);
+		contentStream = new PDPageContentStream(document, page);
 
 		// setTexField 2a)
 		// setConstTextPageOf(fontArialCursive, 3, document.getNumberOfPages());
 
 		// setFrame & setTextField 1)
-		setStaticFrame(54, 755, 501, 35);
+		setStaticFrame(55.37f, 755, 498.5f, 35);
 		setStaticText(fontArialBoldCursive, 12, 59, 768, "Anhang A zum Befundschein-Nr.:");
 		setDatabaseText(fontArialCursive, 10, 280, 768, String.valueOf(data.getId()));
 
-		setStaticFrame(54, 700, 501, 55);
+		setStaticFrame(55.37f, 700, 498.5f, 55);
 		setStaticText(fontArialBoldCursive, 9, 59, 745, "Allgemeine Bemerkungen");
 		setStaticText(fontArialCursive, 9, 59, 735,
 				"Wenn in der elektrischen Anlage z. B. aus betrieblichen Gründen keine oder nicht im ausreichenden Umfang Isolations-");
@@ -886,57 +938,84 @@ public class PDFExport {
 		setStaticText(fontArialCursive, 9, 59, 705,
 				"fordern. Aus der Sicht des Sachversicherers kann dies auch eine thermografische Untersuchung sein.");
 
-		setStaticFrame(54, 678, 18, 22);
-		setStaticText(fontArialBold, 8, 57, 691, "lfd.");
-		setStaticText(fontArialBold, 8, 57, 681, "Nr.");
-		setStaticFrame(72, 678, 32, 22);
-		setStaticText(fontArialBold, 8, 73.5f, 686, "Gefahr");
-		setStaticText(fontArialBoldCursive, 6, 99.5f, 689, "1");
-		setStaticFrame(104, 678, 341, 22);
-		setStaticText(fontArialBold, 8, 112, 691, "Gebäude / Anlage / Raum sowie");
-		setStaticText(fontArialBold, 8, 112, 681, "Mängelbeschreibung und empfohlene Maßnahmen");
-		setStaticFrame(445, 678, 55, 22);
-		setStaticText(fontArialBold, 8, 448, 691, "Mangel-");
-		setStaticText(fontArialBold, 8, 448, 681, "Nummer");
-		setStaticText(fontArialBoldCursive, 6, 481, 684, "2");
-		setStaticFrame(500, 678, 55, 22);
-		setStaticText(fontArialBold, 8, 503, 691, "Betriebs-");
-		setStaticText(fontArialBold, 8, 503, 681, "Bereich");
-		setStaticText(fontArialBoldCursive, 6, 533, 684, "2");
-
-		LineStyle BorderStyle = new LineStyle(Color.BLACK, 0.5f);
+		setStaticFrame(55.37f, 678, 21.8f, 22);
+		setStaticText(fontArialBold, 8, 60.6f, 691, "lfd.");
+		setStaticText(fontArialBold, 8, 60.6f, 681, "Nr.");
+		setStaticFrame(77.2f, 678, 32.4f, 22);
+		setStaticText(fontArialBold, 8, 78f, 686, "Gefahr");
+		setStaticText(fontArialBoldCursive, 6, 104f, 689, "1");
+		setStaticFrame(108.53f, 678, 346.1f, 22);
+		setStaticText(fontArialBold, 8, 116, 691, "Gebäude / Anlage / Raum sowie");
+		setStaticText(fontArialBold, 8, 116, 681, "Mängelbeschreibung und empfohlene Maßnahmen");
+		setStaticFrame(453.87f, 678, 50, 22);
+		setStaticText(fontArialBold, 8, 460, 691, "Mangel-");
+		setStaticText(fontArialBold, 8, 460, 681, "Nummer");
+		setStaticText(fontArialBoldCursive, 6, 494, 684, "2");
+		setStaticFrame(503.87f, 678, 50, 22);
+		setStaticText(fontArialBold, 8, 511, 691, "Betriebs-");
+		setStaticText(fontArialBold, 8, 511, 681, "Bereich");
+		setStaticText(fontArialBoldCursive, 6, 541, 684, "2");
 
 		// Dummy Table
 		float margin = 48f;
 		int leftMargin = 55;
 		// starting y position is whole page height subtracted by top and
 		// bottom margin
-		float yStartNewPage = page3.getMediaBox().getHeight() - (2 * margin);
+		float yStartNewPage = page.getMediaBox().getHeight() - (2 * margin);
 		// we want table across whole page width (subtracted by left and
 		// right margin ofcourse)
-		float tableWidth = page3.getMediaBox().getWidth() - (2 * margin);
+		float tableWidth = page.getMediaBox().getWidth() - (2 * margin);
 
 		boolean drawContent = true;
-		float yStart = yStartNewPage + 30f;
+		float yStart = yStartNewPage + 23.75f;
 		float bottomMargin = 60f;
 		// y position is your coordinate of top left corner of the table
 		float yPosition = 678f;
 
-		BaseTable table = new BaseTable(yPosition, yStart, bottomMargin, tableWidth, leftMargin, document, page3, true,
+		BaseTable table = new BaseTable(yPosition, yStart, bottomMargin, tableWidth, leftMargin, document, page, true,
 				drawContent);
-		;
+		LineStyle BorderStyle = new LineStyle(Color.BLACK, 0.75f);
+		LineStyle MiddleStyle = new LineStyle(Color.BLACK, 0.375f);
+		int id = 1;
 
 		ArrayList<DefectResult> list = data.getDefects();
 		for (DefectResult output : list) {
 			Row<PDPage> row = table.createRow(20f);
-			Cell<PDPage> cell = row.createCell(4f, String.valueOf(1));
-			cell = row.createCell(5f, String.valueOf(output.getDanger()));
-			cell = row.createCell(70f, (output.getBuilding()) + "<br />" + output.getRoom() + "<br />"
-					+ output.getMachine() + "<br />" + output.getDefectCustomDescription());
-			cell = row.createCell(10f, String.valueOf(output.getId()));
-			cell = row.createCell(10f, String.valueOf(output.getBranchId()));
-
-			cell.setBorderStyle(BorderStyle);
+			Cell<PDPage> cell = row.createCell(4.45f, String.valueOf(id++), HorizontalAlignment.CENTER,
+					VerticalAlignment.MIDDLE);
+			cell.setBorderStyle(MiddleStyle);
+			cell.setLeftBorderStyle(BorderStyle);
+			cell.setBottomBorderStyle(BorderStyle);
+			cell.setFont(fontArial);
+			cell.setFontSize(9);
+			cell = row.createCell(6.27f, output.getDangerString(), HorizontalAlignment.CENTER,
+					VerticalAlignment.MIDDLE);
+			cell.setBorderStyle(MiddleStyle);
+			cell.setBottomBorderStyle(BorderStyle);
+			cell.setFont(fontArial);
+			cell.setFontSize(9);
+			cell = row.createCell(
+					69.155f, (output.getBuilding()) + "<br />" + output.getRoom() + "<br />" + output.getMachine()
+							+ "<br />" + output.getDefectCustomDescription(),
+					HorizontalAlignment.LEFT, VerticalAlignment.MIDDLE);
+			cell.setBorderStyle(MiddleStyle);
+			cell.setLineSpacing(1.5f);
+			cell.setBottomBorderStyle(BorderStyle);
+			cell.setFont(fontArial);
+			cell.setFontSize(9);
+			cell = row.createCell(10.02f, String.valueOf(output.getId()), HorizontalAlignment.CENTER,
+					VerticalAlignment.MIDDLE);
+			cell.setBorderStyle(MiddleStyle);
+			cell.setBottomBorderStyle(BorderStyle);
+			cell.setFont(fontArial);
+			cell.setFontSize(9);
+			cell = row.createCell(10.1f, String.valueOf(output.getBranchId()), HorizontalAlignment.CENTER,
+					VerticalAlignment.MIDDLE);
+			cell.setBorderStyle(MiddleStyle);
+			cell.setRightBorderStyle(BorderStyle);
+			cell.setBottomBorderStyle(BorderStyle);
+			cell.setFont(fontArial);
+			cell.setFontSize(9);
 		}
 
 		table.draw();
@@ -952,45 +1031,42 @@ public class PDFExport {
 		// Closing the ContentStream
 		contentStream.close();
 
-		/////// PAGE X ///////
-
-		// Retrieving the xth page
-		PDPage page4 = new PDPage(PDRectangle.A4);
-		// sm. document.addPage(page4);
-
-		// Creating the PDPageContentStream object
-		contentStream = new PDPageContentStream(document, page4);
-		setStaticText(fontArialBold, 14, 150f, 520f, "Das ASD ASDASD ASDASD  ein Test");
-
-		contentStream.close();
-
 		// Page x von Page x, noch mit Loop und Methode
-		PDPageContentStream contentStream = new PDPageContentStream(document, page1, AppendMode.APPEND, true, true);
-		contentStream.beginText();
-		contentStream.setFont(fontArialCursive, 9);
-		contentStream.setNonStrokingColor(255, 0, 0);
-		contentStream.newLineAtOffset(474, 810);
-		contentStream.showText("Blatt-Nr. " + (++pageCounter) + " von " + String.valueOf(document.getNumberOfPages()));
-		contentStream.endText();
-		contentStream.close();
+		PDPageContentStream cos = new PDPageContentStream(document, page1, AppendMode.APPEND, true, true);
+		cos.beginText();
+		cos.setFont(fontArialCursive, 9);
+		cos.setNonStrokingColor(Color.BLACK);
+		cos.newLineAtOffset(474, 810);
+		cos.showText("Blatt-Nr. " + (++pageCounter) + " von " + String.valueOf(document.getNumberOfPages()));
+		cos.endText();
 
-		contentStream = new PDPageContentStream(document, page2, AppendMode.APPEND, true, true);
-		contentStream.beginText();
-		contentStream.setFont(fontArialCursive, 9);
-		contentStream.setNonStrokingColor(255, 0, 0);
-		contentStream.newLineAtOffset(474, 810);
-		contentStream.showText("Blatt-Nr. " + (++pageCounter) + " von " + String.valueOf(document.getNumberOfPages()));
-		contentStream.endText();
-		contentStream.close();
+		cos.beginText();
+		cos.setFont(fontArial, 9);
+		cos.setNonStrokingColor(Color.BLACK);
+		cos.newLineAtOffset(340, 208);
+		cos.showText(String.valueOf(document.getNumberOfPages()));
+		cos.endText();
+		cos.close();
 
-		contentStream = new PDPageContentStream(document, page3, AppendMode.APPEND, true, true);
-		contentStream.beginText();
-		contentStream.setFont(fontArialCursive, 9);
-		contentStream.setNonStrokingColor(255, 0, 0);
-		contentStream.newLineAtOffset(474, 810);
-		contentStream.showText("Blatt-Nr. " + (++pageCounter) + " von " + String.valueOf(document.getNumberOfPages()));
-		contentStream.endText();
-		contentStream.close();
+		cos = new PDPageContentStream(document, page2, AppendMode.APPEND, true, true);
+		cos.beginText();
+		cos.setFont(fontArialCursive, 9);
+		cos.setNonStrokingColor(Color.BLACK);
+		cos.newLineAtOffset(474, 810);
+		cos.showText("Blatt-Nr. " + (++pageCounter) + " von " + String.valueOf(document.getNumberOfPages()));
+		cos.endText();
+		cos.close();
+
+		cos = new PDPageContentStream(document, page, AppendMode.APPEND, true, true);
+		cos.beginText();
+		cos.setFont(fontArialCursive, 9);
+		cos.setNonStrokingColor(Color.BLACK);
+		cos.newLineAtOffset(474, 810);
+		cos.showText("Blatt-Nr. " + (++pageCounter) + " von " + String.valueOf(document.getNumberOfPages()));
+		cos.endText();
+		cos.close();
+
+		createTemplateLastPages(page, table);
 	}
 
 }
