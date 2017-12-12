@@ -1,9 +1,10 @@
 package applicationLogic;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 public class AutocompleteSuggestion implements Comparable<AutocompleteSuggestion> {
-	@XStreamAlias("MangelNr")
+	@XStreamOmitField
 	private int id;
 	private String description;
 

@@ -277,7 +277,7 @@ public class Tab_Stats implements Initializable{
 	 @FXML
 	 private void handleExportButton(ActionEvent event) {
 	     if(currentCompany != null) {
-	    	 String fileLocation = "exportedFiles/VdS-Statistik_" + new SimpleDateFormat("dd_MM_yyyy").format(Calendar.getInstance().getTime()) +".xml";
+	    	 String fileLocation = "exportedFiles/VdS-Statistik_" + currentCompany.getName() + "_" + new SimpleDateFormat("dd_MM_yyyy").format(Calendar.getInstance().getTime()) +".xml";
 	    	 Alert alert = new Alert(AlertType.CONFIRMATION);
 	    	 alert.setTitle("Statistik Export");
 	    	 alert.setHeaderText("Exportiere Statistiken der Firma " + currentCompany.getName() + "?");

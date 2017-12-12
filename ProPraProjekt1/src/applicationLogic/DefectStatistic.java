@@ -4,9 +4,10 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 @XStreamAlias("Mangel")
 public class DefectStatistic extends DefectAtomic{
-	
 	@XStreamAlias("Betriebsbereich")
 	private int branchId;
+	@XStreamAlias("MangelNr")
+	private int id;
 	@XStreamAlias("Anzahl")
 	private int numberOccurrence = 1;
 	
@@ -14,6 +15,7 @@ public class DefectStatistic extends DefectAtomic{
 	public DefectStatistic(int defectId, int branchId) {
 		super(defectId, null);
 		this.branchId = branchId;
+		this.id = defectId;
 	}
 	
 	//For Display in GUI

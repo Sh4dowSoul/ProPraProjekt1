@@ -19,7 +19,7 @@ public class StatisticAccess {
 	
 	public static void exportStatisticCompany(int companyId, String fileName) throws SQLException, FileNotFoundException {
 		//Get list of Diagnoses
-		ArrayList<StatisticResult> diagnosesList= DiagnosisController.getDiagnosesAndDefectsOfCompany(1);
+		ArrayList<StatisticResult> diagnosesList= DiagnosisController.getDiagnosesAndDefectsOfCompany(companyId);
 		for (StatisticResult diagnosis : diagnosesList) {
 			//Get defects from Diagnosis
 			diagnosis.setDefects(StatisticController.getDefectsOfDiagnosis(diagnosis.getId()));

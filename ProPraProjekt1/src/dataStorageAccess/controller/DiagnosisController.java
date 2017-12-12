@@ -150,12 +150,12 @@ public class DiagnosisController {
 			Connection connection = DataSource.getConnection();
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(
-					"SELECT diagnosis_id, examination_date, company_id, company_name "+
+					"SELECT diagnosis_id, examination_date, company_id, company_name, branch_id "+
 					"FROM Diagnosis join (Company Natural join CompanyPlant as CompanyWhosPlant) on Diagnosis.plant_id = companyWhosPlant.plant_id " +
 					"WHERE company_id = " + companyId);
 		) {
 			while (resultSet.next()) {
-				result.add(new StatisticResult(resultSet.getInt("diagnosis_id"), LocalDate.parse(resultSet.getString("examination_date")),"TODO","TODO","TODO"));
+				result.add(new StatisticResult(resultSet.getInt("diagnosis_id"), LocalDate.parse(resultSet.getString("examination_date")),"TODO","TODO",resultSet.getInt("branch_id"), resultSet.getString("company_name")));
 			}
 		}
 		return result;
