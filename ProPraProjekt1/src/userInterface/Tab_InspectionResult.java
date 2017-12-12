@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 import applicationLogic.AutoCompletionEvent;
 import applicationLogic.AutocompleteSuggestion;
 import applicationLogic.AutocompleteTextField;
+import applicationLogic.Branch;
 import applicationLogic.Company;
 import applicationLogic.CompanyPlant;
 import applicationLogic.DefectAtomic;
@@ -424,6 +425,7 @@ public class Tab_InspectionResult implements Initializable{
 				//addDiagnosis();
 		}
 		
+		Branch branch = null;
 		Company company = new Company(compId, companyName, hqStreet, hqZip, hqCity);
 		CompanyPlant companyPlant = new CompanyPlant(plantId, plantStreet, plantZip, plantCity, company);
 		ResultComplete resultComplete = new ResultComplete(id,
@@ -433,6 +435,7 @@ public class Tab_InspectionResult implements Initializable{
 				 surveyor,
 				 vdsApprovalNr,
 				 examinationDuration,
+				 branch,
 				 frequencyControlledUtilities,
 				 precautionsDeclared,
 				 precautionsDeclaredLocation,

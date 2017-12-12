@@ -17,6 +17,7 @@ public class ResultComplete extends ResultBase {
 	private String surveyor;
 	private int vdsApprovalNr;
 	private double examinationDuration;
+	private Branch branch;
 	boolean frequencyControlledUtilities;
 	private boolean precautionsDeclared;
 	private String precautionsDeclaredLocation;
@@ -56,7 +57,7 @@ public class ResultComplete extends ResultBase {
 	private ArrayList<DefectResult> defects;
 	
 	public ResultComplete(int id, LocalDate date, LocalDate lastEdited, String companion, String surveyor, int vdsApprovalNr,
-			double examinationDuration, boolean frequencyControlledUtilities, boolean precautionsDeclared,
+			double examinationDuration, Branch branch, boolean frequencyControlledUtilities, boolean precautionsDeclared,
 			String precautionsDeclaredLocation, boolean examinationComplete, LocalDate subsequentExaminationDate,
 			String examinationIncompleteReason, int changesSinceLastExamination, int defectsLastExaminationFixed,
 			int dangerCategory, String dangerCategoryDescription, boolean examinationResultNoDefect,
@@ -74,6 +75,7 @@ public class ResultComplete extends ResultBase {
 		this.surveyor = surveyor;
 		this.vdsApprovalNr = vdsApprovalNr;
 		this.examinationDuration = examinationDuration;
+		this.branch = branch;
 		this.frequencyControlledUtilities = frequencyControlledUtilities;
 		this.precautionsDeclared = precautionsDeclared;
 		this.precautionsDeclaredLocation = precautionsDeclaredLocation;
@@ -149,6 +151,10 @@ public class ResultComplete extends ResultBase {
 
 	public double getExaminationDuration() {
 		return examinationDuration;
+	}
+	
+	public Branch getBranch() {
+		return branch;
 	}
 
 

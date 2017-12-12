@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import applicationLogic.Branch;
 import applicationLogic.Company;
 import applicationLogic.CompanyPlant;
 import applicationLogic.ResultComplete;
@@ -73,7 +74,7 @@ public class DiagnosisController {
 				Statement statement = connection.createStatement();
 				ResultSet resultSet = statement.executeQuery(
 						"SELECT * "+ 
-						"FROM Diagnosis NATURAL JOIN CompanyPlant Natural JOIN Company "+ 
+						"FROM Diagnosis NATURAL JOIN CompanyPlant Natural JOIN Company NATURAL JOIN Branches "+ 
 						"WHERE diagnosis_id = " + id);
 			) {
 				while (resultSet.next()) {
@@ -84,6 +85,10 @@ public class DiagnosisController {
 											resultSet.getString("surveyor"),
 											resultSet.getInt("vds_approval_nr"), 
 											resultSet.getDouble("examination_duration"), 
+											new Branch(
+													resultSet.getInt("branch_id"),
+													resultSet.getString("branch_name")
+														),
 											resultSet.getBoolean("frequency_controlled_utilities"), 
 											resultSet.getBoolean("precautions_declared"),
 											resultSet.getString("precautions_declared_where"),
@@ -165,7 +170,7 @@ public class DiagnosisController {
 		String statement = "INSERT INTO Diagnosis "
 				+ "(diagnosis_lastEdited, plant_id, companion, "
 				+ "surveyor, vds_approval_nr, examination_date, "
-				+ "examination_duration, frequency_controlled_utilities, precautions_declared, "
+				+ "examination_duration, branch_id,frequency_controlled_utilities, precautions_declared, "
 				+ "precautions_declared_where, examination_completed, subsequent_examination_date, "
 				+ "subsequent_examination_reason, changes_sincel_last_examination, defects_last_examination_fixed, "
 				+ "danger_categorie_vds, danger_categorie_vds_description, examination_resultNoDefect, "
@@ -177,7 +182,7 @@ public class DiagnosisController {
 				+ "externalPortableUtilities, supplySystem, energyDemand, "
 				+ "maxEnergyDemandExternal, maxEnergyDemandInternal, protectedCircuitsPercent, "
 				+ "hardWiredLoads, additionalAnnotations) "
-				+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		PreparedStatement preparedStatement = null;
 		Connection connection = null;
 		try {
@@ -187,7 +192,7 @@ public class DiagnosisController {
 			setValues(preparedStatement,
 					diagnosis.getLastEdited(), diagnosis.getCompanyPlant().getId(), diagnosis.getCompanion(), 
 					diagnosis.getSurveyor(), diagnosis.getVdsApprovalNr(), diagnosis.getDate(),
-					diagnosis.getExaminationDuration(), diagnosis.isFrequencyControlledUtilities(),diagnosis.isPrecautionsDeclared(),
+					diagnosis.getExaminationDuration(),diagnosis.getBranch().getId(), diagnosis.isFrequencyControlledUtilities(),diagnosis.isPrecautionsDeclared(),
 					diagnosis.getPrecautionsDeclaredLocation(), diagnosis.isExaminationComplete(), diagnosis.getSubsequentExaminationDate(),
 					diagnosis.getExaminationIncompleteReason(), diagnosis.getChangesSinceLastExamination(), diagnosis.getDefectsLastExaminationFixed(),
 					diagnosis.getDangerCategory(), diagnosis.getDangerCategoryDescription(), diagnosis.isExaminationResultNoDefect(),
