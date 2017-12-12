@@ -332,7 +332,7 @@ public class Tab_InspectionResult implements Initializable{
 		String companion = plantCompanionField.getText();
 		String surveyor = plantExpertField.getText();
 		int vdsApprovalNr = Integer.parseInt(plantAnerkNrField.getText());
-		double examinationDuration = Integer.parseInt(plantInspectionTimeField.getText());
+		double examinationDuration = Double.parseDouble(plantInspectionTimeField.getText());
 		boolean frequencyControlledUtilities = freqYesBtn.isArmed();
 		boolean precautionsDeclared = precautionYesBtn.isArmed();
 		String precautionsDeclaredLocation = precautionField.getText();
@@ -425,7 +425,7 @@ public class Tab_InspectionResult implements Initializable{
 				//addDiagnosis();
 		}
 		
-		Branch branch = null;
+		Branch branch = new Branch(-1,"test");
 		Company company = new Company(compId, companyName, hqStreet, hqZip, hqCity);
 		CompanyPlant companyPlant = new CompanyPlant(plantId, plantStreet, plantZip, plantCity, company);
 		ResultComplete resultComplete = new ResultComplete(id,
@@ -662,7 +662,7 @@ public class Tab_InspectionResult implements Initializable{
 		Company c = cp.getCompany();
 		compNameField.setText(c.getName());
 		streetCompField.setText(c.getHqStreet());
-		compZipField.setText(String.valueOf(c.getHqStreet()));
+		compZipField.setText(String.valueOf(c.getHqZip()));
 		compCityField.setText(c.getHqCity());
 	}
 	
