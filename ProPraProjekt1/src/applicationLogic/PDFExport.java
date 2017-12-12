@@ -568,7 +568,7 @@ public class PDFExport {
 		boolean drawContent = true;
 		float yStart = yStartNewPage + 23.75f;
 		float bottomMargin = 55f;
-		float yPosition = 678f;
+		float yPosition = 677.6f;
 
 		BaseTable table = new BaseTable(yPosition, yStart, bottomMargin, tableWidth, leftMargin, document, page, true,
 				drawContent);
@@ -736,7 +736,7 @@ public class PDFExport {
 		setStaticText(fontArialCursive, 9, 515, 479, "nein");
 		setStaticText(fontArialCursive, 9, 59, 466, "Wenn ja, welche:");
 		float paddingPrecautions = setDynamicText(page1, fontArial, 9, 1.25f, 370f, 132f, 466f,
-				"Das ist ein Test. Das ist ein Test. Das ist ein Test.");
+				data.getPrecautionsDeclaredLocation());
 		paddingP1 = paddingPrecautions;
 		setStaticText(fontArialCursive, 9, 59, 450 - paddingP1, "Wurden alle Bereiche des");
 		setStaticText(fontArialCursive, 9, 59, 437 - paddingP1, "Risikostandorts geprüft?");
@@ -772,7 +772,7 @@ public class PDFExport {
 		setStaticText(fontArialBoldCursive, 10, 460, 337 - paddingP1, "(d)");
 		setStaticText(fontArialCursive, 9, 59, 324 - paddingP1, "Ergänzende Erläuterungen:");
 		float paddingDangerCategory = setDynamicText(page1, fontArial, 9, 1.25f, 370f, 175f, 324f - paddingP1,
-				"Das ist eine Testnachricht. Bla. Das ist eine Testnachricht. Das ist ein Test. Ein Test.");
+				data.getDangerCategoryDescription());
 		paddingP1 += paddingDangerCategory;
 		drawSingleCellTable(page1, 363.5f - paddingPrecautions, 48f + paddingDangerCategory, 100f);
 
