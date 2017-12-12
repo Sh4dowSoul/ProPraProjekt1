@@ -13,9 +13,9 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <TableView layoutX="14.0" layoutY="44.0" prefHeight="534.0" prefWidth="320.0">
+      <TableView fx:id="firmenTabelle" layoutX="14.0" layoutY="44.0" prefHeight="534.0" prefWidth="320.0">
         <columns>
-          <TableColumn prefWidth="319.0" text="Firmen" />
+          <TableColumn fx:id="firmenSpalte" prefWidth="319.0" text="Firmen" />
         </columns>
       </TableView>
       <Button layoutX="102.0" layoutY="592.0" mnemonicParsing="false" onAction="#changeScreenDiagnosis" prefHeight="30.0" prefWidth="146.0" text="Zurück">
