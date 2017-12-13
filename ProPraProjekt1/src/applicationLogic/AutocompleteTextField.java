@@ -24,15 +24,27 @@ public class AutocompleteTextField extends TextField {
     //Suggestion PopUp
     private ContextMenu entriesPopup;
     
+    
+    /**
+     * AutoCompletioNtextField supports 2 AutoCompletion Modes: 
+     *    - 0 : Completion by Description (default)
+     *    - 1 : Completion by Id
+     */
+    private int autoCompleteMode;
+    
     private AutoCompletionEvent event;
 
 
     public AutocompleteTextField() {
         this.entries = new TreeSet<>();
         this.entriesPopup = new ContextMenu();
-      
+        this.autoCompleteMode = 0;
         setListner();
     }  
+    
+    public void setAutoCompleteMode(int mode) {
+    	this.autoCompleteMode = mode;
+    }
     
     public void setAutoCompletionEvent(AutoCompletionEvent event) {
     	this.event = event;
@@ -52,7 +64,12 @@ public class AutocompleteTextField extends TextField {
                 entriesPopup.hide();
             } else {
                 //Filter Suggestions
-                List<AutocompleteSuggestion> filteredEntries = entries.stream().filter(e -> e.getDescription().toLowerCase().startsWith(enteredText.toLowerCase())).collect(Collectors.toList());
+            	List<AutocompleteSuggestion> filteredEntries;
+            	if (autoCompleteMode == 0) {
+            		filteredEntries = entries.stream().filter(e -> e.getDescription().toLowerCase().startsWith(enteredText.toLowerCase())).collect(Collectors.toList());  
+            	} else {
+            		filteredEntries = entries.stream().filter(e -> String.valueOf(e.getId()).toLowerCase().startsWith(enteredText.toLowerCase())).collect(Collectors.toList());    
+            	}
                 //Check for remaining Suggestions
                 if (!filteredEntries.isEmpty()) {
                     //Suggestions found
@@ -88,14 +105,19 @@ public class AutocompleteTextField extends TextField {
           final AutocompleteSuggestion result = searchResult.get(i);
           //Create a label for the text preview and style it
           Label entryLabel = new Label();
-          entryLabel.setGraphic(buildTextFlow(result.getDescription(), searchReauest));  
+          entryLabel.setGraphic(buildTextFlow(result.getId() + " - " + result.getDescription(), searchReauest));
           entryLabel.setPrefHeight(20);
           CustomMenuItem item = new CustomMenuItem(entryLabel, true);
           menuItems.add(item);
 
           //Suggestion selected Listener
           item.setOnAction(actionEvent -> {
-              setText(result.getDescription());
+        	  if (autoCompleteMode == 0) {
+        		  setText(result.getDescription());
+        	  } else {
+        		  setText(String.valueOf(result.getId()));
+        	  }
+              
               event.onAutoCompleteResult(result);
               positionCaret(result.getDescription().length());
               entriesPopup.hide();
