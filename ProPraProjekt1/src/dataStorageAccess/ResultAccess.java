@@ -1,9 +1,12 @@
 package dataStorageAccess;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import applicationLogic.DefectResult;
 import applicationLogic.ResultComplete;
+import applicationLogic.ResultPreview;
+import applicationLogic.StatisticResult;
 import dataStorageAccess.controller.DefectController;
 import dataStorageAccess.controller.DiagnosisController;
 
@@ -50,5 +53,33 @@ public class ResultAccess {
 		for (DefectResult defect : result.getDefects()) {
 			//TODO update defect in DB
 		}
+	}
+	
+	/**
+	 * Get a List of Previews of
+	 * 	a) The 10 Last edited Results
+	 *  b) All Results
+	 * 
+	 * @param lastEdited - wether you want to get the last edited Results 
+	 * @return A List of ResultPreviews
+	 * @throws SQLException
+	 */
+	public static ArrayList<ResultPreview> getResultsPreview(boolean lastEdited) throws SQLException {
+		if(lastEdited) {
+			return DiagnosisController.getLastEditedDiagnosesPreview(10);
+		} else {
+			return DiagnosisController.getDiagnosesPreview();
+		}
+	}
+	
+	/**
+	 * Get a List of the Statistic version of a whole inspectionResult (inspectionResult + defects)
+	 * 
+	 * @param companyId
+	 * @return a List of StatisticResults
+	 * @throws SQLException
+	 */
+	public static ArrayList<StatisticResult> getStatisticResultOfCompany(int companyId) throws SQLException {
+		return DiagnosisController.getDiagnosesAndDefectsOfCompany(companyId);
 	}
 }

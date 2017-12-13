@@ -111,6 +111,13 @@ public class StatisticController {
 		return result;
 	}
 	
+	/**
+	 * Get the Defects of an specific InspectionResult
+	 * 
+	 * @param diagnosisId - The id of an InspectionResult
+	 * @return a List of all Defects of an InspectionResult
+	 * @throws SQLException
+	 */
 	public static ArrayList<DefectStatistic> getDefectsOfDiagnosis(int diagnosisId) throws SQLException{
 		ArrayList<DefectStatistic> result = new ArrayList<DefectStatistic>();
 		try (
@@ -125,8 +132,6 @@ public class StatisticController {
 				result.add(new DefectStatistic(resultSet.getInt("branch_id"), resultSet.getInt("defect_id")));
 			}
 		}
-			return result;
-	}
-	
-		
+		return result;
+	}	
 }

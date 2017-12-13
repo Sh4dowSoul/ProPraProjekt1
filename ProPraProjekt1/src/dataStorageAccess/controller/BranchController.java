@@ -10,22 +10,6 @@ import applicationLogic.Branch;
 import dataStorageAccess.DataSource;
 
 public class BranchController {
-	//Get Branches starting with name --> Used for Autocomplete
-	public static ArrayList<Branch> filterBranch(String name) throws SQLException {
-		ArrayList<Branch> result = new ArrayList<Branch>();
-		try (
-			Connection connection = DataSource.getConnection();
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery("SELECT * FROM Branches WHERE branch_name LIKE '" + name + "%'");
-		) {
-			while (resultSet.next()) {
-				result.add(new Branch(resultSet.getInt("branch_id"), resultSet.getString("branch_name")));
-			}
-		}
-		return result;
-	}
-	
-	
 	/**
 	 * @return A List off all Branches
 	 * @throws SQLException
@@ -68,5 +52,4 @@ public class BranchController {
 		}
 		return result;
 	}
-
 }
