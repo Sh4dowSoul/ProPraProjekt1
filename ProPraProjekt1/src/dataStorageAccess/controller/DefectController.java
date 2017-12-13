@@ -1,6 +1,7 @@
 package dataStorageAccess.controller;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 
 import applicationLogic.DefectAtomic;
 import applicationLogic.DefectResult;
+import applicationLogic.Util;
 import dataStorageAccess.DataSource;
 
 public class DefectController {
@@ -52,5 +54,32 @@ public class DefectController {
 			}
 		}
 		return result;
+	}
+	
+	public static void insertDefect(DefectResult defect, int diagnosisId) throws SQLException {
+		String statement = "INSERT INTO DefectElement "
+				+ "(diagnosis_id, danger, building, room, machine, defect_id, defect_customDescription, branch_id) "
+				+ "VALUES(?,?,?,?,?,?,?,?)";
+		PreparedStatement preparedStatement = null;
+		Connection connection = null;
+		try {
+			connection = DataSource.getConnection();
+			preparedStatement = connection.prepareStatement(statement);
+
+			Util.setValues(preparedStatement,
+					diagnosisId, defect.getDanger(), defect.getBuilding(), defect.getRoom(), defect.getMachine(), defect.getId(), defect.getDefectCustomDescription(), defect.getBranchId());
+			
+			// execute insert SQL statement
+			preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} finally {
+			if (preparedStatement != null) {
+				preparedStatement.close();
+			}
+			if (connection != null) {
+				connection.close();
+			}
+		}
 	}
 }

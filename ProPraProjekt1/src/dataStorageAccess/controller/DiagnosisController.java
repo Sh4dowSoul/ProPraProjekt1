@@ -14,6 +14,7 @@ import applicationLogic.CompanyPlant;
 import applicationLogic.ResultComplete;
 import applicationLogic.ResultPreview;
 import applicationLogic.StatisticResult;
+import applicationLogic.Util;
 import dataStorageAccess.DataSource;
 
 public class DiagnosisController {
@@ -186,7 +187,7 @@ public class DiagnosisController {
 			connection = DataSource.getConnection();
 			preparedStatement = connection.prepareStatement(statement);
 
-			setValues(preparedStatement,
+			Util.setValues(preparedStatement,
 					diagnosis.getLastEdited(), diagnosis.getCompanyPlant().getId(), diagnosis.getCompanion(), 
 					diagnosis.getSurveyor(), diagnosis.getVdsApprovalNr(), diagnosis.getDate(),
 					diagnosis.getExaminationDuration(),diagnosis.getBranch().getId(), diagnosis.isFrequencyControlledUtilities(),diagnosis.isPrecautionsDeclared(),
@@ -245,7 +246,7 @@ public class DiagnosisController {
 			connection = DataSource.getConnection();
 			preparedStatement = connection.prepareStatement(statement);
 
-			setValues(preparedStatement,
+			Util.setValues(preparedStatement,
 					diagnosis.getLastEdited(), diagnosis.getCompanyPlant().getId(), diagnosis.getCompanion(), 
 					diagnosis.getSurveyor(), diagnosis.getVdsApprovalNr(), diagnosis.getDate(),
 					diagnosis.getExaminationDuration(),diagnosis.getBranch().getId(), diagnosis.isFrequencyControlledUtilities(),diagnosis.isPrecautionsDeclared(),
@@ -273,19 +274,5 @@ public class DiagnosisController {
 				connection.close();
 			}
 		}
-	}
-		
-	
-	
-	/**
-	 * Helper Method to simplify inserting multiple Objects into Database
-	 * @param preparedStatement
-	 * @param values
-	 * @throws SQLException
-	 */
-	public static void setValues(PreparedStatement preparedStatement, Object... values) throws SQLException {
-	    for (int i = 0; i < values.length; i++) {
-	        preparedStatement.setObject(i + 1, values[i]);
-	    }
 	}
 }
