@@ -23,9 +23,9 @@ public class ResultAccess {
 	}
 	
 	public static void saveNewCompleteResult(ResultComplete result) throws SQLException {
-		DiagnosisController.insertDiagnosis(result);
+		int diagnosisId = DiagnosisController.insertDiagnosis(result);
 		for (DefectResult defect : result.getDefects()) {
-			DefectController.insertDefect(defect, result.getId());
+			DefectController.insertDefect(defect, diagnosisId);
 		}
 	}
 	

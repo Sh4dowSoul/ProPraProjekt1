@@ -223,7 +223,8 @@ public class DiagnosisController {
 	 * @param diagnosis - Diagnosis, which should be inserted into the Database
 	 * @throws SQLException
 	 */
-	public static void insertDiagnosis(ResultComplete diagnosis) throws SQLException {
+	public static int insertDiagnosis(ResultComplete diagnosis) throws SQLException {
+		int diagnosisId = 0;
 		String statement = "INSERT INTO Diagnosis "
 				+ "(diagnosis_lastEdited, plant_id, companion, "
 				+ "surveyor, vds_approval_nr, examination_date, "
@@ -264,6 +265,10 @@ public class DiagnosisController {
 			
 			// execute insert SQL statement
 			preparedStatement.executeUpdate();
+			
+			//Get Id of inserted Diagnosis
+			ResultSet resultSet = connection.createStatement().executeQuery("SELECT last_insert_rowid() ");
+			diagnosisId = resultSet.getInt("last_insert_rowid()");
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		} finally {
@@ -274,5 +279,6 @@ public class DiagnosisController {
 				connection.close();
 			}
 		}
+		return diagnosisId;
 	}
 }

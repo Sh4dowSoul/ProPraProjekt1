@@ -5,6 +5,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -512,6 +513,7 @@ if(instance != null && instance.selectedCompany!= null) {
 				 additionalAnnotations,
 				 companyPlant
 				);
+		resultComplete.setDefects(new ArrayList<>(defectTableView.getItems()));
 		
 		boolean newDiagnosis = true;
 		boolean cancelled = false;
@@ -537,7 +539,7 @@ if(instance != null && instance.selectedCompany!= null) {
 		if (!cancelled) {
 			if (newDiagnosis) {
 				try {
-					dataStorageAccess.controller.DiagnosisController.insertDiagnosis(resultComplete);
+					ResultAccess.saveNewCompleteResult(resultComplete);
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
