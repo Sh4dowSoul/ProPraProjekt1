@@ -1,5 +1,6 @@
 package userInterface;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
@@ -40,6 +41,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
 import javafx.stage.StageStyle;
 
 public class Tab_Stats implements Initializable{
@@ -277,27 +279,25 @@ public class Tab_Stats implements Initializable{
 	 @FXML
 	 private void handleExportButton(ActionEvent event) {
 	     if(currentCompany != null) {
-	    	 String fileLocation = "exportedFiles/VdS-Statistik_" + currentCompany.getName() + "_" + new SimpleDateFormat("dd_MM_yyyy").format(Calendar.getInstance().getTime()) +".xml";
-	    	 Alert alert = new Alert(AlertType.CONFIRMATION);
-	    	 alert.setTitle("Statistik Export");
-	    	 alert.setHeaderText("Exportiere Statistiken der Firma " + currentCompany.getName() + "?");
-	    	 alert.setContentText(fileLocation);
-	    	 alert.initStyle(StageStyle.UTILITY);
+	    	 FileChooser fileChooser = new FileChooser();
+   		  
+             //Set extension filter
+             FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Statistik Dateien (*.xml)", "*.xml");
+             fileChooser.getExtensionFilters().add(extFilter);
+             fileChooser.setInitialFileName("VdS-Statistik_" + currentCompany.getName() + "_" + new SimpleDateFormat("dd_MM_yyyy").format(Calendar.getInstance().getTime()) +".xml");
 
-	    	 ButtonType yesButton = new ButtonType("Ja", ButtonData.YES);
-	    	 ButtonType cancelButton = new ButtonType("Abbrechen", ButtonData.CANCEL_CLOSE);
-	    	 
-	    	 alert.getButtonTypes().setAll(yesButton, cancelButton);
-	    	 Optional<ButtonType> result = alert.showAndWait();
-	    	 if (result.get() == yesButton){
-	    		 try {
-	    			System.out.println("Exporting "+ fileLocation);
-					StatisticAccess.exportStatisticCompany(currentCompany.getId(), fileLocation);
+             
+             //Show save file dialog
+             File file = fileChooser.showSaveDialog(null);
+             
+             if(file != null){
+            	 try {
+					StatisticAccess.exportStatisticCompany(currentCompany.getId(), file.getAbsolutePath());
 				} catch (FileNotFoundException | SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}		
-	    	 }
+				}
+             }
 	     } else {
 	    	 System.out.println("ERROR");
 	     }
