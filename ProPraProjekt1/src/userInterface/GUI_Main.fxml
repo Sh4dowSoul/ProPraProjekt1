@@ -10,7 +10,7 @@
    <children>
       <TabPane fx:id="mainTabPane" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
-          <Tab id="homeTab" text="Home">
+          <Tab fx:id="homeTab1" text="Home">
                <content>
                   <StackPane>
                      <children>

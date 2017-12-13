@@ -14,6 +14,7 @@ public class GUIController implements Initializable{
 	//*** GENERAL ***
 	@FXML private TabPane mainTabPane;
 	@FXML private Tab diagnosisTab;
+	@FXML private Tab homeTab1;
 	@FXML private Tab_Home homeTabController;
 	@FXML private Tab_InspectionResult inspectionResultTabController;
 	
@@ -29,6 +30,7 @@ public class GUIController implements Initializable{
 		//ChangeTab
 		mainTabPane.getSelectionModel().select(1);
 		diagnosisTab.setDisable(false);
+		homeTab1.setDisable(true);
 		if (editMode) {
 			inspectionResultTabController.editDiagnosis(diagnosisId);
 		}
@@ -37,6 +39,7 @@ public class GUIController implements Initializable{
 	public void closeDiagnosis() {
 		mainTabPane.getSelectionModel().select(0);
 		diagnosisTab.setDisable(true);
+		homeTab1.setDisable(false);
 		setEditMode(false);
 	}
 	

@@ -174,6 +174,7 @@ public class Tab_InspectionResult implements Initializable{
 	
 	private Company selectedCompany;
 	private Company plantAdress;
+	private boolean currentDiagnosisSaved;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 if(instance != null && instance.selectedCompany!= null) {
@@ -513,6 +514,7 @@ if(instance != null && instance.selectedCompany!= null) {
 				);
 		
 		boolean newDiagnosis = true;
+		boolean cancelled = false;
 		if (mainController.getEditMode()) {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Speichere Befundschein");
@@ -528,22 +530,27 @@ if(instance != null && instance.selectedCompany!= null) {
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get() == overrideButton){
 				newDiagnosis = false;
+			}if (result.get() == cancelButton) {
+				cancelled = true;
 			}
 		} 
-		if (newDiagnosis) {
-			try {
-				dataStorageAccess.controller.DiagnosisController.insertDiagnosis(resultComplete);
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				//TODO Fehlermeldung
+		if (!cancelled) {
+			if (newDiagnosis) {
+				try {
+					dataStorageAccess.controller.DiagnosisController.insertDiagnosis(resultComplete);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					//TODO Fehlermeldung
+				}
+				currentDiagnosisSaved = true;
+				System.out.println("Befundschein erfolgreich hinzugefuegt");
+			} else {
+				//Überschreibe alte Diagnose
+				//...
+				//currentDiagnosisSaved = true;
 			}
-			System.out.println("Befundschein erfolgreich hinzugefuegt");
-		} else {
-			//Überschreibe alte Diagnose
 		}
-		
-		
 	}
 	
 	/**
@@ -775,7 +782,28 @@ if(instance != null && instance.selectedCompany!= null) {
 	public void closeDiagnosis (ActionEvent event) throws IOException{
 		//Check if saved
 		//Cleanup every entry
-		mainController.closeDiagnosis();
+		if(currentDiagnosisSaved) {
+			mainController.closeDiagnosis();
+		} else {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Warnung - Befundschein nicht gesichert");
+			alert.setHeaderText("Achtung, der aktuelle Befundschein wurde noch nicht gespeichert.");
+			alert.setContentText("Wollen sie den Befundschein verwerfen?");
+
+			ButtonType discardButton = new ButtonType("Verwerfen");
+			ButtonType saveButton = new ButtonType("Speichern");
+			ButtonType cancelButton = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+
+			alert.getButtonTypes().setAll(discardButton, saveButton, cancelButton);
+
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == discardButton){
+				mainController.closeDiagnosis();
+				//TODO alte Eingaben löschen
+			} else if (result.get() == saveButton) {
+				addDiagnosis(null);
+			}
+		}
 	}
 	
 	/**
