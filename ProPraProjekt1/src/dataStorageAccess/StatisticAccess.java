@@ -15,8 +15,20 @@ import applicationLogic.StatisticResult;
 import dataStorageAccess.controller.DiagnosisController;
 import dataStorageAccess.controller.StatisticController;
 
+/**
+ * @author Niklas Schnettler
+ *
+ */
 public class StatisticAccess {
 	
+	/**
+	 * Export the Statistic of a Company
+	 * 
+	 * @param companyId - Id of a Company
+	 * @param fileName - The full path of the file (the statistic is supposed to be saved to)
+	 * @throws SQLException
+	 * @throws FileNotFoundException
+	 */
 	public static void exportStatisticCompany(int companyId, String fileName) throws SQLException, FileNotFoundException {
 		//Get list of Diagnoses
 		ArrayList<StatisticResult> diagnosesList= DiagnosisController.getDiagnosesAndDefectsOfCompany(companyId);

@@ -7,6 +7,10 @@ import applicationLogic.ResultComplete;
 import dataStorageAccess.controller.DefectController;
 import dataStorageAccess.controller.DiagnosisController;
 
+/**
+ * @author Niklas Schnettler
+ *
+ */
 public class ResultAccess {
 	
 	/**
@@ -22,6 +26,12 @@ public class ResultAccess {
 		return result;
 	}
 	
+	/**
+	 * Save a complete InspectionResult in the Database
+	 * 
+	 * @param result - The complete InspectionResult
+	 * @throws SQLException
+	 */
 	public static void saveNewCompleteResult(ResultComplete result) throws SQLException {
 		int diagnosisId = DiagnosisController.insertDiagnosis(result);
 		for (DefectResult defect : result.getDefects()) {
@@ -29,6 +39,12 @@ public class ResultAccess {
 		}
 	}
 	
+	/**
+	 * Update a complete InspectionResult which is already saved in the Database
+	 * 
+	 * @param result - The complete InspectionResult
+	 * @throws SQLException
+	 */
 	public static void updateCompleteResult(ResultComplete result) throws SQLException {
 		DiagnosisController.updateDiagnosis(result);
 		for (DefectResult defect : result.getDefects()) {
