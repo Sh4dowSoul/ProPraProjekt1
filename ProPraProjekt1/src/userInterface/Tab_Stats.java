@@ -2,19 +2,18 @@ package userInterface;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
+import org.controlsfx.control.Notifications;
 
 import applicationLogic.Branch;
 import applicationLogic.Company;
 import applicationLogic.DefectStatistic;
-import applicationLogic.PDFExport;
+import applicationLogic.ExceptionDialog;
 import dataStorageAccess.StatisticAccess;
 import dataStorageAccess.controller.StatisticController;
 import javafx.beans.value.ChangeListener;
@@ -24,13 +23,10 @@ import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
@@ -38,11 +34,9 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
-import javafx.stage.StageStyle;
+import javafx.util.Duration;
 
 public class Tab_Stats implements Initializable{
 	
@@ -51,10 +45,10 @@ public class Tab_Stats implements Initializable{
 	@FXML private ListView<Branch> branchList;
 	@FXML private Tab branchListTab;
 	@FXML private TabPane statTabs;
-	@FXML private TableView statisticTableView;
-	@FXML private TableColumn statsDefectsColumn;
-	@FXML private TableColumn statsDefectDescriptionColumn;
-	@FXML private TableColumn statsQuantityColumn;
+	@FXML private TableView<DefectStatistic> statisticTableView;
+	@FXML private TableColumn<DefectStatistic,String> statsDefectsColumn;
+	@FXML private TableColumn<DefectStatistic,String> statsDefectDescriptionColumn;
+	@FXML private TableColumn<DefectStatistic,String> statsQuantityColumn;
 	@FXML private Button xmlExpBtn;
 	@FXML private ProgressIndicator statCompanyProgress;
 	@FXML private ProgressIndicator statBranchProgress;
@@ -278,8 +272,8 @@ public class Tab_Stats implements Initializable{
 	
 	 @FXML
 	 private void handleExportButton(ActionEvent event) {
-	     if(currentCompany != null) {
-	    	 FileChooser fileChooser = new FileChooser();
+		 if(currentCompany != null) {
+			 FileChooser fileChooser = new FileChooser();
    		  
              //Set extension filter
              FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Statistik Dateien (*.xml)", "*.xml");
@@ -293,15 +287,26 @@ public class Tab_Stats implements Initializable{
              if(file != null){
             	 try {
 					StatisticAccess.exportStatisticCompany(currentCompany.getId(), file.getAbsolutePath());
+            		Notifications.create()
+                    .title("Erfolgreich gespeichert")
+                    .text("Die Statistik "+ file.getName() +" wurde erfolgreich gespeichert ")
+                    .showInformation();
 				} catch (FileNotFoundException | SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					Notifications.create()
+	                 .title("Es ist ein Problem aufgetreten")
+	                 .text("Die Statistik "+ file.getName() +" konnte leider nicht gespeichert werden.")
+	                 .hideAfter(Duration.INDEFINITE)
+	                 .onAction(new EventHandler<ActionEvent>() {
+						@Override
+						public void handle(ActionEvent event) {
+							new ExceptionDialog("Export Fehler", "Fehler beim Exportieren", "Beim Exportieren der Statistik ist leider ein Fehler aufgetreten.", e);
+						}
+	                 })
+	                 .showError();
 				}
+            	 
+            	 
              }
-	     } else {
-	    	 System.out.println("ERROR");
 	     }
-	     
 	 }
-	
 }
