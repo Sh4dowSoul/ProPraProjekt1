@@ -21,6 +21,7 @@ import applicationLogic.DefectResult;
 import applicationLogic.ResultComplete;
 import applicationLogic.ResultPreview;
 import dataStorageAccess.ResultAccess;
+import dataStorageAccess.controller.BranchController;
 import dataStorageAccess.controller.DefectController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -158,7 +159,7 @@ public class Tab_InspectionResult implements Initializable{
 	//Hinzufügen
 	@FXML private AutocompleteTextField defectSearchField;
 	@FXML private TextField resultDefectId;
-	@FXML private TextField branchText;
+	@FXML private AutocompleteTextField branchText;
 	@FXML private TextField buildingText;
 	@FXML private TextField roomText;
 	@FXML private TextField machineText;
@@ -185,13 +186,7 @@ if(instance != null && instance.selectedCompany!= null) {
 		prepareAutocomplete();
 		prepareTable();
 		
-		defectSearchField.setAutoCompletionEvent(new AutoCompletionEvent() {
-			@Override
-			public void onAutoCompleteResult(AutocompleteSuggestion suggestion) {
-				resultDefectId.setText(Integer.toString(suggestion.getId()));
-				currentDefectId = suggestion.getId();
-			}
-		});
+		
 		instance = this;
     }
 	
@@ -818,18 +813,54 @@ if(instance != null && instance.selectedCompany!= null) {
 	 * Prepares the Autocomplete TextField
 	 */
 	private void prepareAutocomplete() {
+	//Defects
 		final Task<ArrayList<DefectAtomic>> autocompleteTask = new Task<ArrayList<DefectAtomic>>() {
             @Override
             protected ArrayList<DefectAtomic> call() throws Exception {
+            	//Load Defects
         		return DefectController.getAllDefects();
             }
         };
         autocompleteTask.setOnSucceeded(event ->
+        	//Autocomplete: Initialize Suggestions
         	defectSearchField.getEntries().addAll(autocompleteTask.getValue())
     	);
         autocompleteTask.setOnFailed(event ->
 	    	System.out.println("ERROR: " + autocompleteTask.getException())
 	    );
 	    new Thread(autocompleteTask).start();
+	    
+	    //Add EventHandler - gets invoked when Suggestion is selected
+	    defectSearchField.setAutoCompletionEvent(new AutoCompletionEvent() {
+			@Override
+			public void onAutoCompleteResult(AutocompleteSuggestion suggestion) {
+				resultDefectId.setText(Integer.toString(suggestion.getId()));
+				currentDefectId = suggestion.getId();
+			}
+		});
+	//Branches
+	    final Task<ArrayList<Branch>> branchAutocompleteTask = new Task<ArrayList<Branch>>() {
+            @Override
+            protected ArrayList<Branch> call() throws Exception {
+            	//Load Branches
+        		return BranchController.getAllBranches();
+            }
+        };
+        branchAutocompleteTask.setOnSucceeded(event ->
+        	//Autocomplete: Initialize Suggestions
+        	branchText.getEntries().addAll(branchAutocompleteTask.getValue())
+    	);
+        branchAutocompleteTask.setOnFailed(event ->
+	    	System.out.println("ERROR: " + branchAutocompleteTask.getException())
+	    );
+	    new Thread(branchAutocompleteTask).start();
+	    //Change AutoCompletionMode to Complete by ID
+	    branchText.setAutoCompleteMode(1);
+	    branchText.setAutoCompletionEvent(new AutoCompletionEvent() {
+			@Override
+			public void onAutoCompleteResult(AutocompleteSuggestion suggestion) {					
+				//Nothing
+			}
+	    });
 	}
 }
