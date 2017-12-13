@@ -7,32 +7,44 @@ import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
 public class GUIController implements Initializable{
 	//*** GENERAL ***
 	@FXML private TabPane mainTabPane;
+	@FXML private Tab diagnosisTab;
 	@FXML private Tab_Home homeTabController;
 	@FXML private Tab_InspectionResult inspectionResultTabController;
+	
+	private boolean editMode;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		homeTabController.setParentController(this);
+		inspectionResultTabController.setParentController(this);
 	}
 	
-	public void changeTab(int to) {
+	public void openDiagnosisTab(int diagnosisId) {
 		//ChangeTab
 		mainTabPane.getSelectionModel().select(1);
-		//Load diagnosis
-		//...
+		diagnosisTab.setDisable(false);
+		if (editMode) {
+			inspectionResultTabController.editDiagnosis(diagnosisId);
+		}
+	}	
+	
+	public void closeDiagnosis() {
+		mainTabPane.getSelectionModel().select(0);
+		diagnosisTab.setDisable(true);
+		setEditMode(false);
 	}
 	
-	public void editDiagnosis(int diagnosisId) {
-		try {
-			inspectionResultTabController.editDiagnosis(diagnosisId);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void setEditMode(boolean editing) {
+		editMode = editing;
+	}
+	
+	public boolean getEditMode() {
+		return editMode;
 	}
 }

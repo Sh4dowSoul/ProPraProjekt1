@@ -502,15 +502,18 @@
             <bottom>
                 <HBox alignment="CENTER" BorderPane.alignment="CENTER">
                     <children>
-                        <Button id="pdfExpBtn" fx:id="pdfExpBtn" mnemonicParsing="false" prefHeight="100.0" prefWidth="200.0" text="Exportieren">
+                        <Button id="pdfExpBtn" fx:id="pdfExpBtn" mnemonicParsing="false" onAction="#exportDiagnosis" prefHeight="100.0" prefWidth="200.0" text="Als PDF exportieren">
                             <HBox.margin>
                                 <Insets right="15.0" />
                             </HBox.margin>
                         </Button>
-                        <Button id="AddBtn" fx:id="AddDiagnosisBtn" mnemonicParsing="false" onAction="#addDiagnosis" prefHeight="100.0" prefWidth="200.0" text="Speichern">
-                            <padding>
-                                <Insets bottom="15.0" />
-                            </padding>
+                        <Button id="AddBtn" fx:id="AddDiagnosisBtn" mnemonicParsing="false" onAction="#addDiagnosis" prefHeight="100.0" prefWidth="200.0" text="In Datenbank speichern">
+                            <HBox.margin>
+                                <Insets right="15.0" />
+                           </HBox.margin>
+                         </Button>
+                         <Button id="CloseDiagnosisBtn" fx:id="CloseDiagnosisBtn" mnemonicParsing="false" onAction="#closeDiagnosis"  prefHeight="100.0" prefWidth="200.0" text="Befundschein schließen">
+                            
                         </Button>
                     </children>
                     <BorderPane.margin>

@@ -5,6 +5,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 
@@ -33,7 +34,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
@@ -163,6 +168,7 @@ public class Tab_InspectionResult implements Initializable{
 	
 	private int currentDefectId;
 	int currentDangerSituation;
+	private GUIController mainController;
 	
 	public static Tab_InspectionResult instance;
 	
@@ -185,6 +191,10 @@ if(instance != null && instance.selectedCompany!= null) {
 		});
 		instance = this;
     }
+	
+	public void setParentController(GUIController parentController) {
+	    this.mainController = parentController;
+	}
 	
 	public void setSelectedCompany(Company company) {
 		selectedCompany=company;
@@ -269,7 +279,7 @@ if(instance != null && instance.selectedCompany!= null) {
 	 * Adds diagnosis to the database
 	 * @throws SQLException 
 	 */
-	public void addDiagnosis(ActionEvent add) throws SQLException {
+	public void addDiagnosis(ActionEvent add){
 		boolean dangerGroupA = dangerCategorieGroupABtn.isSelected();
 		boolean dangerGroupB = dangerCategorieGroupBBtn.isSelected();
 		boolean dangerGroupC = dangerCategorieGroupCBtn.isSelected();
@@ -501,199 +511,239 @@ if(instance != null && instance.selectedCompany!= null) {
 				 additionalAnnotations,
 				 companyPlant
 				);
-		dataStorageAccess.controller.DiagnosisController.insertDiagnosis(resultComplete);
-		System.out.println("Befundschein erfolgreich hinzugefuegt");
+		
+		boolean newDiagnosis = true;
+		if (mainController.getEditMode()) {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Speichere Befundschein");
+			alert.setHeaderText("Überschreiben oder neu speichern?");
+			alert.setContentText("Wollen sie den alten Befundschein überschreiben oder einen neuen Befundschein speichern?");
+
+			ButtonType overrideButton = new ButtonType("Überschreiben");
+			ButtonType newButton = new ButtonType("Als neuen Befundschein speichern");
+			ButtonType cancelButton = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+
+			alert.getButtonTypes().setAll(overrideButton, newButton, cancelButton);
+
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == overrideButton){
+				newDiagnosis = false;
+			}
+		} 
+		if (newDiagnosis) {
+			try {
+				dataStorageAccess.controller.DiagnosisController.insertDiagnosis(resultComplete);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				//TODO Fehlermeldung
+			}
+			System.out.println("Befundschein erfolgreich hinzugefuegt");
+		} else {
+			//Überschreibe alte Diagnose
+		}
+		
+		
 	}
 	
 	/**
 	 * Takes diagnosis from database to edit it in GUI
 	 * @throws SQLException 
 	 */
-	public void editDiagnosis(int id) throws SQLException {
-		ResultComplete result = ResultAccess.getCompleteResult(id);
+	public void editDiagnosis(int id) {
 		
-		defectTableView.setItems(FXCollections.observableArrayList(result.getDefects()));
-		
-		//set maybe unused fields empty
-		completeReasonField.setText("");
-		dangerCategoryExtensionField.setText("");
-		isoCompensationCommentField.setText("");
-		rcdCommentField.setText("");
-		resistanceCommentField.setText("");
-		thermicCommentField.setText("");
-		furtherExplanationsField.setText("");
-		
-		//fill fields and buttons
-		plantInspectionField.setText(LocalDate.parse(result.getDate().toString()).toString());
-		plantCompanionField.setText(result.getCompanion());
-		plantExpertField.setText(result.getSurveyor());
-		plantAnerkNrField.setText(String.valueOf(result.getVdsApprovalNr()));
-		plantInspectionTimeField.setText(String.valueOf(result.getExaminationDuration()));
-		
-		if(result.isFrequencyControlledUtilities()) {
-			freqYesBtn.fire();
-		}else {
-			freqNoBtn.fire();
+		ResultComplete result;
+		try {
+			result = ResultAccess.getCompleteResult(id);
+			
+			defectTableView.setItems(FXCollections.observableArrayList(result.getDefects()));
+			
+			//set maybe unused fields empty
+			completeReasonField.setText("");
+			dangerCategoryExtensionField.setText("");
+			isoCompensationCommentField.setText("");
+			rcdCommentField.setText("");
+			resistanceCommentField.setText("");
+			thermicCommentField.setText("");
+			furtherExplanationsField.setText("");
+			
+			//fill fields and buttons
+			plantInspectionField.setText(LocalDate.parse(result.getDate().toString()).toString());
+			plantCompanionField.setText(result.getCompanion());
+			plantExpertField.setText(result.getSurveyor());
+			plantAnerkNrField.setText(String.valueOf(result.getVdsApprovalNr()));
+			plantInspectionTimeField.setText(String.valueOf(result.getExaminationDuration()));
+			
+			if(result.isFrequencyControlledUtilities()) {
+				freqYesBtn.fire();
+			}else {
+				freqNoBtn.fire();
+			}
+			
+			if(result.isPrecautionsDeclared()) {
+				precautionYesBtn.fire();
+			}else {
+				precautionNoBtn.fire();
+			}
+			
+			precautionField.setText(result.getPrecautionsDeclaredLocation());
+			
+			if(result.isExaminationComplete()) {
+				completeYesBtn.fire();
+			}else {
+				completeNoBtn.fire();
+			}
+			
+			completeDateField.setText(LocalDate.parse(result.getSubsequentExaminationDate().toString()).toString());
+			completeReasonField.setText(result.getExaminationIncompleteReason());
+			
+			int changesSinceLastEx = result.getChangesSinceLastExamination();
+			if(changesSinceLastEx == 0) {
+				changesSinceLastExaminationYesBtn.fire();
+			}else if (changesSinceLastEx == 1) {
+				changesSinceLastExaminationFirstExaminationBtn.fire();
+			}
+			
+			int defectsLastEx = result.getDefectsLastExaminationFixed();
+			if(defectsLastEx == 0) {
+				defectsLastExaminationNoReportBtn.fire();
+			}else if (defectsLastEx == 1) {
+				defectsLastExaminationYesBtn.fire();
+			}
+			
+			int dangerGroup = result.getDangerCategory();
+			if(dangerGroup == 0) {
+				dangerCategorieGroupABtn.fire();
+			}else if(dangerGroup == 1) {
+				dangerCategorieGroupBBtn.fire();
+			}else if (dangerGroup == 2) {
+				dangerCategorieGroupCBtn.fire();
+			}else if (dangerGroup == 3) {
+				dangerCategorieGroupDBtn.fire();
+			}
+			
+			dangerCategoryExtensionField.setText(result.getDangerCategoryDescription());
+			
+			if(result.isExaminationResultNoDefect()){
+				noDefectsBtn.fire();
+			}	
+			if(result.isExaminationResultDefect()) {
+				defectsAttachedBtn.fire();
+			}
+			if(result.isExaminationResultDanger()) {
+				removeDefectsImmediatelyBtn.fire();
+			}
+			
+			defectsAttachedDateField.setText(LocalDate.parse(result.getExaminationResultDefectDate().toString()).toString());
+			
+			if(result.isIsolationChecked()) {
+				isoMinYesBtn.fire();
+			}else {
+				isoMinNoBtn.fire();
+			}
+			
+			if(result.isIsolationMesasurementProtocols()) {
+				isoProtocolYesBtn.fire();
+			}else {
+				isoProtocolNoBtn.fire();
+			}
+			
+			if(result.isIsolationCompensationMeasures()) {
+				isoCompensationYesBtn.fire();
+			}else {
+				isoCompensationNoBtn.fire();
+			}
+			
+			isoCompensationCommentField.setText(result.getIsolationCompensationMeasuresAnnotation());
+			
+			if(result.getRcdAvailable()) {
+				rcdAllBtn.fire();
+			}else {
+				rcdNotBtn.fire();
+			}
+			
+			rcdPercentageField.setText(String.valueOf(result.getRcdAvailablePercent()));
+			rcdCommentField.setText(result.getRcdAnnotation());
+			
+			if(result.isResistance()) {
+				resistanceYesBtn.fire();
+			}else {
+				resistanceNoBtn.fire();
+			}
+			
+			resistancePercentageField.setText(String.valueOf(result.getResistanceNumber()));
+			resistanceCommentField.setText(result.getResistanceAnnotation());
+			
+			if(result.isThermalAbnormality()) {
+				thermicYesBtn.fire();
+			}else {
+				thermicNoBtn.fire();
+			}
+			
+			thermicCommentField.setText(result.getThermalAbnormalityAnnotation());
+			
+			if(result.isInternalPortableUtilities()) {
+				portableUtilitiesYesBtn.fire();
+			}else {
+				portableUtilitiesNoBtn.fire();
+			}
+			
+			int epu = result.getExternalPortableUtilities();
+			if(epu == 0) {
+				externalPortableUtilitiesYesBtn.fire();
+			}else if(epu == 1) {
+				externalPortableUtilitiesNoBtn.fire();
+			}else if(epu == 2) {
+				externalPortableUtilitiesNrBtn.fire();
+			}
+			
+			int supplySystem = result.getSupplySystem();
+			if(supplySystem == 0) {
+				supplySystemTNBtn.fire();
+			}else if(supplySystem == 1) {
+				supplySystemTTBtn.fire();
+			}else if(supplySystem == 2) {
+				supplySystemITBtn.fire();
+			}else if(supplySystem == 3) {
+				supplySystemCircleBtn.fire();
+			}
+			
+			powerConsumptionField.setText(String.valueOf(result.getEnergyDemand()));
+			externalPowerPercentageField.setText(String.valueOf(result.getMaxEnergyDemandExternal()));
+			maxCapacityPercentageField.setText(String.valueOf(result.getMaxEnergyDemandInternal()));
+			protectedCirclesPercentageField.setText(String.valueOf(result.getProtectedCircuitsPercent()));
+			
+			int hardWiredLoads = result.getHardWiredLoads();
+			if(hardWiredLoads == 0) {
+				hardWiredLoadsUnder250Btn.fire();
+			}else if(hardWiredLoads == 1) {
+				hardWiredLoadsUnder500Btn.fire();
+			}else if(hardWiredLoads == 2) {
+				hardWiredLoadsUnder1000Btn.fire();
+			}else if(hardWiredLoads == 3) {
+				hardWiredLoadsUnder5000Btn.fire();
+			}else if(hardWiredLoads == 4) {
+				hardWiredLoadsAbove5000Btn.fire();
+			}
+			
+			furtherExplanationsField.setText(result.getAdditionalAnnotations());
+			
+			CompanyPlant cp = result.getCompanyPlant();
+			plantStreetField.setText(cp.getPlantStreet());
+			plantZipField.setText(String.valueOf(cp.getPlantZip()));
+			plantCityField.setText(cp.getPlantCity());
+			
+			Company c = cp.getCompany();
+			compNameField.setText(c.getName());
+			streetCompField.setText(c.getHqStreet());
+			compZipField.setText(String.valueOf(c.getHqZip()));
+			compCityField.setText(c.getHqCity());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
-		if(result.isPrecautionsDeclared()) {
-			precautionYesBtn.fire();
-		}else {
-			precautionNoBtn.fire();
-		}
 		
-		precautionField.setText(result.getPrecautionsDeclaredLocation());
-		
-		if(result.isExaminationComplete()) {
-			completeYesBtn.fire();
-		}else {
-			completeNoBtn.fire();
-		}
-		
-		completeDateField.setText(LocalDate.parse(result.getSubsequentExaminationDate().toString()).toString());
-		completeReasonField.setText(result.getExaminationIncompleteReason());
-		
-		int changesSinceLastEx = result.getChangesSinceLastExamination();
-		if(changesSinceLastEx == 0) {
-			changesSinceLastExaminationYesBtn.fire();
-		}else if (changesSinceLastEx == 1) {
-			changesSinceLastExaminationFirstExaminationBtn.fire();
-		}
-		
-		int defectsLastEx = result.getDefectsLastExaminationFixed();
-		if(defectsLastEx == 0) {
-			defectsLastExaminationNoReportBtn.fire();
-		}else if (defectsLastEx == 1) {
-			defectsLastExaminationYesBtn.fire();
-		}
-		
-		int dangerGroup = result.getDangerCategory();
-		if(dangerGroup == 0) {
-			dangerCategorieGroupABtn.fire();
-		}else if(dangerGroup == 1) {
-			dangerCategorieGroupBBtn.fire();
-		}else if (dangerGroup == 2) {
-			dangerCategorieGroupCBtn.fire();
-		}else if (dangerGroup == 3) {
-			dangerCategorieGroupDBtn.fire();
-		}
-		
-		dangerCategoryExtensionField.setText(result.getDangerCategoryDescription());
-		
-		if(result.isExaminationResultNoDefect()){
-			noDefectsBtn.fire();
-		}	
-		if(result.isExaminationResultDefect()) {
-			defectsAttachedBtn.fire();
-		}
-		if(result.isExaminationResultDanger()) {
-			removeDefectsImmediatelyBtn.fire();
-		}
-		
-		defectsAttachedDateField.setText(LocalDate.parse(result.getExaminationResultDefectDate().toString()).toString());
-		
-		if(result.isIsolationChecked()) {
-			isoMinYesBtn.fire();
-		}else {
-			isoMinNoBtn.fire();
-		}
-		
-		if(result.isIsolationMesasurementProtocols()) {
-			isoProtocolYesBtn.fire();
-		}else {
-			isoProtocolNoBtn.fire();
-		}
-		
-		if(result.isIsolationCompensationMeasures()) {
-			isoCompensationYesBtn.fire();
-		}else {
-			isoCompensationNoBtn.fire();
-		}
-		
-		isoCompensationCommentField.setText(result.getIsolationCompensationMeasuresAnnotation());
-		
-		if(result.getRcdAvailable()) {
-			rcdAllBtn.fire();
-		}else {
-			rcdNotBtn.fire();
-		}
-		
-		rcdPercentageField.setText(String.valueOf(result.getRcdAvailablePercent()));
-		rcdCommentField.setText(result.getRcdAnnotation());
-		
-		if(result.isResistance()) {
-			resistanceYesBtn.fire();
-		}else {
-			resistanceNoBtn.fire();
-		}
-		
-		resistancePercentageField.setText(String.valueOf(result.getResistanceNumber()));
-		resistanceCommentField.setText(result.getResistanceAnnotation());
-		
-		if(result.isThermalAbnormality()) {
-			thermicYesBtn.fire();
-		}else {
-			thermicNoBtn.fire();
-		}
-		
-		thermicCommentField.setText(result.getThermalAbnormalityAnnotation());
-		
-		if(result.isInternalPortableUtilities()) {
-			portableUtilitiesYesBtn.fire();
-		}else {
-			portableUtilitiesNoBtn.fire();
-		}
-		
-		int epu = result.getExternalPortableUtilities();
-		if(epu == 0) {
-			externalPortableUtilitiesYesBtn.fire();
-		}else if(epu == 1) {
-			externalPortableUtilitiesNoBtn.fire();
-		}else if(epu == 2) {
-			externalPortableUtilitiesNrBtn.fire();
-		}
-		
-		int supplySystem = result.getSupplySystem();
-		if(supplySystem == 0) {
-			supplySystemTNBtn.fire();
-		}else if(supplySystem == 1) {
-			supplySystemTTBtn.fire();
-		}else if(supplySystem == 2) {
-			supplySystemITBtn.fire();
-		}else if(supplySystem == 3) {
-			supplySystemCircleBtn.fire();
-		}
-		
-		powerConsumptionField.setText(String.valueOf(result.getEnergyDemand()));
-		externalPowerPercentageField.setText(String.valueOf(result.getMaxEnergyDemandExternal()));
-		maxCapacityPercentageField.setText(String.valueOf(result.getMaxEnergyDemandInternal()));
-		protectedCirclesPercentageField.setText(String.valueOf(result.getProtectedCircuitsPercent()));
-		
-		int hardWiredLoads = result.getHardWiredLoads();
-		if(hardWiredLoads == 0) {
-			hardWiredLoadsUnder250Btn.fire();
-		}else if(hardWiredLoads == 1) {
-			hardWiredLoadsUnder500Btn.fire();
-		}else if(hardWiredLoads == 2) {
-			hardWiredLoadsUnder1000Btn.fire();
-		}else if(hardWiredLoads == 3) {
-			hardWiredLoadsUnder5000Btn.fire();
-		}else if(hardWiredLoads == 4) {
-			hardWiredLoadsAbove5000Btn.fire();
-		}
-		
-		furtherExplanationsField.setText(result.getAdditionalAnnotations());
-		
-		CompanyPlant cp = result.getCompanyPlant();
-		plantStreetField.setText(cp.getPlantStreet());
-		plantZipField.setText(String.valueOf(cp.getPlantZip()));
-		plantCityField.setText(cp.getPlantCity());
-		
-		Company c = cp.getCompany();
-		compNameField.setText(c.getName());
-		streetCompField.setText(c.getHqStreet());
-		compZipField.setText(String.valueOf(c.getHqZip()));
-		compCityField.setText(c.getHqCity());
 	}
 	
 	public void changeScreenVNBtn (ActionEvent event) throws IOException{
@@ -716,6 +766,16 @@ if(instance != null && instance.selectedCompany!= null) {
 		window.setScene(tableViewScene);
 		window.show();
 		
+	}
+	
+	public void exportDiagnosis (ActionEvent event) throws IOException{
+		
+	}
+	
+	public void closeDiagnosis (ActionEvent event) throws IOException{
+		//Check if saved
+		//Cleanup every entry
+		mainController.closeDiagnosis();
 	}
 	
 	/**

@@ -19,11 +19,11 @@
                   </StackPane>
                </content>
           </Tab>
-          <Tab id="diagnosisTab" text="Befundscheine">
+          <Tab fx:id="diagnosisTab" disable="true" text="Befundscheine">
                <content>
                   <StackPane>
                      <children>
-                        <fx:include fx:id="inspectionResultTab" source="GUI_Diagnosis.fxml" />
+                       <fx:include fx:id="inspectionResultTab" source="GUI_Diagnosis.fxml" />
                      </children>
                   </StackPane>
                </content></Tab>

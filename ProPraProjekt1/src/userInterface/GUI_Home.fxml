@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
@@ -16,18 +17,27 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0">
                <children>
-            <StackPane prefHeight="661.0" prefWidth="876.0" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+            <VBox alignment="CENTER" maxHeight="500.0" prefHeight="500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
                <children>
-                          <TableView id="companyTableView" fx:id="companyTableView">
-                          	<columns>
-                                  <TableColumn id="compDiagnosisColumn" fx:id="diagnosisId" maxWidth="500.0" minWidth="100.0" prefWidth="300.0" resizable="false" text="Befundschein" />
-                              	<TableColumn id="companysColumn" fx:id="diagnosisCompany" maxWidth="500.0" minWidth="100.0" prefWidth="300.0" resizable="false" text="Firma" />
-                        			<TableColumn fx:id="diagnosisDate" maxWidth="500.0" minWidth="100.0" prefWidth="300.0" text="Prüfungsdatum" />
-                              </columns>
-                          </TableView>
-                  <ProgressIndicator fx:id="diagnosisTableProgress" maxHeight="-Infinity" maxWidth="-Infinity" />
+                  <StackPane prefHeight="2000.0">
+                     <children>
+                                <TableView id="companyTableView" fx:id="companyTableView">
+                                	<columns>
+                                        <TableColumn id="compDiagnosisColumn" fx:id="diagnosisId" maxWidth="500.0" minWidth="100.0" prefWidth="300.0" resizable="false" text="Befundschein" />
+                                    	<TableColumn id="companysColumn" fx:id="diagnosisCompany" maxWidth="500.0" minWidth="100.0" prefWidth="300.0" resizable="false" text="Firma" />
+                              			<TableColumn fx:id="diagnosisDate" maxWidth="500.0" minWidth="100.0" prefWidth="300.0" text="Prüfungsdatum" />
+                                    </columns>
+                                </TableView>
+                        <ProgressIndicator fx:id="diagnosisTableProgress" maxHeight="-Infinity" maxWidth="-Infinity" />
+                     </children>
+                  </StackPane>
+                  <Button minHeight="50.0" minWidth="100.0" mnemonicParsing="false" onAction="#createNewDiagnosisButton" prefHeight="100.0" prefWidth="200.0" text="Neuen Befundschein erstellen">
+                     <VBox.margin>
+                        <Insets bottom="30.0" top="30.0" />
+                     </VBox.margin>
+                  </Button>
                </children>
-            </StackPane>
+            </VBox>
                </children>
             </AnchorPane>
         </items>

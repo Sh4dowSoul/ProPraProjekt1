@@ -13,6 +13,7 @@ import dataStorageAccess.controller.DiagnosisController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -90,6 +91,14 @@ public class Tab_Home implements Initializable{
 			}
 		});
 	}
+	
+	/**
+	 * Adds diagnosis to the database
+	 * @throws SQLException 
+	 */
+	public void createNewDiagnosisButton(ActionEvent add){
+		mainController.openDiagnosisTab(-1);
+	}
 
 	private void createDignosisOptionsDialog(ResultPreview item) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -106,8 +115,8 @@ public class Tab_Home implements Initializable{
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == editButton){
-			mainController.changeTab(1);
-			mainController.editDiagnosis(item.getId());
+			mainController.setEditMode(true);
+			mainController.openDiagnosisTab(item.getId());
 		} else if (result.get() == exportButton) {
 			try {
 				PDFExport.export(item.getId());
