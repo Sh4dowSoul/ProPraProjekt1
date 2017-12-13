@@ -175,6 +175,7 @@ public class Tab_InspectionResult implements Initializable{
 	private Company selectedCompany;
 	private Company plantAdress;
 	private boolean currentDiagnosisSaved;
+	private int currentDiagnosisId = 0;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 if(instance != null && instance.selectedCompany!= null) {
@@ -365,7 +366,6 @@ if(instance != null && instance.selectedCompany!= null) {
 			changesSinceLastEx = 1;
 		}
 		
-		int id = 0;
 		LocalDate date = LocalDate.parse(plantInspectionField.getText());
 		LocalDate lastEdited = LocalDate.now();
 		String companion = plantCompanionField.getText();
@@ -467,7 +467,7 @@ if(instance != null && instance.selectedCompany!= null) {
 		Branch branch = new Branch(-1,"test");
 		Company company = new Company(compId, companyName, hqStreet, hqZip, hqCity);
 		CompanyPlant companyPlant = new CompanyPlant(plantId, plantStreet, plantZip, plantCity, company);
-		ResultComplete resultComplete = new ResultComplete(id,
+		ResultComplete resultComplete = new ResultComplete(currentDiagnosisId,
 				 date,
 				 lastEdited,
 				 companion,
@@ -546,9 +546,14 @@ if(instance != null && instance.selectedCompany!= null) {
 				currentDiagnosisSaved = true;
 				System.out.println("Befundschein erfolgreich hinzugefuegt");
 			} else {
-				//Überschreibe alte Diagnose
-				//...
-				//currentDiagnosisSaved = true;
+				try {
+					dataStorageAccess.controller.DiagnosisController.updateDiagnosis(resultComplete);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				currentDiagnosisSaved = true;
+				System.out.println("Befundschein erfolgreich bearbeitet");
 			}
 		}
 	}
@@ -565,6 +570,7 @@ if(instance != null && instance.selectedCompany!= null) {
 			
 			defectTableView.setItems(FXCollections.observableArrayList(result.getDefects()));
 			
+			currentDiagnosisId = result.getId();
 			//set maybe unused fields empty
 			completeReasonField.setText("");
 			dangerCategoryExtensionField.setText("");

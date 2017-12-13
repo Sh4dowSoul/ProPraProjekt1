@@ -161,6 +161,62 @@ public class DiagnosisController {
 		return result;
 	}
 	
+	public static void updateDiagnosis(ResultComplete diagnosis) throws SQLException {
+		System.out.println("TEST " + diagnosis.getId() + " " + "Test2 " + diagnosis.getExaminationDuration());
+		String statement = "UPDATE Diagnosis "
+				+ "SET diagnosis_lastEdited = ?, plant_id = ?, companion = ?, "
+				+ "surveyor = ?, vds_approval_nr = ?, examination_date = ?, "
+				+ "examination_duration = ?, branch_id = ?,frequency_controlled_utilities = ?, precautions_declared = ?, "
+				+ "precautions_declared_where = ?, examination_completed = ?, subsequent_examination_date = ?, "
+				+ "subsequent_examination_reason = ?, changes_sincel_last_examination = ?, defects_last_examination_fixed = ?, "
+				+ "danger_categorie_vds = ?, danger_categorie_vds_description = ?, examination_resultNoDefect = ?, "
+				+ "examination_resultDefect = ?, examinationResultDefectDate = ?, examination_resultDanger = ?, isolation_checkedEnough = ?, "
+				+ "isolation_measurementProtocols = ?, isolation_compensationMeasures = ?, isolation_compensationMeasures_annotation = ?, "
+				+ "rcd_available = ?, rcd_available_percent = ?, rcd_annotation = ?, "
+				+ "resistance = ?, resistance_number = ?, resistance_annotation = ?, "
+				+ "thermalAbnormality = ?, thermalAbnormality_annotation = ?, internalPortableUtilities = ?, "
+				+ "externalPortableUtilities = ?, supplySystem = ?, energyDemand = ?, "
+				+ "maxEnergyDemandExternal = ?, maxEnergyDemandInternal = ?, protectedCircuitsPercent = ?, "
+				+ "hardWiredLoads = ?, additionalAnnotations = ? " 
+				+ "WHERE diagnosis_id = " + diagnosis.getId();
+
+		PreparedStatement preparedStatement = null;
+		Connection connection = null;
+		try {
+			connection = DataSource.getConnection();
+			preparedStatement = connection.prepareStatement(statement);
+
+			setValues(preparedStatement,
+					diagnosis.getLastEdited(), diagnosis.getCompanyPlant().getId(), diagnosis.getCompanion(), 
+					diagnosis.getSurveyor(), diagnosis.getVdsApprovalNr(), diagnosis.getDate(),
+					diagnosis.getExaminationDuration(),diagnosis.getBranch().getId(), diagnosis.isFrequencyControlledUtilities(),diagnosis.isPrecautionsDeclared(),
+					diagnosis.getPrecautionsDeclaredLocation(), diagnosis.isExaminationComplete(), diagnosis.getSubsequentExaminationDate(),
+					diagnosis.getExaminationIncompleteReason(), diagnosis.getChangesSinceLastExamination(), diagnosis.getDefectsLastExaminationFixed(),
+					diagnosis.getDangerCategory(), diagnosis.getDangerCategoryDescription(), diagnosis.isExaminationResultNoDefect(),
+					diagnosis.isExaminationResultDefect(),diagnosis.getExaminationResultDefectDate(), diagnosis.isExaminationResultDanger(), diagnosis.isIsolationChecked(),
+					diagnosis.isIsolationMesasurementProtocols(), diagnosis.isIsolationCompensationMeasures(), diagnosis.getIsolationCompensationMeasuresAnnotation(),
+					diagnosis.getRcdAvailable(), diagnosis.getRcdAvailablePercent(), diagnosis.getRcdAnnotation(),
+					diagnosis.isResistance(), diagnosis.getResistanceNumber(), diagnosis.getResistanceAnnotation(),
+					diagnosis.isThermalAbnormality(), diagnosis.getThermalAbnormalityAnnotation(), diagnosis.isInternalPortableUtilities(),
+					diagnosis.getExternalPortableUtilities(), diagnosis.getSupplySystem(), diagnosis.getEnergyDemand(),
+					diagnosis.getMaxEnergyDemandExternal(), diagnosis.getMaxEnergyDemandInternal(), diagnosis.getProtectedCircuitsPercent(),
+					diagnosis.getHardWiredLoads(), diagnosis.getAdditionalAnnotations());
+		
+			// execute insert SQL statement
+			preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} finally {
+			if (preparedStatement != null) {
+				preparedStatement.close();
+			}
+			if (connection != null) {
+				connection.close();
+			}
+		}
+	}
+	
+	
 	/**
 	 * Inserts Diagnosis into Database
 	 * @param diagnosis - Diagnosis, which should be inserted into the Database
