@@ -41,7 +41,7 @@ public class PDFExport {
 	static PDDocument document = null;
 	static PDPageContentStream contentStream;
 	static ResultComplete data;
-	static int pageCounter;
+	static int pageCounter = 0;
 	static PDPage page1;
 
 	/**
