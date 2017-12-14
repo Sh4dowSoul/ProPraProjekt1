@@ -1,6 +1,6 @@
 package applicationLogic;
 
-public class CompanyPlant {
+public class CompanyPlant extends AutocompleteSuggestion{
 	private int id;
 	private String plantStreet;
 	private int plantZip;
@@ -8,6 +8,7 @@ public class CompanyPlant {
 	private Company company;
 	
 	public CompanyPlant(int id, String plantStreet, int plantZip, String plantCity, Company company) {
+		super(id, plantStreet + ", " +plantZip + " " + plantCity);
 		this.id = id;
 		this.plantStreet = plantStreet;
 		this.plantZip = plantZip;

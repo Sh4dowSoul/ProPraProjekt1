@@ -103,7 +103,7 @@ public class Tab_Home implements Initializable{
 	private void createDignosisOptionsDialog(ResultPreview item) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Befundschein " + item.getId() + " - " + item.getCompanyName());
-		alert.setHeaderText("Aktion für Befundschein " + item.getId() + " wählen");
+		alert.setHeaderText("Aktion fï¿½r Befundschein " + item.getId() + " wï¿½hlen");
 		alert.setContentText("Befundschein Nr: " +item.getId() +"\nFirma: " + item.getCompanyName()+ "\nZuletzt bearbeitet: " + item.getLastEditedNice());
 		alert.initStyle(StageStyle.UTILITY);
 
@@ -118,15 +118,7 @@ public class Tab_Home implements Initializable{
 			mainController.setEditMode(true);
 			mainController.openDiagnosisTab(item.getId());
 		} else if (result.get() == exportButton) {
-			try {
-				PDFExport.export(item.getId());
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			PDFExport.export(item.getId());
 		}  else {
 		    // ... user chose CANCEL or closed the dialog
 		}

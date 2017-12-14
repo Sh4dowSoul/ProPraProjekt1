@@ -58,7 +58,6 @@ public class GUI extends Application {
 	
 	public static void main(String[] args) throws IOException, SQLException {
 		launch(args);
-		PDFExport.export(1);
 	}
 	
 }
