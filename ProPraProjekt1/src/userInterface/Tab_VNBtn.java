@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import applicationLogic.Company;
+import applicationLogic.CompanyPlant;
 import applicationLogic.DefectStatistic;
 import dataStorageAccess.controller.CompanyController;
 import javafx.collections.FXCollections;
@@ -31,7 +32,7 @@ public class Tab_VNBtn implements Initializable {
 	
 	@SuppressWarnings("unchecked")
 	public void initialize(URL location, ResourceBundle resources) {
-		firmenSpalte.setCellValueFactory(new PropertyValueFactory<Company,String>("name"));
+		firmenSpalte.setCellValueFactory(new PropertyValueFactory<Company,String>("namen"));
 		try {
 			ObservableList<Company> companies = FXCollections.observableArrayList(CompanyController.getCompanies());
 			firmenTabelle.setItems(companies);

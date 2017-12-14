@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import applicationLogic.Company;
+import applicationLogic.CompanyPlant;
 import dataStorageAccess.controller.CompanyController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,21 +24,21 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 public class Tab_PlantBtn implements Initializable {	
-	@FXML TableView<Company> AdressTable;
+	@FXML TableView<CompanyPlant> AdressTable;
 	@FXML TableColumn ColumnTable;
 
 	@SuppressWarnings("unchecked")
 	public void initialize(URL location, ResourceBundle resources) {
-		ColumnTable.setCellValueFactory(new PropertyValueFactory<Company,String>("name"));
+		ColumnTable.setCellValueFactory(new PropertyValueFactory<CompanyPlant,String>("name"));
 		try {
-			ObservableList<Company> companies = FXCollections.observableArrayList(CompanyController.getCompanies());
+			ObservableList<CompanyPlant> companies = FXCollections.observableArrayList(CompanyController.getPlantsOfcompany(null));
 			AdressTable.setItems(companies);
 			AdressTable.setRowFactory( tv -> {
-			    TableRow<Company> row = new TableRow<>();
+			    TableRow<CompanyPlant> row = new TableRow<>();
 			    row.setOnMouseClicked(event -> {
 			        if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
-			        	Company rowData = row.getItem();
-			        	onDoubleClick(rowData);
+//			        	Company rowData = row.getItem();
+//			        	onDoubleClick(rowData);
 			        }
 			    });
 			    return row ;
@@ -60,7 +61,7 @@ public class Tab_PlantBtn implements Initializable {
 	
 }
 	
-	private void onDoubleClick(Company company) {
+	private void onDoubleClick(Company companyPlant) {
 //		FXMLLoader loader;
 //			 loader = new FXMLLoader(getClass().getResource( "GUI_Diagnosis.fxml") );
 ////			Parent root = loader.load();
@@ -69,7 +70,7 @@ public class Tab_PlantBtn implements Initializable {
 //			controller.setSelectedCompany(company);
 //			changeScreenDiagnosis(null); 
 
-			Tab_InspectionResult.instance.setPlantAdress(company);
+			Tab_InspectionResult.instance.setPlantAdress(companyPlant);
 
 	}
 	

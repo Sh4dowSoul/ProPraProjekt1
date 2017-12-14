@@ -194,11 +194,11 @@ if(instance != null && instance.selectedCompany!= null) {
 	    this.mainController = parentController;
 	}
 	
-	public void setSelectedCompany(Company company) {
-		selectedCompany=company;
-		compNameField.setText(company.getName());
-		compCityField.setText(company.getHqCity());
-		streetCompField.setText(company.getHqStreet());
+	public void setSelectedCompany(Company companyPlant) {
+		selectedCompany=companyPlant;
+		compNameField.setText(companyPlant.getName());
+		compCityField.setText(companyPlant.getHqCity());
+		streetCompField.setText(companyPlant.getHqStreet());
 //		compZipField.setText(company.getHqZip());
 	}
 	
