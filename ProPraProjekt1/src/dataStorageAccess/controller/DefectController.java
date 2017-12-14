@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import applicationLogic.DefectAtomic;
 import applicationLogic.DefectResult;
+import applicationLogic.ResultComplete;
 import applicationLogic.Util;
 import dataStorageAccess.DataSource;
 
@@ -50,12 +51,19 @@ public class DefectController {
 			);
 		) {
 			while (resultSet.next()) {
-				result.add(new DefectResult(resultSet.getInt("defect_id"), resultSet.getInt("branch_id"), resultSet.getInt("danger"), resultSet.getString("building"), resultSet.getString("room"), resultSet.getString("machine"), resultSet.getString("defect_customDescription")));
+				result.add(new DefectResult(resultSet.getInt("element_id"), resultSet.getInt("defect_id"), resultSet.getInt("branch_id"), resultSet.getInt("danger"), resultSet.getString("building"), resultSet.getString("room"), resultSet.getString("machine"), resultSet.getString("defect_customDescription")));
 			}
 		}
 		return result;
 	}
 	
+	/**
+	 * Insert a Defect into the Database
+	 * 
+	 * @param defect - A Defect
+	 * @param diagnosisId - the Id of an Diagnosis
+	 * @throws SQLException
+	 */
 	public static void insertDefect(DefectResult defect, int diagnosisId) throws SQLException {
 		String statement = "INSERT INTO DefectElement "
 				+ "(diagnosis_id, danger, building, room, machine, defect_id, defect_customDescription, branch_id) "
@@ -73,6 +81,34 @@ public class DefectController {
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+		} finally {
+			if (preparedStatement != null) {
+				preparedStatement.close();
+			}
+			if (connection != null) {
+				connection.close();
+			}
+		}
+	}
+	
+	public static void updateDefect(DefectResult defect, int diagnosisId) throws SQLException {
+		String statement = "UPDATE DefectElement "
+				+ "SET diagnosis_id = ?, danger = ?, building = ?, "
+				+ "room = ?, machine = ?, defect_id = ?, "
+				+ "defect_customDescription = ?, branch_id = ? " 
+				+ "WHERE element_id = " + defect.getElementId();
+
+		PreparedStatement preparedStatement = null;
+		Connection connection = null;
+		try {
+			connection = DataSource.getConnection();
+			preparedStatement = connection.prepareStatement(statement);
+
+			Util.setValues(preparedStatement,
+					diagnosisId, defect.getDanger(), defect.getBuilding(), defect.getRoom(), defect.getMachine(), defect.getId(), defect.getDefectCustomDescription(), defect.getBranchId());
+		
+			// execute insert SQL statement
+			preparedStatement.executeUpdate();
 		} finally {
 			if (preparedStatement != null) {
 				preparedStatement.close();

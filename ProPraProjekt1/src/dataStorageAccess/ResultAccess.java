@@ -51,7 +51,13 @@ public class ResultAccess {
 	public static void updateCompleteResult(ResultComplete result) throws SQLException {
 		DiagnosisController.updateDiagnosis(result);
 		for (DefectResult defect : result.getDefects()) {
-			//TODO update defect in DB
+			System.out.println(defect.getElementId() + " - " + defect.getDanger());
+			if (defect.getElementId() != -1) {
+				DefectController.updateDefect(defect, result.getId());
+			} else {
+				DefectController.insertDefect(defect, result.getId());
+			}
+			
 		}
 	}
 	

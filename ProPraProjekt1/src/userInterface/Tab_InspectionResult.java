@@ -175,6 +175,7 @@ public class Tab_InspectionResult implements Initializable{
 	boolean tableUpdate = false;
 	private int tableSelctedId;
 	private int showTableDialog = 1;
+	private int defectElementId = -1;
 	//InspectionResult Save
 	private boolean inspectionResultSaved;
 	private int inspectionResultId = 0;
@@ -243,9 +244,9 @@ public class Tab_InspectionResult implements Initializable{
 				}	
 			}
 			if (!tableUpdate) {
-				defectTableView.getItems().add(new DefectResult(newDefectId,Integer.valueOf(branchText.getText()),newDefectDanger,buildingText.getText(), roomText.getText(), machineText.getText(), customDescriptionText.getText()));
+				defectTableView.getItems().add(new DefectResult(-1, newDefectId,Integer.valueOf(branchText.getText()),newDefectDanger,buildingText.getText(), roomText.getText(), machineText.getText(), customDescriptionText.getText()));
 			} else {
-				defectTableView.getItems().set(tableSelctedId, new DefectResult(newDefectId,Integer.valueOf(branchText.getText()),newDefectDanger,buildingText.getText(), roomText.getText(), machineText.getText(), customDescriptionText.getText()));
+				defectTableView.getItems().set(tableSelctedId, new DefectResult(defectElementId, newDefectId,Integer.valueOf(branchText.getText()),newDefectDanger,buildingText.getText(), roomText.getText(), machineText.getText(), customDescriptionText.getText()));
 				tableUpdate = false;
 				addDefectButton.setText("Hinzufügen");
 				showTableDialog = 1;
@@ -273,6 +274,7 @@ public class Tab_InspectionResult implements Initializable{
 		resultDefectId.setText(String.valueOf(defect.getId()));
 		branchText.setText(String.valueOf(defect.getBranchId()));
 		int danger = defect.getDanger();
+		defectElementId = defect.getElementId();
 		switch (danger) {
 		case 1: 
 			dangerFireSwitchBox.setSelected(true);
@@ -949,8 +951,9 @@ public class Tab_InspectionResult implements Initializable{
 	    
 	    compNameField.setAutoCompletionEvent(new AutoCompletionEvent() {
 			@Override
-			public void onAutoCompleteResult(AutocompleteSuggestion suggestion) {	
-				System.out.println("TEST");
+			public void onAutoCompleteResult(AutocompleteSuggestion suggestion) {
+				plantStreetField.clear();
+				inspectionResultCompanyPlant = null;
 				inspectionResultCompany = (Company) suggestion;
 				plantStreetField.setDisable(false);
 				plantLoadBtn.setDisable(false);

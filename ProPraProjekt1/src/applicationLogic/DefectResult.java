@@ -1,6 +1,7 @@
 package applicationLogic;
 
 public class DefectResult extends DefectStatistic{
+	private int elementId;
 	private int danger;
 	private String building;
 	private String dangerString;
@@ -8,9 +9,10 @@ public class DefectResult extends DefectStatistic{
 	private String machine;
 	private String defectCustomDescription;
 	
-	public DefectResult(int defectId, int branchId, int danger, String building, String room, String machine,
+	public DefectResult(int elementId, int defectId, int branchId, int danger, String building, String room, String machine,
 			String defectCustomDescription) {
 		super(defectId, branchId);
+		this.elementId = elementId;
 		this.danger = danger;
 		this.building = building;
 		this.room = room;
@@ -18,6 +20,10 @@ public class DefectResult extends DefectStatistic{
 		this.defectCustomDescription = defectCustomDescription;
 	}
 	
+	public int getElementId() {
+		return elementId;
+	}
+
 	public DefectResult(int defectId) {
 		super(defectId,-1);
 	}
