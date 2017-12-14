@@ -14,8 +14,10 @@ import applicationLogic.Branch;
 import applicationLogic.Company;
 import applicationLogic.DefectStatistic;
 import applicationLogic.ExceptionDialog;
+import dataStorageAccess.BranchAccess;
+import dataStorageAccess.CompanyAccess;
+import dataStorageAccess.DefectAccess;
 import dataStorageAccess.StatisticAccess;
-import dataStorageAccess.controller.StatisticController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -171,7 +173,7 @@ public class Tab_Stats implements Initializable{
 		final Task<ObservableList<Company>> companyListTask = new Task<ObservableList<Company>>() {
             @Override
             protected ObservableList<Company> call() throws Exception {
-        		return FXCollections.observableArrayList(dataStorageAccess.controller.CompanyController.getCompaniesWithDefect());
+        		return FXCollections.observableArrayList(CompanyAccess.getCompanies(true));
             }
         };
         statCompanyProgress.visibleProperty().bind(companyListTask.runningProperty());
@@ -197,7 +199,7 @@ public class Tab_Stats implements Initializable{
 		final Task<ObservableList<Branch>> branchListTask = new Task<ObservableList<Branch>>() {
             @Override
             protected ObservableList<Branch> call() throws Exception {
-        		return FXCollections.observableArrayList(dataStorageAccess.controller.BranchController.getAllBranchesWithDefect());
+        		return FXCollections.observableArrayList(BranchAccess.getBranches(true));
             }
         };
         statBranchProgress.visibleProperty().bind(branchListTask.runningProperty());
@@ -226,9 +228,9 @@ public class Tab_Stats implements Initializable{
             @Override
             protected ObservableList<DefectStatistic> call() throws Exception {
             	if (!loadAll) {
-            		return FXCollections.observableArrayList(StatisticController.getMostFrequentDefectCompany(companyId));
+            		return FXCollections.observableArrayList(DefectAccess.getFrequentDefectsCompany(true, companyId));
             	} else {
-            		return FXCollections.observableArrayList(StatisticController.getMostFrequentDefectAllCompanies());
+            		return FXCollections.observableArrayList(DefectAccess.getFrequentDefectsCompany(false, companyId));
             	}
         		
             }
@@ -253,9 +255,9 @@ public class Tab_Stats implements Initializable{
             @Override
             protected ObservableList<DefectStatistic> call() throws Exception {
             	if (!loadAll) {
-            		return FXCollections.observableArrayList(StatisticController.getMostFrequentDefectBranch(branchId));
+            		return FXCollections.observableArrayList(DefectAccess.getFrequentDefectsBranch(true, branchId));
             	} else {
-            		return FXCollections.observableArrayList(StatisticController.getMostFrequentDefectAllBranches());
+            		return FXCollections.observableArrayList(DefectAccess.getFrequentDefectsBranch(false, branchId));
             	}
         		
             }

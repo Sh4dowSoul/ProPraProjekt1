@@ -1,15 +1,13 @@
 package userInterface;
 
-import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import applicationLogic.DefectStatistic;
 import applicationLogic.PDFExport;
 import applicationLogic.ResultPreview;
-import dataStorageAccess.controller.DiagnosisController;
+import dataStorageAccess.ResultAccess;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -23,7 +21,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -132,10 +129,9 @@ public class Tab_Home implements Initializable{
 		final Task<ObservableList<ResultPreview>> lastEditedListTask = new Task<ObservableList<ResultPreview>>() {
             @Override
             protected ObservableList<ResultPreview> call() throws Exception {
-        		return FXCollections.observableArrayList(DiagnosisController.getLastEditedDiagnosesPreview(5));
+        		return FXCollections.observableArrayList(ResultAccess.getResultsPreview(true));
             }
         };
-        //statCompanyProgress.visibleProperty().bind(companyListTask.runningProperty());
         lastEditedListTask.setOnSucceeded(event ->
         	recentlyUsedList.setItems(lastEditedListTask.getValue())
 	    );
@@ -152,7 +148,7 @@ public class Tab_Home implements Initializable{
 		final Task<ObservableList<ResultPreview>> allDiagnosesTask = new Task<ObservableList<ResultPreview>>() {
             @Override
             protected ObservableList<ResultPreview> call() throws Exception {
-        		return FXCollections.observableArrayList(DiagnosisController.getDiagnosesPreview());
+        		return FXCollections.observableArrayList(ResultAccess.getResultsPreview(false));
             }
         };
         diagnosisTableProgress.visibleProperty().bind(allDiagnosesTask.runningProperty());
