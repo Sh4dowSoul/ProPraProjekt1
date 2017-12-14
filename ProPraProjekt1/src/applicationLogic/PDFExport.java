@@ -56,51 +56,76 @@ public class PDFExport {
 	 * @throws IOException
 	 * @throws SQLException
 	 */
-	public static void export(int id) throws IOException, SQLException {
-		// Creating PDF document object
-		document = new PDDocument();
-		data = ResultAccess.getCompleteResult(id);
-		pageCounter = 0;
+	public static void export(int id) {
+		try {
+			// Creating PDF document object
+			document = new PDDocument();
+			data = ResultAccess.getCompleteResult(id);
+			pageCounter = 0;
 
-		FileChooser fileChooser = new FileChooser();
+			FileChooser fileChooser = new FileChooser();
 
-		// Set extension filter
-		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PDF-Dateien (*.pdf)", "*.pdf");
-		fileChooser.getExtensionFilters().add(extFilter);
-		fileChooser.setInitialFileName("BS" + "_" + data.getCompanyPlant().getCompany().getName() + "_" + id + ".pdf");
+			// Set extension filter
+			FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PDF-Dateien (*.pdf)", "*.pdf");
+			fileChooser.getExtensionFilters().add(extFilter);
+			fileChooser
+					.setInitialFileName("BS" + "_" + data.getCompanyPlant().getCompany().getName() + "_" + id + ".pdf");
 
-		// Show save file dialog
-		File file = fileChooser.showSaveDialog(null);
+			// Show save file dialog
+			File file = fileChooser.showSaveDialog(null);
 
-		// Setting Fonts
-		PDFont fontArial = PDType0Font.load(document, arial);
-		PDFont fontArialBold = PDType0Font.load(document, arialBold);
-		PDFont fontArialBoldCursive = PDType0Font.load(document, arialBoldCursive);
-		PDFont fontArialCursive = PDType0Font.load(document, arialCursive);
+			// Setting Fonts
+			PDFont fontArial = PDType0Font.load(document, arial);
+			PDFont fontArialBold = PDType0Font.load(document, arialBold);
+			PDFont fontArialBoldCursive = PDType0Font.load(document, arialBoldCursive);
+			PDFont fontArialCursive = PDType0Font.load(document, arialCursive);
 
-		createPDF(fontArial, fontArialBold, fontArialBoldCursive, fontArialCursive);
+			createPDF(fontArial, fontArialBold, fontArialBoldCursive, fontArialCursive);
 
-		if (file != null) {
+			if (file != null) {
+				try {
+					document.save(file);
+					Notifications.create().title("Erfolgreich gespeichert")
+							.text("Der Befundschein " + file.getName() + " wurde erfolgreich gespeichert ")
+							.showInformation();
+				} catch (IOException e) {
+					Notifications.create().title("Es ist ein Problem aufgetreten")
+							.text("Der Befundschein " + file.getName() + " konnte leider nicht gespeichert werden.")
+							.hideAfter(Duration.INDEFINITE).onAction(new EventHandler<ActionEvent>() {
+								@Override
+								public void handle(ActionEvent event) {
+									new ExceptionDialog("Export Fehler", "Fehler beim Exportieren",
+											"Beim Exportieren des Befundscheins ist leider ein Fehler aufgetreten.", e);
+								}
+							}).showError();
+				}
+			}
+		} catch (IOException | SQLException e) {
+			Notifications.create().title("Es ist ein Problem aufgetreten")
+					.text("Beim Erstellen des Dokuments ist ein Fehler aufgetreten.").hideAfter(Duration.INDEFINITE)
+					.onAction(new EventHandler<ActionEvent>() {
+						@Override
+						public void handle(ActionEvent event) {
+							new ExceptionDialog("Fehler", "Fehler beim Erstellen",
+									"Beim Erstellen des Dokuments ist leider ein Fehler aufgetreten.", e);
+						}
+					}).showError();
+		} finally {
 			try {
-				document.save(file);
-				Notifications.create().title("Erfolgreich gespeichert")
-						.text("Der Befundschein " + file.getName() + " wurde erfolgreich gespeichert ")
-						.showInformation();
+				// Closing the document
+				document.close();
 			} catch (IOException e) {
 				Notifications.create().title("Es ist ein Problem aufgetreten")
-						.text("Der Befundschein " + file.getName() + " konnte leider nicht gespeichert werden.")
-						.hideAfter(Duration.INDEFINITE).onAction(new EventHandler<ActionEvent>() {
+						.text("Beim Schließen des Dokuments ist ein Fehler aufgetreten.").hideAfter(Duration.INDEFINITE)
+						.onAction(new EventHandler<ActionEvent>() {
 							@Override
 							public void handle(ActionEvent event) {
-								new ExceptionDialog("Export Fehler", "Fehler beim Exportieren",
-										"Beim Exportieren des Befundscheins ist leider ein Fehler aufgetreten.", e);
+								new ExceptionDialog("Fehler", "Fehler beim Schließen",
+										"Beim Schließen des Dokuemnts ist leider ein Fehler aufgetreten.", e);
 							}
 						}).showError();
 			}
 		}
-		
-		// Closing the document
-		document.close();
 	}
 
 	/**
