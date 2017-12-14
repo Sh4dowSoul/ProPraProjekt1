@@ -182,36 +182,21 @@ public class Tab_InspectionResult implements Initializable{
 	
 	private int currentDefectId;
 	int currentDangerSituation;
-	private Company currentCompany;
-	private CompanyPlant companyPlant;
 	private GUIController mainController;
 	
 	public static Tab_InspectionResult instance;
 	
-	private Company selectedCompany;
-	private CompanyPlant plantAdress;
+
 	private boolean currentDiagnosisSaved;
 	private int currentDiagnosisId = 0;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-	
-		
-if(instance != null && instance.selectedCompany!= null) {
-	setSelectedCompany(instance.selectedCompany);
-		}	
 		prepareAutocomplete();
 		prepareTable();
 		plantStreetField.setDisable(true);
 		loadCompanies();
 		
-		
-		
 		instance = this;
-		
-		if(instance != null && instance.plantAdress!= null) {
-			setPlantAdress(instance.plantAdress);
-			
-		}
 		
     }
 	
@@ -219,25 +204,6 @@ if(instance != null && instance.selectedCompany!= null) {
 	    this.mainController = parentController;
 	}
 	
-	public void setSelectedCompany(Company company) {
-		selectedCompany=company;
-		compNameField.setText(company.getName());
-		compCityField.setText(company.getHqCity());
-		streetCompField.setText(company.getHqStreet());
-//		compZipField.setText(company.getHqZip());
-	}
-	
-	public void setPlantAdress(CompanyPlant companyPlant) {
-		plantAdress=companyPlant;
-		plantStreetField.setText(companyPlant.getPlantStreet());
-//		plantZipField.setText(companyPlant.getPlantZip());
-		plantCityField.setText(companyPlant.getPlantCity());
-//		plantCompanionField.setText(value);
-//		plantExpertField.setText(value);
-//		plantAnerkNrField.setText(value);
-//		plantInspectionField.setText(value);
-//		plantInspectionTimeField.setText(value);
-	}
 	
 	private void prepareTable() {
 		defectIdColumn.setCellValueFactory(new PropertyValueFactory<DefectResult,String>("id"));
@@ -954,31 +920,6 @@ if(instance != null && instance.selectedCompany!= null) {
 		  dangerFireSwitchBox.disarm();
 		  dangerPersonSwitchBox.disarm();
 	}
-	
-	public void changeScreenVNBtn (ActionEvent event) throws IOException{
-		
-		Parent tableViewParent = FXMLLoader.load(getClass().getResource("GUI_VNBtn.fxml"));
-		Scene tableViewScene = new Scene (tableViewParent);
-		
-		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		window.setScene(tableViewScene);
-		window.show();
-		
-	}
-	
-	public void changeScreenplantBtn (ActionEvent event) throws IOException{
-		
-		Parent tableViewParent = FXMLLoader.load(getClass().getResource("GUI_PlantBtn.fxml"));
-		Scene tableViewScene = new Scene (tableViewParent);
-		
-		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		window.setScene(tableViewScene);
-		window.show();
-		
-	}
-	
-
-	
 	
 	public void popupRisiko(ActionEvent event) throws IOException {
         final Stage dialog = new Stage();

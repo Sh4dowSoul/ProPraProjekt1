@@ -38,23 +38,7 @@ public class GUI extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
-	
-	public void VNBtn(Stage stage) throws Exception{
-		Parent root = FXMLLoader.load(getClass().getResource("GUI_VNLoader"));
-		Scene scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
-	}
-	
-	public void plantBtn (Stage stage) throws Exception{
-		Parent root = FXMLLoader.load(getClass().getResource("GUI_VNLoader"));
-		Scene scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
-	}
-	
-	
-	
+
 	
 	public static void main(String[] args) throws IOException, SQLException {
 		launch(args);
