@@ -37,4 +37,24 @@ public class CompanyAccess {
 	public static ArrayList<CompanyPlant> getPlantsOfCompany(Company company) throws SQLException {
 		return CompanyController.getPlantsOfcompany(company);
 	}
+	
+	/**
+	 * Inserts a new company into the Database
+	 * 
+	 * @param company - A Company
+	 * @throws SQLException
+	 */
+	public static void insertCompany(Company company) throws SQLException {
+		CompanyController.insertCompany(company);
+	}
+	
+	/**
+	 * Inserts a new Company Plant into the Database
+	 * 
+	 * @param companyPlant - A Company Plant
+	 * @throws SQLException
+	 */
+	public static void insertCompanyPlant (CompanyPlant companyPlant) throws SQLException {
+		CompanyController.insertCompanyPlant(companyPlant);
+	}
 }

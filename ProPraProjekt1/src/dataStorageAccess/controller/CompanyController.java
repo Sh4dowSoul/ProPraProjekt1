@@ -1,6 +1,7 @@
 package dataStorageAccess.controller;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -8,6 +9,8 @@ import java.util.ArrayList;
 
 import applicationLogic.Company;
 import applicationLogic.CompanyPlant;
+import applicationLogic.DefectResult;
+import applicationLogic.Util;
 import dataStorageAccess.DataSource;
 
 public class CompanyController {
@@ -81,5 +84,55 @@ public class CompanyController {
 			}
 		}
 		return result;
+	}
+	
+	public static void insertCompany(Company company) throws SQLException {
+		String statement = "INSERT INTO Company "
+				+ "(company_id, company_name, hq_street, hq_zip, hq_city "
+				+ "VALUES(?,?,?,?,?)";
+		PreparedStatement preparedStatement = null;
+		Connection connection = null;
+		try {
+			connection = DataSource.getConnection();
+			preparedStatement = connection.prepareStatement(statement);
+
+			Util.setValues(preparedStatement,
+					company.getId(), company.getName(), company.getHqStreet(), company.getHqZip(), company.getHqCity());
+			
+			// execute insert SQL statement
+			preparedStatement.executeUpdate();
+		} finally {
+			if (preparedStatement != null) {
+				preparedStatement.close();
+			}
+			if (connection != null) {
+				connection.close();
+			}
+		}
+	}
+	
+	public static void insertCompanyPlant(CompanyPlant companyPlant) throws SQLException {
+		String statement = "INSERT INTO CompanyPlant "
+				+ "(plant_id, company_id, plant_street, plant_zip, plant_city "
+				+ "VALUES(?,?,?,?,?)";
+		PreparedStatement preparedStatement = null;
+		Connection connection = null;
+		try {
+			connection = DataSource.getConnection();
+			preparedStatement = connection.prepareStatement(statement);
+
+			Util.setValues(preparedStatement,
+					companyPlant.getId(), companyPlant.getCompany().getId(), companyPlant.getPlantStreet(), companyPlant.getPlantZip(), companyPlant.getPlantCity());
+			
+			// execute insert SQL statement
+			preparedStatement.executeUpdate();
+		} finally {
+			if (preparedStatement != null) {
+				preparedStatement.close();
+			}
+			if (connection != null) {
+				connection.close();
+			}
+		}
 	}
 }
