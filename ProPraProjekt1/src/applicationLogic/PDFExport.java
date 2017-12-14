@@ -98,13 +98,9 @@ public class PDFExport {
 						}).showError();
 			}
 		}
-		if (document != null) {
-			try {
-				document.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+		
+		// Closing the document
+		document.close();
 	}
 
 	/**

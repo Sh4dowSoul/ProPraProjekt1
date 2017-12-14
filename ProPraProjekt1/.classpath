@@ -17,5 +17,6 @@
 	<classpathentry kind="lib" path="xstream-1.4.10.jar"/>
 	<classpathentry kind="lib" path="HikariCP-2.7.4.jar"/>
 	<classpathentry kind="lib" path="controlsfx-8.40.14.jar"/>
+	<classpathentry kind="lib" path="simple-odf-0.8.2-incubating-jar-with-dependencies.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
