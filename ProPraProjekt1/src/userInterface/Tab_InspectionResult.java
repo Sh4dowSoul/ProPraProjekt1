@@ -825,7 +825,7 @@ if(instance != null && instance.selectedCompany!= null) {
 		  branchName.clear();
 		  freqYesBtn.disarm();
 		  freqNoBtn.disarm();
-		  precautionYes.Btn.disarm();
+		  precautionYesBtn.disarm();
 		  precautionNoBtn.disarm();
 		  precautionField.clear();
 		  completeYesBtn.disarm();
