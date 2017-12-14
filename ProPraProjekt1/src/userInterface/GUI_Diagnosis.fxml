@@ -9,7 +9,7 @@
 
 <!-- <?import applicationLogic.AutocompleteTextField?> -->
 <?import applicationLogic.AutocompleteTextField?>
-<GridPane prefHeight="3000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userInterface.Tab_InspectionResult">
+<GridPane prefHeight="3000.0"  xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userInterface.Tab_InspectionResult">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="500.0" />
         <ColumnConstraints hgrow="SOMETIMES" minWidth="500.0" />
@@ -29,7 +29,7 @@
                                         <HBox alignment="CENTER">
                                             <children>
                                                 <Label id="companyPLantField" text="Risikoanschrift" />
-                                                <Button id="plantLoadBtn" fx:id="plantLoadBtn" mnemonicParsing="false" onAction="#changeScreenplantBtn" text="Laden">
+                                                <Button id="plantLoadBtn" fx:id="plantLoadBtn" mnemonicParsing="false" onAction="#popup" text="Laden">
                                                     <HBox.margin>
                                                         <Insets left="15.0" />
                                                     </HBox.margin>
@@ -53,7 +53,7 @@
                                         <HBox alignment="CENTER">
                                             <children>
                                                 <Label id="insuranceCompanyField" text="Versicherungsnehmer (VN)" />
-                                                <Button id="vnLoadBtn" fx:id="vnLoadBtn" mnemonicParsing="false" onAction="#changeScreenVNBtn" text="Laden">
+                                                <Button id="vnLoadBtn" fx:id="vnLoadBtn" mnemonicParsing="false" onAction="#popup" text="Laden">
                                                     <HBox.margin>
                                                         <Insets left="15.0" />
                                                     </HBox.margin>

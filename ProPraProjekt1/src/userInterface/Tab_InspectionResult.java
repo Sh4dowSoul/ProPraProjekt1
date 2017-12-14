@@ -30,9 +30,11 @@ import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -42,12 +44,20 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class Tab_InspectionResult implements Initializable{
@@ -180,6 +190,8 @@ public class Tab_InspectionResult implements Initializable{
 	private int currentDiagnosisId = 0;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+	
+		
 if(instance != null && instance.selectedCompany!= null) {
 	setSelectedCompany(instance.selectedCompany);
 		}	
@@ -955,6 +967,79 @@ if(instance != null && instance.selectedCompany!= null) {
 		window.show();
 		
 	}
+	
+
+	
+	
+	public void popup(ActionEvent event) throws IOException {
+        final Stage dialog = new Stage();
+        dialog.setTitle("Confirmation");
+        Button yes = new Button("OK");
+        Button no = new Button("Abbrechen");
+        TextField company = new TextField();
+        TextField street = new TextField();
+        TextField zip = new TextField();
+        TextField location = new TextField();
+        
+        company.setPromptText("Firma");
+        street.setPromptText("Straﬂe");
+        zip.setPromptText("PLZ");
+        location.setPromptText("Ort");
+
+        Label displayLabel = new Label("schreiben sie die Versicherungsnehmer auf");
+        displayLabel.setFont(Font.font(null, FontWeight.BOLD, 14));
+
+        dialog.initModality(Modality.NONE);
+        dialog.initOwner((Stage) vnLoadBtn.getScene().getWindow());
+
+        HBox dialogHbox = new HBox(20);
+        dialogHbox.setAlignment(Pos.CENTER);
+
+        VBox dialogVbox1 = new VBox(20);
+        dialogVbox1.setAlignment(Pos.CENTER_RIGHT);
+
+        VBox dialogVbox2 = new VBox(20);
+        dialogVbox2.setAlignment(Pos.BASELINE_CENTER);
+        
+        
+        
+        dialogHbox.getChildren().add(displayLabel);
+        dialogVbox1.getChildren().add(company);
+        dialogVbox1.getChildren().add(street);
+        dialogVbox1.getChildren().add(zip);
+        dialogVbox1.getChildren().add(location);
+        dialogVbox2.getChildren().add(yes);
+        dialogVbox2.getChildren().add(no);
+
+        
+        yes.addEventHandler(MouseEvent.MOUSE_CLICKED,
+                new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent e) {
+                    	
+                    	Company company1  = new Company(-1, company.getText(), street.getText(), Integer.valueOf(zip.getText()), location.getText());
+                        
+                        dialog.close();
+                    }
+                });
+        no.addEventHandler(MouseEvent.MOUSE_CLICKED,
+                new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent e) {
+                        dialog.close();
+                    }
+                });
+        
+        dialogHbox.getChildren().addAll(dialogVbox1, dialogVbox2);
+        Scene dialogScene = new Scene(dialogHbox, 600, 200);
+        dialogScene.getStylesheets().add("//style sheet of your choice");
+        dialog.setScene(dialogScene);
+        dialog.show();
+	}
+	
+	
+	
+	
 	
 	public void exportDiagnosis (ActionEvent event) throws IOException{
 		
