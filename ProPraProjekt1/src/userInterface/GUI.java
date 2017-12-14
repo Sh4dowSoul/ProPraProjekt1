@@ -38,7 +38,7 @@ public class GUI extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
-
+	
 	
 	public static void main(String[] args) throws IOException, SQLException {
 		launch(args);

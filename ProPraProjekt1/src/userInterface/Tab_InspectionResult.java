@@ -182,15 +182,19 @@ public class Tab_InspectionResult implements Initializable{
 	
 	private int currentDefectId;
 	int currentDangerSituation;
+	private Company currentCompany;
+	private CompanyPlant companyPlant;
 	private GUIController mainController;
 	
 	public static Tab_InspectionResult instance;
 	
-
+	private Company selectedCompany;
+	private CompanyPlant plantAdress;
 	private boolean currentDiagnosisSaved;
 	private int currentDiagnosisId = 0;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+	
 		prepareAutocomplete();
 		prepareTable();
 		plantStreetField.setDisable(true);
@@ -204,6 +208,25 @@ public class Tab_InspectionResult implements Initializable{
 	    this.mainController = parentController;
 	}
 	
+	public void setSelectedCompany(Company company) {
+		selectedCompany=company;
+		compNameField.setText(company.getName());
+		compCityField.setText(company.getHqCity());
+		streetCompField.setText(company.getHqStreet());
+//		compZipField.setText(company.getHqZip());
+	}
+	
+	public void setPlantAdress(CompanyPlant companyPlant) {
+		plantAdress=companyPlant;
+		plantStreetField.setText(companyPlant.getPlantStreet());
+//		plantZipField.setText(companyPlant.getPlantZip());
+		plantCityField.setText(companyPlant.getPlantCity());
+//		plantCompanionField.setText(value);
+//		plantExpertField.setText(value);
+//		plantAnerkNrField.setText(value);
+//		plantInspectionField.setText(value);
+//		plantInspectionTimeField.setText(value);
+	}
 	
 	private void prepareTable() {
 		defectIdColumn.setCellValueFactory(new PropertyValueFactory<DefectResult,String>("id"));
@@ -920,6 +943,7 @@ public class Tab_InspectionResult implements Initializable{
 		  dangerFireSwitchBox.disarm();
 		  dangerPersonSwitchBox.disarm();
 	}
+	
 	
 	public void popupRisiko(ActionEvent event) throws IOException {
         final Stage dialog = new Stage();
