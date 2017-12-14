@@ -6,7 +6,7 @@ package applicationLogic;
  * @author Niklas Schnettler
  */
 
-public class Company {
+public class Company  extends AutocompleteSuggestion{
 
 	private int id;
 	private String name;
@@ -15,6 +15,7 @@ public class Company {
 	private String hqCity;
 	
 	public Company(int id, String name, String hqStreet, int hqZip, String hqCity) {
+		super(id, name);
 		this.id = id;
 		this.name = name;
 		this.hqStreet = hqStreet;
@@ -23,6 +24,7 @@ public class Company {
 	}
 	
 	public Company(int id, String name) {
+		super(id, name);
 		this.id = id;
 		this.name = name;
 	}
