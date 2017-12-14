@@ -37,8 +37,8 @@ public class Tab_PlantBtn implements Initializable {
 			    TableRow<CompanyPlant> row = new TableRow<>();
 			    row.setOnMouseClicked(event -> {
 			        if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
-//			        	Company rowData = row.getItem();
-//			        	onDoubleClick(rowData);
+			        	CompanyPlant rowData = row.getItem();
+			        	onDoubleClick(rowData);
 			        }
 			    });
 			    return row ;
@@ -61,7 +61,7 @@ public class Tab_PlantBtn implements Initializable {
 	
 }
 	
-	private void onDoubleClick(Company companyPlant) {
+	private void onDoubleClick(CompanyPlant companyPlant) {
 //		FXMLLoader loader;
 //			 loader = new FXMLLoader(getClass().getResource( "GUI_Diagnosis.fxml") );
 ////			Parent root = loader.load();

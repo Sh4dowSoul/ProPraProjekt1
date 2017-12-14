@@ -175,7 +175,7 @@ public class Tab_InspectionResult implements Initializable{
 	public static Tab_InspectionResult instance;
 	
 	private Company selectedCompany;
-	private Company plantAdress;
+	private CompanyPlant plantAdress;
 	private boolean currentDiagnosisSaved;
 	private int currentDiagnosisId = 0;
 	@Override
@@ -194,19 +194,19 @@ if(instance != null && instance.selectedCompany!= null) {
 	    this.mainController = parentController;
 	}
 	
-	public void setSelectedCompany(Company companyPlant) {
-		selectedCompany=companyPlant;
-		compNameField.setText(companyPlant.getName());
-		compCityField.setText(companyPlant.getHqCity());
-		streetCompField.setText(companyPlant.getHqStreet());
+	public void setSelectedCompany(Company company) {
+		selectedCompany=company;
+		compNameField.setText(company.getName());
+		compCityField.setText(company.getHqCity());
+		streetCompField.setText(company.getHqStreet());
 //		compZipField.setText(company.getHqZip());
 	}
 	
-	public void setPlantAdress(Company company) {
-		selectedCompany=company;
-		plantStreetField.setText(company.getHqStreet());
-//		plantZipField.setText(value);
-//		plantCityField.setText(value);
+	public void setPlantAdress(CompanyPlant companyPlant) {
+		plantAdress=companyPlant;
+		plantStreetField.setText(companyPlant.getPlantStreet());
+//		plantZipField.setText(companyPlant.getPlantZip());
+		plantCityField.setText(companyPlant.getPlantCity());
 //		plantCompanionField.setText(value);
 //		plantExpertField.setText(value);
 //		plantAnerkNrField.setText(value);
