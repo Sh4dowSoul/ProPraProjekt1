@@ -102,7 +102,7 @@ public class CompanyController {
 			// execute insert SQL statement
 			preparedStatement.executeUpdate();
 			
-			//Get Id of inserted Diagnosis
+			//Get Id of inserted Company
 			ResultSet resultSet = connection.createStatement().executeQuery("SELECT last_insert_rowid() ");
 			companyId = resultSet.getInt("last_insert_rowid()");
 		} finally {
@@ -116,21 +116,25 @@ public class CompanyController {
 		return companyId;
 	}
 	
-	public static void insertCompanyPlant(CompanyPlant companyPlant) throws SQLException {
+	public static int insertCompanyPlant(CompanyPlant companyPlant) throws SQLException {
 		String statement = "INSERT INTO CompanyPlant "
-				+ "(plant_id, company_id, plant_street, plant_zip, plant_city) "
-				+ "VALUES(?,?,?,?,?)";
+				+ "(company_id, plant_street, plant_zip, plant_city) "
+				+ "VALUES(?,?,?,?)";
 		PreparedStatement preparedStatement = null;
 		Connection connection = null;
+		int companyPlantId;
 		try {
 			connection = DataSource.getConnection();
 			preparedStatement = connection.prepareStatement(statement);
 
-			Util.setValues(preparedStatement,
-					companyPlant.getId(), companyPlant.getCompany().getId(), companyPlant.getPlantStreet(), companyPlant.getPlantZip(), companyPlant.getPlantCity());
+			Util.setValues(preparedStatement, companyPlant.getCompany().getId(), companyPlant.getPlantStreet(), companyPlant.getPlantZip(), companyPlant.getPlantCity());
 			
 			// execute insert SQL statement
 			preparedStatement.executeUpdate();
+			
+			//Get Id of inserted Plant
+			ResultSet resultSet = connection.createStatement().executeQuery("SELECT last_insert_rowid() ");
+			companyPlantId = resultSet.getInt("last_insert_rowid()");
 		} finally {
 			if (preparedStatement != null) {
 				preparedStatement.close();
@@ -139,5 +143,6 @@ public class CompanyController {
 				connection.close();
 			}
 		}
+		return companyPlantId;
 	}
 }
