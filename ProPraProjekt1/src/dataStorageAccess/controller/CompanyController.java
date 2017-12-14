@@ -88,16 +88,15 @@ public class CompanyController {
 	
 	public static void insertCompany(Company company) throws SQLException {
 		String statement = "INSERT INTO Company "
-				+ "(company_id, company_name, hq_street, hq_zip, hq_city) "
-				+ "VALUES(?,?,?,?,?)";
+				+ "(company_name, hq_street, hq_zip, hq_city) "
+				+ "VALUES(?,?,?,?)";
 		PreparedStatement preparedStatement = null;
 		Connection connection = null;
 		try {
 			connection = DataSource.getConnection();
 			preparedStatement = connection.prepareStatement(statement);
 
-			Util.setValues(preparedStatement,
-					company.getId(), company.getName(), company.getHqStreet(), company.getHqZip(), company.getHqCity());
+			Util.setValues(preparedStatement, company.getName(), company.getHqStreet(), company.getHqZip(), company.getHqCity());
 			
 			// execute insert SQL statement
 			preparedStatement.executeUpdate();
