@@ -88,7 +88,7 @@ public class CompanyController {
 	
 	public static void insertCompany(Company company) throws SQLException {
 		String statement = "INSERT INTO Company "
-				+ "(company_id, company_name, hq_street, hq_zip, hq_city "
+				+ "(company_id, company_name, hq_street, hq_zip, hq_city) "
 				+ "VALUES(?,?,?,?,?)";
 		PreparedStatement preparedStatement = null;
 		Connection connection = null;
@@ -113,7 +113,7 @@ public class CompanyController {
 	
 	public static void insertCompanyPlant(CompanyPlant companyPlant) throws SQLException {
 		String statement = "INSERT INTO CompanyPlant "
-				+ "(plant_id, company_id, plant_street, plant_zip, plant_city "
+				+ "(plant_id, company_id, plant_street, plant_zip, plant_city) "
 				+ "VALUES(?,?,?,?,?)";
 		PreparedStatement preparedStatement = null;
 		Connection connection = null;
