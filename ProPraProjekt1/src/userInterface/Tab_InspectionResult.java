@@ -191,6 +191,7 @@ public class Tab_InspectionResult implements Initializable{
 		prepareDefectsAutocomplete();
 		prepareCompaniesAutocomplete();
 		prepareTable();
+		pdfExpBtn.setDisable(true);
     }
 	
 	public void setParentController(GUIController parentController) {
@@ -340,6 +341,7 @@ public class Tab_InspectionResult implements Initializable{
 	                    .text("Der Befundschein wurde erfolgreich gespeichert ")
 	                    .showInformation();
 						inspectionResultSaved = true;
+						pdfExpBtn.setDisable(false);
 					} catch (SQLException e) {
 						Notifications.create()
 		                 .title("Es ist ein Problem aufgetreten")
@@ -361,6 +363,7 @@ public class Tab_InspectionResult implements Initializable{
 	                    .text("Der Befundschein wurde erfolgreich bearbeitet und gespeichert. ")
 	                    .showInformation();
 						inspectionResultSaved = true;
+						pdfExpBtn.setDisable(false);
 					} catch (SQLException e) {
 						Notifications.create()
 		                 .title("Es ist ein Problem aufgetreten")
@@ -386,7 +389,6 @@ public class Tab_InspectionResult implements Initializable{
 				content += "- " +entry + "\n";
 			}
 			alert.setContentText(content);
-
 			alert.showAndWait();
 		}
 		
@@ -595,6 +597,19 @@ public class Tab_InspectionResult implements Initializable{
 	 * Resets all buttons and textfields
 	 */
 	public void reset() {
+		resultComplete = null;
+		pdfExpBtn.setDisable(true);
+		newDefectDanger = 0;
+		newDefectId = 0;
+		tableUpdate = false;
+		tableSelctedId = 0;
+		showTableDialog = 1;
+		defectElementId = -1;
+		//InspectionResult Save
+		inspectionResultSaved = false;
+		inspectionResultId = 0;
+		ResultComplete resultComplete = null;
+		ArrayList<String> errors = null;
 	//Tabelle 
 		defectTableView.getItems().clear();
 	// Versicherungsnehmer Adresse
@@ -837,8 +852,8 @@ public class Tab_InspectionResult implements Initializable{
 	
 	
 	public void exportDiagnosis (ActionEvent event) throws IOException{
-		
-	}
+		PDFExport.export(resultComplete.getId());
+		}
 	
 	public void closeDiagnosis (ActionEvent event) throws IOException{
 		//Check if saved
@@ -1279,5 +1294,6 @@ public class Tab_InspectionResult implements Initializable{
 		// TODO Auto-generated method stub
 		reset();
 		prepareCompaniesAutocomplete();
+		pdfExpBtn.setDisable(true);
 	}
 }
