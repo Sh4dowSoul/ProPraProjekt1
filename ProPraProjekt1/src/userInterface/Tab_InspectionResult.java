@@ -20,9 +20,11 @@ import applicationLogic.DefectAtomic;
 import applicationLogic.DefectResult;
 import applicationLogic.ResultComplete;
 import applicationLogic.ResultPreview;
+import dataStorageAccess.CompanyAccess;
 import dataStorageAccess.ResultAccess;
 import dataStorageAccess.controller.BranchController;
 import dataStorageAccess.controller.DefectController;
+import dataStorageAccess.controller.DiagnosisController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -54,14 +56,14 @@ public class Tab_InspectionResult implements Initializable{
 // *** BEFUNDSCHEIN TAB ***
 // Versicherungsnehmer Adresse
 	@FXML private Button vnLoadBtn;
-	@FXML private TextField compNameField;
+	@FXML private AutocompleteTextField compNameField;
 	@FXML private TextField streetCompField;
 	@FXML private TextField compZipField;
 	@FXML private TextField compCityField;
 	
 // Risikoanschrift
 	@FXML private Button plantLoadBtn;
-	@FXML private TextField plantStreetField;
+	@FXML private AutocompleteTextField plantStreetField;
 	@FXML private TextField plantZipField;
 	@FXML private TextField plantCityField;
 	@FXML private TextField plantCompanionField;
@@ -170,6 +172,8 @@ public class Tab_InspectionResult implements Initializable{
 	
 	private int currentDefectId;
 	int currentDangerSituation;
+	private Company currentCompany;
+	private CompanyPlant companyPlant;
 	private GUIController mainController;
 	
 	public static Tab_InspectionResult instance;
@@ -185,6 +189,9 @@ if(instance != null && instance.selectedCompany!= null) {
 		}	
 		prepareAutocomplete();
 		prepareTable();
+		plantStreetField.setDisable(true);
+		loadCompanies();
+		
 		
 		
 		instance = this;
@@ -866,6 +873,62 @@ if(instance != null && instance.selectedCompany!= null) {
 			@Override
 			public void onAutoCompleteResult(AutocompleteSuggestion suggestion) {					
 				//Nothing
+			}
+	    });
+	}
+	
+	/**
+	 * Load all Diagnoses
+	 */
+	private void loadCompanies() {
+		final Task<ObservableList<Company>> loadCompaniesTask = new Task<ObservableList<Company>>() {
+            @Override
+            protected ObservableList<Company> call() throws Exception {
+        		return FXCollections.observableArrayList(CompanyAccess.getCompanies(false));
+            }
+        };
+       // diagnosisTableProgress.visibleProperty().bind(loadCompaniesTask.runningProperty());
+        loadCompaniesTask.setOnSucceeded(event ->
+        compNameField.getEntries().addAll(loadCompaniesTask.getValue())
+        	//companyTableView.setItems(loadCompaniesTask.getValue())
+	    );
+        loadCompaniesTask.setOnFailed(event ->
+	    	System.out.println("ERROR: " + loadCompaniesTask.getException())
+	    );
+	    new Thread(loadCompaniesTask).start();
+	    
+	    compNameField.setAutoCompletionEvent(new AutoCompletionEvent() {
+			@Override
+			public void onAutoCompleteResult(AutocompleteSuggestion suggestion) {	
+				System.out.println("TEST");
+				currentCompany = (Company) suggestion;
+				compNameField.setDisable(true);
+				plantStreetField.setDisable(false);
+				loadCompanyPlants((Company) suggestion);
+			}
+	    });
+	}
+	
+	private void loadCompanyPlants(Company company) {
+		final Task<ObservableList<CompanyPlant>> loadCompaniePlantTask = new Task<ObservableList<CompanyPlant>>() {
+            @Override
+            protected ObservableList<CompanyPlant> call() throws Exception {
+        		return FXCollections.observableArrayList(CompanyAccess.getPlantsOfCompany(company));
+            }
+        };
+        
+        loadCompaniePlantTask.setOnSucceeded(event ->
+        plantStreetField.getEntries().addAll(loadCompaniePlantTask.getValue())
+        	//companyTableView.setItems(loadCompaniesTask.getValue())
+	    );
+        loadCompaniePlantTask.setOnFailed(event ->
+	    	System.out.println("ERROR: " + loadCompaniePlantTask.getException())
+	    );
+	    new Thread(loadCompaniePlantTask).start();
+	    plantStreetField.setAutoCompletionEvent(new AutoCompletionEvent() {
+			@Override
+			public void onAutoCompleteResult(AutocompleteSuggestion suggestion) {					
+				companyPlant = (CompanyPlant) suggestion;
 			}
 	    });
 	}
