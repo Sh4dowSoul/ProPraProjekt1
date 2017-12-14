@@ -41,6 +41,10 @@ public class Company  extends AutocompleteSuggestion{
 		return hqStreet;
 	}
 
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public int getHqZip() {
 		return hqZip;
 	}

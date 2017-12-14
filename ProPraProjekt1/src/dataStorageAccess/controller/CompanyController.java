@@ -86,12 +86,13 @@ public class CompanyController {
 		return result;
 	}
 	
-	public static void insertCompany(Company company) throws SQLException {
+	public static int insertCompany(Company company) throws SQLException {
 		String statement = "INSERT INTO Company "
 				+ "(company_name, hq_street, hq_zip, hq_city) "
 				+ "VALUES(?,?,?,?)";
 		PreparedStatement preparedStatement = null;
 		Connection connection = null;
+		int companyId;
 		try {
 			connection = DataSource.getConnection();
 			preparedStatement = connection.prepareStatement(statement);
@@ -100,6 +101,10 @@ public class CompanyController {
 			
 			// execute insert SQL statement
 			preparedStatement.executeUpdate();
+			
+			//Get Id of inserted Diagnosis
+			ResultSet resultSet = connection.createStatement().executeQuery("SELECT last_insert_rowid() ");
+			companyId = resultSet.getInt("last_insert_rowid()");
 		} finally {
 			if (preparedStatement != null) {
 				preparedStatement.close();
@@ -108,6 +113,7 @@ public class CompanyController {
 				connection.close();
 			}
 		}
+		return companyId;
 	}
 	
 	public static void insertCompanyPlant(CompanyPlant companyPlant) throws SQLException {

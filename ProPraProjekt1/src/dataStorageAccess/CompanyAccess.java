@@ -44,8 +44,8 @@ public class CompanyAccess {
 	 * @param company - A Company
 	 * @throws SQLException
 	 */
-	public static void insertCompany(Company company) throws SQLException {
-		CompanyController.insertCompany(company);
+	public static int insertCompany(Company company) throws SQLException {
+		return CompanyController.insertCompany(company);
 	}
 	
 	/**
