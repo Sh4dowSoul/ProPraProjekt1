@@ -19,7 +19,9 @@ import applicationLogic.CompanyPlant;
 import applicationLogic.DefectAtomic;
 import applicationLogic.DefectResult;
 import applicationLogic.ExceptionDialog;
+import applicationLogic.PDFExport;
 import applicationLogic.ResultComplete;
+import applicationLogic.ResultPreview;
 import dataStorageAccess.BranchAccess;
 import dataStorageAccess.CompanyAccess;
 import dataStorageAccess.DefectAccess;
@@ -51,6 +53,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 public class Tab_InspectionResult implements Initializable{
@@ -163,11 +166,15 @@ public class Tab_InspectionResult implements Initializable{
 	@FXML private TextField customDescriptionText;
 	@FXML private CheckBox dangerFireSwitchBox;
 	@FXML private CheckBox dangerPersonSwitchBox;
+	@FXML private Button addDefectButton;
 	
 	private GUIController mainController;
 	//New Defect
 	int newDefectDanger;
 	private int newDefectId;
+	boolean tableUpdate = false;
+	private int tableSelctedId;
+	private boolean showTableDialog;
 	//InspectionResult Save
 	private boolean inspectionResultSaved;
 	private int inspectionResultId = 0;
@@ -197,8 +204,27 @@ public class Tab_InspectionResult implements Initializable{
 		maschineColumn.setCellValueFactory(new PropertyValueFactory<DefectResult,String>("machine"));
 		branchColumn.setCellValueFactory(new PropertyValueFactory<DefectResult,String>("branchId"));
 		descriptionColumn.setCellValueFactory(new PropertyValueFactory<DefectResult,String>("defectCustomDescription"));
+		
+		defectTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+			tableSelctedId = defectTableView.getSelectionModel().getSelectedIndex();
+			createDignosisOptionsDialog((DefectResult) defectTableView.getSelectionModel().getSelectedItem());
+		});
 	} 
 	
+	private void createDignosisOptionsDialog(DefectResult selectedItem) {
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Bearbeiten");
+		alert.setHeaderText("Wollen sie den ausgewählten Mangel bearbeiten?" );
+		alert.initStyle(StageStyle.UTILITY);
+
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ButtonType.OK){
+			addDefectButton.setText("Update " + tableSelctedId);
+			resetAddToTable();
+			openInAddToTableMenu(selectedItem);
+		}
+	}
+
 	public void addToTable(ActionEvent add){
 		if (verifyNewTableInput()) {
 			newDefectDanger = 0;
@@ -213,7 +239,13 @@ public class Tab_InspectionResult implements Initializable{
 					}
 				}	
 			}
-			defectTableView.getItems().add(new DefectResult(newDefectId,Integer.valueOf(branchText.getText()),newDefectDanger,buildingText.getText(), roomText.getText(), machineText.getText(), customDescriptionText.getText()));
+			if (!tableUpdate) {
+				defectTableView.getItems().add(new DefectResult(newDefectId,Integer.valueOf(branchText.getText()),newDefectDanger,buildingText.getText(), roomText.getText(), machineText.getText(), customDescriptionText.getText()));
+			} else {
+				defectTableView.getItems().set(tableSelctedId, new DefectResult(newDefectId,Integer.valueOf(branchText.getText()),newDefectDanger,buildingText.getText(), roomText.getText(), machineText.getText(), customDescriptionText.getText()));
+				tableUpdate = false;
+				addDefectButton.setText("Hinzufügen");
+			}
 			resetAddToTable();
 		}
 	}
@@ -229,6 +261,31 @@ public class Tab_InspectionResult implements Initializable{
 		machineText.clear();
 		machineText.clear();
 		customDescriptionText.clear();
+	}
+	
+	private void openInAddToTableMenu(DefectResult defect) {
+		defectSearchField.setText(defect.getDescription());
+		newDefectId = defect.getId();
+		resultDefectId.setText(String.valueOf(defect.getId()));
+		branchText.setText(String.valueOf(defect.getBranchId()));
+		int danger = defect.getDanger();
+		switch (danger) {
+		case 1: 
+			dangerFireSwitchBox.setSelected(true);
+			break;
+		case 2: 
+			dangerPersonSwitchBox.setSelected(true);
+			break;
+		case 3: 
+			dangerFireSwitchBox.setSelected(true);
+			dangerPersonSwitchBox.setSelected(true);
+			break;
+		}
+		buildingText.setText(defect.getBuilding());
+		roomText.setText(defect.getRoom());
+		machineText.setText(defect.getMachine());
+		customDescriptionText.setText(defect.getDefectCustomDescription());
+		tableUpdate = true;
 	}
 	
 	public boolean verifyNewTableInput() {

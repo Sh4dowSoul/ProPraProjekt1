@@ -489,7 +489,7 @@
                            </GridPane.margin>
                         </AutocompleteTextField>
                         <TextField fx:id="customDescriptionText" promptText="Erweiterte Beschreibung" GridPane.rowIndex="3" />
-                        <Button minWidth="100.0" mnemonicParsing="false" onAction="#addToTable" prefWidth="150.0" text="Hinzufügen" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                        <Button fx:id="addDefectButton" minWidth="100.0" mnemonicParsing="false" onAction="#addToTable" prefWidth="150.0" text="Hinzufügen" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <GridPane.margin>
                               <Insets left="15.0" />
                            </GridPane.margin>
