@@ -31,6 +31,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -39,7 +40,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -49,8 +49,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -178,16 +176,6 @@ public class Tab_InspectionResult implements Initializable{
 	private ResultComplete resultComplete;
 	
 	private ArrayList<String> errors;
-	/*
-	
-	
-	
-	
-	
-	private Company selectedCompany;
-	private CompanyPlant plantAdress;
-	
-	 */
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -244,7 +232,7 @@ public class Tab_InspectionResult implements Initializable{
 	}
 	
 	public boolean verifyNewTableInput() {
-		return (validate(resultDefectId) & validate(branchText));
+		return (validate(resultDefectId, true) & validate(branchText, false));
 	}
 
 	
@@ -347,7 +335,7 @@ public class Tab_InspectionResult implements Initializable{
 	 * @throws SQLException 
 	 */
 	public void editDiagnosis(int id) {
-		
+		prepareCompaniesAutocomplete();
 		ResultComplete result;
 		try {
 			result = ResultAccess.getCompleteResult(id);
@@ -648,9 +636,9 @@ public class Tab_InspectionResult implements Initializable{
 	}
 	
 	
-	public void popupRisiko(ActionEvent event) throws IOException {
+	public void addCompanyDialog(ActionEvent event) throws IOException {
         final Stage dialog = new Stage();
-        dialog.setTitle("Confirmation");
+        dialog.setTitle("Neue Firma");
         Button yes = new Button("OK");
         Button no = new Button("Abbrechen");
         TextField company = new TextField();
@@ -659,50 +647,46 @@ public class Tab_InspectionResult implements Initializable{
         TextField location = new TextField();
         
         company.setPromptText("Firma");
-        street.setPromptText("Stra�e");
+        street.setPromptText("Straße");
         zip.setPromptText("PLZ");
         location.setPromptText("Ort");
 
-        Label displayLabel = new Label("schreiben sie die Versicherungsnehmer auf");
-        displayLabel.setFont(Font.font(null, FontWeight.BOLD, 14));
 
         dialog.initModality(Modality.NONE);
         dialog.initOwner((Stage) vnLoadBtn.getScene().getWindow());
 
-        HBox dialogHbox = new HBox(20);
+        HBox dialogHbox = new HBox(10);
         dialogHbox.setAlignment(Pos.CENTER);
-
-        VBox dialogVbox1 = new VBox(20);
-        dialogVbox1.setAlignment(Pos.CENTER_RIGHT);
-
+        VBox dialogVbox1 = new VBox(10);
+        dialogVbox1.setPadding(new Insets(50, 50, 50, 50));
+        dialogVbox1.setAlignment(Pos.CENTER);
         VBox dialogVbox2 = new VBox(20);
         dialogVbox2.setAlignment(Pos.BASELINE_CENTER);
         
-        
-        
-        dialogHbox.getChildren().add(displayLabel);
         dialogVbox1.getChildren().add(company);
         dialogVbox1.getChildren().add(street);
         dialogVbox1.getChildren().add(zip);
         dialogVbox1.getChildren().add(location);
-        dialogVbox2.getChildren().add(yes);
-        dialogVbox2.getChildren().add(no);
+        dialogVbox1.getChildren().add(dialogHbox);
+        dialogHbox.getChildren().add(yes);
+        dialogHbox.getChildren().add(no);
 
         
         yes.addEventHandler(MouseEvent.MOUSE_CLICKED,
                 new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent e) {
-                    	
-                    	Company company1  = new Company(-1, company.getText(), street.getText(), Integer.valueOf(zip.getText()), location.getText());
-                        try {
-							CompanyAccess.insertCompany(company1);
-						} catch (SQLException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-                        
-                        dialog.close();
+                    	if (validate(company, false) & validate(street, false) & validate(zip, true) & validate(location, false)) {
+                    		try {
+                    			Company company1  = new Company(0, company.getText(), street.getText(), Integer.valueOf(zip.getText()), location.getText());
+    							company1.setId(CompanyAccess.insertCompany(company1));
+    							compNameField.getEntries().add(company1);
+    							dialog.close();
+    						} catch (SQLException e1) {
+    							// TODO Auto-generated catch block
+    							e1.printStackTrace();
+    						}
+                    	}
                     }
                 });
         no.addEventHandler(MouseEvent.MOUSE_CLICKED,
@@ -713,57 +697,63 @@ public class Tab_InspectionResult implements Initializable{
                     }
                 });
         
-        dialogHbox.getChildren().addAll(dialogVbox1, dialogVbox2);
-        Scene dialogScene = new Scene(dialogHbox, 600, 200);
-        dialogScene.getStylesheets().add("//style sheet of your choice");
+        Scene dialogScene = new Scene(dialogVbox1, 600, 200);
+        dialogScene.getStylesheets().add(getClass().getResource("text-field-red-border.css").toExternalForm());
         dialog.setScene(dialogScene);
         dialog.show();
 	}
 	
-	public void popup(ActionEvent event) throws IOException {
-        final Stage dialog = new Stage();
-        dialog.setTitle("Confirmation");
+	public void addCompanyPlantDialog(ActionEvent event) throws IOException {
+		final Stage dialog = new Stage();
+        dialog.setTitle("Neues Werk");
         Button yes = new Button("OK");
         Button no = new Button("Abbrechen");
-        TextField street = new TextField();      
+        TextField street = new TextField();
         TextField zip = new TextField();
         TextField location = new TextField();
         
-        street.setPromptText("Stra�e");      
+        street.setPromptText("Straße");
         zip.setPromptText("PLZ");
         location.setPromptText("Ort");
 
-        Label displayLabel = new Label("schreiben sie die Versicherungsnehmer auf");
-        displayLabel.setFont(Font.font(null, FontWeight.BOLD, 14));
 
         dialog.initModality(Modality.NONE);
         dialog.initOwner((Stage) vnLoadBtn.getScene().getWindow());
 
-        HBox dialogHbox = new HBox(20);
+        HBox dialogHbox = new HBox(10);
         dialogHbox.setAlignment(Pos.CENTER);
-
-        VBox dialogVbox1 = new VBox(20);
-        dialogVbox1.setAlignment(Pos.CENTER_RIGHT);
-
+        VBox dialogVbox1 = new VBox(10);
+        dialogVbox1.setPadding(new Insets(50, 50, 50, 50));
+        dialogVbox1.setAlignment(Pos.CENTER);
         VBox dialogVbox2 = new VBox(20);
         dialogVbox2.setAlignment(Pos.BASELINE_CENTER);
         
-        
-        
-        dialogHbox.getChildren().add(displayLabel);
         dialogVbox1.getChildren().add(street);
         dialogVbox1.getChildren().add(zip);
         dialogVbox1.getChildren().add(location);
-        dialogVbox2.getChildren().add(yes);
-        dialogVbox2.getChildren().add(no);
+        dialogVbox1.getChildren().add(dialogHbox);
+        dialogHbox.getChildren().add(yes);
+        dialogHbox.getChildren().add(no);
 
         
         yes.addEventHandler(MouseEvent.MOUSE_CLICKED,
                 new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent e) {
-        
-                        dialog.close();
+                    	System.out.println("YES");
+                    	if (validate(street, false) & validate(zip, true) & validate(location, false)) {
+                    		try {
+                    			CompanyPlant plant  = new CompanyPlant(0, street.getText(), Integer.valueOf(zip.getText()), location.getText(), inspectionResultCompany);
+                    			plant.setId(CompanyAccess.insertCompanyPlant(plant));
+                    			plantStreetField.getEntries().add(plant);
+    							dialog.close();
+    						} catch (SQLException e1) {
+    							// TODO Auto-generated catch block
+    							e1.printStackTrace();
+    						} catch (NumberFormatException e2) {
+    							zip.clear();
+    						}
+                    	}
                     }
                 });
         no.addEventHandler(MouseEvent.MOUSE_CLICKED,
@@ -773,10 +763,8 @@ public class Tab_InspectionResult implements Initializable{
                         dialog.close();
                     }
                 });
-        
-        dialogHbox.getChildren().addAll(dialogVbox1, dialogVbox2);
-        Scene dialogScene = new Scene(dialogHbox, 600, 200);
-        dialogScene.getStylesheets().add("//style sheet of your choice");
+        Scene dialogScene = new Scene(dialogVbox1, 600, 200);
+        dialogScene.getStylesheets().add(getClass().getResource("text-field-red-border.css").toExternalForm());
         dialog.setScene(dialogScene);
         dialog.show();
 	}
@@ -882,6 +870,7 @@ public class Tab_InspectionResult implements Initializable{
 	 */
 	private void prepareCompaniesAutocomplete() {
 		plantStreetField.setDisable(true);
+		plantLoadBtn.setDisable(true);
 		final Task<ObservableList<Company>> loadCompaniesTask = new Task<ObservableList<Company>>() {
             @Override
             protected ObservableList<Company> call() throws Exception {
@@ -890,8 +879,7 @@ public class Tab_InspectionResult implements Initializable{
         };
        // diagnosisTableProgress.visibleProperty().bind(loadCompaniesTask.runningProperty());
         loadCompaniesTask.setOnSucceeded(event ->
-        compNameField.getEntries().addAll(loadCompaniesTask.getValue())
-        	//companyTableView.setItems(loadCompaniesTask.getValue())
+        	compNameField.getEntries().addAll(loadCompaniesTask.getValue())
 	    );
         loadCompaniesTask.setOnFailed(event ->
 	    	System.out.println("ERROR: " + loadCompaniesTask.getException())
@@ -903,8 +891,8 @@ public class Tab_InspectionResult implements Initializable{
 			public void onAutoCompleteResult(AutocompleteSuggestion suggestion) {	
 				System.out.println("TEST");
 				inspectionResultCompany = (Company) suggestion;
-				compNameField.setDisable(true);
 				plantStreetField.setDisable(false);
+				plantLoadBtn.setDisable(false);
 				prepareCompanyPlantsAutocomplete((Company) suggestion);
 			}
 	    });
@@ -919,8 +907,7 @@ public class Tab_InspectionResult implements Initializable{
         };
         
         loadCompaniePlantTask.setOnSucceeded(event ->
-        plantStreetField.getEntries().addAll(loadCompaniePlantTask.getValue())
-        	//companyTableView.setItems(loadCompaniesTask.getValue())
+        	plantStreetField.getEntries().addAll(loadCompaniePlantTask.getValue())
 	    );
         loadCompaniePlantTask.setOnFailed(event ->
 	    	System.out.println("ERROR: " + loadCompaniePlantTask.getException())
@@ -1080,7 +1067,7 @@ public class Tab_InspectionResult implements Initializable{
 				completeDateField.setText("0001-01-01");
 		}
 		
-		if(defectsAttachedBtn.isSelected() && !defectsAttachedDateField.getText().isEmpty()) {
+		if(!defectsAttachedBtn.isSelected() && !defectsAttachedDateField.getText().isEmpty()) {
 				System.out.println("Eine Felderkombination ist nicht möglich");
 				defectsAttachedDateField.setText("0001-01-01");
 		}
@@ -1205,14 +1192,28 @@ public class Tab_InspectionResult implements Initializable{
 		return false;
 	}
 	
-	private boolean validate(TextField tf) {
+	private boolean validate(TextField tf, boolean checkInt) {
 	    if (tf.getText().isEmpty()) {
 	    	tf.getStyleClass().add("error");
 	    	return false;
 	    }
 	    else{
+	    	if (checkInt) {
+	    		try {
+	    			Integer.valueOf(tf.getText());
+	    		} catch (NumberFormatException e) {
+	    			tf.getStyleClass().add("error");
+	    			return false;
+	    		}
+	    	}
 	    	tf.getStyleClass().remove("error");
 	    }
 	    return true;
+	}
+
+	public void prepare() {
+		// TODO Auto-generated method stub
+		reset();
+		prepareCompaniesAutocomplete();
 	}
 }

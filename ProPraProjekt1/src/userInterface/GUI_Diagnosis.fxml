@@ -29,7 +29,7 @@
                                         <HBox alignment="CENTER">
                                             <children>
                                                 <Label id="companyPLantField" text="Risikoanschrift" />
-                                                <Button id="plantLoadBtn" fx:id="plantLoadBtn" mnemonicParsing="false" onAction="#popup" text="Laden">
+                                                <Button id="plantLoadBtn" fx:id="plantLoadBtn" mnemonicParsing="false" onAction="#addCompanyPlantDialog" text="Neu">
                                                     <HBox.margin>
                                                         <Insets left="15.0" />
                                                     </HBox.margin>
@@ -52,7 +52,7 @@
                                         <HBox alignment="CENTER">
                                             <children>
                                                 <Label id="insuranceCompanyField" text="Versicherungsnehmer (VN)" />
-                                                <Button id="vnLoadBtn" fx:id="vnLoadBtn" mnemonicParsing="false" onAction="#popupRisiko" text="Laden">
+                                                <Button id="vnLoadBtn" fx:id="vnLoadBtn" mnemonicParsing="false" onAction="#addCompanyDialog" text="Neu">
 
                                                     <HBox.margin>
                                                         <Insets left="15.0" />

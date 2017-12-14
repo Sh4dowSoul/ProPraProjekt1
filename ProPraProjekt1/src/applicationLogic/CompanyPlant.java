@@ -28,6 +28,10 @@ public class CompanyPlant extends AutocompleteSuggestion{
 		return plantStreet;
 	}
 
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public int getPlantZip() {
 		return plantZip;
 	}
