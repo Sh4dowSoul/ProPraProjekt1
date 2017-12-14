@@ -174,7 +174,7 @@ public class Tab_InspectionResult implements Initializable{
 	private int newDefectId;
 	boolean tableUpdate = false;
 	private int tableSelctedId;
-	private boolean showTableDialog;
+	private int showTableDialog = 1;
 	//InspectionResult Save
 	private boolean inspectionResultSaved;
 	private int inspectionResultId = 0;
@@ -206,8 +206,11 @@ public class Tab_InspectionResult implements Initializable{
 		descriptionColumn.setCellValueFactory(new PropertyValueFactory<DefectResult,String>("defectCustomDescription"));
 		
 		defectTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-			tableSelctedId = defectTableView.getSelectionModel().getSelectedIndex();
-			createDignosisOptionsDialog((DefectResult) defectTableView.getSelectionModel().getSelectedItem());
+			if (showTableDialog ==1) {
+				tableSelctedId = defectTableView.getSelectionModel().getSelectedIndex();
+				createDignosisOptionsDialog((DefectResult) defectTableView.getSelectionModel().getSelectedItem());
+				showTableDialog = 0;
+			}
 		});
 	} 
 	
@@ -245,6 +248,7 @@ public class Tab_InspectionResult implements Initializable{
 				defectTableView.getItems().set(tableSelctedId, new DefectResult(newDefectId,Integer.valueOf(branchText.getText()),newDefectDanger,buildingText.getText(), roomText.getText(), machineText.getText(), customDescriptionText.getText()));
 				tableUpdate = false;
 				addDefectButton.setText("Hinzufügen");
+				showTableDialog = 1;
 			}
 			resetAddToTable();
 		}
