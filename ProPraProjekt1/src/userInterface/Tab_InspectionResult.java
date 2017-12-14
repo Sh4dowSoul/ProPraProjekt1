@@ -980,7 +980,7 @@ if(instance != null && instance.selectedCompany!= null) {
 
 	
 	
-	public void popup(ActionEvent event) throws IOException {
+	public void popupRisiko(ActionEvent event) throws IOException {
         final Stage dialog = new Stage();
         dialog.setTitle("Confirmation");
         Button yes = new Button("OK");
@@ -1027,7 +1027,74 @@ if(instance != null && instance.selectedCompany!= null) {
                     public void handle(MouseEvent e) {
                     	
                     	Company company1  = new Company(-1, company.getText(), street.getText(), Integer.valueOf(zip.getText()), location.getText());
+                        try {
+							CompanyAccess.insertCompany(company1);
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
                         
+                        dialog.close();
+                    }
+                });
+        no.addEventHandler(MouseEvent.MOUSE_CLICKED,
+                new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent e) {
+                        dialog.close();
+                    }
+                });
+        
+        dialogHbox.getChildren().addAll(dialogVbox1, dialogVbox2);
+        Scene dialogScene = new Scene(dialogHbox, 600, 200);
+        dialogScene.getStylesheets().add("//style sheet of your choice");
+        dialog.setScene(dialogScene);
+        dialog.show();
+	}
+	
+	public void popup(ActionEvent event) throws IOException {
+        final Stage dialog = new Stage();
+        dialog.setTitle("Confirmation");
+        Button yes = new Button("OK");
+        Button no = new Button("Abbrechen");
+        TextField street = new TextField();      
+        TextField zip = new TextField();
+        TextField location = new TextField();
+        
+        street.setPromptText("Straﬂe");      
+        zip.setPromptText("PLZ");
+        location.setPromptText("Ort");
+
+        Label displayLabel = new Label("schreiben sie die Versicherungsnehmer auf");
+        displayLabel.setFont(Font.font(null, FontWeight.BOLD, 14));
+
+        dialog.initModality(Modality.NONE);
+        dialog.initOwner((Stage) vnLoadBtn.getScene().getWindow());
+
+        HBox dialogHbox = new HBox(20);
+        dialogHbox.setAlignment(Pos.CENTER);
+
+        VBox dialogVbox1 = new VBox(20);
+        dialogVbox1.setAlignment(Pos.CENTER_RIGHT);
+
+        VBox dialogVbox2 = new VBox(20);
+        dialogVbox2.setAlignment(Pos.BASELINE_CENTER);
+        
+        
+        
+        dialogHbox.getChildren().add(displayLabel);
+        dialogVbox1.getChildren().add(street);
+        dialogVbox1.getChildren().add(zip);
+        dialogVbox1.getChildren().add(location);
+        dialogVbox2.getChildren().add(yes);
+        dialogVbox2.getChildren().add(no);
+
+        
+        yes.addEventHandler(MouseEvent.MOUSE_CLICKED,
+                new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent e) {
+        
                         dialog.close();
                     }
                 });

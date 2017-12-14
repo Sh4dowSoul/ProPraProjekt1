@@ -51,7 +51,7 @@
                                         <HBox alignment="CENTER">
                                             <children>
                                                 <Label id="insuranceCompanyField" text="Versicherungsnehmer (VN)" />
-                                                <Button id="vnLoadBtn" fx:id="vnLoadBtn" mnemonicParsing="false" onAction="#popup" text="Laden">
+                                                <Button id="vnLoadBtn" fx:id="vnLoadBtn" mnemonicParsing="false" onAction="#popupRisiko" text="Laden">
 
                                                     <HBox.margin>
                                                         <Insets left="15.0" />
