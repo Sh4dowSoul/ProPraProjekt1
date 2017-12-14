@@ -188,6 +188,12 @@ if(instance != null && instance.selectedCompany!= null) {
 		
 		
 		instance = this;
+		
+		if(instance != null && instance.plantAdress!= null) {
+			setPlantAdress(instance.plantAdress);
+			
+		}
+		
     }
 	
 	public void setParentController(GUIController parentController) {

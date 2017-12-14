@@ -103,7 +103,7 @@ public class Tab_Home implements Initializable{
 	private void createDignosisOptionsDialog(ResultPreview item) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Befundschein " + item.getId() + " - " + item.getCompanyName());
-		alert.setHeaderText("Aktion fÃ¼r Befundschein " + item.getId() + " wÃ¤hlen");
+		alert.setHeaderText("Aktion für Befundschein " + item.getId() + " wählen");
 		alert.setContentText("Befundschein Nr: " +item.getId() +"\nFirma: " + item.getCompanyName()+ "\nZuletzt bearbeitet: " + item.getLastEditedNice());
 		alert.initStyle(StageStyle.UTILITY);
 
