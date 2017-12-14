@@ -504,6 +504,30 @@ if(instance != null && instance.selectedCompany!= null) {
 				System.out.println("Fehler: Nicht alle Felder im Bereich 'Für statistische Zwecke' ausgefüllt");
 		}
 		
+		//invalid combinations check
+		if(precautionNoBtn.isSelected() && !precautionField.getText().isEmpty()) {
+				System.out.println("Eine Felderkombination ist nicht möglich");
+		}
+		
+		if(completeNoBtn.isSelected() && !completeDateField.getText().isEmpty()) {
+				System.out.println("Eine Felderkombination ist nicht möglich");
+
+		}
+		
+		if(defectsAttachedBtn.isSelected() && !defectsAttachedDateField.getText().isEmpty()) {
+				System.out.println("Eine Felderkombination ist nicht möglich");
+
+		}
+		
+		if(rcdAllBtn.isSelected() && !rcdPercentageField.getText().isEmpty()) {
+				System.out.println("Eine Felderkombination ist nicht möglich");
+
+		}
+		
+		if(resistanceYesBtn.isSelected() && !resistancePercentageField.getText().isEmpty()) {
+				System.out.println("Eine Felderkombination ist nicht möglich");
+
+		}
 		Branch branch = new Branch(-1,"test");
 		Company company = new Company(compId, companyName, hqStreet, hqZip, hqCity);
 		CompanyPlant companyPlant = new CompanyPlant(plantId, plantStreet, plantZip, plantCity, company);
