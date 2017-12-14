@@ -429,24 +429,53 @@ if(instance != null && instance.selectedCompany!= null) {
 		String hqCity = compCityField.getText();
 		
 		//Checking completeness
-		if(plantInspectionField.getText().isEmpty()
-			||plantCompanionField.getText().isEmpty()
-			||plantExpertField.getText().isEmpty()
-			||plantAnerkNrField.getText().isEmpty()
-			||plantInspectionTimeField.getText().isEmpty()
-			||(!freqYesBtn.isArmed() && !freqNoBtn.isArmed())
+		if(streetCompField.getText().isEmpty()
+			||compZipField.getText().isEmpty()
+			||compCityField.getText().isEmpty()
+		) {
+				System.out.println("Fehler: Nicht alle Felder im Bereich 'Versicherungsnehmer' ausgefüllt");
+		}
+		
+		if(plantStreetField.getText().isEmpty()
+		  ||plantZipField.getText().isEmpty()
+		  ||plantCityField.getText().isEmpty()
+		  ||plantCompanionField.getText().isEmpty()
+		  ||plantExpertField.getText().isEmpty()
+		  ||plantAnerkNrField.getText().isEmpty()
+		  ||plantInspectionField.getText().isEmpty()
+		  ||plantInspectionTimeField.getText().isEmpty()
+			) {
+				System.out.println("Fehler: Nicht alle Felder im Bereich 'Risikoanschrift' ausgefüllt");
+
+			}
+		
+		if(dangerGroup == -1)
+			{
+				System.out.println("Fehler: Nicht alle Felder im Bereich 'Gesamtbeurteilung der Anlage' ausgefüllt");
+		}
+
+		
+		if((!noDefectsBtn.isArmed() && !defectsAttachedBtn.isArmed() && !removeDefectsImmediatelyBtn.isArmed())
+			||(defectsAttachedBtn.isArmed() && defectsAttachedDateField.toString().isEmpty())
+			) {
+				System.out.println("Fehler: Nicht alle Felder im Bereich 'Prüfergebnis' ausgefüllt");
+
+		}
+		
+		if((!freqYesBtn.isArmed() && !freqNoBtn.isArmed())
  			||(!precautionYesBtn.isArmed() && !precautionNoBtn.isArmed())
 			||(precautionYesBtn.isArmed() && precautionField.getText().isEmpty())
 			||(!completeYesBtn.isArmed() && !completeNoBtn.isArmed())
 			||(completeNoBtn.isArmed() && completeDateField.getText().isEmpty())
-			//||completeReasonField.getText().isEmpty()			//not always used
+			//completeReasonField.getText().isEmpty()			//not always used
 			||changesSinceLastEx == -1
 			||defectsLastEx == -1
-			||dangerGroup == -1
 			//||dangerCategoryExtensionField.getText().isEmpty()		//not always used
-			||(!noDefectsBtn.isArmed() && !defectsAttachedBtn.isArmed() && !removeDefectsImmediatelyBtn.isArmed())
-			||(defectsAttachedBtn.isArmed() && defectsAttachedDateField.toString().isEmpty())
-			||(!isoMinYesBtn.isArmed() && !isoMinNoBtn.isArmed())
+			) {
+				System.out.println("Fehler: Nicht alle Felder im Bereich 'Art des Betriebes oder der Anlage' ausgefüllt");
+		}
+			
+		if((!isoMinYesBtn.isArmed() && !isoMinNoBtn.isArmed())
 			||(!isoProtocolYesBtn.isArmed() && !isoProtocolNoBtn.isArmed())
 			||(!isoCompensationYesBtn.isArmed() && !isoCompensationNoBtn.isArmed())
 			//||isoCompensationCommentField.getText().isEmpty()			//not always used
@@ -458,19 +487,54 @@ if(instance != null && instance.selectedCompany!= null) {
 			//||resistanceCommentField.getText()			//not always used
 			||(!thermicYesBtn.isArmed() && !thermicNoBtn.isArmed())
 			//||thermicCommentField.getText().isEmpty()			//not always used
-			||(!portableUtilitiesYesBtn.isArmed() && !portableUtilitiesNoBtn.isArmed())
-			||(!externalPortableUtilitiesYesBtn.isArmed() && !externalPortableUtilitiesNoBtn.isArmed())			//nrBtn ? -> group 
-			||supplySys == -1
-			||powerConsumptionField.getText().isEmpty()
+			) {
+				System.out.println("Fehler: Nicht alle Felder im Bereich 'Messungen' ausgefüllt");
+		}
+			
+		if((!portableUtilitiesYesBtn.isArmed() && !portableUtilitiesNoBtn.isArmed())
+			||(!externalPortableUtilitiesYesBtn.isArmed() && !externalPortableUtilitiesNoBtn.isArmed())
+			) {
+				System.out.println("Fehler: Nicht alle Felder im Bereich 'Ortsveränderliche Betriebsmittel' ausgefüllt");
+		}
+		
+		if(powerConsumptionField.getText().isEmpty()
 			||externalPowerPercentageField.getText().isEmpty()
 			||maxCapacityPercentageField.getText().isEmpty()
 			||protectedCirclesPercentageField.getText().isEmpty()
-			||hwl == -1
-			//||furtherExplanationsField.getText().isEmpty()			//not always used
+			||supplySys == -1
 			) {
-				System.out.println("Fehler: Nicht alle Felder ausgefuellt");
-				//label.setText("nicht alles ausgefï¿½llt");
-				//addDiagnosis();
+				System.out.println("Fehler: Nicht alle Felder im Bereich 'Allgemeine Informationen zur elektrischen Anlage' ausgefüllt");
+		}
+		
+		if(hwl == -1//||furtherExplanationsField.getText().isEmpty()		//not always used
+			) {
+				System.out.println("Fehler: Nicht alle Felder im Bereich 'Für statistische Zwecke' ausgefüllt");
+		}
+		
+		//invalid combinations check and correction
+		if(precautionNoBtn.isSelected() && !precautionField.getText().isEmpty()) {
+				System.out.println("Eine Felderkombination ist nicht möglich");
+				precautionField.clear();
+		}
+		
+		if(completeNoBtn.isSelected() && !completeDateField.getText().isEmpty()) {
+				System.out.println("Eine Felderkombination ist nicht möglich");
+				completeDateField.setText("0000-00-00");
+		}
+		
+		if(defectsAttachedBtn.isSelected() && !defectsAttachedDateField.getText().isEmpty()) {
+				System.out.println("Eine Felderkombination ist nicht möglich");
+				defectsAttachedDateField.setText("0000-00-00");
+		}
+		
+		if(rcdAllBtn.isSelected() && !rcdPercentageField.getText().isEmpty()) {
+				System.out.println("Eine Felderkombination ist nicht möglich");
+				rcdPercentageField.clear();
+		}
+		
+		if(resistanceYesBtn.isSelected() && !resistancePercentageField.getText().isEmpty()) {
+				System.out.println("Eine Felderkombination ist nicht möglich");
+				resistancePercentageField.clear();
 		}
 		
 		Branch branch = new Branch(-1,"test");
@@ -582,13 +646,13 @@ if(instance != null && instance.selectedCompany!= null) {
 			
 			currentDiagnosisId = result.getId();
 			//set maybe unused fields empty
-			completeReasonField.setText("");
-			dangerCategoryExtensionField.setText("");
-			isoCompensationCommentField.setText("");
-			rcdCommentField.setText("");
-			resistanceCommentField.setText("");
-			thermicCommentField.setText("");
-			furtherExplanationsField.setText("");
+			completeReasonField.clear();
+			dangerCategoryExtensionField.clear();
+			isoCompensationCommentField.clear();
+			rcdCommentField.clear();
+			resistanceCommentField.clear();
+			thermicCommentField.clear();
+			furtherExplanationsField.clear();
 			
 			//fill fields and buttons
 			plantInspectionField.setText(LocalDate.parse(result.getDate().toString()).toString());
@@ -767,6 +831,116 @@ if(instance != null && instance.selectedCompany!= null) {
 		}
 		
 		
+	}
+	
+	/**
+	 * Resets all buttons and textfields
+	 */
+	public void reset() {
+	// Versicherungsnehmer Adresse
+		  compNameField.clear();
+		  streetCompField.clear();
+		  compZipField.clear();
+		  compCityField.clear();
+		
+	// Risikoanschrift
+		  plantLoadBtn.disarm();
+		  plantStreetField.clear();
+		  plantZipField.clear();
+		  plantCityField.clear();
+		  plantCompanionField.clear();
+		  plantExpertField.clear();
+		  plantAnerkNrField.clear();
+		  plantInspectionField.clear();
+		  plantInspectionTimeField.clear();
+		
+	//Art des Betriebes oder der Anlage
+		  branchName.clear();
+		  freqYesBtn.disarm();
+		  freqNoBtn.disarm();
+		  precautionYesBtn.disarm();
+		  precautionNoBtn.disarm();
+		  precautionField.clear();
+		  completeYesBtn.disarm();
+		  completeNoBtn.disarm();
+		  completeDateField.clear();
+		  completeReasonField.clear();
+		  changesSinceLastExaminationYesBtn.disarm();
+		  changesSinceLastExaminationNoBtn.disarm();
+		  changesSinceLastExaminationFirstExaminationBtn.disarm();
+		  defectsLastExaminationYesBtn.disarm();
+		  defectsLastExaminationNoBtn.disarm();
+		  defectsLastExaminationNoReportBtn.disarm();
+		
+	//Gesamtbeurteilung der Anlage
+		  dangerCategorieGroupABtn.disarm();
+		  dangerCategorieGroupBBtn.disarm();
+		  dangerCategorieGroupCBtn.disarm();
+		  dangerCategorieGroupDBtn.disarm();
+		  dangerCategoryExtensionField.clear();
+		
+	//PrÃ¼fergebnis
+		  noDefectsBtn.disarm();
+		  defectsAttachedBtn.disarm();
+		  defectsAttachedDateField.clear();
+		  removeDefectsImmediatelyBtn.disarm();
+
+	// Messungen
+		  isoMinYesBtn.disarm();
+		  isoMinNoBtn.disarm();
+		  isoProtocolYesBtn.disarm();
+		  isoProtocolNoBtn.disarm();
+		  isoCompensationYesBtn.disarm();
+		  isoCompensationNoBtn.disarm();
+		  isoCompensationCommentField.clear();
+		  rcdAllBtn.disarm();
+		  rcdPercentageField.clear();
+		  rcdNotBtn.disarm();
+		  rcdCommentField.clear();
+		  resistanceYesBtn.disarm();
+		  resistancePercentageField.clear();
+		  resistanceNoBtn.disarm();
+		  resistanceCommentField.clear();
+		  thermicYesBtn.disarm();
+		  thermicNoBtn.disarm();
+		  thermicCommentField.clear();
+		
+	//OrtsverÃ¤nderliche Betriebsmittel
+		  portableUtilitiesYesBtn.disarm();
+		  portableUtilitiesNoBtn.disarm();
+		  externalPortableUtilitiesYesBtn.disarm();
+		  externalPortableUtilitiesNoBtn.disarm();
+		  externalPortableUtilitiesNrBtn.disarm();
+		
+	//Allgemeine Informationen zur geprÃ¼ften elektrischen Anlage
+		  supplySystemTNBtn.disarm();
+		  supplySystemTTBtn.disarm();
+		  supplySystemITBtn.disarm();
+		  supplySystemCircleBtn.disarm();
+		  powerConsumptionField.clear();
+		  externalPowerPercentageField.clear();
+		  maxCapacityPercentageField.clear();
+		  protectedCirclesPercentageField.clear();
+		  hardWiredLoadsUnder250Btn.disarm();
+		  hardWiredLoadsUnder500Btn.disarm();
+		  hardWiredLoadsUnder1000Btn.disarm();
+		  hardWiredLoadsUnder5000Btn.disarm();
+		  hardWiredLoadsAbove5000Btn.disarm();
+		  furtherExplanationsField.clear();
+
+	// Anhang A
+		  diagnosisDate.clear();
+
+    //Hinzufuegen
+		  defectSearchField.clear();
+		  resultDefectId.clear();
+		  branchText.clear();
+		  buildingText.clear();
+		  roomText.clear();
+		  machineText.clear();
+		  customDescriptionText.clear();
+		  dangerFireSwitchBox.disarm();
+		  dangerPersonSwitchBox.disarm();
 	}
 	
 	public void changeScreenVNBtn (ActionEvent event) throws IOException{
