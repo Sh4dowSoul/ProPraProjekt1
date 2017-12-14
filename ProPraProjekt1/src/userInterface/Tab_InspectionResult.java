@@ -158,7 +158,6 @@ public class Tab_InspectionResult implements Initializable{
 	@FXML private TextArea furtherExplanationsField;
 
 // Anhang A
-	@FXML private TextField diagnosisDate;
 	@FXML private TableView<DefectResult> defectTableView;
 	@FXML private TableColumn<DefectResult,String> defectIdColumn;
 	@FXML private TableColumn<DefectResult,String> dangerColumn;
@@ -558,8 +557,12 @@ public class Tab_InspectionResult implements Initializable{
 	 * Resets all buttons and textfields
 	 */
 	public void reset() {
+	//Tabelle 
+		defectTableView.getItems().clear();
 	// Versicherungsnehmer Adresse
 		  compNameField.clear();
+		  inspectionResultCompany = null;
+		  inspectionResultCompanyPlant = null;
 		
 	// Risikoanschrift
 		  plantLoadBtn.disarm();
@@ -572,81 +575,79 @@ public class Tab_InspectionResult implements Initializable{
 		
 	//Art des Betriebes oder der Anlage
 		  branchName.clear();
-		  freqYesBtn.disarm();
-		  freqNoBtn.disarm();
-		  precautionYesBtn.disarm();
-		  precautionNoBtn.disarm();
+		  freqYesBtn.setSelected(false);
+		  freqNoBtn.setSelected(true);
+		  precautionYesBtn.setSelected(false);
+		  precautionNoBtn.setSelected(true);
 		  precautionField.clear();
-		  completeYesBtn.disarm();
-		  completeNoBtn.disarm();
+		  completeYesBtn.setSelected(false);
+		  completeNoBtn.setSelected(true);
 		  completeDateField.clear();
 		  completeReasonField.clear();
-		  changesSinceLastExaminationYesBtn.disarm();
-		  changesSinceLastExaminationNoBtn.disarm();
-		  changesSinceLastExaminationFirstExaminationBtn.disarm();
-		  defectsLastExaminationYesBtn.disarm();
-		  defectsLastExaminationNoBtn.disarm();
-		  defectsLastExaminationNoReportBtn.disarm();
+		  changesSinceLastExaminationYesBtn.setSelected(false);
+		  changesSinceLastExaminationNoBtn.setSelected(true);
+		  changesSinceLastExaminationFirstExaminationBtn.setSelected(false);
+		  defectsLastExaminationYesBtn.setSelected(false);
+		  defectsLastExaminationNoBtn.setSelected(true);
+		  defectsLastExaminationNoReportBtn.setSelected(false);
 		
 	//Gesamtbeurteilung der Anlage
-		  dangerCategorieGroupABtn.disarm();
-		  dangerCategorieGroupBBtn.disarm();
-		  dangerCategorieGroupCBtn.disarm();
-		  dangerCategorieGroupDBtn.disarm();
+		  dangerCategorieGroupABtn.setSelected(true);
+		  dangerCategorieGroupBBtn.setSelected(false);
+		  dangerCategorieGroupCBtn.setSelected(false);
+		  dangerCategorieGroupDBtn.setSelected(false);
 		  dangerCategoryExtensionField.clear();
 		
 	//Prüfergebnis
-		  noDefectsBtn.disarm();
-		  defectsAttachedBtn.disarm();
+		  noDefectsBtn.setSelected(false);
+		  defectsAttachedBtn.setSelected(false);
 		  defectsAttachedDateField.clear();
-		  removeDefectsImmediatelyBtn.disarm();
+		  removeDefectsImmediatelyBtn.setSelected(false);
 
 	// Messungen
-		  isoMinYesBtn.disarm();
-		  isoMinNoBtn.disarm();
-		  isoProtocolYesBtn.disarm();
-		  isoProtocolNoBtn.disarm();
-		  isoCompensationYesBtn.disarm();
-		  isoCompensationNoBtn.disarm();
+		  isoMinYesBtn.setSelected(false);
+		  isoMinNoBtn.setSelected(true);
+		  isoProtocolYesBtn.setSelected(false);
+		  isoProtocolNoBtn.setSelected(true);
+		  isoCompensationYesBtn.setSelected(false);
+		  isoCompensationNoBtn.setSelected(true);
 		  isoCompensationCommentField.clear();
-		  rcdAllBtn.disarm();
+		  rcdAllBtn.setSelected(false);
 		  rcdPercentageField.clear();
-		  rcdNotBtn.disarm();
+		  rcdNotBtn.setSelected(true);
 		  rcdCommentField.clear();
-		  resistanceYesBtn.disarm();
+		  resistanceYesBtn.setSelected(false);
 		  resistancePercentageField.clear();
-		  resistanceNoBtn.disarm();
+		  resistanceNoBtn.setSelected(true);
 		  resistanceCommentField.clear();
-		  thermicYesBtn.disarm();
-		  thermicNoBtn.disarm();
+		  thermicYesBtn.setSelected(false);
+		  thermicNoBtn.setSelected(true);
 		  thermicCommentField.clear();
 		
 	//Ortsveränderliche Betriebsmittel
-		  portableUtilitiesYesBtn.disarm();
-		  portableUtilitiesNoBtn.disarm();
-		  externalPortableUtilitiesYesBtn.disarm();
-		  externalPortableUtilitiesNoBtn.disarm();
-		  externalPortableUtilitiesNrBtn.disarm();
+		  portableUtilitiesYesBtn.setSelected(false);
+		  portableUtilitiesNoBtn.setSelected(true);
+		  externalPortableUtilitiesYesBtn.setSelected(false);
+		  externalPortableUtilitiesNoBtn.setSelected(true);
+		  externalPortableUtilitiesNrBtn.setSelected(false);
 		
 	//Allgemeine Informationen zur geprüften elektrischen Anlage
-		  supplySystemTNBtn.disarm();
-		  supplySystemTTBtn.disarm();
-		  supplySystemITBtn.disarm();
-		  supplySystemCircleBtn.disarm();
+		  supplySystemTNBtn.setSelected(true);
+		  supplySystemTTBtn.setSelected(false);
+		  supplySystemITBtn.setSelected(false);
+		  supplySystemCircleBtn.setSelected(false);
 		  powerConsumptionField.clear();
 		  externalPowerPercentageField.clear();
 		  maxCapacityPercentageField.clear();
 		  protectedCirclesPercentageField.clear();
-		  hardWiredLoadsUnder250Btn.disarm();
-		  hardWiredLoadsUnder500Btn.disarm();
-		  hardWiredLoadsUnder1000Btn.disarm();
-		  hardWiredLoadsUnder5000Btn.disarm();
-		  hardWiredLoadsAbove5000Btn.disarm();
+		  hardWiredLoadsUnder250Btn.setSelected(true);
+		  hardWiredLoadsUnder500Btn.setSelected(false);
+		  hardWiredLoadsUnder1000Btn.setSelected(false);
+		  hardWiredLoadsUnder5000Btn.setSelected(false);
+		  hardWiredLoadsAbove5000Btn.setSelected(false);
 		  furtherExplanationsField.clear();
 
-	// Anhang A
-		  diagnosisDate.clear();
-
+	
     //Hinzufuegen
 		  defectSearchField.clear();
 		  resultDefectId.clear();
@@ -806,6 +807,7 @@ public class Tab_InspectionResult implements Initializable{
 		//Cleanup every entry
 		if(inspectionResultSaved) {
 			mainController.closeDiagnosis();
+			reset();
 		} else {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Warnung - Befundschein nicht gesichert");
@@ -821,7 +823,7 @@ public class Tab_InspectionResult implements Initializable{
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get() == discardButton){
 				mainController.closeDiagnosis();
-				//TODO alte Eingaben löschen
+				reset();
 			} else if (result.get() == saveButton) {
 				addDiagnosis(null);
 			}
