@@ -15,6 +15,7 @@ import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType0Font;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
+import org.controlsfx.control.Notifications;
 
 import be.quodlibet.boxable.BaseTable;
 import be.quodlibet.boxable.Cell;
@@ -23,6 +24,10 @@ import be.quodlibet.boxable.Row;
 import be.quodlibet.boxable.VerticalAlignment;
 import be.quodlibet.boxable.line.LineStyle;
 import dataStorageAccess.ResultAccess;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.stage.FileChooser;
+import javafx.util.Duration;
 
 /**
  * PDFExport class
@@ -41,7 +46,7 @@ public class PDFExport {
 	static PDDocument document = null;
 	static PDPageContentStream contentStream;
 	static ResultComplete data;
-	static int pageCounter = 0;
+	static int pageCounter;
 	static PDPage page1;
 
 	/**
@@ -52,34 +57,58 @@ public class PDFExport {
 	 * @throws SQLException
 	 */
 	public static void export(int id) throws IOException, SQLException {
-		try {
-			// Creating PDF document object
-			document = new PDDocument();
-			data = ResultAccess.getCompleteResult(id);
+		// Creating PDF document object
+		document = new PDDocument();
+		data = ResultAccess.getCompleteResult(id);
+		pageCounter = 0;
 
-			// Setting Fonts
-			PDFont fontArial = PDType0Font.load(document, arial);
-			PDFont fontArialBold = PDType0Font.load(document, arialBold);
-			PDFont fontArialBoldCursive = PDType0Font.load(document, arialBoldCursive);
-			PDFont fontArialCursive = PDType0Font.load(document, arialCursive);
+		FileChooser fileChooser = new FileChooser();
 
-			createPDF(fontArial, fontArialBold, fontArialBoldCursive, fontArialCursive);
+		// Set extension filter
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PDF-Dateien (*.pdf)", "*.pdf");
+		fileChooser.getExtensionFilters().add(extFilter);
+		fileChooser.setInitialFileName("BS" + "_" + data.getCompanyPlant().getCompany().getName() + "_" + id + ".pdf");
 
-			document.save("exportedFiles/BS" + "_" + data.getCompanyPlant().getCompany().getName() + "_" + id + ".pdf");
-			System.out.println("Document saved");
-		} catch (IOException e) {
-			// sm. Fehlermeldung, wenn Dokument geöffnet ist => als Meldung in die GUI
-			e.printStackTrace();
-		} finally {
-			// Closing the document
-			if (document != null) {
+		// Show save file dialog
+		File file = fileChooser.showSaveDialog(null);
+
+		// Setting Fonts
+		PDFont fontArial = PDType0Font.load(document, arial);
+		PDFont fontArialBold = PDType0Font.load(document, arialBold);
+		PDFont fontArialBoldCursive = PDType0Font.load(document, arialBoldCursive);
+		PDFont fontArialCursive = PDType0Font.load(document, arialCursive);
+
+		createPDF(fontArial, fontArialBold, fontArialBoldCursive, fontArialCursive);
+
+		if (file != null) {
+			try {
+				document.save(file);
+				Notifications.create().title("Erfolgreich gespeichert")
+						.text("Der Befundschein " + file.getName() + " wurde erfolgreich gespeichert ")
+						.showInformation();
+			} catch (IOException e) {
+				Notifications.create().title("Es ist ein Problem aufgetreten")
+						.text("Der Befundschein " + file.getName() + " konnte leider nicht gespeichert werden.")
+						.hideAfter(Duration.INDEFINITE).onAction(new EventHandler<ActionEvent>() {
+							@Override
+							public void handle(ActionEvent event) {
+								new ExceptionDialog("Export Fehler", "Fehler beim Exportieren",
+										"Beim Exportieren des Befundscheins ist leider ein Fehler aufgetreten.", e);
+							}
+						}).showError();
+			}
+		}
+		if (document != null) {
+			try {
 				document.close();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 	}
 
 	/**
-	 * generates dynamic texts with automatic line breaks
+	 * Generates dynamic texts with automatic line breaks
 	 * 
 	 * @param page
 	 * @param pdfFont
@@ -149,7 +178,7 @@ public class PDFExport {
 	}
 
 	/**
-	 * creates single-row tables as frames
+	 * Creates single-row tables as frames
 	 * 
 	 * @param page
 	 * @param yPosition
@@ -178,7 +207,7 @@ public class PDFExport {
 	}
 
 	/**
-	 * creates new static texts (no user data)
+	 * Creates new static texts (no user data)
 	 * 
 	 * @param font
 	 * @param size
@@ -198,7 +227,7 @@ public class PDFExport {
 	}
 
 	/**
-	 * creates texts with contents from the database
+	 * Creates texts with contents from the database
 	 * 
 	 * @param font
 	 * @param size
@@ -222,7 +251,7 @@ public class PDFExport {
 	}
 
 	/**
-	 * creates new static frames
+	 * Creates new static frame
 	 * 
 	 * @param positionX
 	 * @param posotionY
@@ -240,7 +269,7 @@ public class PDFExport {
 	}
 
 	/**
-	 * sets new unchecked checkbox
+	 * Sets new unchecked checkbox
 	 * 
 	 * @param posistionX
 	 * @param positionY
@@ -256,7 +285,7 @@ public class PDFExport {
 	}
 
 	/**
-	 * sets new checked checkbox
+	 * Sets new checked checkbox
 	 * 
 	 * @param posistionX
 	 * @param positionY
@@ -278,7 +307,7 @@ public class PDFExport {
 	}
 
 	/**
-	 * places checkbox with one query
+	 * Places checkbox with one query
 	 * 
 	 * @param isTrue
 	 * @param positionVertical
@@ -295,7 +324,7 @@ public class PDFExport {
 	}
 
 	/**
-	 * places checkbox with two queries
+	 * Places checkbox with two queries
 	 * 
 	 * @param isTrue
 	 * @param positionLeft
@@ -318,7 +347,7 @@ public class PDFExport {
 	}
 
 	/**
-	 * places checkbox with three queries
+	 * Places checkbox with three queries
 	 * 
 	 * @param getStatus
 	 * @param positionLeft
@@ -349,7 +378,7 @@ public class PDFExport {
 	}
 
 	/**
-	 * places checkbox with four queries
+	 * Places checkbox with four queries
 	 * 
 	 * @param getStatus
 	 * @param position1
@@ -390,7 +419,7 @@ public class PDFExport {
 	}
 
 	/**
-	 * places checkbox with five queries
+	 * Places checkbox with five queries
 	 * 
 	 * @param getStatus
 	 * @param position1
@@ -443,7 +472,7 @@ public class PDFExport {
 	}
 
 	/**
-	 * draws a separator line
+	 * Draws a separator line
 	 * 
 	 * @param lineWidth
 	 * @param startPositionX
@@ -465,7 +494,7 @@ public class PDFExport {
 	}
 
 	/**
-	 * creates static text of page number and total pages
+	 * Creates static text of page number and total pages
 	 * 
 	 * @param font
 	 * @param actPage
@@ -482,7 +511,7 @@ public class PDFExport {
 	}
 
 	/**
-	 * creates static text of document version
+	 * Creates static text of document version
 	 * 
 	 * @param font
 	 * @throws IOException
@@ -497,7 +526,7 @@ public class PDFExport {
 	}
 
 	/**
-	 * creates a template for dynamic pages (appendix a)
+	 * Creates a template for dynamic pages (appendix a)
 	 * 
 	 * @param page
 	 * @param table
@@ -513,7 +542,7 @@ public class PDFExport {
 		if (table.getCurrentPage() != page) {
 			contentStream.close();
 			page = table.getCurrentPage();
-			// lastStaticPage
+			// LastStaticPage
 			int i = 3;
 			while (!lastPageOfDocument) {
 				contentStream = new PDPageContentStream(document, document.getPage(i), AppendMode.APPEND, false);
@@ -553,7 +582,7 @@ public class PDFExport {
 	}
 
 	/**
-	 * creates appendix table with data
+	 * Creates appendix table with data
 	 * 
 	 * @param page
 	 * @param fontArial
@@ -622,7 +651,7 @@ public class PDFExport {
 	}
 
 	/**
-	 * appends existing pages with page number and total pages
+	 * Appends existing pages with page number and total pages
 	 * 
 	 * @param page
 	 * @param fontArialCursive
@@ -650,7 +679,7 @@ public class PDFExport {
 	}
 
 	/**
-	 * creates the PDFDocument
+	 * Creates the PDFDocument
 	 * 
 	 * @param fontArial
 	 * @param fontArialBold
@@ -662,38 +691,38 @@ public class PDFExport {
 	private static void createPDF(PDFont fontArial, PDFont fontArialBold, PDFont fontArialBoldCursive,
 			PDFont fontArialCursive) throws IOException, SQLException {
 
-		// retrieving the first page
+		// Retrieving the first page
 		page1 = new PDPage(PDRectangle.A4);
 		document.addPage(page1);
 		float paddingP1;
 
-		// creating PDImageXObject object
+		// Creating PDImageXObject object
 		PDImageXObject pdImage = PDImageXObject.createFromFile("img/pdf_komplett_72dpi.png", document);
 
-		// creating the PDPageContentStream object
+		// Creating the PDPageContentStream object
 		contentStream = new PDPageContentStream(document, page1);
 
-		// drawing the image in the PDF document
+		// Drawing the image in the PDF document
 		contentStream.drawImage(pdImage, 0, 692);
 
-		// drawing the small line on the left side of the document
+		// Drawing the small line on the left side of the document
 		drawSeparatorLine(0.75f, 0, 542, 15, 542, false);
 
 		setStaticText(fontArialCursive, 9, 513, 682, "Seite - 1 -");
 
-		// textField: topLeft (Befundschein)
+		// TextField: topLeft (Befundschein)
 		setStaticText(fontArialBoldCursive, 12, 59, 680, "BEFUNDSCHEIN");
 		setStaticText(fontArialCursive, 9, 164, 680, "über die Prüfung elektrischer Anlagen gemäß Vorgaben");
 		setStaticText(fontArialCursive, 9, 59, 670,
 				"der Sachversicherer nach den Prüfrichtlinien VdS 2871 durch VdS-anerkannte");
 		setStaticText(fontArialCursive, 9, 59, 660, "Sachverständige");
 
-		/// frame: topTopRight (Befundschein-Nr)
+		// Frame: topTopRight (Befundschein-Nr)
 		setStaticFrame(404, 660, 150, 16);
 		setStaticText(fontArialCursive, 9, 409, 665, "Befundschein-Nr.:");
 		setDatabaseText(fontArial, 9, 495, 665, String.valueOf(data.getId()));
 
-		// frame: topLeft (Versicherungsnehmer)
+		// Frame: topLeft (Versicherungsnehmer)
 		setStaticFrame(55.37f, 535, 247, 118);
 		setStaticText(fontArialBoldCursive, 9, 59, 642, "Versicherungsnehmer (VN)");
 		setDatabaseText(fontArial, 9, 65, 620, data.getCompanyPlant().getCompany().getName());
@@ -701,7 +730,7 @@ public class PDFExport {
 		setDatabaseText(fontArial, 9, 65, 575, String.valueOf(data.getCompanyPlant().getPlantZip()));
 		setDatabaseText(fontArial, 9, 95, 575, data.getCompanyPlant().getPlantCity());
 
-		// frame: topRight (Risikoanschrift)
+		// Frame: topRight (Risikoanschrift)
 		setStaticFrame(307, 535, 247, 118);
 		setStaticText(fontArialBoldCursive, 9, 313, 642, "Risikoanschrift: ");
 		setDatabaseText(fontArial, 9, 313, 630, String.valueOf(data.getCompanyPlant().getCompany().getHqZip()));
@@ -720,9 +749,10 @@ public class PDFExport {
 		setStaticText(fontArialCursive, 9, 463, 543, "Std.");
 		setStaticText(fontArialCursive, 8, 483, 543, "(reine Prüfzeit)");
 
-		// frame: topMiddle (Art des Betriebes oder der Anlage)
+		// Frame: topMiddle (Art des Betriebes oder der Anlage)
 		setStaticText(fontArialBoldCursive, 12, 59, 517, "Art des Betriebes oder der Anlage");
-		setDatabaseText(fontArial, 9, 59, 505, data.getDangerCategoryDescription());
+		// setDatabaseText(fontArial, 9, 59, 505, data.getDangerCategoryDescription());
+		setDatabaseText(fontArial, 9, 59, 505, data.getBranch().getDescription());
 		setStaticText(fontArialCursive, 9, 59, 492,
 				"Sind frequenzgesteuerte Betriebsmittel (z. B. Motoren) in der elektrischen Anlage installiert?");
 		setTwoCheckboxes(data.isFrequencyControlledUtilities(), 463, 503, 492);
@@ -762,7 +792,7 @@ public class PDFExport {
 		setStaticText(fontArialCursive, 9, 470, 376 - paddingP1, "nein");
 		drawSingleCellTable(page1, 530.5f, 163f + paddingP1, 100f);
 
-		// frame: middleMiddle (Gesamtbeurteilung der Anlage)
+		// Frame: middleMiddle (Gesamtbeurteilung der Anlage)
 		setStaticText(fontArialBoldCursive, 12, 59, 349 - paddingP1, "Gesamtbeurteilung der Anlage");
 		setStaticText(fontArialCursive, 9, 59, 337 - paddingP1, "Gefährdungskategorie gemäß Prüfrichtlinien VdS 2871");
 		setFourCheckboxes(data.getDangerCategory(), 312, 367, 422, 477, 337 - paddingP1);
@@ -776,7 +806,7 @@ public class PDFExport {
 		paddingP1 += paddingDangerCategory;
 		drawSingleCellTable(page1, 363.5f - paddingPrecautions, 48f + paddingDangerCategory, 100f);
 
-		// frame: bottomMiddle (Prüfungsergebnis)
+		// Frame: bottomMiddle (Prüfungsergebnis)
 		drawSingleCellTable(page1, 311.5f - paddingP1, 207f, 100f);
 		setStaticText(fontArialBoldCursive, 12, 59, 296 - paddingP1, "Prüfungsergebnis");
 		setStaticText(fontArialCursive, 11, 164, 296 - paddingP1, "(Einzelergebnisse)");
@@ -807,34 +837,34 @@ public class PDFExport {
 		setStaticText(fontArialCursive, 9, 250, 108 - paddingP1,
 				"Datum und Unterschrift des VdS-anerkannten Sachverständigen");
 
-		// footnotes
+		// Footnotes
 		setStaticText(fontArialBoldCursive, 6, 59, 97 - paddingP1, "1");
 		setStaticText(fontArialCursive, 8, 64, 94 - paddingP1,
 				"das sind z. B. Betriebsstätten nach VdS 2033 / Ex-Bereiche / stationäre Stromerzeugungsanlagen / Ladestationen für Fahrzeuge und");
 		setStaticText(fontArialCursive, 8, 64, 84 - paddingP1, "Flurförderzeuge");
 
-		// documentVersion
+		// DocumentVersion
 		setStaticTextVersion(fontArial);
 
-		// closing the contentStream
+		// Closing the contentStream
 		contentStream.close();
 
-		// retrieving the second page
+		// Retrieving the second page
 		PDPage page2 = new PDPage(PDRectangle.A4);
 		document.addPage(page2);
 		float paddingP2;
 
-		// creating the PDPageContentStream object
+		// Creating the PDPageContentStream object
 		contentStream = new PDPageContentStream(document, page2);
 
-		// frame: header
+		// Frame: header
 		setStaticFrame(55.37f, 779.63f, 498.5f, 26);
 		setStaticText(fontArialCursive, 9, 513, 798, "Seite - 2 -");
 		setStaticFrame(406, 779.63f, 147.9f, 16f);
 		setStaticText(fontArialCursive, 9, 409, 785, "Befundschein-Nr.:");
 		setDatabaseText(fontArial, 9, 495, 785, String.valueOf(data.getId()));
 
-		// frame: top (Messungen)
+		// Frame: top (Messungen)
 		setStaticText(fontArialBoldCursive, 12, 59, 764, "Messungen");
 		setStaticText(fontArialBoldCursive, 9, 59, 750, "• Isolationswiderstand:");
 		setStaticText(fontArialCursive, 9, 160, 750, "Messung in mind. 50 % aller Stromkreise");
@@ -895,7 +925,7 @@ public class PDFExport {
 		paddingP2 += paddingThermal;
 		drawSingleCellTable(page2, 780f, 182f + paddingP2, 100f);
 
-		// frame: middle (Ortsveränderliche Betriebsmittel)
+		// Frame: middle (Ortsveränderliche Betriebsmittel)
 		setStaticText(fontArialBoldCursive, 12, 59, 586 - paddingP2, "Ortsveränderliche Betriebsmittel");
 		setStaticText(fontArialCursive, 9, 59, 572 - paddingP2,
 				"Werden nach Aussage des Betreibers die ortsveränderlichen");
@@ -919,7 +949,7 @@ public class PDFExport {
 		setStaticText(fontArialBoldCursive, 6, 515, 532 - paddingP2, "5");
 		drawSingleCellTable(page2, 549.5f - paddingP2, 35f, 100f);
 
-		// frame: bottom (Allgemeine Informationen zur geprüften elektrischen Anlage)
+		// Frame: bottom (Allgemeine Informationen zur geprüften elektrischen Anlage)
 		setStaticText(fontArialBoldCursive, 12, 59, 502 - paddingP2,
 				"Allgemeine Informationen zur geprüften elektrischen Anlage");
 		drawSingleCellTable(page2, 515.25f - paddingP2, 17.5f, 100f);
@@ -948,7 +978,7 @@ public class PDFExport {
 		setDatabaseText(fontArial, 9, 380, 377 - paddingP2, String.valueOf(data.getProtectedCircuitsPercent()));
 		drawSingleCellTable(page2, 498.5f - paddingP2, 140f, 100f);
 
-		// frame: singleFrame (Für statische Zwecke)
+		// Frame: singleFrame (Für statische Zwecke)
 		setStaticText(fontArialBoldCursive, 9, 59, 343 - paddingP2, "Für statistische Zwecke");
 		setStaticText(fontArialCursive, 9, 59, 328 - paddingP2,
 				"Geschätzte Anzahl der fest angeschlossenen Verbraucher in der elektrischen Anlage:");
@@ -960,7 +990,7 @@ public class PDFExport {
 		setStaticText(fontArialCursive, 9, 431, 313 - paddingP2, "> 5.000");
 		drawSingleCellTable(page2, 353f - paddingP2, 45f, 100f);
 
-		// footnotes
+		// Footnotes
 		setStaticText(fontArialBoldCursive, 6, 59, 301 - paddingP2, "2");
 		setStaticText(fontArialCursive, 8, 64, 298 - paddingP2,
 				"Können keine Isolationswiderstandsmessungen durchgeführt werden und sind keine Messprotokolle vorhanden, ist dies");
@@ -979,25 +1009,25 @@ public class PDFExport {
 		setStaticText(fontArialCursive, 8, 64, 228 - paddingP2,
 				"nr = nicht relevant, da nach Aussagen des Betreibers keine fremden ortsveränderlichen Betriebsmittel vorhanden sind.");
 
-		// additionalAnnotations
+		// AdditionalAnnotations
 		setStaticText(fontArialBoldCursive, 9, 59, 208 - paddingP2,
 				"Weitere Erläuterungen wie z. B. verwendete Messgeräte (optional):");
 		setDynamicText(page2, fontArial, 10, 1.25f, 490f, 59, 193 - paddingP2, data.getAdditionalAnnotations());
 
-		// documentVersion
+		// DocumentVersion
 		setStaticTextVersion(fontArial);
 
-		// closing the contentStream
+		// Closing the contentStream
 		contentStream.close();
 
-		// retrieving the appendix page
+		// Retrieving the appendix page
 		PDPage page = new PDPage(PDRectangle.A4);
 		document.addPage(page);
 
-		// creating the PDPageContentStream object
+		// Creating the PDPageContentStream object
 		contentStream = new PDPageContentStream(document, page);
 
-		// frame: header
+		// Frame: header
 		setStaticFrame(55.37f, 755, 498.5f, 35);
 		setStaticText(fontArialBoldCursive, 12, 59, 768, "Anhang A zum Befundschein-Nr.:");
 		setDatabaseText(fontArialCursive, 10, 280, 768, String.valueOf(data.getId()));
@@ -1012,7 +1042,7 @@ public class PDFExport {
 		setStaticText(fontArialCursive, 9, 59, 705,
 				"fordern. Aus der Sicht des Sachversicherers kann dies auch eine thermografische Untersuchung sein.");
 
-		// frame: headRow
+		// Frame: headRow
 		setStaticFrame(55.37f, 678, 21.8f, 22);
 		setStaticText(fontArialBold, 8, 60.6f, 691, "lfd.");
 		setStaticText(fontArialBold, 8, 60.6f, 681, "Nr.");
@@ -1031,10 +1061,10 @@ public class PDFExport {
 		setStaticText(fontArialBold, 8, 511, 681, "Bereich");
 		setStaticText(fontArialBoldCursive, 6, 541, 684, "2");
 
-		// appendixTable
+		// AppendixTable
 		BaseTable table = createAppendixTable(page, fontArial);
 
-		// footnotes
+		// Footnotes
 		setStaticText(fontArialBoldCursive, 6, 59, 61, "1");
 		setStaticText(fontArialCursive, 8, 64, 58,
 				"Mängel, die eine Brandgefahr darstellen, werden mit „X“ und Mängel, die eine Personengefahr darstellen, mit „O“ gekennzeichnet");
@@ -1043,15 +1073,15 @@ public class PDFExport {
 				"Mangelnummer und die Nummern für die Betriebsbereiche sind der VdS-Mängelstatistik (VdS 2837) zu entnehmen");
 		setStaticTextVersion(fontArial);
 
-		// closing the contentStream
+		// Closing the contentStream
 		contentStream.close();
 
-		// appending page number of total pages
+		// Appending page number of total pages
 		useAppendMode(page1, fontArialCursive, fontArial);
 		useAppendMode(page2, fontArialCursive, fontArial);
 		useAppendMode(page, fontArialCursive, fontArial);
 
-		// dynamicAppendixPages
+		// DynamicAppendixPages
 		createTemplateLastPages(page, table, fontArial, fontArialBold, fontArialBoldCursive, fontArialCursive);
 	}
 }
