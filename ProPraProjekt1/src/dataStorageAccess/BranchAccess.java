@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import applicationLogic.Branch;
 import dataStorageAccess.controller.BranchController;
 
+/**
+ * @author Niklas Schnettler
+ *
+ */
 public class BranchAccess {
 	/**
 	 * Get a List of Branches

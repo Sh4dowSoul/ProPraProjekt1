@@ -2,6 +2,12 @@ package applicationLogic;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+/**
+ * Defect Class used for Statistic Export
+ * 
+ * @author Niklas Schnettler
+ *
+ */
 @XStreamAlias("Mangel")
 public class DefectStatistic extends DefectAtomic{
 	@XStreamAlias("Betriebsbereich")

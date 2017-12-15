@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import applicationLogic.DefectStatistic;
 import dataStorageAccess.DataSource;
 
+/**
+ * @author Niklas Schnettler
+ *
+ */
 public class StatisticController {
 	
 	/**

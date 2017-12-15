@@ -21,7 +21,6 @@ import applicationLogic.DefectResult;
 import applicationLogic.ExceptionDialog;
 import applicationLogic.PDFExport;
 import applicationLogic.ResultComplete;
-import applicationLogic.ResultPreview;
 import dataStorageAccess.BranchAccess;
 import dataStorageAccess.CompanyAccess;
 import dataStorageAccess.DefectAccess;
@@ -56,6 +55,10 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
+/**
+ * @author Niklas Schnettler, Salih Arslan, Sven Meyer, Sven Motschnig, Daniel Novakovic
+ *
+ */
 public class Tab_InspectionResult implements Initializable{
 // *** BEFUNDSCHEIN TAB ***
 // Versicherungsnehmer Adresse
@@ -194,6 +197,11 @@ public class Tab_InspectionResult implements Initializable{
 		pdfExpBtn.setDisable(true);
     }
 	
+	/**
+	 * Get together with parent Controller
+	 * 
+	 * @param parentController - The parent Controller
+	 */
 	public void setParentController(GUIController parentController) {
 	    this.mainController = parentController;
 	}
@@ -216,6 +224,11 @@ public class Tab_InspectionResult implements Initializable{
 		});
 	} 
 	
+	/**
+	 * Defect edit Dialog (Do you want to edit this defect? )
+	 * 
+	 * @param selectedItem - selected Defect
+	 */
 	private void createDignosisOptionsDialog(DefectResult selectedItem) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Bearbeiten");
@@ -230,6 +243,11 @@ public class Tab_InspectionResult implements Initializable{
 		}
 	}
 
+	/**
+	 * Add Defects to defect Table
+	 * 
+	 * @param add
+	 */
 	public void addToTable(ActionEvent add){
 		if (verifyNewTableInput()) {
 			newDefectDanger = 0;
@@ -256,6 +274,9 @@ public class Tab_InspectionResult implements Initializable{
 		}
 	}
 	
+	/**
+	 * Reset add to defect table textfields & CheckBoxes
+	 */
 	private void resetAddToTable() {
 		defectSearchField.clear();
 		resultDefectId.clear();
@@ -269,6 +290,11 @@ public class Tab_InspectionResult implements Initializable{
 		customDescriptionText.clear();
 	}
 	
+	/**
+	 * Load a defect into "add defect to table" views
+	 * 
+	 * @param defect
+	 */
 	private void openInAddToTableMenu(DefectResult defect) {
 		defectSearchField.setText(defect.getDescription());
 		newDefectId = defect.getId();
@@ -851,6 +877,12 @@ public class Tab_InspectionResult implements Initializable{
 	
 	
 	
+	/**
+	 * Export current result as PDF (after save)
+	 * 
+	 * @param event
+	 * @throws IOException
+	 */
 	public void exportDiagnosis (ActionEvent event) throws IOException{
 		PDFExport.export(resultComplete.getId());
 		}
@@ -884,7 +916,7 @@ public class Tab_InspectionResult implements Initializable{
 	}
 	
 	/**
-	 * Prepares the Autocomplete TextField
+	 * Prepares the Defects Autocomplete TextField
 	 */
 	private void prepareDefectsAutocomplete() {
 	//Defects
@@ -915,6 +947,9 @@ public class Tab_InspectionResult implements Initializable{
 	
 	}
 	
+	/**
+	 * Prepares the Branches Autocomplete TextField
+	 */
 	private void prepareBranchesAutocomplete() {
 		//Branches
 	    final Task<ArrayList<Branch>> branchAutocompleteTask = new Task<ArrayList<Branch>>() {
@@ -944,7 +979,7 @@ public class Tab_InspectionResult implements Initializable{
 	
 	
 	/**
-	 * Load all Diagnoses
+	 * Prepares the Companies Autocomplete TextField
 	 */
 	private void prepareCompaniesAutocomplete() {
 		plantStreetField.setDisable(true);
@@ -977,6 +1012,9 @@ public class Tab_InspectionResult implements Initializable{
 	    });
 	}
 	
+	/**
+	 * Prepares the Company Plants Autocomplete TextField
+	 */
 	private void prepareCompanyPlantsAutocomplete(Company company) {
 		final Task<ObservableList<CompanyPlant>> loadCompaniePlantTask = new Task<ObservableList<CompanyPlant>>() {
             @Override
@@ -1004,6 +1042,11 @@ public class Tab_InspectionResult implements Initializable{
 	
 	
 	
+	/**
+	 * Get user Input
+	 * 
+	 * @return if loading was sucessful
+	 */
 	private boolean loadResultData() {
 		errors = new ArrayList<>();
 		
@@ -1271,6 +1314,13 @@ public class Tab_InspectionResult implements Initializable{
 		return false;
 	}
 	
+	/**
+	 * Validate if TextField is not empty (and check for NumberFormatExceptions)
+	 * 
+	 * @param tf - TextField
+	 * @param checkInt - Check for NumberFormatExceptions?
+	 * @return if textfield is not empty
+	 */
 	private boolean validate(TextField tf, boolean checkInt) {
 	    if (tf.getText().isEmpty()) {
 	    	tf.getStyleClass().add("error");

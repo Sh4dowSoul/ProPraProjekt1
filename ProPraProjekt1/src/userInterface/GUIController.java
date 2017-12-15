@@ -9,6 +9,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
+/**
+ * @author Salih Arslan & Sven Meyer
+ *
+ */
 public class GUIController implements Initializable{
 	//*** GENERAL ***
 	@FXML private TabPane mainTabPane;

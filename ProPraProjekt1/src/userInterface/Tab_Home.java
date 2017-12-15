@@ -29,6 +29,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.StageStyle;
 
+/**
+ * @author Niklas Schnettler, Salih Arslan & Sven Meyer
+ *
+ */
 public class Tab_Home implements Initializable{
 	// *** HOME TAB ***
 	@FXML private ListView<ResultPreview> recentlyUsedList;

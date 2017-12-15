@@ -6,6 +6,10 @@ import java.time.format.DateTimeFormatter;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
+/**
+ * @author Niklas Schnettler
+ *
+ */
 public abstract class ResultBase {
 
 	@XStreamAlias("ESNummer")

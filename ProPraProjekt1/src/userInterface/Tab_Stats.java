@@ -40,6 +40,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
 
+/**
+ * @author Niklas Schnettler
+ *
+ */
 public class Tab_Stats implements Initializable{
 	
 	@FXML private ListView<Company> companyList;
@@ -70,6 +74,9 @@ public class Tab_Stats implements Initializable{
     }
 	
 	
+	/**
+	 * Setup Listener to switch between companies and branches
+	 */
 	private void setupTabListener() {
 		statTabs.getSelectionModel().selectedItemProperty().addListener(
 			    new ChangeListener<Tab>() {
@@ -91,6 +98,9 @@ public class Tab_Stats implements Initializable{
 	}
 
 
+	/**
+	 * Prepare Stats Table
+	 */
 	private void prepareStatsTable() {
     	statsDefectsColumn.setCellValueFactory(new PropertyValueFactory<DefectStatistic,String>("Id"));
     	statsDefectDescriptionColumn.setCellValueFactory(new PropertyValueFactory<DefectStatistic,String>("Description"));
@@ -272,7 +282,12 @@ public class Tab_Stats implements Initializable{
 	    new Thread(branchStatisticListTask).start();
 	}
 	
-	 @FXML
+	 /**
+	  * Handle XML Export Button
+	  * 
+	 * @param event
+	 */
+	@FXML
 	 private void handleExportButton(ActionEvent event) {
 		 if(currentCompany != null) {
 			 FileChooser fileChooser = new FileChooser();

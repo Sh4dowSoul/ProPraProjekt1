@@ -11,6 +11,10 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+/**
+ * @author Salih Arslan & Sven Meyer
+ *
+ */
 public class GUI extends Application {
 	private Stage primaryStage;
 	private AnchorPane mainLayout;

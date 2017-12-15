@@ -13,6 +13,10 @@ import applicationLogic.DefectResult;
 import applicationLogic.Util;
 import dataStorageAccess.DataSource;
 
+/**
+ * @author Niklas Schnettler
+ *
+ */
 public class CompanyController {
 
 	/**

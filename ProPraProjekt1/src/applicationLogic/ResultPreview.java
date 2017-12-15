@@ -5,6 +5,12 @@ import java.time.format.DateTimeFormatter;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
+/**
+ * Short preview of an Result, used for main resultList
+ * 
+ * @author Niklas Schnettler
+ *
+ */
 public class ResultPreview extends ResultBase{
 	
 	@XStreamOmitField

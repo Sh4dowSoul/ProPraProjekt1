@@ -17,6 +17,10 @@ import applicationLogic.StatisticResult;
 import applicationLogic.Util;
 import dataStorageAccess.DataSource;
 
+/**
+ * @author Niklas Schnettler
+ *
+ */
 public class DiagnosisController {
 	
 	/**
@@ -145,6 +149,13 @@ public class DiagnosisController {
 	}
 	
 	
+	/**
+	 * Get a List of Defects and Diagnoses of a company (for statistic export)
+	 * 
+	 * @param companyId - Id of a Company
+	 * @return A List of StatisticResults
+	 * @throws SQLException
+	 */
 	public static ArrayList<StatisticResult> getDiagnosesAndDefectsOfCompany(int companyId) throws SQLException{
 		ArrayList<StatisticResult> result = new ArrayList<StatisticResult>();
 		try (
@@ -162,6 +173,12 @@ public class DiagnosisController {
 		return result;
 	}
 	
+	/**
+	 * Update a Disgnosis in the Database
+	 * 
+	 * @param diagnosis - A Diagnosis
+	 * @throws SQLException
+	 */
 	public static void updateDiagnosis(ResultComplete diagnosis) throws SQLException {
 		System.out.println("TEST " + diagnosis.getId() + " " + "Test2 " + diagnosis.getExaminationDuration());
 		String statement = "UPDATE Diagnosis "

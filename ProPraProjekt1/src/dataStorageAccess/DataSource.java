@@ -6,6 +6,12 @@ import java.sql.SQLException;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
+/**
+ * The Database connection Class
+ * 
+ * @author Niklas Schnettler
+ *
+ */
 public class DataSource {
 
 	private static HikariConfig config = new HikariConfig();

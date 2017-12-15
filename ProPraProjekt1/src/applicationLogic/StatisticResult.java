@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 
+/**
+ * @author Niklas Schnettler
+ *
+ */
 @XStreamAlias("Befundschein")
 public class StatisticResult extends ResultBase {
 	

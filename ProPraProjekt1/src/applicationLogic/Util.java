@@ -3,6 +3,12 @@ package applicationLogic;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/**
+ * Helper methods
+ * 
+ * @author Niklas Schnettler
+ *
+ */
 public class Util {
 	public static String getCheckedNull(String string) {
 		if (string == null) {

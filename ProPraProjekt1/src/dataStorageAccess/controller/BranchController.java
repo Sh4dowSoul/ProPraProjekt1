@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import applicationLogic.Branch;
 import dataStorageAccess.DataSource;
 
+/**
+ * @author Niklas Schnettler
+ *
+ */
 public class BranchController {
 	/**
 	 * @return A List off all Branches

@@ -18,6 +18,10 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
+/**
+ * @author Niklas Schnettler & Daniel Novakovic
+ *
+ */
 public class AutocompleteTextField extends TextField {
 	//Possible Suggestions
     private final SortedSet<AutocompleteSuggestion> entries;      

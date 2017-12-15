@@ -1,7 +1,5 @@
 package applicationLogic;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-
 /**
  * The Class Defect
  * 

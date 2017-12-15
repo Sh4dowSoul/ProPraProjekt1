@@ -1,5 +1,9 @@
 package applicationLogic;
 
+/**
+ * @author Niklas Schnettler
+ *
+ */
 public class DefectResult extends DefectStatistic{
 	private int elementId;
 	private int danger;
