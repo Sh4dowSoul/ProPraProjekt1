@@ -129,7 +129,7 @@ public class Tab_Home implements Initializable{
 	/**
 	 * Load Last Edited List
 	 */
-	private void loadLastEdited() {
+	public void loadLastEdited() {
 		final Task<ObservableList<ResultPreview>> lastEditedListTask = new Task<ObservableList<ResultPreview>>() {
             @Override
             protected ObservableList<ResultPreview> call() throws Exception {
@@ -148,7 +148,7 @@ public class Tab_Home implements Initializable{
 	/**
 	 * Load all Diagnoses
 	 */
-	private void loadAllDiagnoses() {
+	public void loadAllDiagnoses() {
 		final Task<ObservableList<ResultPreview>> allDiagnosesTask = new Task<ObservableList<ResultPreview>>() {
             @Override
             protected ObservableList<ResultPreview> call() throws Exception {
