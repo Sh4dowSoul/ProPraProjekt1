@@ -162,12 +162,12 @@ public class DiagnosisController {
 			Connection connection = DataSource.getConnection();
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(
-					"SELECT diagnosis_id, examination_date, company_id, company_name, branch_id "+
+					"SELECT diagnosis_id, examination_date, company_id, company_name, branch_id, hardWiredLoads, danger_categorie_vds "+
 					"FROM Diagnosis join (Company Natural join CompanyPlant as CompanyWhosPlant) on Diagnosis.plant_id = companyWhosPlant.plant_id " +
 					"WHERE company_id = " + companyId);
 		) {
 			while (resultSet.next()) {
-				result.add(new StatisticResult(resultSet.getInt("diagnosis_id"), LocalDate.parse(resultSet.getString("examination_date")),"TODO","TODO",resultSet.getInt("branch_id"), resultSet.getString("company_name")));
+				result.add(new StatisticResult(resultSet.getInt("diagnosis_id"), LocalDate.parse(resultSet.getString("examination_date")),resultSet.getInt("danger_categorie_vds"),resultSet.getInt("branch_id"), resultSet.getString("company_name"), resultSet.getInt("hardWiredLoads")));
 			}
 		}
 		return result;

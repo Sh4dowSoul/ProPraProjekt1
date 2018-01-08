@@ -21,17 +21,46 @@ public class StatisticResult extends ResultBase {
 	@XStreamAlias("Branche")
 	private int branch;
 	@XStreamAlias("Betriebsmittel")
-	private int supply = 5000;
+	private String technicalEquipment;
 	@XStreamImplicit
 	private ArrayList<DefectStatistic> defects;
 	
-	public StatisticResult(int id, LocalDate date, String fileName, String gza, int branch, String companyName) {
+	public StatisticResult(int id, LocalDate date, int gza, int branch, String companyName, int technicalEquipment) {
 		super(id, date);
-		this.fileName = fileName;
 		this.year = date.getYear();
-		this.gza = "B";
 		this.branch = branch;
 		this.fileName = "BS_" + companyName + "_" + id;
+		switch (technicalEquipment) {
+			case 0:
+				this.technicalEquipment = "250";
+				break;
+			case 1:
+				this.technicalEquipment = "500";
+				break;
+			case 2:
+				this.technicalEquipment = "1000";
+				break;
+			case 3:
+				this.technicalEquipment = "5000";
+				break;
+			case 4:
+				this.technicalEquipment = ">5000";
+				break;
+		}
+		switch (gza) {
+			case 0:
+				this.gza = "A";
+				break;
+			case 1:
+				this.gza = "B";
+				break;
+			case 2:
+				this.gza = "C";
+				break;
+			case 3:
+				this.gza = "D";
+				break;
+		}
 	}
 
 	public void setDefects(ArrayList<DefectStatistic> arrayList) {
