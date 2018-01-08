@@ -655,23 +655,23 @@ public class Tab_InspectionResult implements Initializable{
 	//Art des Betriebes oder der Anlage
 		  branchName.clear();
 		  freqYesBtn.setSelected(false);
-		  freqNoBtn.setSelected(true);
+		  freqNoBtn.setSelected(false);
 		  precautionYesBtn.setSelected(false);
-		  precautionNoBtn.setSelected(true);
+		  precautionNoBtn.setSelected(false);
 		  precautionField.clear();
 		  completeYesBtn.setSelected(false);
-		  completeNoBtn.setSelected(true);
+		  completeNoBtn.setSelected(false);
 		  completeDateField.clear();
 		  completeReasonField.clear();
 		  changesSinceLastExaminationYesBtn.setSelected(false);
-		  changesSinceLastExaminationNoBtn.setSelected(true);
+		  changesSinceLastExaminationNoBtn.setSelected(false);
 		  changesSinceLastExaminationFirstExaminationBtn.setSelected(false);
 		  defectsLastExaminationYesBtn.setSelected(false);
-		  defectsLastExaminationNoBtn.setSelected(true);
+		  defectsLastExaminationNoBtn.setSelected(false);
 		  defectsLastExaminationNoReportBtn.setSelected(false);
 		
 	//Gesamtbeurteilung der Anlage
-		  dangerCategorieGroupABtn.setSelected(true);
+		  dangerCategorieGroupABtn.setSelected(false);
 		  dangerCategorieGroupBBtn.setSelected(false);
 		  dangerCategorieGroupCBtn.setSelected(false);
 		  dangerCategorieGroupDBtn.setSelected(false);
@@ -685,33 +685,33 @@ public class Tab_InspectionResult implements Initializable{
 
 	// Messungen
 		  isoMinYesBtn.setSelected(false);
-		  isoMinNoBtn.setSelected(true);
+		  isoMinNoBtn.setSelected(false);
 		  isoProtocolYesBtn.setSelected(false);
-		  isoProtocolNoBtn.setSelected(true);
+		  isoProtocolNoBtn.setSelected(false);
 		  isoCompensationYesBtn.setSelected(false);
-		  isoCompensationNoBtn.setSelected(true);
+		  isoCompensationNoBtn.setSelected(false);
 		  isoCompensationCommentField.clear();
 		  rcdAllBtn.setSelected(false);
 		  rcdPercentageField.clear();
-		  rcdNotBtn.setSelected(true);
+		  rcdNotBtn.setSelected(false);
 		  rcdCommentField.clear();
 		  resistanceYesBtn.setSelected(false);
 		  resistancePercentageField.clear();
-		  resistanceNoBtn.setSelected(true);
+		  resistanceNoBtn.setSelected(false);
 		  resistanceCommentField.clear();
 		  thermicYesBtn.setSelected(false);
-		  thermicNoBtn.setSelected(true);
+		  thermicNoBtn.setSelected(false);
 		  thermicCommentField.clear();
 		
 	//Ortsveränderliche Betriebsmittel
 		  portableUtilitiesYesBtn.setSelected(false);
-		  portableUtilitiesNoBtn.setSelected(true);
+		  portableUtilitiesNoBtn.setSelected(false);
 		  externalPortableUtilitiesYesBtn.setSelected(false);
-		  externalPortableUtilitiesNoBtn.setSelected(true);
+		  externalPortableUtilitiesNoBtn.setSelected(false);
 		  externalPortableUtilitiesNrBtn.setSelected(false);
 		
 	//Allgemeine Informationen zur geprüften elektrischen Anlage
-		  supplySystemTNBtn.setSelected(true);
+		  supplySystemTNBtn.setSelected(false);
 		  supplySystemTTBtn.setSelected(false);
 		  supplySystemITBtn.setSelected(false);
 		  supplySystemCircleBtn.setSelected(false);
@@ -719,7 +719,7 @@ public class Tab_InspectionResult implements Initializable{
 		  externalPowerPercentageField.clear();
 		  maxCapacityPercentageField.clear();
 		  protectedCirclesPercentageField.clear();
-		  hardWiredLoadsUnder250Btn.setSelected(true);
+		  hardWiredLoadsUnder250Btn.setSelected(false);
 		  hardWiredLoadsUnder500Btn.setSelected(false);
 		  hardWiredLoadsUnder1000Btn.setSelected(false);
 		  hardWiredLoadsUnder5000Btn.setSelected(false);
