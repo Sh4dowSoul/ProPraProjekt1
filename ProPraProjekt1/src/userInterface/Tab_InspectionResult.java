@@ -280,7 +280,6 @@ public class Tab_InspectionResult implements Initializable{
 	private void resetAddToTable() {
 		defectSearchField.clear();
 		resultDefectId.clear();
-		branchText.clear();
 		dangerFireSwitchBox.setSelected(false);
 		dangerPersonSwitchBox.setSelected(false);
 		buildingText.clear();
