@@ -1,5 +1,7 @@
 package applicationLogic;
 
+import de.schnettler.AutocompleteSuggestion;
+
 /**
  * The Class Defect
  * 

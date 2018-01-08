@@ -10,9 +10,6 @@ import java.util.ResourceBundle;
 
 import org.controlsfx.control.Notifications;
 
-import applicationLogic.AutoCompletionEvent;
-import applicationLogic.AutocompleteSuggestion;
-import applicationLogic.AutocompleteTextField;
 import applicationLogic.Branch;
 import applicationLogic.Company;
 import applicationLogic.CompanyPlant;
@@ -25,6 +22,9 @@ import dataStorageAccess.BranchAccess;
 import dataStorageAccess.CompanyAccess;
 import dataStorageAccess.DefectAccess;
 import dataStorageAccess.ResultAccess;
+import de.schnettler.AutoCompletionEvent;
+import de.schnettler.AutocompleteSuggestion;
+import de.schnettler.AutocompleteTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;

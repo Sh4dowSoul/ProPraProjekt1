@@ -11,6 +11,7 @@ import applicationLogic.Statistic;
 import applicationLogic.StatisticResult;
 import dataStorageAccess.controller.DiagnosisController;
 import dataStorageAccess.controller.StatisticController;
+import de.schnettler.AutocompleteSuggestion;
 
 /**
  * @author Niklas Schnettler
@@ -38,6 +39,7 @@ public class StatisticAccess {
 			
 		XStream xStream = new XStream(new DomDriver());
 		xStream.autodetectAnnotations(true);
+		xStream.omitField(AutocompleteSuggestion.class, "id");
 		FileOutputStream fs = new FileOutputStream(fileName);
 		xStream.toXML(diagnoses, fs);
 	}

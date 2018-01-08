@@ -7,8 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<!-- <?import applicationLogic.AutocompleteTextField?> -->
-<?import applicationLogic.AutocompleteTextField?>
+<?import de.schnettler.*?>
 <GridPane prefHeight="3000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userInterface.Tab_InspectionResult">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="500.0" />
@@ -36,7 +35,6 @@
                                                 </Button>
                                             </children>
                                         </HBox>
-                                        <!-- <AutocompleteTextField  id="plant" fx:id="plantStreetField" layoutX="329.0" layoutY="35.0" promptText="Straße" /> -->
                                         <AutocompleteTextField id="plant" fx:id="plantStreetField" layoutX="329.0" layoutY="35.0" promptText="Straße" />
                                         <TextField fx:id="plantCompanionField" layoutX="329.0" layoutY="140.0" promptText="Begleiter vom VN" />
                                         <TextField fx:id="plantExpertField" layoutX="328.0" layoutY="173.0" promptText="Sachverständiger" />
@@ -438,16 +436,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                              <!--  
-                              <AutocompleteTextField fx:id="defectSearchField" prefHeight="25.0" prefWidth="535.0" promptText="Mangel hinzufügen">
-                                  <VBox.margin>
-                                      <Insets top="15.0" />
-                                  </VBox.margin>
-                              </AutocompleteTextField>-->
-                              <AutocompleteTextField fx:id="defectSearchField" prefHeight="25.0" prefWidth="1000.0" promptText="Mangel hinzufügen">
-                           <GridPane.margin>
-                              <Insets />
-                           </GridPane.margin></AutocompleteTextField>
+                              <AutocompleteTextField fx:id="defectSearchField" prefHeight="25.0" prefWidth="1000.0" promptText="Mangel hinzufügen"/>
                         <TextField fx:id="resultDefectId" editable="false" minWidth="100.0" prefWidth="150.0" promptText="Mangel ID" GridPane.columnIndex="1">
                            <GridPane.margin>
                               <Insets left="15.0" />
@@ -478,16 +467,7 @@
                               </TextField>
                            </children>
                         </HBox>
-                        <!-- <AutocompleteTextField fx:id="branchText" minWidth="100.0" prefWidth="150.0" promptText="Branchen ID" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                           <GridPane.margin>
-                              <Insets left="15.0" />
-                           </GridPane.margin>
-                        </AutocompleteTextField> -->
-                        <AutocompleteTextField fx:id="branchText" minWidth="100.0" prefWidth="150.0" promptText="Branchen ID" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                           <GridPane.margin>
-                              <Insets left="15.0" />
-                           </GridPane.margin>
-                        </AutocompleteTextField>
+                        <AutocompleteTextField fx:id="branchText" minWidth="100.0" prefWidth="150.0" promptText="Branchen ID" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
                         <TextField fx:id="customDescriptionText" promptText="Erweiterte Beschreibung" GridPane.rowIndex="3" />
                         <Button fx:id="addDefectButton" minWidth="100.0" mnemonicParsing="false" onAction="#addToTable" prefWidth="150.0" text="Hinzufügen" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <GridPane.margin>

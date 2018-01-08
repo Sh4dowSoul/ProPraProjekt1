@@ -1,12 +1,14 @@
 package applicationLogic;
 
+import de.schnettler.AutocompleteSuggestion;
+
 /**
  * The Class Company
  * 
  * @author Niklas Schnettler
  */
 
-public class Company  extends AutocompleteSuggestion{
+public class Company extends AutocompleteSuggestion{
 
 	private int id;
 	private String name;
