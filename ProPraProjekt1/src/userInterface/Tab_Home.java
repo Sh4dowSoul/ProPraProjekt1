@@ -36,40 +36,31 @@ import javafx.stage.StageStyle;
 public class Tab_Home implements Initializable{
 	// *** HOME TAB ***
 	@FXML private ListView<InspectionResultPreview> recentlyUsedList;
-	@FXML private Button sortAlphaBtn;
-	@FXML private TableView<InspectionResultPreview> companyTableView;
-	@FXML private TableColumn<InspectionResultPreview,String> diagnosisCompany;
-	@FXML private TableColumn<InspectionResultPreview,String> diagnosisId;
-	@FXML private TableColumn<InspectionResultPreview,String> diagnosisDate;
+	@FXML private TableView<InspectionResultPreview> tableViewInspectionReports;
+	@FXML private TableColumn<InspectionResultPreview,String> tableColumnInspectionReportId;
+	@FXML private TableColumn<InspectionResultPreview,String> tableColumnCompany;
+	@FXML private TableColumn<InspectionResultPreview,String> tableColumnDate;
+	@FXML private TableColumn<InspectionResultPreview,String> tableColumnStatus;
 	@FXML private ProgressIndicator diagnosisTableProgress;
 
 	private GUIController mainController;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		setupLastEditedList();
-		prepareTable();
-		loadLastEdited();
-		loadAllDiagnoses();
+		setupGUI();
+		loadData();
     }
 	
-	public void setParentController(GUIController parentController) {
-	    this.mainController = parentController;
-	}
-	
-	private void prepareTable() {
-		diagnosisId.setCellValueFactory(new PropertyValueFactory<InspectionResultPreview,String>("id"));
-		diagnosisCompany.setCellValueFactory(new PropertyValueFactory<InspectionResultPreview,String>("companyName"));
-		diagnosisDate.setCellValueFactory(new PropertyValueFactory<InspectionResultPreview,String>("niceDate"));
-		
-		companyTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-			createDignosisOptionsDialog((InspectionResultPreview) companyTableView.getSelectionModel().getSelectedItem());
+	private void setupGUI() {
+		//InspectionReport TableView
+		tableColumnInspectionReportId.setCellValueFactory(new PropertyValueFactory<InspectionResultPreview,String>("id"));
+		tableColumnCompany.setCellValueFactory(new PropertyValueFactory<InspectionResultPreview,String>("companyName"));
+		tableColumnDate.setCellValueFactory(new PropertyValueFactory<InspectionResultPreview,String>("niceDate"));
+		tableViewInspectionReports.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+			openInspectionResultOptionsDialog((InspectionResultPreview) tableViewInspectionReports.getSelectionModel().getSelectedItem());
 		});
-	}
-	
-	
-	
-	private void setupLastEditedList() {
+		
+		//Last Edited List
 		recentlyUsedList.setCellFactory(param -> new ListCell<InspectionResultPreview>() {
 			@Override
 			protected void updateItem(InspectionResultPreview item, boolean empty) {
@@ -79,18 +70,25 @@ public class Tab_Home implements Initializable{
 					setGraphic(null);
 				}
 				else {
-					setText("Befundschein " + item.getId() + " - Firma " + item.getCompanyName() + " - Änderung " + item.getLastEditedNice());
+					setText("Befundschein " + item.getId() + " - Firma " + item.getCompanyName() + " - Änderung " + item.getLastEditedNice() + " - Status TODO");
 					setOnMouseClicked(new EventHandler<Event>() {
 						@Override
 						public void handle(Event event) {
-							createDignosisOptionsDialog(item);
+							openInspectionResultOptionsDialog(item);
 						}
-
-						
 			        });
 				} 
 			}
 		});
+	}
+
+	private void loadData() {
+		loadLastEdited();
+		loadAllDiagnoses();
+	}
+	
+	public void setParentController(GUIController parentController) {
+	    this.mainController = parentController;
 	}
 	
 	/**
@@ -101,7 +99,7 @@ public class Tab_Home implements Initializable{
 		mainController.openDiagnosisTab(-1);
 	}
 
-	private void createDignosisOptionsDialog(InspectionResultPreview item) {
+	private void openInspectionResultOptionsDialog(InspectionResultPreview item) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Befundschein " + item.getId() + " - " + item.getCompanyName());
 		alert.setHeaderText("Aktion für Befundschein " + item.getId() + " wählen");
@@ -120,10 +118,7 @@ public class Tab_Home implements Initializable{
 			mainController.openDiagnosisTab(item.getId());
 		} else if (result.get() == exportButton) {
 			PDFExport.export(item.getId());
-		}  else {
-		    // ... user chose CANCEL or closed the dialog
 		}
-		
 	}
 	
 	/**
@@ -157,7 +152,7 @@ public class Tab_Home implements Initializable{
         };
         diagnosisTableProgress.visibleProperty().bind(allDiagnosesTask.runningProperty());
         allDiagnosesTask.setOnSucceeded(event ->
-        	companyTableView.setItems(allDiagnosesTask.getValue())
+        tableViewInspectionReports.setItems(allDiagnosesTask.getValue())
 	    );
         allDiagnosesTask.setOnFailed(event ->
 	    	System.out.println("ERROR: " + allDiagnosesTask.getException())

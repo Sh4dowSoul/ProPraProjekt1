@@ -21,11 +21,12 @@
                <children>
                   <StackPane prefHeight="2000.0">
                      <children>
-                                <TableView id="companyTableView" fx:id="companyTableView">
+                                <TableView id="companyTableView" fx:id="tableViewInspectionReports">
                                 	<columns>
-                                        <TableColumn id="compDiagnosisColumn" fx:id="diagnosisId" maxWidth="500.0" minWidth="100.0" prefWidth="300.0" resizable="false" text="Befundschein" />
-                                    	<TableColumn id="companysColumn" fx:id="diagnosisCompany" maxWidth="500.0" minWidth="100.0" prefWidth="300.0" resizable="false" text="Firma" />
-                              			<TableColumn fx:id="diagnosisDate" maxWidth="500.0" minWidth="100.0" prefWidth="300.0" text="Prüfungsdatum" />
+                                        <TableColumn id="compDiagnosisColumn" fx:id="tableColumnInspectionReportId" maxWidth="500.0" minWidth="100.0" prefWidth="300.0" resizable="false" text="Befundschein" />
+                                    	<TableColumn id="companysColumn" fx:id="tableColumnCompany" maxWidth="500.0" minWidth="100.0" prefWidth="300.0" resizable="false" text="Firma" />
+                              			<TableColumn fx:id="tableColumnDate" maxWidth="500.0" minWidth="100.0" prefWidth="300.0" text="Prüfungsdatum" />
+                              <TableColumn fx:id="tableColumnStatus" maxWidth="500.0" minWidth="100.0" prefWidth="300.0" text="Status" />
                                     </columns>
                                 </TableView>
                         <ProgressIndicator fx:id="diagnosisTableProgress" maxHeight="-Infinity" maxWidth="-Infinity" />
