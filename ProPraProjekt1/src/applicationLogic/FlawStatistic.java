@@ -9,24 +9,24 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
  *
  */
 @XStreamAlias("Mangel")
-public class DefectStatistic extends DefectAtomic{
+public class FlawStatistic extends Flaw{
 	@XStreamAlias("Betriebsbereich")
 	private int branchId;
 	@XStreamAlias("MangelNr")
-	private int id;
+	private int externalFlawId;
 	@XStreamAlias("Anzahl")
 	private int numberOccurrence = 1;
 	
 	//For Export to XML
-	public DefectStatistic(int defectId, int branchId) {
-		super(defectId, null);
+	public FlawStatistic(int externalFlawId, int branchId) {
+		super(externalFlawId, 0, false, null);
 		this.branchId = branchId;
-		this.id = defectId;
+		this.externalFlawId = externalFlawId;
 	}
 	
 	//For Display in GUI
-	public DefectStatistic(int defectId, String defectDescription, int numberOccurrence) {
-		super(defectId, defectDescription);
+	public FlawStatistic(int externalFlawId, String flawDescription, int numberOccurrence) {
+		super(externalFlawId, 0, false, flawDescription);
 		this.numberOccurrence = numberOccurrence;
 	}
 	

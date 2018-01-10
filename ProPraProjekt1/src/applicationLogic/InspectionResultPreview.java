@@ -11,7 +11,7 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
  * @author Niklas Schnettler
  *
  */
-public class ResultPreview extends ResultBase{
+public class InspectionResultPreview extends InspectionReportMinimal{
 	
 	@XStreamOmitField
 	private int companyId;
@@ -20,7 +20,7 @@ public class ResultPreview extends ResultBase{
 	@XStreamOmitField
 	private LocalDate lastEdited;
 	
-	public ResultPreview(int id, LocalDate date, int companyId, String companyName, LocalDate lastEdited) {
+	public InspectionResultPreview(int id, LocalDate date, int companyId, String companyName, LocalDate lastEdited) {
 		super(id, date);
 		this.companyId = companyId;
 		this.companyName = companyName;

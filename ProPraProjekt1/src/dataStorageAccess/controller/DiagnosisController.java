@@ -11,9 +11,9 @@ import java.util.ArrayList;
 import applicationLogic.Branch;
 import applicationLogic.Company;
 import applicationLogic.CompanyPlant;
-import applicationLogic.ResultComplete;
-import applicationLogic.ResultPreview;
-import applicationLogic.StatisticResult;
+import applicationLogic.InspectionReportFull;
+import applicationLogic.InspectionReportStatistic;
+import applicationLogic.InspectionResultPreview;
 import applicationLogic.Util;
 import dataStorageAccess.DataSource;
 
@@ -28,19 +28,24 @@ public class DiagnosisController {
 	 * @return a list of the "n" last edited Diagnoses 
 	 * @throws SQLException
 	 */
-	public static ArrayList<ResultPreview> getLastEditedDiagnosesPreview(int number) throws SQLException {
-		ArrayList<ResultPreview> result = new ArrayList<ResultPreview>();
+	public static ArrayList<InspectionResultPreview> getLastEditedDiagnosesPreview(int number) throws SQLException {
+		ArrayList<InspectionResultPreview> result = new ArrayList<InspectionResultPreview>();
 		try (
 			Connection connection = DataSource.getConnection();
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(
-					"SELECT diagnosis_id, examination_date, company_id, company_name, diagnosis_lastedited "+ 
-					"FROM Diagnosis join (Company Natural join CompanyPlant as CompanyWhosPlant) on Diagnosis.plant_id = companyWhosPlant.plant_id "+ 
-					"ORDER BY diagnosis_lastedited desc "+
+					"SELECT inspectionReportId, examinationDate, companyId, companyName, inspectionReportLastEdited "+ 
+					"FROM InspectionReport NATURAL JOIN Company NATURAL JOIN CompanyPlant "+ 
+					"ORDER BY inspectionReportLastEdited desc "+
 					"LIMIT " + number);
 		) {
 			while (resultSet.next()) {
-				result.add(new ResultPreview(resultSet.getInt("diagnosis_id"), LocalDate.parse(resultSet.getString("examination_date")), resultSet.getInt("company_id"), resultSet.getString("company_name"), LocalDate.parse(resultSet.getString("diagnosis_lastedited"))));
+				result.add(new InspectionResultPreview(
+						resultSet.getInt("inspectionReportId"), 
+						LocalDate.parse(resultSet.getString("examinationDate")), 
+						resultSet.getInt("companyId"), 
+						resultSet.getString("companyName"), 
+						LocalDate.parse(resultSet.getString("inspectionReportLastEdited"))));
 			}
 		}
 		return result;
@@ -50,18 +55,23 @@ public class DiagnosisController {
 	 * @return A List of Previews of Diagnoses (id, date, companyId, companyName)
 	 * @throws SQLException
 	 */
-	public static ArrayList<ResultPreview> getDiagnosesPreview() throws SQLException {
-		ArrayList<ResultPreview> result = new ArrayList<ResultPreview>();
+	public static ArrayList<InspectionResultPreview> getDiagnosesPreview() throws SQLException {
+		ArrayList<InspectionResultPreview> result = new ArrayList<InspectionResultPreview>();
 		try (
 			Connection connection = DataSource.getConnection();
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(
-					"SELECT diagnosis_id, examination_date, company_id, company_name, diagnosis_lastedited "+ 
-					"FROM Diagnosis join (Company Natural join CompanyPlant as CompanyWhosPlant) on Diagnosis.plant_id = companyWhosPlant.plant_id "+ 
-					"ORDER BY company_name asc ");
+					"SELECT inspectionReportId, examinationDate, companyId, companyName, inspectionReportLastEdited "+ 
+					"FROM InspectionReport NATURAL JOIN Company NATURAL JOIN CompanyPlant "+ 
+					"ORDER BY companyName");
 		) {
 			while (resultSet.next()) {
-				result.add(new ResultPreview(resultSet.getInt("diagnosis_id"), LocalDate.parse(resultSet.getString("examination_date")), resultSet.getInt("company_id"), resultSet.getString("company_name"), LocalDate.parse(resultSet.getString("diagnosis_lastedited"))));
+				result.add(new InspectionResultPreview(
+						resultSet.getInt("inspectionReportId"), 
+						LocalDate.parse(resultSet.getString("examinationDate")), 
+						resultSet.getInt("companyId"), 
+						resultSet.getString("companyName"), 
+						LocalDate.parse(resultSet.getString("inspectionReportLastEdited"))));
 			}
 		}
 		return result;
@@ -72,54 +82,54 @@ public class DiagnosisController {
 	 * @return the whole Diagnosis, loaded from the database
 	 * @throws SQLException
 	 */
-	public static ResultComplete getDiagnosis(int id) throws SQLException {
-		ResultComplete result = null;
+	public static InspectionReportFull getDiagnosis(int id) throws SQLException {
+		InspectionReportFull result = null;
 		try (
 				Connection connection = DataSource.getConnection();
 				Statement statement = connection.createStatement();
 				ResultSet resultSet = statement.executeQuery(
 						"SELECT * "+ 
-						"FROM Diagnosis NATURAL JOIN CompanyPlant Natural JOIN Company NATURAL JOIN Branches "+ 
-						"WHERE diagnosis_id = " + id);
+						"FROM InspectionReport NATURAL JOIN CompanyPlant Natural JOIN Company NATURAL JOIN Branch "+ 
+						"WHERE inspectionReportId = " + id);
 			) {
 				while (resultSet.next()) {
-					result = new ResultComplete(resultSet.getInt("diagnosis_id"),
-											LocalDate.parse(resultSet.getString("examination_date")),
-											LocalDate.parse(resultSet.getString("diagnosis_lastEdited")),
+					result = new InspectionReportFull(resultSet.getInt("InspectionReportId"),
+											LocalDate.parse(resultSet.getString("examinationDate")),
+											LocalDate.parse(resultSet.getString("inspectionReportLastEdited")),
 											resultSet.getString("companion"), 
 											resultSet.getString("surveyor"),
-											resultSet.getInt("vds_approval_nr"), 
-											resultSet.getDouble("examination_duration"), 
+											resultSet.getInt("vdsApprovalNr"), 
+											resultSet.getDouble("examinationDuration"), 
 											new Branch(
-													resultSet.getInt("branch_id"),
-													resultSet.getString("branch_name")
+													resultSet.getInt("branchId"),
+													resultSet.getString("branchName")
 														),
-											resultSet.getBoolean("frequency_controlled_utilities"), 
-											resultSet.getBoolean("precautions_declared"),
-											resultSet.getString("precautions_declared_where"),
-											resultSet.getBoolean("examination_completed"),
-											LocalDate.parse(resultSet.getString("subsequent_examination_date")),
-											resultSet.getString("subsequent_examination_reason"),
-											resultSet.getInt("changes_sincel_last_examination"),
-											resultSet.getInt("defects_last_examination_fixed"),
-											resultSet.getInt("danger_categorie_vds"),
-											resultSet.getString("danger_categorie_vds_description"),
-											resultSet.getBoolean("examination_resultNoDefect"),
-											resultSet.getBoolean("examination_resultDefect"),
+											resultSet.getBoolean("frequencyControlledUtilities"), 
+											resultSet.getBoolean("precautionsDeclared"),
+											resultSet.getString("precautionsDeclaredWhere"),
+											resultSet.getBoolean("examinationCompleted"),
+											LocalDate.parse(resultSet.getString("subsequentExaminationDate")),
+											resultSet.getString("subsequentExaminationReason"),
+											resultSet.getInt("changesSinceLastExamination"),
+											resultSet.getInt("defectsLastExaminationFixed"),
+											resultSet.getInt("dangerCategoryVds"),
+											resultSet.getString("dangerCategoryVdsDescription"),
+											resultSet.getBoolean("examinationResultNoDefect"),
+											resultSet.getBoolean("examinationResultDefect"),
 											LocalDate.parse(resultSet.getString("examinationResultDefectDate")),
-											resultSet.getBoolean("examination_resultDanger"),
-											resultSet.getBoolean("isolation_checkedEnough"),
-											resultSet.getBoolean("isolation_measurementProtocols"),
-											resultSet.getBoolean("isolation_compensationMeasures"),
-											resultSet.getString("isolation_compensationMeasures_annotation"),
-											resultSet.getBoolean("rcd_available"),
-											resultSet.getInt("rcd_available_percent"),
-											resultSet.getString("rcd_annotation"),
+											resultSet.getBoolean("examinationResultDanger"),
+											resultSet.getBoolean("isolationCheckedEnough"),
+											resultSet.getBoolean("isolationMeasurementProtocols"),
+											resultSet.getBoolean("isolationCompensationMeasures"),
+											resultSet.getString("isolationCompensationMeasuresAnnotation"),
+											resultSet.getBoolean("rcdAvailable"),
+											resultSet.getInt("rcdAvailablePercent"),
+											resultSet.getString("rcdAnnotation"),
 											resultSet.getBoolean("resistance"),
-											resultSet.getInt("resistance_number"),
-											resultSet.getString("resistance_annotation"),
+											resultSet.getInt("resistanceNumber"),
+											resultSet.getString("resistanceAnnotation"),
 											resultSet.getBoolean("thermalAbnormality"),
-											resultSet.getString("thermalAbnormality_annotation"),
+											resultSet.getString("thermalAbnormalityAnnotation"),
 											resultSet.getBoolean("internalPortableUtilities"),
 											resultSet.getInt("externalPortableUtilities"),
 											resultSet.getInt("supplySystem"),
@@ -130,16 +140,16 @@ public class DiagnosisController {
 											resultSet.getInt("hardWiredLoads"),
 											resultSet.getString("additionalAnnotations"),
 											new CompanyPlant(
-													resultSet.getInt("plant_id"),
-													resultSet.getString("plant_street"),
-													resultSet.getInt("plant_zip"),
-													resultSet.getString("plant_city"),
+													resultSet.getInt("plantId"),
+													resultSet.getString("plantStreet"),
+													resultSet.getInt("plantZip"),
+													resultSet.getString("plantCity"),
 													new Company(
-															resultSet.getInt("company_id"),
-															resultSet.getString("company_name"),
-															resultSet.getString("hq_street"),
-															resultSet.getInt("hq_zip"),
-															resultSet.getString("hq_city")
+															resultSet.getInt("companyId"),
+															resultSet.getString("companyName"),
+															resultSet.getString("companyStreet"),
+															resultSet.getInt("companyZip"),
+															resultSet.getString("companyCity")
 															)
 													)
 											);
@@ -156,18 +166,24 @@ public class DiagnosisController {
 	 * @return A List of StatisticResults
 	 * @throws SQLException
 	 */
-	public static ArrayList<StatisticResult> getDiagnosesAndDefectsOfCompany(int companyId) throws SQLException{
-		ArrayList<StatisticResult> result = new ArrayList<StatisticResult>();
+	public static ArrayList<InspectionReportStatistic> getInspectionReportsForXml(int companyId) throws SQLException{
+		ArrayList<InspectionReportStatistic> result = new ArrayList<InspectionReportStatistic>();
 		try (
 			Connection connection = DataSource.getConnection();
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(
-					"SELECT diagnosis_id, examination_date, company_id, company_name, branch_id, hardWiredLoads, danger_categorie_vds "+
-					"FROM Diagnosis join (Company Natural join CompanyPlant as CompanyWhosPlant) on Diagnosis.plant_id = companyWhosPlant.plant_id " +
-					"WHERE company_id = " + companyId);
+					"SELECT inspectionReportId, examinationDate, companyName, branchId, hardWiredLoads, dangerCategoryVds "+
+					"FROM InspectionReport Natural JOIN Company Natural JOIN CompanyPlant " +
+					"WHERE companyId = " + companyId);
 		) {
 			while (resultSet.next()) {
-				result.add(new StatisticResult(resultSet.getInt("diagnosis_id"), LocalDate.parse(resultSet.getString("examination_date")),resultSet.getInt("danger_categorie_vds"),resultSet.getInt("branch_id"), resultSet.getString("company_name"), resultSet.getInt("hardWiredLoads")));
+				result.add(new InspectionReportStatistic(
+						resultSet.getInt("inspectionReportId"), 
+						LocalDate.parse(resultSet.getString("examinationDate")),
+						resultSet.getInt("dangerCategoryVds"),
+						resultSet.getInt("branchId"),
+						resultSet.getString("companyName"),
+						resultSet.getInt("hardWiredLoads")));
 			}
 		}
 		return result;
@@ -179,20 +195,20 @@ public class DiagnosisController {
 	 * @param diagnosis - A Diagnosis
 	 * @throws SQLException
 	 */
-	public static void updateDiagnosis(ResultComplete diagnosis) throws SQLException {
+	public static void updateDiagnosis(InspectionReportFull diagnosis) throws SQLException {
 		System.out.println("TEST " + diagnosis.getId() + " " + "Test2 " + diagnosis.getExaminationDuration());
 		String statement = "UPDATE Diagnosis "
-				+ "SET diagnosis_lastEdited = ?, plant_id = ?, companion = ?, "
-				+ "surveyor = ?, vds_approval_nr = ?, examination_date = ?, "
-				+ "examination_duration = ?, branch_id = ?,frequency_controlled_utilities = ?, precautions_declared = ?, "
-				+ "precautions_declared_where = ?, examination_completed = ?, subsequent_examination_date = ?, "
-				+ "subsequent_examination_reason = ?, changes_sincel_last_examination = ?, defects_last_examination_fixed = ?, "
-				+ "danger_categorie_vds = ?, danger_categorie_vds_description = ?, examination_resultNoDefect = ?, "
-				+ "examination_resultDefect = ?, examinationResultDefectDate = ?, examination_resultDanger = ?, isolation_checkedEnough = ?, "
-				+ "isolation_measurementProtocols = ?, isolation_compensationMeasures = ?, isolation_compensationMeasures_annotation = ?, "
-				+ "rcd_available = ?, rcd_available_percent = ?, rcd_annotation = ?, "
-				+ "resistance = ?, resistance_number = ?, resistance_annotation = ?, "
-				+ "thermalAbnormality = ?, thermalAbnormality_annotation = ?, internalPortableUtilities = ?, "
+				+ "SET inspectionReportLastEdited = ?, plantId = ?, companion = ?, "
+				+ "surveyor = ?, vdsApprovalNr = ?, examinationDate = ?, "
+				+ "examinationDuration = ?, branchId = ?,frequencyControlledUtilities = ?, precautionsDeclared = ?, "
+				+ "precautionsDeclaredWhere = ?, examinationCompleted = ?, subsequentExaminationDate = ?, "
+				+ "subsequentExaminationReason = ?, changesSinceLastExamination = ?, defectsLastExaminationFixed = ?, "
+				+ "dangerCategorieVds = ?, dangerCategorieVdsDescription = ?, examinationResultNoDefect = ?, "
+				+ "examinationResultDefect = ?, examinationResultDefectDate = ?, examinationResultDanger = ?, isolationCheckedEnough = ?, "
+				+ "isolationMeasurementProtocols = ?, isolationCompensationMeasures = ?, isolationCompensationMeasuresAnnotation = ?, "
+				+ "rcdAvailable = ?, rcdAvailablePercent = ?, rcdAnnotation = ?, "
+				+ "resistance = ?, resistanceNumber = ?, resistanceAnnotation = ?, "
+				+ "thermalAbnormality = ?, thermalAbnormalityAnnotation = ?, internalPortableUtilities = ?, "
 				+ "externalPortableUtilities = ?, supplySystem = ?, energyDemand = ?, "
 				+ "maxEnergyDemandExternal = ?, maxEnergyDemandInternal = ?, protectedCircuitsPercent = ?, "
 				+ "hardWiredLoads = ?, additionalAnnotations = ? " 
@@ -205,9 +221,9 @@ public class DiagnosisController {
 			preparedStatement = connection.prepareStatement(statement);
 
 			Util.setValues(preparedStatement,
-					diagnosis.getLastEdited(), diagnosis.getCompanyPlant().getId(), diagnosis.getCompanion(), 
+					diagnosis.getLastEdited(), diagnosis.getCompanyPlant().getInternalId(), diagnosis.getCompanion(), 
 					diagnosis.getSurveyor(), diagnosis.getVdsApprovalNr(), diagnosis.getDate(),
-					diagnosis.getExaminationDuration(),diagnosis.getBranch().getId(), diagnosis.isFrequencyControlledUtilities(),diagnosis.isPrecautionsDeclared(),
+					diagnosis.getExaminationDuration(),diagnosis.getBranch().getInternalId(), diagnosis.isFrequencyControlledUtilities(),diagnosis.isPrecautionsDeclared(),
 					diagnosis.getPrecautionsDeclaredLocation(), diagnosis.isExaminationComplete(), diagnosis.getSubsequentExaminationDate(),
 					diagnosis.getExaminationIncompleteReason(), diagnosis.getChangesSinceLastExamination(), diagnosis.getDefectsLastExaminationFixed(),
 					diagnosis.getDangerCategory(), diagnosis.getDangerCategoryDescription(), diagnosis.isExaminationResultNoDefect(),
@@ -240,7 +256,7 @@ public class DiagnosisController {
 	 * @param diagnosis - Diagnosis, which should be inserted into the Database
 	 * @throws SQLException
 	 */
-	public static int insertDiagnosis(ResultComplete diagnosis) throws SQLException {
+	public static int insertDiagnosis(InspectionReportFull diagnosis) throws SQLException {
 		int diagnosisId = 0;
 		String statement = "INSERT INTO Diagnosis "
 				+ "(diagnosis_lastEdited, plant_id, companion, "
@@ -265,9 +281,9 @@ public class DiagnosisController {
 			preparedStatement = connection.prepareStatement(statement);
 
 			Util.setValues(preparedStatement,
-					diagnosis.getLastEdited(), diagnosis.getCompanyPlant().getId(), diagnosis.getCompanion(), 
+					diagnosis.getLastEdited(), diagnosis.getCompanyPlant().getInternalId(), diagnosis.getCompanion(), 
 					diagnosis.getSurveyor(), diagnosis.getVdsApprovalNr(), diagnosis.getDate(),
-					diagnosis.getExaminationDuration(),diagnosis.getBranch().getId(), diagnosis.isFrequencyControlledUtilities(),diagnosis.isPrecautionsDeclared(),
+					diagnosis.getExaminationDuration(),diagnosis.getBranch().getInternalId(), diagnosis.isFrequencyControlledUtilities(),diagnosis.isPrecautionsDeclared(),
 					diagnosis.getPrecautionsDeclaredLocation(), diagnosis.isExaminationComplete(), diagnosis.getSubsequentExaminationDate(),
 					diagnosis.getExaminationIncompleteReason(), diagnosis.getChangesSinceLastExamination(), diagnosis.getDefectsLastExaminationFixed(),
 					diagnosis.getDangerCategory(), diagnosis.getDangerCategoryDescription(), diagnosis.isExaminationResultNoDefect(),

@@ -7,9 +7,10 @@ import java.util.ArrayList;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
+import applicationLogic.InspectionReportStatistic;
 import applicationLogic.Statistic;
-import applicationLogic.StatisticResult;
 import dataStorageAccess.controller.DiagnosisController;
+import dataStorageAccess.controller.FlawController;
 import dataStorageAccess.controller.StatisticController;
 import de.schnettler.AutocompleteSuggestion;
 
@@ -29,17 +30,16 @@ public class StatisticAccess {
 	 */
 	public static void exportStatisticCompany(int companyId, String fileName) throws SQLException, FileNotFoundException {
 		//Get list of Diagnoses
-		ArrayList<StatisticResult> diagnosesList= DiagnosisController.getDiagnosesAndDefectsOfCompany(companyId);
-		for (StatisticResult diagnosis : diagnosesList) {
-			//Get defects from Diagnosis
-			diagnosis.setDefects(StatisticController.getDefectsOfDiagnosis(diagnosis.getId()));
-		}
+		ArrayList<InspectionReportStatistic> diagnosesList= DiagnosisController.getInspectionReportsForXml(companyId);
+		diagnosesList = FlawController.getFlawsOfInspectionReportsForXml(diagnosesList);
 		//Wrap result of Diagnosis + Defects in own Class
 		Statistic diagnoses = new Statistic(diagnosesList);
 			
 		XStream xStream = new XStream(new DomDriver());
 		xStream.autodetectAnnotations(true);
-		xStream.omitField(AutocompleteSuggestion.class, "id");
+		xStream.omitField(AutocompleteSuggestion.class, "externalId");
+		xStream.omitField(AutocompleteSuggestion.class, "internalId");
+		xStream.omitField(AutocompleteSuggestion.class, "isCustomFlaw");
 		FileOutputStream fs = new FileOutputStream(fileName);
 		xStream.toXML(diagnoses, fs);
 	}

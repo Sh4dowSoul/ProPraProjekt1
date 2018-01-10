@@ -3,10 +3,7 @@ package dataStorageAccess;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import applicationLogic.DefectAtomic;
-import applicationLogic.DefectResult;
-import applicationLogic.DefectStatistic;
-import dataStorageAccess.controller.DefectController;
+import applicationLogic.FlawStatistic;
 import dataStorageAccess.controller.StatisticController;
 
 /**
@@ -22,7 +19,7 @@ public class DefectAccess {
 	 * @return A List of the most frequent defects
 	 * @throws SQLException
 	 */
-	public static ArrayList<DefectStatistic> getFrequentDefectsCompany(boolean singleCompany, int companyId) throws SQLException{
+	public static ArrayList<FlawStatistic> getFrequentDefectsCompany(boolean singleCompany, int companyId) throws SQLException{
 		if (singleCompany) {
 			return StatisticController.getMostFrequentDefectCompany(companyId);
 		} else {
@@ -38,7 +35,7 @@ public class DefectAccess {
 	 * @return A List of the most frequent defects
 	 * @throws SQLException
 	 */
-	public static ArrayList<DefectStatistic> getFrequentDefectsBranch(boolean singleBranch, int branchId) throws SQLException{
+	public static ArrayList<FlawStatistic> getFrequentDefectsBranch(boolean singleBranch, int branchId) throws SQLException{
 		if (singleBranch) {
 			return StatisticController.getMostFrequentDefectBranch(branchId);
 		} else {
@@ -46,35 +43,5 @@ public class DefectAccess {
 		}
 	}
 	
-	/**
-	 * Get all Defects (DefectStatistic - for Statistic purposes) of an Inspection Result
-	 * 
-	 * @param inspectionResultId
-	 * @return
-	 * @throws SQLException
-	 */
-	public static ArrayList<DefectStatistic> getDefectsForStatistic(int inspectionResultId) throws SQLException{
-		return StatisticController.getDefectsOfDiagnosis(inspectionResultId);
-	}
 	
-	/**
-	 * Get a List of all Defects (id, description)
-	 * 
-	 * @return a List of DefectAtomics
-	 * @throws SQLException
-	 */
-	public static ArrayList<DefectAtomic> getDefects() throws SQLException{
-		return DefectController.getAllDefects();
-	}
-	
-	/**
-	 * Save a DefectListElement in the Database
-	 * 
-	 * @param defect - a defect from a defectlist (of an inspectionResult)
-	 * @param diagnosisId - the id of the inspectionResult
-	 * @throws SQLException
-	 */
-	public static void insertDefect(DefectResult defect, int diagnosisId) throws SQLException {
-		DefectController.insertDefect(defect, diagnosisId);
-	}
 }

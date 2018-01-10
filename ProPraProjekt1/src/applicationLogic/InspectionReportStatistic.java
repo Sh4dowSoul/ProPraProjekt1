@@ -10,7 +10,7 @@ import com.thoughtworks.xstream.annotations.XStreamImplicit;
  *
  */
 @XStreamAlias("Befundschein")
-public class StatisticResult extends ResultBase {
+public class InspectionReportStatistic extends InspectionReportMinimal {
 	
 	@XStreamAlias("datei")
 	private String fileName = "TODO";
@@ -23,9 +23,9 @@ public class StatisticResult extends ResultBase {
 	@XStreamAlias("Betriebsmittel")
 	private String technicalEquipment;
 	@XStreamImplicit
-	private ArrayList<DefectStatistic> defects;
+	private ArrayList<FlawStatistic> flaws;
 	
-	public StatisticResult(int id, LocalDate date, int gza, int branch, String companyName, int technicalEquipment) {
+	public InspectionReportStatistic(int id, LocalDate date, int gza, int branch, String companyName, int technicalEquipment) {
 		super(id, date);
 		this.year = date.getYear();
 		this.branch = branch;
@@ -63,7 +63,7 @@ public class StatisticResult extends ResultBase {
 		}
 	}
 
-	public void setDefects(ArrayList<DefectStatistic> arrayList) {
-		this.defects = arrayList;
+	public void setDefects(ArrayList<FlawStatistic> flaws) {
+		this.flaws = flaws;
 	}
 }

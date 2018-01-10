@@ -9,27 +9,27 @@ import org.odftoolkit.simple.TextDocument;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import dataStorageAccess.ResultAccess;
+import dataStorageAccess.InspectionReportAccess;
 
 public class ODTExport {
 	private TextDocument odf;
 	private Map<String, String> map = new HashMap<String, String>();
-	static ResultComplete data;
+	static InspectionReportFull data;
 
 	public static void export() throws Exception {
 
 		File file1 = new File("odt/template.odt");
 		File file2 = new File("odt/result.odt");
-		data = ResultAccess.getCompleteResult(1);
+		data = InspectionReportAccess.getCompleteResult(1);
 		
 
 		ODTExport template = new ODTExport();
 		template.readOdt(file1);
 		template.setVariable("txtApprovalNr", String.valueOf(data.getId()));
-		template.setVariable("txtCompnay", data.getCompanyPlant().getCompany().getName());
-		template.setVariable("txtCompanyStreet", data.getCompanyPlant().getPlantStreet());
-		template.setVariable("txtCompanyZip", String.valueOf(data.getCompanyPlant().getPlantZip()));
-		template.setVariable("txtCompanyCity", data.getCompanyPlant().getPlantCity());
+		template.setVariable("txtCompnay", data.getCompanyPlant().getCompany().getDescription());
+		template.setVariable("txtCompanyStreet", data.getCompanyPlant().getStreet());
+		template.setVariable("txtCompanyZip", String.valueOf(data.getCompanyPlant().getZipCode()));
+		template.setVariable("txtCompanyCity", data.getCompanyPlant().getCity());
 		
 		if (data.isFrequencyControlledUtilities()) {
 			template.setVariable("cbFrequencyControlledUtilities0", "Ein weiterer Test");

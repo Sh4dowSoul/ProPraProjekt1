@@ -4,34 +4,33 @@ package applicationLogic;
  * @author Niklas Schnettler
  *
  */
-public class DefectResult extends DefectStatistic{
-	private int elementId;
+public class FlawListElement {
+	
+	private int elementId;	//ListElementId in Database
+	private Flaw flaw;
+	private int branchId;
 	private int danger;
 	private String building;
-	private String dangerString;
 	private String room;
 	private String machine;
-	private String defectCustomDescription;
 	
-	public DefectResult(int elementId, int defectId, int branchId, int danger, String building, String room, String machine,
-			String defectCustomDescription) {
-		super(defectId, branchId);
+	public FlawListElement(int elementId, Flaw flaw, int branchId, int danger, String building, String room, String machine) {
 		this.elementId = elementId;
+		this.flaw = flaw;
+		this.branchId = branchId;
 		this.danger = danger;
 		this.building = building;
 		this.room = room;
 		this.machine = machine;
-		this.defectCustomDescription = defectCustomDescription;
 	}
 	
+	public int getBranchId() {
+		return branchId;
+	}
+
 	public int getElementId() {
 		return elementId;
 	}
-
-	public DefectResult(int defectId) {
-		super(defectId,-1);
-	}
-
 
 	public int getDanger() {
 		return danger;
@@ -61,8 +60,8 @@ public class DefectResult extends DefectStatistic{
 	public String getMachine() {
 		return Util.getCheckedNull(machine);
 	}
-
-	public String getDefectCustomDescription() {
-		return Util.getCheckedNull(defectCustomDescription);
+	
+	public Flaw getFlaw() {
+		return flaw;
 	}
 }

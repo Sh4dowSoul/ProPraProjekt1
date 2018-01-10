@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * @author Niklas Schnettler
  */
 
-public class ResultComplete extends ResultBase {
+public class InspectionReportFull extends InspectionReportMinimal {
 
 	private LocalDate lastEdited;
 	private String companion;
@@ -54,9 +54,9 @@ public class ResultComplete extends ResultBase {
 	private int hardWiredLoads;
 	private String additionalAnnotations;
 	private CompanyPlant companyPlant;
-	private ArrayList<DefectResult> defects;
+	private ArrayList<FlawListElement> defects;
 	
-	public ResultComplete(int id, LocalDate date, LocalDate lastEdited, String companion, String surveyor, int vdsApprovalNr,
+	public InspectionReportFull(int id, LocalDate date, LocalDate lastEdited, String companion, String surveyor, int vdsApprovalNr,
 			double examinationDuration, Branch branch, boolean frequencyControlledUtilities, boolean precautionsDeclared,
 			String precautionsDeclaredLocation, boolean examinationComplete, LocalDate subsequentExaminationDate,
 			String examinationIncompleteReason, int changesSinceLastExamination, int defectsLastExaminationFixed,
@@ -330,12 +330,12 @@ public class ResultComplete extends ResultBase {
 		return additionalAnnotations;
 	}
 	
-	public ArrayList<DefectResult> getDefects() {
+	public ArrayList<FlawListElement> getDefects() {
 		return defects;
 	}
 
 
-	public void setDefects(ArrayList<DefectResult> defects) {
+	public void setDefects(ArrayList<FlawListElement> defects) {
 		this.defects = defects;
 	}
 }

@@ -12,8 +12,8 @@ import org.controlsfx.control.Notifications;
 
 import applicationLogic.Branch;
 import applicationLogic.Company;
-import applicationLogic.DefectStatistic;
 import applicationLogic.ExceptionDialog;
+import applicationLogic.FlawStatistic;
 import dataStorageAccess.BranchAccess;
 import dataStorageAccess.CompanyAccess;
 import dataStorageAccess.DefectAccess;
@@ -51,10 +51,10 @@ public class Tab_Stats implements Initializable{
 	@FXML private ListView<Branch> branchList;
 	@FXML private Tab branchListTab;
 	@FXML private TabPane statTabs;
-	@FXML private TableView<DefectStatistic> statisticTableView;
-	@FXML private TableColumn<DefectStatistic,String> statsDefectsColumn;
-	@FXML private TableColumn<DefectStatistic,String> statsDefectDescriptionColumn;
-	@FXML private TableColumn<DefectStatistic,String> statsQuantityColumn;
+	@FXML private TableView<FlawStatistic> statisticTableView;
+	@FXML private TableColumn<FlawStatistic,String> statsDefectsColumn;
+	@FXML private TableColumn<FlawStatistic,String> statsDefectDescriptionColumn;
+	@FXML private TableColumn<FlawStatistic,String> statsQuantityColumn;
 	@FXML private Button xmlExpBtn;
 	@FXML private ProgressIndicator statCompanyProgress;
 	@FXML private ProgressIndicator statBranchProgress;
@@ -102,9 +102,9 @@ public class Tab_Stats implements Initializable{
 	 * Prepare Stats Table
 	 */
 	private void prepareStatsTable() {
-    	statsDefectsColumn.setCellValueFactory(new PropertyValueFactory<DefectStatistic,String>("Id"));
-    	statsDefectDescriptionColumn.setCellValueFactory(new PropertyValueFactory<DefectStatistic,String>("Description"));
-    	statsQuantityColumn.setCellValueFactory(new PropertyValueFactory<DefectStatistic,String>("numberOccurrence"));
+    	statsDefectsColumn.setCellValueFactory(new PropertyValueFactory<FlawStatistic,String>("externalId"));
+    	statsDefectDescriptionColumn.setCellValueFactory(new PropertyValueFactory<FlawStatistic,String>("Description"));
+    	statsQuantityColumn.setCellValueFactory(new PropertyValueFactory<FlawStatistic,String>("numberOccurrence"));
 	}
 	
 	
@@ -125,7 +125,7 @@ public class Tab_Stats implements Initializable{
 					setGraphic(null);
 				}
 				else {
-					setText(item.getName());
+					setText(item.getDescription());
 				} 
 			}
 		});
@@ -133,11 +133,11 @@ public class Tab_Stats implements Initializable{
 			@Override
 			public void changed(ObservableValue<? extends Company> observable, Company oldValue, Company newValue) {
 				
-				if (newValue.getId() == -1) {
-					loadCompanyStatistic(newValue.getId(), true);
+				if (newValue.getInternalId() == -1) {
+					loadCompanyStatistic(newValue.getInternalId(), true);
 					exportButton.setVisible(false);
 				}else {
-					loadCompanyStatistic(newValue.getId(), false);
+					loadCompanyStatistic(newValue.getInternalId(), false);
 					currentCompany = newValue;
 					exportButton.setVisible(true);
 				}
@@ -154,8 +154,8 @@ public class Tab_Stats implements Initializable{
 					setGraphic(null);
 				}
 				else {
-					if (item.getId() != -1) {
-						setText(item.getId() + " - " + item.getDescription());
+					if (item.getExternalId() != -1) {
+						setText(item.getExternalId() + " - " + item.getDescription());
 					} else {
 						setText(item.getDescription());
 					}
@@ -166,10 +166,10 @@ public class Tab_Stats implements Initializable{
 		branchList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Branch>() {
 			@Override
 			public void changed(ObservableValue<? extends Branch> observable, Branch oldValue, Branch newValue) {
-				if (newValue.getId() == -1) {
-					loadBranchStatistic(newValue.getId(), true);
+				if (newValue.getExternalId() == -1) {
+					loadBranchStatistic(newValue.getExternalId(), true);
 				}else {
-					loadBranchStatistic(newValue.getId(), false);
+					loadBranchStatistic(newValue.getExternalId(), false);
 				}
 			}
 		});
@@ -234,9 +234,9 @@ public class Tab_Stats implements Initializable{
 	 */
 	private void loadCompanyStatistic(int companyId, boolean loadAll) {
 		// TODO Auto-generated method stub
-		final Task<ObservableList<DefectStatistic>> statisticListTask = new Task<ObservableList<DefectStatistic>>() {
+		final Task<ObservableList<FlawStatistic>> statisticListTask = new Task<ObservableList<FlawStatistic>>() {
             @Override
-            protected ObservableList<DefectStatistic> call() throws Exception {
+            protected ObservableList<FlawStatistic> call() throws Exception {
             	if (!loadAll) {
             		return FXCollections.observableArrayList(DefectAccess.getFrequentDefectsCompany(true, companyId));
             	} else {
@@ -261,9 +261,9 @@ public class Tab_Stats implements Initializable{
 	 */
 	private void loadBranchStatistic(int branchId, boolean loadAll) {
 		// TODO Auto-generated method stub
-		final Task<ObservableList<DefectStatistic>> branchStatisticListTask = new Task<ObservableList<DefectStatistic>>() {
+		final Task<ObservableList<FlawStatistic>> branchStatisticListTask = new Task<ObservableList<FlawStatistic>>() {
             @Override
-            protected ObservableList<DefectStatistic> call() throws Exception {
+            protected ObservableList<FlawStatistic> call() throws Exception {
             	if (!loadAll) {
             		return FXCollections.observableArrayList(DefectAccess.getFrequentDefectsBranch(true, branchId));
             	} else {
@@ -295,7 +295,7 @@ public class Tab_Stats implements Initializable{
              //Set extension filter
              FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Statistik Dateien (*.xml)", "*.xml");
              fileChooser.getExtensionFilters().add(extFilter);
-             fileChooser.setInitialFileName("VdS-Statistik_" + currentCompany.getName() + "_" + new SimpleDateFormat("dd_MM_yyyy").format(Calendar.getInstance().getTime()) +".xml");
+             fileChooser.setInitialFileName("VdS-Statistik_" + currentCompany.getDescription() + "_" + new SimpleDateFormat("dd_MM_yyyy").format(Calendar.getInstance().getTime()) +".xml");
 
              
              //Show save file dialog
@@ -303,7 +303,7 @@ public class Tab_Stats implements Initializable{
              
              if(file != null){
             	 try {
-					StatisticAccess.exportStatisticCompany(currentCompany.getId(), file.getAbsolutePath());
+					StatisticAccess.exportStatisticCompany(currentCompany.getInternalId(), file.getAbsolutePath());
             		Notifications.create()
                     .title("Erfolgreich gespeichert")
                     .text("Die Statistik "+ file.getName() +" wurde erfolgreich gespeichert ")

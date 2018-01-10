@@ -1,61 +1,37 @@
 package applicationLogic;
 
-import de.schnettler.AutocompleteSuggestion;
+import java.util.ArrayList;
 
-/**
- * The Class Company
- * 
- * @author Niklas Schnettler
- */
+import de.schnettler.AutocompleteSuggestion;
 
 public class Company extends AutocompleteSuggestion{
 
-	private int id;
-	private String name;
-	private String hqStreet;
-	private int hqZip;
-	private String hqCity;
+	private String street;
+	private int zipCode;
+	private String city;
 	
-	public Company(int id, String name, String hqStreet, int hqZip, String hqCity) {
-		super(id, name);
-		this.id = id;
-		this.name = name;
-		this.hqStreet = hqStreet;
-		this.hqZip = hqZip;
-		this.hqCity = hqCity;
+	
+	public Company(int internalId, String name, String street, int zipCode, String city) {
+		super(internalId, internalId, name);
+		this.street = street;
+		this.zipCode = zipCode;
+		this.city = city;
 	}
 	
-	public Company(int id, String name) {
-		super(id, name);
-		this.id = id;
-		this.name = name;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public String getHqStreet() {
-		return hqStreet;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public int getHqZip() {
-		return hqZip;
+	//Dummy Company
+	public Company(int internalId, String name) {
+		super(internalId, internalId, name);
 	}
 	
-	public String getHqCity() {
-		return hqCity;
+	public String getStreet() {
+		return street;
 	}
-	
-	public String getZipCity() {
-		return hqZip + " " + hqCity;
+
+	public int getZipCode() {
+		return zipCode;
+	}
+
+	public String getCity() {
+		return city;
 	}
 }

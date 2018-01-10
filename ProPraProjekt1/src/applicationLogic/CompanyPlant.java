@@ -2,51 +2,35 @@ package applicationLogic;
 
 import de.schnettler.AutocompleteSuggestion;
 
-/**
- * @author Niklas Schnettler
- *
- */
-public class CompanyPlant extends AutocompleteSuggestion{
-	private int id;
-	private String plantStreet;
-	private int plantZip;
-	private String plantCity;
+public class CompanyPlant extends AutocompleteSuggestion {
+
+	private String street;
+	private int zipCode;
+	private String city;
 	private Company company;
 	
-	public CompanyPlant(int id, String plantStreet, int plantZip, String plantCity, Company company) {
-		super(id, plantStreet + ", " +plantZip + " " + plantCity);
-		this.id = id;
-		this.plantStreet = plantStreet;
-		this.plantZip = plantZip;
+	public CompanyPlant(int internalId, String street, int zipCode, String city, Company company) {
+		super(internalId, internalId, street + ", " +zipCode + " " + city);
+		this.street = street;
+		this.zipCode = zipCode;
+		this.city = city;
 		this.company = company;
-		this.plantCity = plantCity;
 	}
 
-	public int getId() {
-		return id;
+	public String getStreet() {
+		return street;
 	}
 
+	public int getZipCode() {
+		return zipCode;
+	}
+
+	public String getCity() {
+		return city;
+	}
+	
 	public Company getCompany() {
 		return company;
 	}
 
-	public String getPlantStreet() {
-		return plantStreet;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public int getPlantZip() {
-		return plantZip;
-	}
-	
-	public String getPlantCity() {
-		return plantCity;
-	}
-	
-	public String getZipCity() {
-		return plantZip + " " + plantCity;
-	}
 }

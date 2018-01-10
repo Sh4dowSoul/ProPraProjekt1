@@ -19,14 +19,14 @@ public class BranchController {
 	 * @throws SQLException
 	 */
 	public static ArrayList<Branch> getAllBranches() throws SQLException {
-		ArrayList<Branch> result = new ArrayList<Branch>();
+		ArrayList<applicationLogic.Branch> result = new ArrayList<Branch>();
 		try (
 			Connection connection = DataSource.getConnection();
 			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery("SELECT * FROM Branches");
+			ResultSet resultSet = statement.executeQuery("SELECT * FROM Branch");
 		) {
 			while (resultSet.next()) {
-				result.add(new Branch(resultSet.getInt("branch_id"), resultSet.getString("branch_name")));
+				result.add(new Branch(resultSet.getInt("branchId"), resultSet.getString("branchName")));
 			}
 		}
 		return result;
@@ -44,14 +44,14 @@ public class BranchController {
 				Statement statement = connection.createStatement();
 				ResultSet resultSet = statement.executeQuery(
 					"SELECT * " +
-					"FROM Branches " +
-					"WHERE branch_id IN ( " +		
-						"SELECT branch_id " +
-						"FROM DefectElement )"
+					"FROM Branch " +
+					"WHERE branchId IN ( " +		
+						"SELECT branchId " +
+						"FROM FlawListElement)"
 			);
 		) {
 			while (resultSet.next()) {
-				result.add(new Branch(resultSet.getInt("branch_id"), resultSet.getString("branch_name")));
+				result.add(new Branch(resultSet.getInt("branchId"), resultSet.getString("branchName")));
 			}
 		}
 		return result;

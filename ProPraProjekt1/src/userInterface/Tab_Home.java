@@ -5,9 +5,9 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import applicationLogic.InspectionResultPreview;
 import applicationLogic.PDFExport;
-import applicationLogic.ResultPreview;
-import dataStorageAccess.ResultAccess;
+import dataStorageAccess.InspectionReportAccess;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -35,12 +35,12 @@ import javafx.stage.StageStyle;
  */
 public class Tab_Home implements Initializable{
 	// *** HOME TAB ***
-	@FXML private ListView<ResultPreview> recentlyUsedList;
+	@FXML private ListView<InspectionResultPreview> recentlyUsedList;
 	@FXML private Button sortAlphaBtn;
-	@FXML private TableView<ResultPreview> companyTableView;
-	@FXML private TableColumn<ResultPreview,String> diagnosisCompany;
-	@FXML private TableColumn<ResultPreview,String> diagnosisId;
-	@FXML private TableColumn<ResultPreview,String> diagnosisDate;
+	@FXML private TableView<InspectionResultPreview> companyTableView;
+	@FXML private TableColumn<InspectionResultPreview,String> diagnosisCompany;
+	@FXML private TableColumn<InspectionResultPreview,String> diagnosisId;
+	@FXML private TableColumn<InspectionResultPreview,String> diagnosisDate;
 	@FXML private ProgressIndicator diagnosisTableProgress;
 
 	private GUIController mainController;
@@ -58,21 +58,21 @@ public class Tab_Home implements Initializable{
 	}
 	
 	private void prepareTable() {
-		diagnosisId.setCellValueFactory(new PropertyValueFactory<ResultPreview,String>("id"));
-		diagnosisCompany.setCellValueFactory(new PropertyValueFactory<ResultPreview,String>("companyName"));
-		diagnosisDate.setCellValueFactory(new PropertyValueFactory<ResultPreview,String>("niceDate"));
+		diagnosisId.setCellValueFactory(new PropertyValueFactory<InspectionResultPreview,String>("id"));
+		diagnosisCompany.setCellValueFactory(new PropertyValueFactory<InspectionResultPreview,String>("companyName"));
+		diagnosisDate.setCellValueFactory(new PropertyValueFactory<InspectionResultPreview,String>("niceDate"));
 		
 		companyTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-			createDignosisOptionsDialog((ResultPreview) companyTableView.getSelectionModel().getSelectedItem());
+			createDignosisOptionsDialog((InspectionResultPreview) companyTableView.getSelectionModel().getSelectedItem());
 		});
 	}
 	
 	
 	
 	private void setupLastEditedList() {
-		recentlyUsedList.setCellFactory(param -> new ListCell<ResultPreview>() {
+		recentlyUsedList.setCellFactory(param -> new ListCell<InspectionResultPreview>() {
 			@Override
-			protected void updateItem(ResultPreview item, boolean empty) {
+			protected void updateItem(InspectionResultPreview item, boolean empty) {
 				super.updateItem(item, empty);
 				if (empty || item == null) {
 					setText(null);
@@ -101,7 +101,7 @@ public class Tab_Home implements Initializable{
 		mainController.openDiagnosisTab(-1);
 	}
 
-	private void createDignosisOptionsDialog(ResultPreview item) {
+	private void createDignosisOptionsDialog(InspectionResultPreview item) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Befundschein " + item.getId() + " - " + item.getCompanyName());
 		alert.setHeaderText("Aktion für Befundschein " + item.getId() + " wählen");
@@ -130,10 +130,10 @@ public class Tab_Home implements Initializable{
 	 * Load Last Edited List
 	 */
 	public void loadLastEdited() {
-		final Task<ObservableList<ResultPreview>> lastEditedListTask = new Task<ObservableList<ResultPreview>>() {
+		final Task<ObservableList<InspectionResultPreview>> lastEditedListTask = new Task<ObservableList<InspectionResultPreview>>() {
             @Override
-            protected ObservableList<ResultPreview> call() throws Exception {
-        		return FXCollections.observableArrayList(ResultAccess.getResultsPreview(true));
+            protected ObservableList<InspectionResultPreview> call() throws Exception {
+        		return FXCollections.observableArrayList(InspectionReportAccess.getResultsPreview(true));
             }
         };
         lastEditedListTask.setOnSucceeded(event ->
@@ -149,10 +149,10 @@ public class Tab_Home implements Initializable{
 	 * Load all Diagnoses
 	 */
 	public void loadAllDiagnoses() {
-		final Task<ObservableList<ResultPreview>> allDiagnosesTask = new Task<ObservableList<ResultPreview>>() {
+		final Task<ObservableList<InspectionResultPreview>> allDiagnosesTask = new Task<ObservableList<InspectionResultPreview>>() {
             @Override
-            protected ObservableList<ResultPreview> call() throws Exception {
-        		return FXCollections.observableArrayList(ResultAccess.getResultsPreview(false));
+            protected ObservableList<InspectionResultPreview> call() throws Exception {
+        		return FXCollections.observableArrayList(InspectionReportAccess.getResultsPreview(false));
             }
         };
         diagnosisTableProgress.visibleProperty().bind(allDiagnosesTask.runningProperty());

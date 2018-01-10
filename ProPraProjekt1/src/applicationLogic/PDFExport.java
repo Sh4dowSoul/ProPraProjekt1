@@ -23,7 +23,7 @@ import be.quodlibet.boxable.HorizontalAlignment;
 import be.quodlibet.boxable.Row;
 import be.quodlibet.boxable.VerticalAlignment;
 import be.quodlibet.boxable.line.LineStyle;
-import dataStorageAccess.ResultAccess;
+import dataStorageAccess.InspectionReportAccess;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.stage.FileChooser;
@@ -45,7 +45,7 @@ public class PDFExport {
 
 	static PDDocument document = null;
 	static PDPageContentStream contentStream;
-	static ResultComplete data;
+	static InspectionReportFull data;
 	static int pageCounter;
 	static PDPage page1;
 
@@ -60,7 +60,7 @@ public class PDFExport {
 		try {
 			// Creating PDF document object
 			document = new PDDocument();
-			data = ResultAccess.getCompleteResult(id);
+			data = InspectionReportAccess.getCompleteResult(id);
 			pageCounter = 0;
 
 			FileChooser fileChooser = new FileChooser();
@@ -69,7 +69,7 @@ public class PDFExport {
 			FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PDF-Dateien (*.pdf)", "*.pdf");
 			fileChooser.getExtensionFilters().add(extFilter);
 			fileChooser
-					.setInitialFileName("BS" + "_" + data.getCompanyPlant().getCompany().getName() + "_" + id + ".pdf");
+					.setInitialFileName("BS" + "_" + data.getCompanyPlant().getCompany().getDescription() + "_" + id + ".pdf");
 
 			// Show save file dialog
 			File file = fileChooser.showSaveDialog(null);
@@ -627,8 +627,8 @@ public class PDFExport {
 		LineStyle MiddleStyle = new LineStyle(Color.BLACK, 0.375f);
 		int id = 1;
 
-		ArrayList<DefectResult> list = data.getDefects();
-		for (DefectResult output : list) {
+		ArrayList<FlawListElement> list = data.getDefects();
+		for (FlawListElement output : list) {
 			Row<PDPage> row = table.createRow(20f);
 			Cell<PDPage> cell = row.createCell(4.45f, String.valueOf(id++), HorizontalAlignment.CENTER,
 					VerticalAlignment.MIDDLE);
@@ -645,14 +645,14 @@ public class PDFExport {
 			cell.setFontSize(9);
 			cell = row.createCell(
 					69.155f, (output.getBuilding()) + "<br />" + output.getRoom() + "<br />" + output.getMachine()
-							+ "<br />" + output.getDefectCustomDescription(),
+							+ "<br />" + output.getFlaw().getDescription(),
 					HorizontalAlignment.LEFT, VerticalAlignment.MIDDLE);
 			cell.setBorderStyle(MiddleStyle);
 			cell.setLineSpacing(1.5f);
 			cell.setBottomBorderStyle(BorderStyle);
 			cell.setFont(fontArial);
 			cell.setFontSize(9);
-			cell = row.createCell(10.02f, String.valueOf(output.getId()), HorizontalAlignment.CENTER,
+			cell = row.createCell(10.02f, String.valueOf(output.getFlaw().getExternalId()), HorizontalAlignment.CENTER,
 					VerticalAlignment.MIDDLE);
 			cell.setBorderStyle(MiddleStyle);
 			cell.setBottomBorderStyle(BorderStyle);
@@ -746,17 +746,17 @@ public class PDFExport {
 		// Frame: topLeft (Versicherungsnehmer)
 		setStaticFrame(55.37f, 535, 247, 118);
 		setStaticText(fontArialBoldCursive, 9, 59, 642, "Versicherungsnehmer (VN)");
-		setDatabaseText(fontArial, 9, 65, 620, data.getCompanyPlant().getCompany().getName());
-		setDatabaseText(fontArial, 9, 65, 605, data.getCompanyPlant().getPlantStreet());
-		setDatabaseText(fontArial, 9, 65, 575, String.valueOf(data.getCompanyPlant().getPlantZip()));
-		setDatabaseText(fontArial, 9, 95, 575, data.getCompanyPlant().getPlantCity());
+		setDatabaseText(fontArial, 9, 65, 620, data.getCompanyPlant().getCompany().getDescription());
+		setDatabaseText(fontArial, 9, 65, 605, data.getCompanyPlant().getStreet());
+		setDatabaseText(fontArial, 9, 65, 575, String.valueOf(data.getCompanyPlant().getZipCode()));
+		setDatabaseText(fontArial, 9, 95, 575, data.getCompanyPlant().getCity());
 
 		// Frame: topRight (Risikoanschrift)
 		setStaticFrame(307, 535, 247, 118);
 		setStaticText(fontArialBoldCursive, 9, 313, 642, "Risikoanschrift: ");
-		setDatabaseText(fontArial, 9, 313, 630, String.valueOf(data.getCompanyPlant().getCompany().getHqZip()));
-		setDatabaseText(fontArial, 9, 343, 630, data.getCompanyPlant().getCompany().getHqCity());
-		setDatabaseText(fontArial, 9, 313, 618, data.getCompanyPlant().getCompany().getHqStreet());
+		setDatabaseText(fontArial, 9, 313, 630, String.valueOf(data.getCompanyPlant().getCompany().getZipCode()));
+		setDatabaseText(fontArial, 9, 343, 630, data.getCompanyPlant().getCompany().getCity());
+		setDatabaseText(fontArial, 9, 313, 618, data.getCompanyPlant().getCompany().getStreet());
 		setStaticText(fontArialCursive, 9, 313, 603, "Begleiter vom VN: ");
 		setDatabaseText(fontArial, 9, 400, 603, data.getCompanion());
 		setStaticText(fontArialCursive, 9, 313, 588, "Sachverständiger: ");

@@ -13,15 +13,16 @@ import org.controlsfx.control.Notifications;
 import applicationLogic.Branch;
 import applicationLogic.Company;
 import applicationLogic.CompanyPlant;
-import applicationLogic.DefectAtomic;
-import applicationLogic.DefectResult;
 import applicationLogic.ExceptionDialog;
+import applicationLogic.Flaw;
+import applicationLogic.FlawListElement;
+import applicationLogic.InspectionReportFull;
 import applicationLogic.PDFExport;
-import applicationLogic.ResultComplete;
 import dataStorageAccess.BranchAccess;
 import dataStorageAccess.CompanyAccess;
 import dataStorageAccess.DefectAccess;
-import dataStorageAccess.ResultAccess;
+import dataStorageAccess.FlawAccess;
+import dataStorageAccess.InspectionReportAccess;
 import de.schnettler.AutoCompletionEvent;
 import de.schnettler.AutocompleteSuggestion;
 import de.schnettler.AutocompleteTextField;
@@ -149,14 +150,14 @@ public class Tab_InspectionResult implements Initializable{
 	@FXML private TextArea furtherExplanationsField;
 
 // Anhang A
-	@FXML private TableView<DefectResult> defectTableView;
-	@FXML private TableColumn<DefectResult,String> defectIdColumn;
-	@FXML private TableColumn<DefectResult,String> dangerColumn;
-	@FXML private TableColumn<DefectResult,String> buildingColumn;
-	@FXML private TableColumn<DefectResult,String> roomColumn;
-	@FXML private TableColumn<DefectResult,String> maschineColumn;
-	@FXML private TableColumn<DefectResult,String> branchColumn;
-	@FXML private TableColumn<DefectResult,String> descriptionColumn;
+	@FXML private TableView<FlawListElement> defectTableView;
+	@FXML private TableColumn<FlawListElement,String> defectIdColumn;
+	@FXML private TableColumn<FlawListElement,String> dangerColumn;
+	@FXML private TableColumn<FlawListElement,String> buildingColumn;
+	@FXML private TableColumn<FlawListElement,String> roomColumn;
+	@FXML private TableColumn<FlawListElement,String> maschineColumn;
+	@FXML private TableColumn<FlawListElement,String> branchColumn;
+	@FXML private TableColumn<FlawListElement,String> descriptionColumn;
 	@FXML private Button AddDiagnosisBtn;
 	@FXML private Button pdfExpBtn;
 	//Hinzufügen
@@ -184,7 +185,7 @@ public class Tab_InspectionResult implements Initializable{
 	private int inspectionResultId = 0;
 	private Company inspectionResultCompany;
 	private CompanyPlant inspectionResultCompanyPlant;
-	private ResultComplete resultComplete;
+	private InspectionReportFull resultComplete;
 	
 	private ArrayList<String> errors;
 	
@@ -207,18 +208,18 @@ public class Tab_InspectionResult implements Initializable{
 	}
 	
 	private void prepareTable() {
-		defectIdColumn.setCellValueFactory(new PropertyValueFactory<DefectResult,String>("id"));
-		dangerColumn.setCellValueFactory(new PropertyValueFactory<DefectResult,String>("dangerString"));
-		buildingColumn.setCellValueFactory(new PropertyValueFactory<DefectResult,String>("building"));
-		roomColumn.setCellValueFactory(new PropertyValueFactory<DefectResult,String>("room"));
-		maschineColumn.setCellValueFactory(new PropertyValueFactory<DefectResult,String>("machine"));
-		branchColumn.setCellValueFactory(new PropertyValueFactory<DefectResult,String>("branchId"));
-		descriptionColumn.setCellValueFactory(new PropertyValueFactory<DefectResult,String>("defectCustomDescription"));
+		defectIdColumn.setCellValueFactory(new PropertyValueFactory<FlawListElement,String>("id"));
+		dangerColumn.setCellValueFactory(new PropertyValueFactory<FlawListElement,String>("dangerString"));
+		buildingColumn.setCellValueFactory(new PropertyValueFactory<FlawListElement,String>("building"));
+		roomColumn.setCellValueFactory(new PropertyValueFactory<FlawListElement,String>("room"));
+		maschineColumn.setCellValueFactory(new PropertyValueFactory<FlawListElement,String>("machine"));
+		branchColumn.setCellValueFactory(new PropertyValueFactory<FlawListElement,String>("branchId"));
+		descriptionColumn.setCellValueFactory(new PropertyValueFactory<FlawListElement,String>("defectCustomDescription"));
 		
 		defectTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
 			if (showTableDialog ==1) {
 				tableSelctedId = defectTableView.getSelectionModel().getSelectedIndex();
-				createDignosisOptionsDialog((DefectResult) defectTableView.getSelectionModel().getSelectedItem());
+				createDignosisOptionsDialog((FlawListElement) defectTableView.getSelectionModel().getSelectedItem());
 				showTableDialog = 0;
 			}
 		});
@@ -229,7 +230,7 @@ public class Tab_InspectionResult implements Initializable{
 	 * 
 	 * @param selectedItem - selected Defect
 	 */
-	private void createDignosisOptionsDialog(DefectResult selectedItem) {
+	private void createDignosisOptionsDialog(FlawListElement selectedItem) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Bearbeiten");
 		alert.setHeaderText("Wollen sie den ausgewählten Mangel bearbeiten?" );
@@ -243,35 +244,63 @@ public class Tab_InspectionResult implements Initializable{
 		}
 	}
 
-	/**
-	 * Add Defects to defect Table
-	 * 
-	 * @param add
-	 */
-	public void addToTable(ActionEvent add){
-		if (verifyNewTableInput()) {
-			newDefectDanger = 0;
-			if (dangerFireSwitchBox.isSelected() && dangerPersonSwitchBox.isSelected()) {
-				newDefectDanger = 3;
+	
+	public FlawListElement getNewFlawData() {
+		//Get Danger Category
+		int defectDanger = 0;
+		if (dangerFireSwitchBox.isSelected() && dangerPersonSwitchBox.isSelected()) {
+			defectDanger = 3;
+		} else {
+			if(dangerFireSwitchBox.isSelected()) {
+				defectDanger = 1;
 			} else {
-				if(dangerFireSwitchBox.isSelected()) {
-					newDefectDanger = 1;
-				} else {
-					if(dangerPersonSwitchBox.isSelected()) {
-					newDefectDanger = 2;
-					}
-				}	
+				if(dangerPersonSwitchBox.isSelected()) {
+					defectDanger = 2;
+				}
 			}
-			if (!tableUpdate) {
-				defectTableView.getItems().add(new DefectResult(-1, newDefectId,Integer.valueOf(branchText.getText()),newDefectDanger,buildingText.getText(), roomText.getText(), machineText.getText(), customDescriptionText.getText()));
-			} else {
-				defectTableView.getItems().set(tableSelctedId, new DefectResult(defectElementId, newDefectId,Integer.valueOf(branchText.getText()),newDefectDanger,buildingText.getText(), roomText.getText(), machineText.getText(), customDescriptionText.getText()));
-				tableUpdate = false;
-				addDefectButton.setText("Hinzufügen");
-				showTableDialog = 1;
+		}
+		
+		//Get FlawId and -Description
+		try {
+			String flawDescriptionEntered = defectSearchField.getText();
+			//Check if already present or new flaw
+			if(!FlawAccess.getFlawDescriptions(newDefectId).contains(flawDescriptionEntered)) {
+				Alert alert = new Alert(AlertType.CONFIRMATION);
+				alert.setTitle("Neuer Mangel");
+				alert.setHeaderText("Textbaustein als neuen Mangel abspeichern?");
+				alert.setContentText("Unter der Mangelnummer " + newDefectId +" ist bisher keine Mangel mit der Beschreibung \n\n'" + 
+				flawDescriptionEntered +
+				"'\n\nbekannt. Soll der eingegebene Mangel in der Datenbank gespeichert werden?" );
+
+
+				ButtonType noButton = new ButtonType("No", ButtonData.NO);
+				ButtonType yesButton = new ButtonType("Yes", ButtonData.YES);
+				alert.getButtonTypes().setAll(noButton, yesButton);
+
+				Optional<ButtonType> Dialogresult = alert.showAndWait();
+				if (Dialogresult.get() == yesButton) {
+					//TODO Neuen customMangel in der Datenbank speichern
+				}
 			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+		//return new FlawListElement(-1, newDefectId,Integer.valueOf(branchText.getText()),defectDanger, buildingText.getText(), roomText.getText(), machineText.getText(), customDescriptionText.getText());
+	}
+	
+	public void addFlawToTable(ActionEvent add) {
+		if (verifyNewFlaw()) {
+			//Add new Flaw to TableView
+			defectTableView.getItems().add(getNewFlawData());
+			//Reset addFlawForm
 			resetAddToTable();
 		}
+	}
+	
+	public boolean verifyNewFlaw() {
+		return (validate(resultDefectId, true) & validate(branchText, false));
 	}
 	
 	/**
@@ -294,10 +323,10 @@ public class Tab_InspectionResult implements Initializable{
 	 * 
 	 * @param defect
 	 */
-	private void openInAddToTableMenu(DefectResult defect) {
-		defectSearchField.setText(defect.getDescription());
-		newDefectId = defect.getId();
-		resultDefectId.setText(String.valueOf(defect.getId()));
+	private void openInAddToTableMenu(FlawListElement defect) {
+		defectSearchField.setText(defect.getFlaw().getDescription());
+		newDefectId = defect.getFlaw().getExternalId();
+		resultDefectId.setText(String.valueOf(defect.getFlaw().getExternalId()));
 		branchText.setText(String.valueOf(defect.getBranchId()));
 		int danger = defect.getDanger();
 		defectElementId = defect.getElementId();
@@ -316,7 +345,6 @@ public class Tab_InspectionResult implements Initializable{
 		buildingText.setText(defect.getBuilding());
 		roomText.setText(defect.getRoom());
 		machineText.setText(defect.getMachine());
-		customDescriptionText.setText(defect.getDefectCustomDescription());
 		tableUpdate = true;
 	}
 	
@@ -360,7 +388,7 @@ public class Tab_InspectionResult implements Initializable{
 			if (!cancelled) {
 				if (newDiagnosis) {
 					try {
-						ResultAccess.saveNewCompleteResult(resultComplete);
+						InspectionReportAccess.saveNewCompleteResult(resultComplete);
 						Notifications.create()
 	                    .title("Erfolgreich gespeichert")
 	                    .text("Der Befundschein wurde erfolgreich gespeichert ")
@@ -382,7 +410,7 @@ public class Tab_InspectionResult implements Initializable{
 					}
 				} else {
 					try {
-						ResultAccess.updateCompleteResult(resultComplete);
+						InspectionReportAccess.updateCompleteResult(resultComplete);
 						Notifications.create()
 	                    .title("Erfolgreich gespeichert")
 	                    .text("Der Befundschein wurde erfolgreich bearbeitet und gespeichert. ")
@@ -426,9 +454,9 @@ public class Tab_InspectionResult implements Initializable{
 	 */
 	public void editDiagnosis(int id) {
 		prepareCompaniesAutocomplete();
-		ResultComplete result;
+		InspectionReportFull result;
 		try {
-			result = ResultAccess.getCompleteResult(id);
+			result = InspectionReportAccess.getCompleteResult(id);
 			
 			defectTableView.setItems(FXCollections.observableArrayList(result.getDefects()));
 			
@@ -448,7 +476,7 @@ public class Tab_InspectionResult implements Initializable{
 			plantAnerkNrField.setText(String.valueOf(result.getVdsApprovalNr()));
 			plantInspectionTimeField.setText(String.valueOf(result.getExaminationDuration()));
 			
-			branchName.setText(String.valueOf(result.getBranch().getId()));
+			branchName.setText(String.valueOf(result.getBranch().getExternalId()));
 			
 			if(result.isFrequencyControlledUtilities()) {
 				freqYesBtn.fire();
@@ -606,8 +634,8 @@ public class Tab_InspectionResult implements Initializable{
 			
 			inspectionResultCompanyPlant = result.getCompanyPlant();
 			inspectionResultCompany = inspectionResultCompanyPlant.getCompany();
-			plantStreetField.setText(inspectionResultCompanyPlant.getPlantStreet());
-			compNameField.setText(inspectionResultCompanyPlant.getCompany().getName());
+			plantStreetField.setText(inspectionResultCompanyPlant.getStreet());
+			compNameField.setText(inspectionResultCompanyPlant.getCompany().getDescription());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -633,7 +661,7 @@ public class Tab_InspectionResult implements Initializable{
 		//InspectionResult Save
 		inspectionResultSaved = false;
 		inspectionResultId = 0;
-		ResultComplete resultComplete = null;
+		InspectionReportFull resultComplete = null;
 		ArrayList<String> errors = null;
 	//Tabelle 
 		defectTableView.getItems().clear();
@@ -919,11 +947,11 @@ public class Tab_InspectionResult implements Initializable{
 	 */
 	private void prepareDefectsAutocomplete() {
 	//Defects
-		final Task<ArrayList<DefectAtomic>> autocompleteTask = new Task<ArrayList<DefectAtomic>>() {
+		final Task<ArrayList<Flaw>> autocompleteTask = new Task<ArrayList<Flaw>>() {
             @Override
-            protected ArrayList<DefectAtomic> call() throws Exception {
+            protected ArrayList<Flaw> call() throws Exception {
             	//Load Defects
-        		return DefectAccess.getDefects();
+        		return FlawAccess.getAllFlaws();
             }
         };
         autocompleteTask.setOnSucceeded(event ->
@@ -939,8 +967,8 @@ public class Tab_InspectionResult implements Initializable{
 	    defectSearchField.setAutoCompletionEvent(new AutoCompletionEvent() {
 			@Override
 			public void onAutoCompleteResult(AutocompleteSuggestion suggestion) {
-				resultDefectId.setText(Integer.toString(suggestion.getId()));
-				newDefectId = suggestion.getId();
+				resultDefectId.setText(Integer.toString(suggestion.getExternalId()));
+				newDefectId = suggestion.getExternalId();
 			}
 		});
 	
@@ -1262,7 +1290,7 @@ public class Tab_InspectionResult implements Initializable{
 			String additionalAnnotations = furtherExplanationsField.getText();
 			Branch branch = new Branch(branchId,"");
 			
-			resultComplete = new ResultComplete(inspectionResultId,
+			resultComplete = new InspectionReportFull(inspectionResultId,
 					 date,
 					 lastEdited,
 					 companion,

@@ -10,7 +10,7 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
  * @author Niklas Schnettler
  *
  */
-public abstract class ResultBase {
+public abstract class InspectionReportMinimal {
 
 	@XStreamAlias("ESNummer")
 	private int id;
@@ -20,7 +20,7 @@ public abstract class ResultBase {
 	private String niceDate;
 	
 	
-	public ResultBase(int id, LocalDate date) {
+	public InspectionReportMinimal(int id, LocalDate date) {
 		this.id = id;
 		this.date = date;
 		this.niceDate = date.format(DateTimeFormatter.ofPattern("dd.MM.YYYY")); 
