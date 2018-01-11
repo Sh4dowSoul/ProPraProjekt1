@@ -104,6 +104,35 @@ public class CompanyController {
 		return result;
 	}
 	
+	/**
+	 * @param company - A Company
+	 * @return A List of Plants of a specific Company
+	 * @throws SQLException
+	 */
+	
+	public static ArrayList<CompanyPlant> getCompanyPlants() throws SQLException{
+		ArrayList<CompanyPlant> result = new ArrayList<CompanyPlant>();
+		try (
+			Connection connection = DataSource.getConnection();
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(
+					"SELECT * "+ 
+					"FROM CompanyPlant "+ 
+					"ORDER BY plantStreet");
+		) {
+			while (resultSet.next()) {
+				result.add(new CompanyPlant(
+						resultSet.getInt("plantId"),
+						resultSet.getString("plantStreet"),
+						resultSet.getInt("plantZip"),
+						resultSet.getString("plantCity"),
+						new Company(resultSet.getInt("companyId"), null)
+						));
+			}
+		}
+		return result;
+	}
+	
 	public static int insertCompany(Company company) throws SQLException {
 		String statement = "INSERT INTO Company "
 				+ "(companyName, companyStreet, companyZip, companyCity) "

@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 
 import org.controlsfx.control.Notifications;
 
+
 import applicationLogic.Branch;
 import applicationLogic.Company;
 import applicationLogic.CompanyPlant;
@@ -26,6 +27,8 @@ import dataStorageAccess.InspectionReportAccess;
 import de.schnettler.AutoCompletionEvent;
 import de.schnettler.AutocompleteSuggestion;
 import de.schnettler.AutocompleteTextField;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -42,6 +45,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -54,7 +60,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Callback;
 import javafx.util.Duration;
+import javafx.util.StringConverter;
 
 /**
  * @author Niklas Schnettler, Salih Arslan, Sven Meyer, Sven Motschnig, Daniel Novakovic
@@ -63,8 +71,19 @@ import javafx.util.Duration;
 public class Tab_InspectionResult implements Initializable{
 // *** BEFUNDSCHEIN TAB ***
 // Versicherungsnehmer Adresse
+	@FXML private ComboBox<Company> comboBoxCompanyName;
+	@FXML private TextField textFieldCompanyStreet;
+	@FXML private TextField textFieldCompanyZipCode;
+	@FXML private TextField textFieldCompanyCity;
+	@FXML private Button buttonSaveCompany;
+	
+	@FXML private ComboBox<CompanyPlant> comboBoxCompanyPlantStreet;
+	@FXML private TextField textFieldCompanyPlantZipCode;
+	@FXML private TextField textFieldCompanyPlantCity;
+	@FXML private Button buttonSaveCompanyPlant;
+	
 	@FXML private Button vnLoadBtn;
-	@FXML private AutocompleteTextField compNameField;
+
 	
 // Risikoanschrift
 	@FXML private Button plantLoadBtn;
@@ -189,15 +208,213 @@ public class Tab_InspectionResult implements Initializable{
 	
 	private ArrayList<String> errors;
 	
+	
+	//NEW
+	private ArrayList<Company> companyList;
+	private Company currentCompany;
+	private ArrayList<CompanyPlant> companyPlantsList;
+	private CompanyPlant currentCompanyPlant;
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		prepareGUI();
+		prepareData();
 		prepareBranchesAutocomplete();
 		prepareDefectsAutocomplete();
-		prepareCompaniesAutocomplete();
+		loadCompanies();
 		prepareTable();
 		pdfExpBtn.setDisable(true);
     }
 	
+	private void prepareData() {
+		loadCompanies();
+		loadCompanyPlants();
+	}
+
+	private void prepareGUI() {
+		comboBoxCompanyName.setCellFactory(new Callback<ListView<Company>, ListCell<Company>>() {
+			 @Override
+			 public ListCell<Company> call(ListView<Company> param) {
+				 return new ListCell<Company>(){
+					 @Override
+					 public void updateItem(Company item, boolean empty){
+						 super.updateItem(item, empty);
+						 if(!empty) {
+							 setText(item.getDescription());
+							 setGraphic(null);
+						 }
+					 }
+				 };
+			}
+		});
+		comboBoxCompanyPlantStreet.setCellFactory(new Callback<ListView<CompanyPlant>, ListCell<CompanyPlant>>() {
+			 @Override
+			 public ListCell<CompanyPlant> call(ListView<CompanyPlant> param) {
+				 return new ListCell<CompanyPlant>(){
+					 @Override
+					 public void updateItem(CompanyPlant item, boolean empty){
+						 super.updateItem(item, empty);
+						 if(!empty) {
+							 setText(item.getDescription());
+							 setGraphic(null);
+						 }
+					 }
+				 };
+			}
+		});
+		
+		comboBoxCompanyName.setConverter(new StringConverter<Company>() {
+	        @Override
+	        public String toString(Company company) {
+	            return company == null ? "" : company.getDescription();
+	        }
+
+	        @Override
+	        public Company fromString(String string) {
+                for(Company company : companyList){
+                	//Company Selected
+                    if(company.getDescription().equalsIgnoreCase(string)){
+                        return company;
+                    }
+                }
+                //New Company Name Entered
+                return new Company(-1,string);
+	        }
+	    });
+		comboBoxCompanyPlantStreet.setConverter(new StringConverter<CompanyPlant>() {
+	        @Override
+	        public String toString(CompanyPlant companyPlant) {
+	            return companyPlant == null ? "" : companyPlant.getDescription();
+	        }
+
+	        @Override
+	        public CompanyPlant fromString(String string) {
+                for(CompanyPlant companyPlant : companyPlantsList){
+                	//Company Selected
+                    if(companyPlant.getDescription().equalsIgnoreCase(string)){
+                        return companyPlant;
+                    }
+                }
+                //New Company Name Entered
+                return new CompanyPlant(-1, string, currentCompany);
+	        }
+	    });
+		
+		
+		comboBoxCompanyName.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Company>() {
+	        public void changed(ObservableValue<? extends Company> observable, Company oldValue, Company newValue) {
+	        	currentCompany = newValue;
+	        	removeCompanyPlant();
+	        	switch(newValue.getInternalId()) {
+	        		case -1:
+	        			//New Company -> Enable and clear TextFields
+		        		textFieldCompanyStreet.setDisable(false);
+		        		textFieldCompanyZipCode.setDisable(false);
+		        		textFieldCompanyCity.setDisable(false);
+		        		textFieldCompanyStreet.clear();
+		        		textFieldCompanyZipCode.clear();
+		        		textFieldCompanyCity.clear();
+		        		buttonSaveCompany.setDisable(false);
+		        		break;
+	        		case 0:
+	        			//Company not yet in database
+	        			break;
+	        		default: 
+	        			//Existing Company -> Disable TextFields and load Company Data
+		        		disableCompanyPrepareCompanyPlant();
+		        		textFieldCompanyStreet.setText(newValue.getStreet());
+		        		textFieldCompanyZipCode.setText(String.valueOf(newValue.getZipCode()));
+		        		textFieldCompanyCity.setText(newValue.getCity());
+		        		buttonSaveCompany.setDisable(true);
+		        		break;
+	        	}
+	        }
+
+			private void removeCompanyPlant() {
+				currentCompanyPlant = null;
+				textFieldCompanyPlantZipCode.setDisable(true);
+        		textFieldCompanyPlantCity.setDisable(true);
+        		textFieldCompanyPlantZipCode.clear();
+        		textFieldCompanyPlantCity.clear();
+        		buttonSaveCompanyPlant.setDisable(false);
+        		comboBoxCompanyPlantStreet.setValue(null);
+			}
+		});
+		
+		comboBoxCompanyPlantStreet.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<CompanyPlant>() {
+	        public void changed(ObservableValue<? extends CompanyPlant> observable, CompanyPlant oldValue, CompanyPlant newValue) {
+	        	currentCompanyPlant = newValue;
+	        	switch(newValue.getInternalId()) {
+	        		case -1:
+	        			//New CompanyPlant -> Enable and clear TextFields
+		        		textFieldCompanyPlantZipCode.setDisable(false);
+		        		textFieldCompanyPlantCity.setDisable(false);
+		        		textFieldCompanyPlantZipCode.clear();
+		        		textFieldCompanyPlantCity.clear();
+		        		buttonSaveCompanyPlant.setDisable(false);
+		        		break;
+	        		case 0:
+	        			//CompanyPlant not yet in database
+	        			break;
+	        		default: 
+	        			//Existing CompanyPlant -> Disable TextFields and load Company Data
+		        		disableCompanyPlantTextFields();
+		        		textFieldCompanyPlantZipCode.setText(String.valueOf(newValue.getZipCode()));
+		        		textFieldCompanyPlantCity.setText(newValue.getCity());
+		        		buttonSaveCompanyPlant.setDisable(true);
+		        		break;
+	        	}
+	        }
+		});
+	}
+
+	public void saveCompany(ActionEvent event) throws IOException {
+		if(validate(textFieldCompanyZipCode, true)) {
+			currentCompany.setCity(textFieldCompanyCity.getText());
+			currentCompany.setStreet(textFieldCompanyStreet.getText());
+			currentCompany.setZipCode(Integer.valueOf(textFieldCompanyZipCode.getText()));
+			currentCompany.setInternalId(0);
+			//Add new Plant to Lists
+			disableCompanyPrepareCompanyPlant();
+			comboBoxCompanyName.getItems().add(currentCompany);//Should be visible in ComboBox
+			companyList.add(currentCompany);
+			buttonSaveCompany.setDisable(true);
+		}
+	}
+	
+	public void saveCompanyPlant(ActionEvent event) throws IOException {
+		if(validate(textFieldCompanyPlantZipCode, true)) {
+			currentCompanyPlant.setCity(textFieldCompanyPlantCity.getText());
+			currentCompanyPlant.setZipCode(Integer.valueOf(textFieldCompanyPlantZipCode.getText()));
+			currentCompanyPlant.setInternalId(0);
+			disableCompanyPlantTextFields();
+			//Add new Plant to Lists
+			comboBoxCompanyPlantStreet.getItems().add(currentCompanyPlant);//Should be visible in ComboBox
+			companyPlantsList.add(currentCompanyPlant);//CompanyPlant List
+			buttonSaveCompanyPlant.setDisable(true);
+		}
+	}
+	
+	private void disableCompanyPrepareCompanyPlant() {
+		textFieldCompanyStreet.setDisable(true);
+		textFieldCompanyZipCode.setDisable(true);
+		textFieldCompanyCity.setDisable(true);
+		//-> Enable CompanyPlant ComboBox
+		comboBoxCompanyPlantStreet.setDisable(false);
+		//-> Filter CompaniePlants for selected Company
+		ArrayList<CompanyPlant> plants = new ArrayList<>();
+		for(CompanyPlant companyPlant : companyPlantsList) {
+			if (companyPlant.getCompany().getInternalId() == currentCompany.getInternalId()) {
+				plants.add(companyPlant);
+			}
+		}
+		comboBoxCompanyPlantStreet.setItems(FXCollections.observableArrayList(plants));
+	}
+	private void disableCompanyPlantTextFields() {
+		textFieldCompanyPlantZipCode.setDisable(true);
+		textFieldCompanyPlantCity.setDisable(true);
+	}
+
 	/**
 	 * Get together with parent Controller
 	 * 
@@ -453,7 +670,7 @@ public class Tab_InspectionResult implements Initializable{
 	 * @throws SQLException 
 	 */
 	public void editDiagnosis(int id) {
-		prepareCompaniesAutocomplete();
+		loadCompanies();
 		InspectionReportFull result;
 		try {
 			result = InspectionReportAccess.getCompleteResult(id);
@@ -635,7 +852,6 @@ public class Tab_InspectionResult implements Initializable{
 			inspectionResultCompanyPlant = result.getCompanyPlant();
 			inspectionResultCompany = inspectionResultCompanyPlant.getCompany();
 			plantStreetField.setText(inspectionResultCompanyPlant.getStreet());
-			compNameField.setText(inspectionResultCompanyPlant.getCompany().getDescription());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -666,13 +882,10 @@ public class Tab_InspectionResult implements Initializable{
 	//Tabelle 
 		defectTableView.getItems().clear();
 	// Versicherungsnehmer Adresse
-		  compNameField.clear();
 		  inspectionResultCompany = null;
 		  inspectionResultCompanyPlant = null;
 		
 	// Risikoanschrift
-		  plantLoadBtn.disarm();
-		  plantStreetField.clear();
 		  plantCompanionField.clear();
 		  plantExpertField.clear();
 		  plantAnerkNrField.clear();
@@ -765,144 +978,6 @@ public class Tab_InspectionResult implements Initializable{
 		  dangerFireSwitchBox.disarm();
 		  dangerPersonSwitchBox.disarm();
 	}
-	
-	
-	public void addCompanyDialog(ActionEvent event) throws IOException {
-        final Stage dialog = new Stage();
-        dialog.setTitle("Neue Firma");
-        Button yes = new Button("OK");
-        Button no = new Button("Abbrechen");
-        TextField company = new TextField();
-        TextField street = new TextField();
-        TextField zip = new TextField();
-        TextField location = new TextField();
-        
-        company.setPromptText("Firma");
-        street.setPromptText("Straße");
-        zip.setPromptText("PLZ");
-        location.setPromptText("Ort");
-
-
-        dialog.initModality(Modality.NONE);
-        dialog.initOwner((Stage) vnLoadBtn.getScene().getWindow());
-
-        HBox dialogHbox = new HBox(10);
-        dialogHbox.setAlignment(Pos.CENTER);
-        VBox dialogVbox1 = new VBox(10);
-        dialogVbox1.setPadding(new Insets(50, 50, 50, 50));
-        dialogVbox1.setAlignment(Pos.CENTER);
-        VBox dialogVbox2 = new VBox(20);
-        dialogVbox2.setAlignment(Pos.BASELINE_CENTER);
-        
-        dialogVbox1.getChildren().add(company);
-        dialogVbox1.getChildren().add(street);
-        dialogVbox1.getChildren().add(zip);
-        dialogVbox1.getChildren().add(location);
-        dialogVbox1.getChildren().add(dialogHbox);
-        dialogHbox.getChildren().add(yes);
-        dialogHbox.getChildren().add(no);
-
-        
-        yes.addEventHandler(MouseEvent.MOUSE_CLICKED,
-                new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent e) {
-                    	if (validate(company, false) & validate(street, false) & validate(zip, true) & validate(location, false)) {
-                    		try {
-                    			Company company1  = new Company(0, company.getText(), street.getText(), Integer.valueOf(zip.getText()), location.getText());
-    							company1.setId(CompanyAccess.insertCompany(company1));
-    							compNameField.getEntries().add(company1);
-    							dialog.close();
-    						} catch (SQLException e1) {
-    							// TODO Auto-generated catch block
-    							e1.printStackTrace();
-    						}
-                    	}
-                    }
-                });
-        no.addEventHandler(MouseEvent.MOUSE_CLICKED,
-                new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent e) {
-                        dialog.close();
-                    }
-                });
-        
-        Scene dialogScene = new Scene(dialogVbox1, 600, 200);
-        dialogScene.getStylesheets().add(getClass().getResource("text-field-red-border.css").toExternalForm());
-        dialog.setScene(dialogScene);
-        dialog.show();
-	}
-	
-	public void addCompanyPlantDialog(ActionEvent event) throws IOException {
-		final Stage dialog = new Stage();
-        dialog.setTitle("Neues Werk");
-        Button yes = new Button("OK");
-        Button no = new Button("Abbrechen");
-        TextField street = new TextField();
-        TextField zip = new TextField();
-        TextField location = new TextField();
-        
-        street.setPromptText("Straße");
-        zip.setPromptText("PLZ");
-        location.setPromptText("Ort");
-
-
-        dialog.initModality(Modality.NONE);
-        dialog.initOwner((Stage) vnLoadBtn.getScene().getWindow());
-
-        HBox dialogHbox = new HBox(10);
-        dialogHbox.setAlignment(Pos.CENTER);
-        VBox dialogVbox1 = new VBox(10);
-        dialogVbox1.setPadding(new Insets(50, 50, 50, 50));
-        dialogVbox1.setAlignment(Pos.CENTER);
-        VBox dialogVbox2 = new VBox(20);
-        dialogVbox2.setAlignment(Pos.BASELINE_CENTER);
-        
-        dialogVbox1.getChildren().add(street);
-        dialogVbox1.getChildren().add(zip);
-        dialogVbox1.getChildren().add(location);
-        dialogVbox1.getChildren().add(dialogHbox);
-        dialogHbox.getChildren().add(yes);
-        dialogHbox.getChildren().add(no);
-
-        
-        yes.addEventHandler(MouseEvent.MOUSE_CLICKED,
-                new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent e) {
-                    	System.out.println("YES");
-                    	if (validate(street, false) & validate(zip, true) & validate(location, false)) {
-                    		try {
-                    			CompanyPlant plant  = new CompanyPlant(0, street.getText(), Integer.valueOf(zip.getText()), location.getText(), inspectionResultCompany);
-                    			plant.setId(CompanyAccess.insertCompanyPlant(plant));
-                    			plantStreetField.getEntries().add(plant);
-    							dialog.close();
-    						} catch (SQLException e1) {
-    							// TODO Auto-generated catch block
-    							e1.printStackTrace();
-    						} catch (NumberFormatException e2) {
-    							zip.clear();
-    						}
-                    	}
-                    }
-                });
-        no.addEventHandler(MouseEvent.MOUSE_CLICKED,
-                new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent e) {
-                        dialog.close();
-                    }
-                });
-        Scene dialogScene = new Scene(dialogVbox1, 600, 200);
-        dialogScene.getStylesheets().add(getClass().getResource("text-field-red-border.css").toExternalForm());
-        dialog.setScene(dialogScene);
-        dialog.show();
-	}
-	
-	
-	
-	
 	
 	/**
 	 * Export current result as PDF (after save)
@@ -1008,61 +1083,42 @@ public class Tab_InspectionResult implements Initializable{
 	/**
 	 * Prepares the Companies Autocomplete TextField
 	 */
-	private void prepareCompaniesAutocomplete() {
-		plantStreetField.setDisable(true);
-		plantLoadBtn.setDisable(true);
-		final Task<ObservableList<Company>> loadCompaniesTask = new Task<ObservableList<Company>>() {
+	private void loadCompanies() {
+		final Task<ArrayList<Company>> loadCompaniesTask = new Task<ArrayList<Company>>() {
             @Override
-            protected ObservableList<Company> call() throws Exception {
-        		return FXCollections.observableArrayList(CompanyAccess.getCompanies(false));
+            protected ArrayList<Company> call() throws Exception {
+        		return CompanyAccess.getCompanies(false);
             }
         };
-       // diagnosisTableProgress.visibleProperty().bind(loadCompaniesTask.runningProperty());
-        loadCompaniesTask.setOnSucceeded(event ->
-        	compNameField.getEntries().addAll(loadCompaniesTask.getValue())
-	    );
+        loadCompaniesTask.setOnSucceeded(event -> {
+        	companyList = loadCompaniesTask.getValue();
+        	comboBoxCompanyName.setItems(FXCollections.observableArrayList(companyList));
+        });
         loadCompaniesTask.setOnFailed(event ->
 	    	System.out.println("ERROR: " + loadCompaniesTask.getException())
 	    );
 	    new Thread(loadCompaniesTask).start();
-	    
-	    compNameField.setAutoCompletionEvent(new AutoCompletionEvent() {
-			@Override
-			public void onAutoCompleteResult(AutocompleteSuggestion suggestion) {
-				plantStreetField.clear();
-				inspectionResultCompanyPlant = null;
-				inspectionResultCompany = (Company) suggestion;
-				plantStreetField.setDisable(false);
-				plantLoadBtn.setDisable(false);
-				prepareCompanyPlantsAutocomplete((Company) suggestion);
-			}
-	    });
 	}
 	
 	/**
 	 * Prepares the Company Plants Autocomplete TextField
 	 */
-	private void prepareCompanyPlantsAutocomplete(Company company) {
-		final Task<ObservableList<CompanyPlant>> loadCompaniePlantTask = new Task<ObservableList<CompanyPlant>>() {
+	private void loadCompanyPlants() {
+		final Task<ArrayList<CompanyPlant>> loadCompaniePlantTask = new Task<ArrayList<CompanyPlant>>() {
             @Override
-            protected ObservableList<CompanyPlant> call() throws Exception {
-        		return FXCollections.observableArrayList(CompanyAccess.getPlantsOfCompany(company));
+            protected ArrayList<CompanyPlant> call() throws Exception {
+        		return CompanyAccess.getCompanyPlants();
             }
         };
         
-        loadCompaniePlantTask.setOnSucceeded(event ->
-        	plantStreetField.getEntries().addAll(loadCompaniePlantTask.getValue())
-	    );
+        loadCompaniePlantTask.setOnSucceeded(event -> {
+        	companyPlantsList = loadCompaniePlantTask.getValue();
+        	comboBoxCompanyPlantStreet.setItems(FXCollections.observableArrayList(companyPlantsList));
+        });
         loadCompaniePlantTask.setOnFailed(event ->
 	    	System.out.println("ERROR: " + loadCompaniePlantTask.getException())
 	    );
 	    new Thread(loadCompaniePlantTask).start();
-	    plantStreetField.setAutoCompletionEvent(new AutoCompletionEvent() {
-			@Override
-			public void onAutoCompleteResult(AutocompleteSuggestion suggestion) {					
-				inspectionResultCompanyPlant = (CompanyPlant) suggestion;
-			}
-	    });
 	}
 	
 	
@@ -1370,7 +1426,7 @@ public class Tab_InspectionResult implements Initializable{
 	public void prepare() {
 		// TODO Auto-generated method stub
 		reset();
-		prepareCompaniesAutocomplete();
+		loadCompanies();
 		pdfExpBtn.setDisable(true);
 	}
 }
