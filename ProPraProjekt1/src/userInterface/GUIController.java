@@ -35,7 +35,7 @@ public class GUIController implements Initializable{
 		diagnosisTab.setDisable(false);
 		homeTab1.setDisable(true);
 		if (editMode) {
-			inspectionResultTabController.editDiagnosis(diagnosisId);
+			inspectionResultTabController.importInspectionReport(diagnosisId);
 		} else {
 			inspectionResultTabController.prepare();
 		}
