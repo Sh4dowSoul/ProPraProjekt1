@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import de.schnettler.*?>
 
-<GridPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userInterface.Tab_InspectionResult">
+<GridPane prefHeight="3000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userInterface.Tab_InspectionResult">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="800.0" minWidth="600.0" prefWidth="700.0" />
         <ColumnConstraints hgrow="SOMETIMES" minWidth="500.0" prefWidth="1000.0" />
@@ -82,7 +82,7 @@
                                     <Insets left="10.0" />
                                  </GridPane.margin>
                                         </RadioButton>
-                                        <RadioButton id="freqNoBtn" fx:id="freqNoBtn" mnemonicParsing="false" selected="true" text="Nein" toggleGroup="$freqGroup" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                        <RadioButton id="freqNoBtn" fx:id="freqNoBtn" mnemonicParsing="false" text="Nein" toggleGroup="$freqGroup" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                                         <Label text="Sind Bereiche, die besondere Schutzmaßnahmen erfordern, durch den Betreiber ausgewiesen?" wrapText="true" GridPane.rowIndex="2" />
                                         <RadioButton id="precautionYesBtn" fx:id="precautionYesBtn" alignment="CENTER_RIGHT" mnemonicParsing="false" text="Ja" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                             <toggleGroup>
@@ -93,7 +93,7 @@
                                  </GridPane.margin>
                                         </RadioButton>
                                         <Label text="Wenn ja, welche:" wrapText="true" GridPane.rowIndex="3" />
-                                        <RadioButton id="precautionNoBtn" fx:id="precautionNoBtn" mnemonicParsing="false" selected="true" text="Nein" toggleGroup="$precautionGroup" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                        <RadioButton id="precautionNoBtn" fx:id="precautionNoBtn" mnemonicParsing="false" text="Nein" toggleGroup="$precautionGroup" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                                         <TextField fx:id="precautionField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                                         <Label text="Wurden alle Bereiche des Risikostandorts geprüft ?" wrapText="true" GridPane.rowIndex="4" />
                                         <RadioButton id="comleteYesBtn" fx:id="completeYesBtn" mnemonicParsing="false" text="Ja" GridPane.columnIndex="1" GridPane.rowIndex="4">
@@ -104,7 +104,7 @@
                                     <Insets left="10.0" />
                                  </GridPane.margin>
                                         </RadioButton>
-                                        <RadioButton id="completeNoBtn" fx:id="completeNoBtn" mnemonicParsing="false" prefHeight="17.0" prefWidth="304.0" selected="true" text="Nein - Nachbesichtigung (&lt;6 Wo) verinbart bis zum: " toggleGroup="$completeGroup" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                                        <RadioButton id="completeNoBtn" fx:id="completeNoBtn" mnemonicParsing="false" prefHeight="17.0" prefWidth="304.0" text="Nein - Nachbesichtigung (&lt;6 Wo) verinbart bis zum: " toggleGroup="$completeGroup" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                                         <TextField fx:id="completeDateField" promptText="Datum" GridPane.columnIndex="3" GridPane.rowIndex="4" />
                                         <TextField fx:id="completeReasonField" maxWidth="250.0" promptText="Begründung für nicht geprüfte Bereiche:" GridPane.rowIndex="5" />
                                         <Label text="Wurden nach Aussagen des Betreibers Teilbereiche der Anlage seit der letzten Revision erneuert, erweiter oder umgebaut?" wrapText="true" GridPane.rowIndex="6" />
@@ -117,7 +117,7 @@
                                  </GridPane.margin>
                                         </RadioButton>
                                         <RadioButton id="changesSinceLastExaminationNoBtn" fx:id="changesSinceLastExaminationNoBtn" mnemonicParsing="false" text="Nein" toggleGroup="$changesSinceLastExaminationGroup" GridPane.columnIndex="2" GridPane.rowIndex="6" />
-                                        <RadioButton id="changesSinceLastExaminationFirstExaminationBtn" fx:id="changesSinceLastExaminationFirstExaminationBtn" mnemonicParsing="false" selected="true" text="Erstprüfung" toggleGroup="$changesSinceLastExaminationGroup" wrapText="true" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+                                        <RadioButton id="changesSinceLastExaminationFirstExaminationBtn" fx:id="changesSinceLastExaminationFirstExaminationBtn" mnemonicParsing="false" text="Erstprüfung" toggleGroup="$changesSinceLastExaminationGroup" wrapText="true" GridPane.columnIndex="3" GridPane.rowIndex="6" />
                                         <Label text="Wurden alle Mängel der vorhergehenden Revision beseitigt?" wrapText="true" GridPane.rowIndex="7" />
                                         <RadioButton id="defectsLastExaminationYesBtn" fx:id="defectsLastExaminationYesBtn" mnemonicParsing="false" text="Ja" GridPane.columnIndex="1" GridPane.rowIndex="7">
                                             <toggleGroup>
@@ -128,7 +128,7 @@
                                  </GridPane.margin>
                                         </RadioButton>
                                         <RadioButton id="defectsLastExaminationNoBtn" fx:id="defectsLastExaminationNoBtn" mnemonicParsing="false" text="Nein" toggleGroup="$defectsLastExaminationFixedGroup" GridPane.columnIndex="2" GridPane.rowIndex="7" />
-                                        <RadioButton id="defectsLastExaminationNoReportBtn" fx:id="defectsLastExaminationNoReportBtn" mnemonicParsing="false" selected="true" text="Bericht fehlt" toggleGroup="$defectsLastExaminationFixedGroup" wrapText="true" GridPane.columnIndex="3" GridPane.rowIndex="7" />
+                                        <RadioButton id="defectsLastExaminationNoReportBtn" fx:id="defectsLastExaminationNoReportBtn" mnemonicParsing="false" text="Bericht fehlt" toggleGroup="$defectsLastExaminationFixedGroup" wrapText="true" GridPane.columnIndex="3" GridPane.rowIndex="7" />
                                         <Label text="Gesamtbeurteilung der Anlage" GridPane.rowIndex="8">
                                             <font>
                                                 <Font name="System Bold Italic" size="14.0" />
@@ -138,7 +138,7 @@
                                  </GridPane.margin>
                                         </Label>
                                         <Label prefHeight="50.0" text="Gefährundskategorie gemäß Prüfrichtlinien VdS 2871" wrapText="true" GridPane.rowIndex="9" />
-                                        <RadioButton id="dangerCategorieGroupABtn" fx:id="dangerCategorieGroupABtn" mnemonicParsing="false" selected="true" text="(a)" GridPane.columnIndex="1" GridPane.rowIndex="9">
+                                        <RadioButton id="dangerCategorieGroupABtn" fx:id="dangerCategorieGroupABtn" mnemonicParsing="false" text="(a)" GridPane.columnIndex="1" GridPane.rowIndex="9">
                                             <toggleGroup>
                                                 <ToggleGroup fx:id="dangerCategorieGroup" />
                                             </toggleGroup>
@@ -188,7 +188,7 @@
                                                 <Insets left="10.0" />
                                             </padding>
                                         </RadioButton>
-                                        <RadioButton id="IsoMinNoBtn" fx:id="isoMinNoBtn" mnemonicParsing="false" selected="true" text="Nein" toggleGroup="$IsoMinGroup" GridPane.columnIndex="2" GridPane.rowIndex="16" />
+                                        <RadioButton id="IsoMinNoBtn" fx:id="isoMinNoBtn" mnemonicParsing="false" text="Nein" toggleGroup="$IsoMinGroup" GridPane.columnIndex="2" GridPane.rowIndex="16" />
                                         <Label text="Wenn Isolationswiderstandsmessungen nicht möglich sind: Lagen ersatzweise Messprotokolle über Isolationswiderstandsmessungen vor?" wrapText="true" GridPane.rowIndex="17" />
                                         <RadioButton id="isoProtocolYesBtn" fx:id="isoProtocolYesBtn" mnemonicParsing="false" text="Ja" GridPane.columnIndex="1" GridPane.rowIndex="17">
                                             <toggleGroup>
@@ -198,7 +198,7 @@
                                                 <Insets left="10.0" />
                                             </padding>
                                         </RadioButton>
-                                        <RadioButton id="isoProtocolNoBtn" fx:id="isoProtocolNoBtn" mnemonicParsing="false" selected="true" text="Nein" toggleGroup="$IsoProtocollGroup" GridPane.columnIndex="2" GridPane.rowIndex="17">
+                                        <RadioButton id="isoProtocolNoBtn" fx:id="isoProtocolNoBtn" mnemonicParsing="false" text="Nein" toggleGroup="$IsoProtocollGroup" GridPane.columnIndex="2" GridPane.rowIndex="17">
                                  <GridPane.margin>
                                     <Insets />
                                  </GridPane.margin></RadioButton>
@@ -211,7 +211,7 @@
                                     <Insets left="10.0" />
                                  </GridPane.margin>
                                         </RadioButton>
-                                        <RadioButton id="isoCompensationNoBtn" fx:id="isoCompensationNoBtn" mnemonicParsing="false" selected="true" text="Nein" toggleGroup="$IsoCompensationGroup" GridPane.columnIndex="2" GridPane.rowIndex="18" />
+                                        <RadioButton id="isoCompensationNoBtn" fx:id="isoCompensationNoBtn" mnemonicParsing="false" text="Nein" toggleGroup="$IsoCompensationGroup" GridPane.columnIndex="2" GridPane.rowIndex="18" />
                                         <TextField id="isoCompensationCommentField" fx:id="isoCompensationCommentField" maxWidth="250.0" promptText="Bemerkung hierzu" GridPane.rowIndex="19" />
                                         <Label text="Fehlerstrom-Schutzeinrichtungen (RCDs)" GridPane.rowIndex="20" />
                                         <RadioButton id="rcdAllBtn" fx:id="rcdAllBtn" mnemonicParsing="false" text="alle oder" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="20">
@@ -227,7 +227,7 @@
                                                 <Insets left="10.0" right="10.0" />
                                             </GridPane.margin>
                                         </TextField>
-                                        <RadioButton id="rcdNotBtn" fx:id="rcdNotBtn" mnemonicParsing="false" selected="true" text="Nein" toggleGroup="$RcdGroup" GridPane.columnIndex="3" GridPane.rowIndex="20" />
+                                        <RadioButton id="rcdNotBtn" fx:id="rcdNotBtn" mnemonicParsing="false" text="Nein" toggleGroup="$RcdGroup" GridPane.columnIndex="3" GridPane.rowIndex="20" />
                                         <TextField id="rcdCommentField" fx:id="rcdCommentField" maxWidth="250.0" promptText="Bemerkung hierzu" GridPane.rowIndex="21" />
                                         <Label text="Schleifenwiderstand" GridPane.rowIndex="22" />
                                         <RadioButton id="resistanceYesBtn" fx:id="resistanceYesBtn" mnemonicParsing="false" text="ja, Anzahl:" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="22">
@@ -243,7 +243,7 @@
                                                 <Insets left="10.0" right="10.0" />
                                             </GridPane.margin>
                                         </TextField>
-                                        <RadioButton id="resistanceNoBtn" fx:id="resistanceNoBtn" mnemonicParsing="false" selected="true" text="Nein" toggleGroup="$ResistanceGroup" GridPane.columnIndex="3" GridPane.rowIndex="22" />
+                                        <RadioButton id="resistanceNoBtn" fx:id="resistanceNoBtn" mnemonicParsing="false" text="Nein" toggleGroup="$ResistanceGroup" GridPane.columnIndex="3" GridPane.rowIndex="22" />
                                         <TextField id="resistanceCommentField" fx:id="resistanceCommentField" prefHeight="25.0" prefWidth="366.0" promptText="Bemerkung hierzu" GridPane.rowIndex="23" />
                                         <Label text="Wurden thermische Auffälligkeiten messtechnisch vorgefunden?" wrapText="true" GridPane.rowIndex="24" />
                                         <RadioButton id="thermicYesBtn" fx:id="thermicYesBtn" mnemonicParsing="false" text="Ja" GridPane.columnIndex="1" GridPane.rowIndex="24">
@@ -254,7 +254,7 @@
                                     <Insets left="10.0" />
                                  </GridPane.margin>
                                         </RadioButton>
-                                        <RadioButton id="thermicNoBtn" fx:id="thermicNoBtn" mnemonicParsing="false" selected="true" text="Nein" toggleGroup="$ThermicGroup" GridPane.columnIndex="2" GridPane.rowIndex="24" />
+                                        <RadioButton id="thermicNoBtn" fx:id="thermicNoBtn" mnemonicParsing="false" text="Nein" toggleGroup="$ThermicGroup" GridPane.columnIndex="2" GridPane.rowIndex="24" />
                                         <TextField id="thermicCommentField" fx:id="thermicCommentField" maxWidth="250.0" promptText="Bemerkung hierzu" GridPane.rowIndex="25" />
                                         <Label text="Ortsveränderliche Betriebsmittel" GridPane.rowIndex="26">
                                             <font>
@@ -274,7 +274,7 @@
                                     <Insets left="10.0" />
                                  </padding>
                                         </RadioButton>
-                                        <RadioButton id="portableUtilitiesNoBtn" fx:id="portableUtilitiesNoBtn" mnemonicParsing="false" selected="true" text="Nein" toggleGroup="$PortableUtilitiesGroup" GridPane.columnIndex="2" GridPane.rowIndex="27" />
+                                        <RadioButton id="portableUtilitiesNoBtn" fx:id="portableUtilitiesNoBtn" mnemonicParsing="false" text="Nein" toggleGroup="$PortableUtilitiesGroup" GridPane.columnIndex="2" GridPane.rowIndex="27" />
                                         <RadioButton id="externalPortableUtilitiesYesBtn" fx:id="externalPortableUtilitiesYesBtn" mnemonicParsing="false" text="Ja" GridPane.columnIndex="1" GridPane.rowIndex="28">
                                             <toggleGroup>
                                                 <ToggleGroup fx:id="ExternalPortableUtilitiesGroup" />
@@ -283,7 +283,7 @@
                                     <Insets left="10.0" />
                                  </GridPane.margin>
                                         </RadioButton>
-                                        <RadioButton id="externalPortableUtilitiesNoBtn" fx:id="externalPortableUtilitiesNoBtn" mnemonicParsing="false" selected="true" text="Nein" toggleGroup="$ExternalPortableUtilitiesGroup" GridPane.columnIndex="2" GridPane.rowIndex="28" />
+                                        <RadioButton id="externalPortableUtilitiesNoBtn" fx:id="externalPortableUtilitiesNoBtn" mnemonicParsing="false" text="Nein" toggleGroup="$ExternalPortableUtilitiesGroup" GridPane.columnIndex="2" GridPane.rowIndex="28" />
                                         <RadioButton fx:id="externalPortableUtilitiesNrBtn" mnemonicParsing="false" text="nr " toggleGroup="$ExternalPortableUtilitiesGroup" GridPane.columnIndex="3" GridPane.rowIndex="28" />
                                         <Label text="Allgemeine Informationen zur geprüften elektrischen Anlage" wrapText="true" GridPane.rowIndex="29">
                                             <font>
@@ -298,7 +298,7 @@
                                                 <Font name="System Bold Italic" size="12.0" />
                                             </font>
                                         </Label>
-                                        <RadioButton id="supplySystemTNBtn" fx:id="supplySystemTNBtn" mnemonicParsing="false" selected="true" text="TN " GridPane.columnIndex="1" GridPane.rowIndex="30">
+                                        <RadioButton id="supplySystemTNBtn" fx:id="supplySystemTNBtn" mnemonicParsing="false" text="TN " GridPane.columnIndex="1" GridPane.rowIndex="30">
                                             <toggleGroup>
                                                 <ToggleGroup fx:id="SupplySystemGroup" />
                                             </toggleGroup>
@@ -334,7 +334,7 @@
                                  </GridPane.margin>
                                         </Label>
                                         <Label text="Geschätzte Anzahl der fest angeschlossenen &#10;Verbraucher in der elektrischen Anlage:" GridPane.rowIndex="37" />
-                                        <RadioButton id="hardWiredLoadsUnder250Btn" fx:id="hardWiredLoadsUnder250Btn" mnemonicParsing="false" selected="true" text="&lt;= 250" GridPane.columnIndex="1" GridPane.rowIndex="37">
+                                        <RadioButton id="hardWiredLoadsUnder250Btn" fx:id="hardWiredLoadsUnder250Btn" mnemonicParsing="false" text="&lt;= 250" GridPane.columnIndex="1" GridPane.rowIndex="37">
                                             <toggleGroup>
                                                 <ToggleGroup fx:id="HardWiredLoadsGroup" />
                                             </toggleGroup>
