@@ -46,6 +46,7 @@ import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
@@ -214,6 +215,7 @@ public class Tab_InspectionResult implements Initializable{
 	private Company currentCompany;
 	private ArrayList<CompanyPlant> companyPlantsList;
 	private CompanyPlant currentCompanyPlant;
+	private DatePicker datePickerExaminationDate;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -221,8 +223,6 @@ public class Tab_InspectionResult implements Initializable{
 		prepareData();
 		prepareBranchesAutocomplete();
 		prepareDefectsAutocomplete();
-		loadCompanies();
-		prepareTable();
 		pdfExpBtn.setDisable(true);
     }
 	
@@ -232,6 +232,7 @@ public class Tab_InspectionResult implements Initializable{
 	}
 
 	private void prepareGUI() {
+		//CompanyComboBox
 		comboBoxCompanyName.setCellFactory(new Callback<ListView<Company>, ListCell<Company>>() {
 			 @Override
 			 public ListCell<Company> call(ListView<Company> param) {
@@ -247,22 +248,6 @@ public class Tab_InspectionResult implements Initializable{
 				 };
 			}
 		});
-		comboBoxCompanyPlantStreet.setCellFactory(new Callback<ListView<CompanyPlant>, ListCell<CompanyPlant>>() {
-			 @Override
-			 public ListCell<CompanyPlant> call(ListView<CompanyPlant> param) {
-				 return new ListCell<CompanyPlant>(){
-					 @Override
-					 public void updateItem(CompanyPlant item, boolean empty){
-						 super.updateItem(item, empty);
-						 if(!empty) {
-							 setText(item.getDescription());
-							 setGraphic(null);
-						 }
-					 }
-				 };
-			}
-		});
-		
 		comboBoxCompanyName.setConverter(new StringConverter<Company>() {
 	        @Override
 	        public String toString(Company company) {
@@ -281,26 +266,6 @@ public class Tab_InspectionResult implements Initializable{
                 return new Company(-1,string);
 	        }
 	    });
-		comboBoxCompanyPlantStreet.setConverter(new StringConverter<CompanyPlant>() {
-	        @Override
-	        public String toString(CompanyPlant companyPlant) {
-	            return companyPlant == null ? "" : companyPlant.getDescription();
-	        }
-
-	        @Override
-	        public CompanyPlant fromString(String string) {
-                for(CompanyPlant companyPlant : companyPlantsList){
-                	//Company Selected
-                    if(companyPlant.getDescription().equalsIgnoreCase(string)){
-                        return companyPlant;
-                    }
-                }
-                //New Company Name Entered
-                return new CompanyPlant(-1, string, currentCompany);
-	        }
-	    });
-		
-		
 		comboBoxCompanyName.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Company>() {
 	        public void changed(ObservableValue<? extends Company> observable, Company oldValue, Company newValue) {
 	        	currentCompany = newValue;
@@ -341,6 +306,41 @@ public class Tab_InspectionResult implements Initializable{
 			}
 		});
 		
+		
+		//CompanyPlantComboBox
+		comboBoxCompanyPlantStreet.setCellFactory(new Callback<ListView<CompanyPlant>, ListCell<CompanyPlant>>() {
+			 @Override
+			 public ListCell<CompanyPlant> call(ListView<CompanyPlant> param) {
+				 return new ListCell<CompanyPlant>(){
+					 @Override
+					 public void updateItem(CompanyPlant item, boolean empty){
+						 super.updateItem(item, empty);
+						 if(!empty) {
+							 setText(item.getDescription());
+							 setGraphic(null);
+						 }
+					 }
+				 };
+			}
+		});
+		comboBoxCompanyPlantStreet.setConverter(new StringConverter<CompanyPlant>() {
+	        @Override
+	        public String toString(CompanyPlant companyPlant) {
+	            return companyPlant == null ? "" : companyPlant.getDescription();
+	        }
+
+	        @Override
+	        public CompanyPlant fromString(String string) {
+                for(CompanyPlant companyPlant : companyPlantsList){
+                	//Company Selected
+                    if(companyPlant.getDescription().equalsIgnoreCase(string)){
+                        return companyPlant;
+                    }
+                }
+                //New Company Name Entered
+                return new CompanyPlant(-1, string, currentCompany);
+	        }
+	    });
 		comboBoxCompanyPlantStreet.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<CompanyPlant>() {
 	        public void changed(ObservableValue<? extends CompanyPlant> observable, CompanyPlant oldValue, CompanyPlant newValue) {
 	        	currentCompanyPlant = newValue;
@@ -366,6 +366,15 @@ public class Tab_InspectionResult implements Initializable{
 	        	}
 	        }
 		});
+		
+		//FlawList TableView
+		defectIdColumn.setCellValueFactory(new PropertyValueFactory<FlawListElement,String>("externalFlawId"));
+		dangerColumn.setCellValueFactory(new PropertyValueFactory<FlawListElement,String>("dangerString"));
+		buildingColumn.setCellValueFactory(new PropertyValueFactory<FlawListElement,String>("building"));
+		roomColumn.setCellValueFactory(new PropertyValueFactory<FlawListElement,String>("room"));
+		maschineColumn.setCellValueFactory(new PropertyValueFactory<FlawListElement,String>("machine"));
+		branchColumn.setCellValueFactory(new PropertyValueFactory<FlawListElement,String>("branchId"));
+		descriptionColumn.setCellValueFactory(new PropertyValueFactory<FlawListElement,String>("flawDescription"));
 	}
 
 	public void saveCompany(ActionEvent event) throws IOException {
@@ -424,23 +433,7 @@ public class Tab_InspectionResult implements Initializable{
 	    this.mainController = parentController;
 	}
 	
-	private void prepareTable() {
-		defectIdColumn.setCellValueFactory(new PropertyValueFactory<FlawListElement,String>("id"));
-		dangerColumn.setCellValueFactory(new PropertyValueFactory<FlawListElement,String>("dangerString"));
-		buildingColumn.setCellValueFactory(new PropertyValueFactory<FlawListElement,String>("building"));
-		roomColumn.setCellValueFactory(new PropertyValueFactory<FlawListElement,String>("room"));
-		maschineColumn.setCellValueFactory(new PropertyValueFactory<FlawListElement,String>("machine"));
-		branchColumn.setCellValueFactory(new PropertyValueFactory<FlawListElement,String>("branchId"));
-		descriptionColumn.setCellValueFactory(new PropertyValueFactory<FlawListElement,String>("defectCustomDescription"));
-		
-		defectTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-			if (showTableDialog ==1) {
-				tableSelctedId = defectTableView.getSelectionModel().getSelectedIndex();
-				createDignosisOptionsDialog((FlawListElement) defectTableView.getSelectionModel().getSelectedItem());
-				showTableDialog = 0;
-			}
-		});
-	} 
+	
 	
 	/**
 	 * Defect edit Dialog (Do you want to edit this defect? )
@@ -851,7 +844,6 @@ public class Tab_InspectionResult implements Initializable{
 			
 			inspectionResultCompanyPlant = result.getCompanyPlant();
 			inspectionResultCompany = inspectionResultCompanyPlant.getCompany();
-			plantStreetField.setText(inspectionResultCompanyPlant.getStreet());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -400,6 +400,7 @@
                                               <TextField fx:id="plantExpertField" promptText="Sachverständiger" />
                                               <TextField fx:id="plantAnerkNrField" promptText="VdS-Anerk.-Nr." />
                                               <TextField fx:id="plantInspectionField" promptText="Datum der Prüfung" />
+                                    <DatePicker fx:id="datePickerExaminationDate" editable="false" promptText="Datum der Prüfung" />
                                               <TextField fx:id="plantInspectionTimeField" promptText="Prüfungsdauer" />
                                  </children>
                                  <HBox.margin>

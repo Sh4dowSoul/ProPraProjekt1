@@ -24,6 +24,14 @@ public class FlawListElement {
 		this.machine = machine;
 	}
 	
+	public int getExternalFlawId() {
+		return flaw.getExternalId();
+	}
+	
+	public String getFlawDescription() {
+		return flaw.getDescription();
+	}
+	
 	public int getBranchId() {
 		return branchId;
 	}
