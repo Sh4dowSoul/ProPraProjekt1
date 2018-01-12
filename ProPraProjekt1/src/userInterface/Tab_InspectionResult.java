@@ -1429,4 +1429,138 @@ public class Tab_InspectionResult implements Initializable{
 		loadCompanies();
 		pdfExpBtn.setDisable(true);
 	}
+	
+	
+	/**
+	 * checks result for mandatory field completeness
+	 * 
+	 * @return if complete
+	 */
+	public boolean checkMandatoryFields() {
+		boolean valid = true;
+		
+		if (inspectionResultCompany == null) {
+			valid = false;
+			System.out.println("Company not valid");
+		}
+		
+		if (plantExpertField.getText().isEmpty() || plantAnerkNrField.getText().isEmpty() || plantInspectionField.getText().isEmpty() || plantInspectionTimeField.getText().isEmpty()) {
+			valid = false;
+			System.out.println("Company plant not complete");
+		}
+		
+		if (!freqYesBtn.isSelected() && !freqNoBtn.isSelected()) {
+			valid = false;
+			System.out.println("Frequency not selected");
+		}
+		
+		if (branchName.getText().isEmpty()) {
+			valid = false;
+			System.out.println("Branch empty");
+		}
+		
+		if (!precautionYesBtn.isSelected() && !precautionNoBtn.isSelected()) {
+			valid = false;
+			System.out.println("Precaution not selected");
+		}
+		
+		if (precautionYesBtn.isSelected() && precautionField.getText().isEmpty()) {
+			valid = false;
+			System.out.println("Precaution field empty");
+		}
+		
+		if (!completeYesBtn.isSelected() && !completeNoBtn.isSelected()) {
+			valid = false;
+			System.out.println("Completion not selected");
+		}
+		
+		if (!changesSinceLastExaminationYesBtn.isSelected() && !changesSinceLastExaminationNoBtn.isSelected() && !changesSinceLastExaminationFirstExaminationBtn.isSelected()) {
+			valid = false;
+			System.out.println("Changes since last examination not selected");
+		}
+		
+		if (!defectsLastExaminationYesBtn.isSelected() && !defectsLastExaminationNoBtn.isSelected() && !defectsLastExaminationNoReportBtn.isSelected()) {
+			valid = false;
+			System.out.println("Defects since last examination not selected");
+		}
+		
+		if (!dangerCategorieGroupABtn.isSelected() && !dangerCategorieGroupBBtn.isSelected() && !dangerCategorieGroupCBtn.isSelected() && !dangerCategorieGroupDBtn.isSelected()) {
+			valid = false;
+			System.out.println("Danger Group not selected");
+		}
+		
+		if (!noDefectsBtn.isSelected() && !defectsAttachedBtn.isSelected() && !removeDefectsImmediatelyBtn.isSelected()){
+			valid = false;
+			System.out.println("Result not selected");
+		}
+		
+		if (defectsAttachedBtn.isSelected() && defectsAttachedDateField.getText().isEmpty()) {
+			valid = false;
+			System.out.println("Defects removel date empty");
+		}
+		
+		if (!isoMinYesBtn.isSelected() && !isoMinNoBtn.isSelected()) {
+			valid = false;
+			System.out.println("Isolation not selected");
+		}
+		
+		if (!isoProtocolYesBtn.isSelected() && !isoProtocolNoBtn.isSelected()) {
+			valid = false;
+			System.out.println("Isolation protocol not selected");
+		}
+		
+		if (!isoCompensationYesBtn.isSelected() && !isoCompensationNoBtn.isSelected()) {
+			valid = false;
+			System.out.println("Isolation compensation not selected");
+		}
+		
+		if (!rcdAllBtn.isSelected() && rcdNotBtn.isSelected()) {
+			valid = false;
+			System.out.println("RCD not selected");
+		}
+		
+		if (rcdAllBtn.isSelected() && rcdPercentageField.getText().isEmpty()) {
+			valid = false;
+			System.out.println("RCD percentage empty");
+		}
+		
+		if (!resistanceYesBtn.isSelected() && !resistanceNoBtn.isSelected()) {
+			valid = false;
+			System.out.println("Resistance not selected");
+		}
+		
+		if (resistanceYesBtn.isSelected() && resistancePercentageField.getText().isEmpty()) {
+			valid = false;
+			System.out.println("Resistance percentage empty");
+		}
+		
+		if (!thermicYesBtn.isSelected() && !thermicNoBtn.isSelected()) {
+			valid = false;
+			System.out.println("Thermic not selected");
+		}
+		
+		if (portableUtilitiesYesBtn.isSelected() && !portableUtilitiesNoBtn.isSelected()) {
+			valid = false;
+			System.out.println("Portable utilities not selected");
+		}
+		
+		if (!externalPortableUtilitiesYesBtn.isSelected() && !externalPortableUtilitiesNoBtn.isSelected() && !externalPortableUtilitiesNrBtn.isSelected()) {
+			valid = false;
+			System.out.println("External portable utilities not selected");
+		}
+		
+		if (!supplySystemTNBtn.isSelected() && !supplySystemTTBtn.isSelected() && !supplySystemITBtn.isSelected() && !supplySystemCircleBtn.isSelected()) {
+			valid = false;
+			System.out.println("Supply system not selected");
+		}
+		
+		if (!hardWiredLoadsUnder250Btn.isSelected() && !hardWiredLoadsUnder500Btn.isSelected() && !hardWiredLoadsUnder1000Btn.isSelected() && !hardWiredLoadsUnder5000Btn.isSelected() && !hardWiredLoadsAbove5000Btn.isSelected()) {
+			valid = false;
+			System.out.println("Hardwired loads not selected");
+		}
+		return valid;
+	}
 }
+	
+	
+	
