@@ -26,6 +26,20 @@ public class InspectionResultPreview extends InspectionReportMinimal{
 		this.companyName = companyName;
 		this.lastEdited = lastEdited;
 	}
+	
+	public InspectionResultPreview() {};
+
+	public void setCompanyId(int companyId) {
+		this.companyId = companyId;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	public void setLastEdited(LocalDate lastEdited) {
+		this.lastEdited = lastEdited;
+	}
 
 	public int getCompanyId() {
 		return companyId;

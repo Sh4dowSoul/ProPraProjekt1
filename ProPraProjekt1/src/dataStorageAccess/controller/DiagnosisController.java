@@ -40,9 +40,14 @@ public class DiagnosisController {
 					"LIMIT " + number);
 		) {
 			while (resultSet.next()) {
+				String examinationDateString = resultSet.getString("examinationDate");
+				LocalDate examinationDate = null;
+				if(!resultSet.wasNull()) {
+					examinationDate = LocalDate.parse(examinationDateString);
+				}
 				result.add(new InspectionResultPreview(
 						resultSet.getInt("inspectionReportId"), 
-						LocalDate.parse(resultSet.getString("examinationDate")), 
+						examinationDate, 
 						resultSet.getInt("companyId"), 
 						resultSet.getString("companyName"), 
 						LocalDate.parse(resultSet.getString("inspectionReportLastEdited"))));
@@ -66,9 +71,14 @@ public class DiagnosisController {
 					"ORDER BY companyName");
 		) {
 			while (resultSet.next()) {
+				String examinationDateString = resultSet.getString("examinationDate");
+				LocalDate examinationDate = null;
+				if(!resultSet.wasNull()) {
+					examinationDate = LocalDate.parse(examinationDateString);
+				}
 				result.add(new InspectionResultPreview(
 						resultSet.getInt("inspectionReportId"), 
-						LocalDate.parse(resultSet.getString("examinationDate")), 
+						examinationDate,
 						resultSet.getInt("companyId"), 
 						resultSet.getString("companyName"), 
 						LocalDate.parse(resultSet.getString("inspectionReportLastEdited"))));
