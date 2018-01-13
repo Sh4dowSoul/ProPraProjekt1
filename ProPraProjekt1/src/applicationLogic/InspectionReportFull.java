@@ -15,59 +15,59 @@ public class InspectionReportFull extends InspectionReportMinimal {
 	private LocalDate lastEdited;
 	private String companion;
 	private String surveyor;
-	private int vdsApprovalNr;
-	private double examinationDuration;
+	private Integer vdsApprovalNr;
+	private Double examinationDuration;
 	private Branch branch;
-	boolean frequencyControlledUtilities;
-	private boolean precautionsDeclared;
+	private Boolean frequencyControlledUtilities;
+	private Boolean precautionsDeclared;
 	private String precautionsDeclaredLocation;
-	private boolean examinationComplete;
+	private Boolean examinationComplete;
 	private LocalDate subsequentExaminationDate;
 	private String examinationIncompleteReason;
-	private int changesSinceLastExamination;
-	private int defectsLastExaminationFixed;
-	private int dangerCategory;
+	private Integer changesSinceLastExamination;
+	private Integer defectsLastExaminationFixed;
+	private Integer dangerCategory;
 	private String dangerCategoryDescription;
-	private boolean examinationResultNoDefect;
-	private boolean examinationResultDefect;
+	private Boolean examinationResultNoDefect;
+	private Boolean examinationResultDefect;
 	private LocalDate examinationResultDefectDate;
-	private boolean examinationResultDanger;
-	private boolean isolationChecked;
-	private boolean isolationMesasurementProtocols;
-	private boolean isolationCompensationMeasures;
+	private Boolean examinationResultDanger;
+	private Boolean isolationChecked;
+	private Boolean isolationMesasurementProtocols;
+	private Boolean isolationCompensationMeasures;
 	private String isolationCompensationMeasuresAnnotation;
 	private Boolean rcdAvailable;
-	private int rcdAvailablePercent;
+	private Double rcdAvailablePercent;
 	private String rcdAnnotation;
-	private boolean resistance;
-	private int resistanceNumber;
+	private Boolean resistance;
+	private Integer resistanceNumber;
 	private String resistanceAnnotation;
-	private boolean thermalAbnormality;
+	private Boolean thermalAbnormality;
 	private String thermalAbnormalityAnnotation;
-	private boolean internalPortableUtilities;
-	private int externalPortableUtilities;
-	private int supplySystem;
-	private int energyDemand;
-	private int maxEnergyDemandExternal;
-	private int maxEnergyDemandInternal;
-	private int protectedCircuitsPercent;
-	private int hardWiredLoads;
+	private Boolean internalPortableUtilities;
+	private Integer externalPortableUtilities;
+	private Integer supplySystem;
+	private Integer energyDemand;
+	private Integer maxEnergyDemandExternal;
+	private Integer maxEnergyDemandInternal;
+	private Integer protectedCircuitsPercent;
+	private Integer hardWiredLoads;
 	private String additionalAnnotations;
 	private CompanyPlant companyPlant;
 	private ArrayList<FlawListElement> defects;
 	
-	public InspectionReportFull(int id, LocalDate date, LocalDate lastEdited, String companion, String surveyor, int vdsApprovalNr,
-			double examinationDuration, Branch branch, boolean frequencyControlledUtilities, boolean precautionsDeclared,
-			String precautionsDeclaredLocation, boolean examinationComplete, LocalDate subsequentExaminationDate,
-			String examinationIncompleteReason, int changesSinceLastExamination, int defectsLastExaminationFixed,
-			int dangerCategory, String dangerCategoryDescription, boolean examinationResultNoDefect,
-			boolean examinationResultDefect, LocalDate examinationResultDefectDate,  boolean examinationResultDanger, boolean isolationChecked,
-			boolean isolationMesasurementProtocols, boolean isolationCompensationMeasures,
-			String isolationCompensationMeasuresAnnotation, Boolean rcdAvailable, int rcdAvailablePercent,
-			String rcdAnnotation, boolean resistance, int resistanceNumber, String resistanceAnnotation,
-			boolean thermalAbnormality, String thermalAbnormalityAnnotation, boolean internalPortableUtilities,
-			int externalPortableUtilities, int supplySystem, int energyDemand, int maxEnergyDemandExternal,
-			int maxEnergyDemandInternal, int protectedCircuitsPercent, int hardWiredLoads, String additionalAnnotations,
+	public InspectionReportFull(Integer id, LocalDate date, LocalDate lastEdited, String companion, String surveyor, Integer vdsApprovalNr,
+			Double examinationDuration, Branch branch, Boolean frequencyControlledUtilities, Boolean precautionsDeclared,
+			String precautionsDeclaredLocation, Boolean examinationComplete, LocalDate subsequentExaminationDate,
+			String examinationIncompleteReason, Integer changesSinceLastExamination, Integer defectsLastExaminationFixed,
+			Integer dangerCategory, String dangerCategoryDescription, Boolean examinationResultNoDefect,
+			Boolean examinationResultDefect, LocalDate examinationResultDefectDate,  Boolean examinationResultDanger, Boolean isolationChecked,
+			Boolean isolationMesasurementProtocols, Boolean isolationCompensationMeasures,
+			String isolationCompensationMeasuresAnnotation, Boolean rcdAvailable, Double rcdAvailablePercent,
+			String rcdAnnotation, Boolean resistance, Integer resistanceNumber, String resistanceAnnotation,
+			Boolean thermalAbnormality, String thermalAbnormalityAnnotation, Boolean internalPortableUtilities,
+			Integer externalPortableUtilities, Integer supplySystem, Integer energyDemand, Integer maxEnergyDemandExternal,
+			Integer maxEnergyDemandInternal, Integer protectedCircuitsPercent, Integer hardWiredLoads, String additionalAnnotations,
 			CompanyPlant companyPlant) {
 		super(id, date);
 		this.lastEdited = lastEdited;
@@ -113,6 +113,10 @@ public class InspectionReportFull extends InspectionReportMinimal {
 		this.additionalAnnotations = additionalAnnotations;
 		this.companyPlant = companyPlant;
 	}
+	
+	public InspectionReportFull() {
+		super();
+	}
 
 
 	public LocalDate getExaminationResultDefectDate() {
@@ -144,12 +148,12 @@ public class InspectionReportFull extends InspectionReportMinimal {
 	}
 
 
-	public int getVdsApprovalNr() {
+	public Integer getVdsApprovalNr() {
 		return vdsApprovalNr;
 	}
 
 
-	public double getExaminationDuration() {
+	public Double getExaminationDuration() {
 		return examinationDuration;
 	}
 	
@@ -158,12 +162,180 @@ public class InspectionReportFull extends InspectionReportMinimal {
 	}
 
 
-	public boolean isFrequencyControlledUtilities() {
+	public Boolean isFrequencyControlledUtilities() {
 		return frequencyControlledUtilities;
 	}
 
 
-	public boolean isPrecautionsDeclared() {
+	public void setLastEdited(LocalDate lastEdited) {
+		this.lastEdited = lastEdited;
+	}
+
+	public void setCompanion(String companion) {
+		this.companion = companion;
+	}
+
+	public void setSurveyor(String surveyor) {
+		this.surveyor = surveyor;
+	}
+
+	public void setVdsApprovalNr(Integer vdsApprovalNr) {
+		this.vdsApprovalNr = vdsApprovalNr;
+	}
+
+	public void setExaminationDuration(Double examinationDuration) {
+		this.examinationDuration = examinationDuration;
+	}
+
+	public void setBranch(Branch branch) {
+		this.branch = branch;
+	}
+
+	public void setFrequencyControlledUtilities(Boolean frequencyControlledUtilities) {
+		this.frequencyControlledUtilities = frequencyControlledUtilities;
+	}
+
+	public void setPrecautionsDeclared(Boolean precautionsDeclared) {
+		this.precautionsDeclared = precautionsDeclared;
+	}
+
+	public void setPrecautionsDeclaredLocation(String precautionsDeclaredLocation) {
+		this.precautionsDeclaredLocation = precautionsDeclaredLocation;
+	}
+
+	public void setExaminationComplete(Boolean examinationComplete) {
+		this.examinationComplete = examinationComplete;
+	}
+
+	public void setSubsequentExaminationDate(LocalDate subsequentExaminationDate) {
+		this.subsequentExaminationDate = subsequentExaminationDate;
+	}
+
+	public void setExaminationIncompleteReason(String examinationIncompleteReason) {
+		this.examinationIncompleteReason = examinationIncompleteReason;
+	}
+
+	public void setChangesSinceLastExamination(Integer changesSinceLastExamination) {
+		this.changesSinceLastExamination = changesSinceLastExamination;
+	}
+
+	public void setDefectsLastExaminationFixed(Integer defectsLastExaminationFixed) {
+		this.defectsLastExaminationFixed = defectsLastExaminationFixed;
+	}
+
+	public void setDangerCategory(Integer dangerCategory) {
+		this.dangerCategory = dangerCategory;
+	}
+
+	public void setDangerCategoryDescription(String dangerCategoryDescription) {
+		this.dangerCategoryDescription = dangerCategoryDescription;
+	}
+
+	public void setExaminationResultNoDefect(Boolean examinationResultNoDefect) {
+		this.examinationResultNoDefect = examinationResultNoDefect;
+	}
+
+	public void setExaminationResultDefect(Boolean examinationResultDefect) {
+		this.examinationResultDefect = examinationResultDefect;
+	}
+
+	public void setExaminationResultDefectDate(LocalDate examinationResultDefectDate) {
+		this.examinationResultDefectDate = examinationResultDefectDate;
+	}
+
+	public void setExaminationResultDanger(Boolean examinationResultDanger) {
+		this.examinationResultDanger = examinationResultDanger;
+	}
+
+	public void setIsolationChecked(Boolean isolationChecked) {
+		this.isolationChecked = isolationChecked;
+	}
+
+	public void setIsolationMesasurementProtocols(Boolean isolationMesasurementProtocols) {
+		this.isolationMesasurementProtocols = isolationMesasurementProtocols;
+	}
+
+	public void setIsolationCompensationMeasures(Boolean isolationCompensationMeasures) {
+		this.isolationCompensationMeasures = isolationCompensationMeasures;
+	}
+
+	public void setIsolationCompensationMeasuresAnnotation(String isolationCompensationMeasuresAnnotation) {
+		this.isolationCompensationMeasuresAnnotation = isolationCompensationMeasuresAnnotation;
+	}
+
+	public void setRcdAvailable(Boolean rcdAvailable) {
+		this.rcdAvailable = rcdAvailable;
+	}
+
+	public void setRcdAvailablePercent(Double rcdAvailablePercent) {
+		this.rcdAvailablePercent = rcdAvailablePercent;
+	}
+
+	public void setRcdAnnotation(String rcdAnnotation) {
+		this.rcdAnnotation = rcdAnnotation;
+	}
+
+	public void setResistance(Boolean resistance) {
+		this.resistance = resistance;
+	}
+
+	public void setResistanceNumber(Integer resistanceNumber) {
+		this.resistanceNumber = resistanceNumber;
+	}
+
+	public void setResistanceAnnotation(String resistanceAnnotation) {
+		this.resistanceAnnotation = resistanceAnnotation;
+	}
+
+	public void setThermalAbnormality(Boolean thermalAbnormality) {
+		this.thermalAbnormality = thermalAbnormality;
+	}
+
+	public void setThermalAbnormalityAnnotation(String thermalAbnormalityAnnotation) {
+		this.thermalAbnormalityAnnotation = thermalAbnormalityAnnotation;
+	}
+
+	public void setInternalPortableUtilities(Boolean internalPortableUtilities) {
+		this.internalPortableUtilities = internalPortableUtilities;
+	}
+
+	public void setExternalPortableUtilities(Integer externalPortableUtilities) {
+		this.externalPortableUtilities = externalPortableUtilities;
+	}
+
+	public void setSupplySystem(Integer supplySystem) {
+		this.supplySystem = supplySystem;
+	}
+
+	public void setEnergyDemand(Integer energyDemand) {
+		this.energyDemand = energyDemand;
+	}
+
+	public void setMaxEnergyDemandExternal(Integer maxEnergyDemandExternal) {
+		this.maxEnergyDemandExternal = maxEnergyDemandExternal;
+	}
+
+	public void setMaxEnergyDemandInternal(Integer maxEnergyDemandInternal) {
+		this.maxEnergyDemandInternal = maxEnergyDemandInternal;
+	}
+
+	public void setProtectedCircuitsPercent(Integer protectedCircuitsPercent) {
+		this.protectedCircuitsPercent = protectedCircuitsPercent;
+	}
+
+	public void setHardWiredLoads(Integer hardWiredLoads) {
+		this.hardWiredLoads = hardWiredLoads;
+	}
+
+	public void setAdditionalAnnotations(String additionalAnnotations) {
+		this.additionalAnnotations = additionalAnnotations;
+	}
+
+	public void setCompanyPlant(CompanyPlant companyPlant) {
+		this.companyPlant = companyPlant;
+	}
+
+	public Boolean isPrecautionsDeclared() {
 		return precautionsDeclared;
 	}
 
@@ -173,7 +345,7 @@ public class InspectionReportFull extends InspectionReportMinimal {
 	}
 
 
-	public boolean isExaminationComplete() {
+	public Boolean isExaminationComplete() {
 		return examinationComplete;
 	}
 
@@ -191,17 +363,17 @@ public class InspectionReportFull extends InspectionReportMinimal {
 	}
 
 
-	public int getChangesSinceLastExamination() {
+	public Integer getChangesSinceLastExamination() {
 		return changesSinceLastExamination;
 	}
 
 
-	public int getDefectsLastExaminationFixed() {
+	public Integer getDefectsLastExaminationFixed() {
 		return defectsLastExaminationFixed;
 	}
 
 
-	public int getDangerCategory() {
+	public Integer getDangerCategory() {
 		return dangerCategory;
 	}
 
@@ -211,32 +383,32 @@ public class InspectionReportFull extends InspectionReportMinimal {
 	}
 
 
-	public boolean isExaminationResultNoDefect() {
+	public Boolean isExaminationResultNoDefect() {
 		return examinationResultNoDefect;
 	}
 
 
-	public boolean isExaminationResultDefect() {
+	public Boolean isExaminationResultDefect() {
 		return examinationResultDefect;
 	}
 
 
-	public boolean isExaminationResultDanger() {
+	public Boolean isExaminationResultDanger() {
 		return examinationResultDanger;
 	}
 
 
-	public boolean isIsolationChecked() {
+	public Boolean isIsolationChecked() {
 		return isolationChecked;
 	}
 
 
-	public boolean isIsolationMesasurementProtocols() {
+	public Boolean isIsolationMesasurementProtocols() {
 		return isolationMesasurementProtocols;
 	}
 
 
-	public boolean isIsolationCompensationMeasures() {
+	public Boolean isIsolationCompensationMeasures() {
 		return isolationCompensationMeasures;
 	}
 
@@ -251,7 +423,7 @@ public class InspectionReportFull extends InspectionReportMinimal {
 	}
 
 
-	public int getRcdAvailablePercent() {
+	public Double getRcdAvailablePercent() {
 		return rcdAvailablePercent;
 	}
 
@@ -261,12 +433,12 @@ public class InspectionReportFull extends InspectionReportMinimal {
 	}
 
 
-	public boolean isResistance() {
+	public Boolean isResistance() {
 		return resistance;
 	}
 
 
-	public int getResistanceNumber() {
+	public Integer getResistanceNumber() {
 		return resistanceNumber;
 	}
 
@@ -276,7 +448,7 @@ public class InspectionReportFull extends InspectionReportMinimal {
 	}
 
 
-	public boolean isThermalAbnormality() {
+	public Boolean isThermalAbnormality() {
 		return thermalAbnormality;
 	}
 
@@ -286,42 +458,42 @@ public class InspectionReportFull extends InspectionReportMinimal {
 	}
 
 
-	public boolean isInternalPortableUtilities() {
+	public Boolean isInternalPortableUtilities() {
 		return internalPortableUtilities;
 	}
 
 
-	public int getExternalPortableUtilities() {
+	public Integer getExternalPortableUtilities() {
 		return externalPortableUtilities;
 	}
 
 
-	public int getSupplySystem() {
+	public Integer getSupplySystem() {
 		return supplySystem;
 	}
 
 
-	public int getEnergyDemand() {
+	public Integer getEnergyDemand() {
 		return energyDemand;
 	}
 
 
-	public int getMaxEnergyDemandExternal() {
+	public Integer getMaxEnergyDemandExternal() {
 		return maxEnergyDemandExternal;
 	}
 
 
-	public int getMaxEnergyDemandInternal() {
+	public Integer getMaxEnergyDemandInternal() {
 		return maxEnergyDemandInternal;
 	}
 
 
-	public int getProtectedCircuitsPercent() {
+	public Integer getProtectedCircuitsPercent() {
 		return protectedCircuitsPercent;
 	}
 
 
-	public int getHardWiredLoads() {
+	public Integer getHardWiredLoads() {
 		return hardWiredLoads;
 	}
 

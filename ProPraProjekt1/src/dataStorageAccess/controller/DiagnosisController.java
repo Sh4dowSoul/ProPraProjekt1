@@ -93,66 +93,167 @@ public class DiagnosisController {
 						"WHERE inspectionReportId = " + id);
 			) {
 				while (resultSet.next()) {
-					result = new InspectionReportFull(resultSet.getInt("InspectionReportId"),
-											LocalDate.parse(resultSet.getString("examinationDate")),
-											LocalDate.parse(resultSet.getString("inspectionReportLastEdited")),
-											resultSet.getString("companion"), 
-											resultSet.getString("surveyor"),
-											resultSet.getInt("vdsApprovalNr"), 
-											resultSet.getDouble("examinationDuration"), 
-											new Branch(
-													resultSet.getInt("branchId"),
-													resultSet.getString("branchName")
-														),
-											resultSet.getBoolean("frequencyControlledUtilities"), 
-											resultSet.getBoolean("precautionsDeclared"),
-											resultSet.getString("precautionsDeclaredWhere"),
-											resultSet.getBoolean("examinationCompleted"),
-											LocalDate.parse(resultSet.getString("subsequentExaminationDate")),
-											resultSet.getString("subsequentExaminationReason"),
-											resultSet.getInt("changesSinceLastExamination"),
-											resultSet.getInt("defectsLastExaminationFixed"),
-											resultSet.getInt("dangerCategoryVds"),
-											resultSet.getString("dangerCategoryVdsDescription"),
-											resultSet.getBoolean("examinationResultNoDefect"),
-											resultSet.getBoolean("examinationResultDefect"),
-											LocalDate.parse(resultSet.getString("examinationResultDefectDate")),
-											resultSet.getBoolean("examinationResultDanger"),
-											resultSet.getBoolean("isolationCheckedEnough"),
-											resultSet.getBoolean("isolationMeasurementProtocols"),
-											resultSet.getBoolean("isolationCompensationMeasures"),
-											resultSet.getString("isolationCompensationMeasuresAnnotation"),
-											resultSet.getBoolean("rcdAvailable"),
-											resultSet.getInt("rcdAvailablePercent"),
-											resultSet.getString("rcdAnnotation"),
-											resultSet.getBoolean("resistance"),
-											resultSet.getInt("resistanceNumber"),
-											resultSet.getString("resistanceAnnotation"),
-											resultSet.getBoolean("thermalAbnormality"),
-											resultSet.getString("thermalAbnormalityAnnotation"),
-											resultSet.getBoolean("internalPortableUtilities"),
-											resultSet.getInt("externalPortableUtilities"),
-											resultSet.getInt("supplySystem"),
-											resultSet.getInt("energyDemand"),
-											resultSet.getInt("maxEnergyDemandExternal"),
-											resultSet.getInt("maxEnergyDemandInternal"),
-											resultSet.getInt("protectedCircuitsPercent"),
-											resultSet.getInt("hardWiredLoads"),
-											resultSet.getString("additionalAnnotations"),
-											new CompanyPlant(
-													resultSet.getInt("plantId"),
-													resultSet.getString("plantStreet"),
-													resultSet.getInt("plantZip"),
-													resultSet.getString("plantCity"),
-													new Company(
-															resultSet.getInt("companyId"),
-															resultSet.getString("companyName"),
-															resultSet.getString("companyStreet"),
-															resultSet.getInt("companyZip"),
-															resultSet.getString("companyCity")
-															)
-													)
-											);
+					result = new InspectionReportFull();
+					//Id
+					result.setId(resultSet.getInt("InspectionReportId"));
+					
+					//Company
+					int companyPlantId = resultSet.getInt("plantId");
+					if(!resultSet.wasNull()) {
+						result.setCompanyPlant(new CompanyPlant(
+								companyPlantId,
+								resultSet.getString("plantStreet"),
+								resultSet.getInt("plantZip"),
+								resultSet.getString("plantCity"),
+								new Company(
+										resultSet.getInt("companyId"),
+										resultSet.getString("companyName"),
+										resultSet.getString("companyStreet"),
+										resultSet.getInt("companyZip"),
+										resultSet.getString("companyCity")
+										)
+								)
+						);
+					}
+					
+					
+					//Date
+					String examinationdate = resultSet.getString("examinationDate");
+					if(!resultSet.wasNull()) {
+						result.setDate(LocalDate.parse(examinationdate));
+					}
+					
+					//Last Edited
+					String lastEdited = resultSet.getString("inspectionReportLastEdited");
+					if(!resultSet.wasNull()) {
+						result.setLastEdited(LocalDate.parse(lastEdited));
+					}
+					
+					//Companion
+					result.setCompanion(resultSet.getString("companion"));
+					
+					//Surveyor
+					result.setSurveyor(resultSet.getString("surveyor"));
+					
+					//VDS Approval
+					result.setVdsApprovalNr((Integer) resultSet.getObject("vdsApprovalNr"));
+					
+					//ExaminationDuration
+					result.setExaminationDuration((Double) resultSet.getObject("examinationDuration"));
+					
+					//Branch
+					result.setBranch(new Branch((Integer) resultSet.getObject("branchId"), resultSet.getString("branchName")));//TODO: Convert BranchID to INTEGER
+					
+					//FrequencyControlledUtilities
+					result.setFrequencyControlledUtilities(resultSet.getObject("frequencyControlledUtilities") != null ? resultSet.getBoolean("frequencyControlledUtilities") : null);
+					
+					//PrecautionsDeclared
+					result.setPrecautionsDeclared(resultSet.getObject("precautionsDeclared") != null ? resultSet.getBoolean("precautionsDeclared") : null);
+					
+					//PrecautionsDeclaredWhere
+					result.setPrecautionsDeclaredLocation(resultSet.getString("precautionsDeclaredWhere"));
+					
+					//ExaminationCompleted
+					result.setExaminationComplete(resultSet.getObject("examinationCompleted") != null ? resultSet.getBoolean("examinationCompleted") : null);
+					
+					//SubsequentExaminationDate
+					String subsequentExaminationDate = resultSet.getString("subsequentExaminationDate");
+					if(!resultSet.wasNull()) {
+						result.setSubsequentExaminationDate(LocalDate.parse(subsequentExaminationDate));
+					}
+					
+					//subsequentExaminationReason
+					result.setExaminationIncompleteReason(resultSet.getString("subsequentExaminationReason"));
+					
+					//changesSinceLastExamination
+					result.setChangesSinceLastExamination((Integer) resultSet.getObject("changesSinceLastExamination"));
+					
+					//defectsLastExaminationFixed
+					result.setDefectsLastExaminationFixed((Integer) resultSet.getObject("defectsLastExaminationFixed"));
+					
+					//dangerCategoryVds
+					result.setDangerCategory((Integer) resultSet.getObject("dangerCategoryVds"));
+					
+					//dangerCategoryVdsDescription
+					resultSet.getString("dangerCategoryVdsDescription");
+					
+					//examinationResultNoDefect
+					result.setExaminationResultNoDefect(resultSet.getObject("examinationResultNoDefect") != null ? resultSet.getBoolean("examinationResultNoDefect") : null);
+					
+					//examinationResultDefect
+					result.setExaminationResultDefect(resultSet.getObject("examinationResultDefect") != null ? resultSet.getBoolean("examinationResultDefect") : null);
+					
+					//examinationResultDefectDate
+					String examinationResultDefectDate = resultSet.getString("examinationResultDefectDate");
+					if(!resultSet.wasNull()) {
+						result.setExaminationResultDefectDate(LocalDate.parse(examinationResultDefectDate));
+					}
+					
+					//examinationResultDanger
+					result.setExaminationResultDanger(resultSet.getObject("examinationResultDanger") != null ? resultSet.getBoolean("examinationResultDanger") : null);
+					
+					//isolationCheckedEnough
+					result.setIsolationChecked(resultSet.getObject("isolationCheckedEnough") != null ? resultSet.getBoolean("isolationCheckedEnough") : null);
+					
+					//isolationMeasurementProtocols
+					result.setIsolationMesasurementProtocols(resultSet.getObject("isolationMeasurementProtocols") != null ? resultSet.getBoolean("isolationMeasurementProtocols") : null);
+					
+					//isolationCompensationMeasures
+					result.setIsolationCompensationMeasures(resultSet.getObject("isolationCompensationMeasures") != null ? resultSet.getBoolean("isolationCompensationMeasures") : null);
+					
+					//isolationCompensationMeasuresAnnotation
+					resultSet.getString("isolationCompensationMeasuresAnnotation");
+					
+					//rcdAvailable
+					result.setRcdAvailable(resultSet.getObject("rcdAvailable") != null ? resultSet.getBoolean("rcdAvailable") : null);
+					
+					//rcdAvailablePercent
+					result.setRcdAvailablePercent((Double) resultSet.getObject("rcdAvailablePercent"));
+					
+					//rcdAnnotation
+					resultSet.getString("rcdAnnotation");
+					
+					//resistance
+					result.setResistance(resultSet.getObject("resistance") != null ? resultSet.getBoolean("resistance") : null);
+					
+					//resistanceNumber
+					result.setResistanceNumber((Integer) resultSet.getObject("resistanceNumber"));
+					
+					//resistanceAnnotation
+					resultSet.getString("resistanceAnnotation");
+					
+					//thermalAbnormality
+					result.setThermalAbnormality(resultSet.getObject("thermalAbnormality") != null ? resultSet.getBoolean("thermalAbnormality") : null);
+					
+					//thermalAbnormalityAnnotation
+					result.setThermalAbnormalityAnnotation(resultSet.getString("thermalAbnormalityAnnotation"));
+					
+					//internalPortableUtilities
+					result.setInternalPortableUtilities(resultSet.getObject("internalPortableUtilities") != null ? resultSet.getBoolean("internalPortableUtilities") : null);
+					
+					//externalPortableUtilities
+					result.setExternalPortableUtilities((Integer) resultSet.getObject("externalPortableUtilities"));
+					
+					//supplySystem
+					result.setSupplySystem((Integer) resultSet.getObject("supplySystem"));
+					
+					//energyDemand
+					result.setEnergyDemand((Integer) resultSet.getObject("energyDemand"));
+					
+					//maxEnergyDemandExternal
+					result.setMaxEnergyDemandExternal((Integer) resultSet.getObject("maxEnergyDemandExternal"));
+					
+					//maxEnergyDemandInternal
+					result.setMaxEnergyDemandInternal((Integer) resultSet.getObject("maxEnergyDemandInternal"));
+					
+					//protectedCircuitsPercent
+					result.setProtectedCircuitsPercent((Integer) resultSet.getObject("protectedCircuitsPercent"));
+					
+					//hardWiredLoads
+					result.setHardWiredLoads((Integer) resultSet.getObject("hardWiredLoads"));
+					
+					//additionalAnnotations
+					result.setAdditionalAnnotations(resultSet.getString("additionalAnnotations"));
 				}
 			}
 			return result;

@@ -7,4 +7,8 @@ public class Branch extends AutocompleteSuggestion {
 	public Branch(int externalId, String description) {
 		super(externalId, externalId, description);
 	}
+	
+	public Branch(int externalId) {
+		super(externalId, 0, null);
+	}
 }

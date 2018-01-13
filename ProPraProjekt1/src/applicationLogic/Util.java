@@ -3,6 +3,8 @@ package applicationLogic;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import javafx.scene.control.TextField;
+
 /**
  * Helper methods
  * 
@@ -27,5 +29,21 @@ public class Util {
 	    for (int i = 0; i < values.length; i++) {
 	        preparedStatement.setObject(i + 1, values[i]);
 	    }
+	}
+	
+	public static void setNullableIntToTextField(TextField tf, Integer value) {
+		if(value != null) {
+			tf.setText(Integer.toString(value));
+		}
+	}
+	
+	public static void setNullableDoubleToTextField(TextField tf, Double value) {
+		if(value != null) {
+			tf.setText(Double.toString(value));
+		}
+	}
+	
+	public static Boolean getNullableBoolean(Object obj, Boolean bln) {
+		return obj != null ? bln : null;
 	}
 }

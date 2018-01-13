@@ -26,6 +26,20 @@ public abstract class InspectionReportMinimal {
 		this.niceDate = date.format(DateTimeFormatter.ofPattern("dd.MM.YYYY")); 
 	}
 	
+	public InspectionReportMinimal() {};
+	
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
+
+	public void setNiceDate(String niceDate) {
+		this.niceDate = niceDate;
+	}
+
 	public int getId() {
 		return id;
 	}
