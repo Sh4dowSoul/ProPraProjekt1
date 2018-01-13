@@ -7,8 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane minHeight="700.0" minWidth="1000.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="userInterface.Tab_Manager">
+<AnchorPane fx:id="tt" minHeight="700.0" minWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userInterface.Tab_Manager">
    <children>
       <Line endX="500.0" endY="-150.0" layoutX="-10.0" layoutY="200.0" startX="500.0" startY="450.0" />
       <Label layoutX="14.0" layoutY="51.0" text="Neuen Mangel erstellen:">

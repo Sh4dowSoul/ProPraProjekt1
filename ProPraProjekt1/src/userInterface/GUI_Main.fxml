@@ -35,7 +35,18 @@
                      </children>
                   </StackPane>
                </content>
+        </Tab>       
+        <Tab fx:id="tt" text="Manager">
+               <content>
+                  <StackPane>
+                     <children>
+                        <fx:include source="GUI_Manager.fxml" />
+                     </children>
+                  </StackPane>
+               </content>
         </Tab>
+        
+        
         </tabs>
       </TabPane>
    </children>
