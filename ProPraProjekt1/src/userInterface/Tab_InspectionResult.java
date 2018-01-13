@@ -40,6 +40,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -59,7 +61,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -193,6 +199,9 @@ public class Tab_InspectionResult implements Initializable{
 	@FXML private CheckBox dangerPersonSwitchBox;
 	@FXML private Button addDefectButton;
 	
+	@FXML private AnchorPane anchorPaneForm;
+	@FXML private BorderPane borderPane;
+	
 	private GUIController mainController;
 	//New Defect
 	int newDefectDanger;
@@ -273,31 +282,36 @@ public class Tab_InspectionResult implements Initializable{
 	    });
 		comboBoxCompanyName.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Company>() {
 	        public void changed(ObservableValue<? extends Company> observable, Company oldValue, Company newValue) {
-	        	currentCompany = newValue;
-	        	removeCompanyPlant();
-	        	switch(newValue.getInternalId()) {
-	        		case -1:
-	        			//New Company -> Enable and clear TextFields
-		        		textFieldCompanyStreet.setDisable(false);
-		        		textFieldCompanyZipCode.setDisable(false);
-		        		textFieldCompanyCity.setDisable(false);
-		        		textFieldCompanyStreet.clear();
-		        		textFieldCompanyZipCode.clear();
-		        		textFieldCompanyCity.clear();
-		        		buttonSaveCompany.setDisable(false);
-		        		break;
-	        		case 0:
-	        			//Company not yet in database
-	        			break;
-	        		default: 
-	        			//Existing Company -> Disable TextFields and load Company Data
-		        		disableCompanyPrepareCompanyPlant();
-		        		textFieldCompanyStreet.setText(newValue.getStreet());
-		        		textFieldCompanyZipCode.setText(String.valueOf(newValue.getZipCode()));
-		        		textFieldCompanyCity.setText(newValue.getCity());
-		        		buttonSaveCompany.setDisable(true);
-		        		break;
+	        	if (newValue != null) {
+	        		currentCompany = newValue;
+		        	removeCompanyPlant();
+		        	switch(newValue.getInternalId()) {
+		        		case -1:
+		        			//New Company -> Enable and clear TextFields
+			        		textFieldCompanyStreet.setDisable(false);
+			        		textFieldCompanyZipCode.setDisable(false);
+			        		textFieldCompanyCity.setDisable(false);
+			        		textFieldCompanyStreet.clear();
+			        		textFieldCompanyZipCode.clear();
+			        		textFieldCompanyCity.clear();
+			        		buttonSaveCompany.setDisable(false);
+			        		break;
+		        		case 0:
+		        			//Company not yet in database
+		        			break;
+		        		default: 
+		        			//Existing Company -> Disable TextFields and load Company Data
+			        		disableCompanyPrepareCompanyPlant();
+			        		textFieldCompanyStreet.setText(newValue.getStreet());
+			        		textFieldCompanyZipCode.setText(String.valueOf(newValue.getZipCode()));
+			        		textFieldCompanyCity.setText(newValue.getCity());
+			        		buttonSaveCompany.setDisable(true);
+			        		break;
+		        	}
+	        	} else {
+	        		System.out.println("ERROR: New Company ComboBox Value is Null");
 	        	}
+	        	
 	        }
 
 			private void removeCompanyPlant() {
@@ -348,26 +362,30 @@ public class Tab_InspectionResult implements Initializable{
 	    });
 		comboBoxCompanyPlantStreet.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<CompanyPlant>() {
 	        public void changed(ObservableValue<? extends CompanyPlant> observable, CompanyPlant oldValue, CompanyPlant newValue) {
-	        	currentCompanyPlant = newValue;
-	        	switch(newValue.getInternalId()) {
-	        		case -1:
-	        			//New CompanyPlant -> Enable and clear TextFields
-		        		textFieldCompanyPlantZipCode.setDisable(false);
-		        		textFieldCompanyPlantCity.setDisable(false);
-		        		textFieldCompanyPlantZipCode.clear();
-		        		textFieldCompanyPlantCity.clear();
-		        		buttonSaveCompanyPlant.setDisable(false);
-		        		break;
-	        		case 0:
-	        			//CompanyPlant not yet in database
-	        			break;
-	        		default: 
-	        			//Existing CompanyPlant -> Disable TextFields and load Company Data
-		        		disableCompanyPlantTextFields();
-		        		textFieldCompanyPlantZipCode.setText(String.valueOf(newValue.getZipCode()));
-		        		textFieldCompanyPlantCity.setText(newValue.getCity());
-		        		buttonSaveCompanyPlant.setDisable(true);
-		        		break;
+	        	if (newValue != null) {
+	        		currentCompanyPlant = newValue;
+		        	switch(newValue.getInternalId()) {
+		        		case -1:
+		        			//New CompanyPlant -> Enable and clear TextFields
+			        		textFieldCompanyPlantZipCode.setDisable(false);
+			        		textFieldCompanyPlantCity.setDisable(false);
+			        		textFieldCompanyPlantZipCode.clear();
+			        		textFieldCompanyPlantCity.clear();
+			        		buttonSaveCompanyPlant.setDisable(false);
+			        		break;
+		        		case 0:
+		        			//CompanyPlant not yet in database
+		        			break;
+		        		default: 
+		        			//Existing CompanyPlant -> Disable TextFields and load Company Data
+			        		disableCompanyPlantTextFields();
+			        		textFieldCompanyPlantZipCode.setText(String.valueOf(newValue.getZipCode()));
+			        		textFieldCompanyPlantCity.setText(newValue.getCity());
+			        		buttonSaveCompanyPlant.setDisable(true);
+			        		break;
+		        	}
+	        	} else {
+	        		System.out.println("ERROR: New CompanyPlant ComboBox Value is Null");
 	        	}
 	        }
 		});
@@ -1225,119 +1243,42 @@ public class Tab_InspectionResult implements Initializable{
 	/**
 	 * Resets all buttons and textfields
 	 */
-	public void reset() {
-		resultComplete = null;
-		pdfExpBtn.setDisable(true);
-		newDefectDanger = 0;
-		newDefectId = 0;
-		tableUpdate = false;
-		tableSelctedId = 0;
-		showTableDialog = 1;
-		defectElementId = -1;
-		//InspectionResult Save
-		inspectionResultSaved = false;
-		inspectionResultId = 0;
-		InspectionReportFull resultComplete = null;
-		ArrayList<String> errors = null;
-	//Tabelle 
-		defectTableView.getItems().clear();
-	// Versicherungsnehmer Adresse
-		  inspectionResultCompany = null;
-		  inspectionResultCompanyPlant = null;
+	public void cleanUpSession() {
+		currentCompany = null;
+		currentCompanyPlant = null;
+		currentInspectionReport = null;
+		clearNode(borderPane);
 		
-	// Risikoanschrift
-		  plantCompanionField.clear();
-		  plantExpertField.clear();
-		  plantAnerkNrField.clear();
-		  plantInspectionField.clear();
-		  plantInspectionTimeField.clear();
-		
-	//Art des Betriebes oder der Anlage
-		  branchName.clear();
-		  freqYesBtn.setSelected(false);
-		  freqNoBtn.setSelected(false);
-		  precautionYesBtn.setSelected(false);
-		  precautionNoBtn.setSelected(false);
-		  precautionField.clear();
-		  completeYesBtn.setSelected(false);
-		  completeNoBtn.setSelected(false);
-		  completeDateField.clear();
-		  completeReasonField.clear();
-		  changesSinceLastExaminationYesBtn.setSelected(false);
-		  changesSinceLastExaminationNoBtn.setSelected(false);
-		  changesSinceLastExaminationFirstExaminationBtn.setSelected(false);
-		  defectsLastExaminationYesBtn.setSelected(false);
-		  defectsLastExaminationNoBtn.setSelected(false);
-		  defectsLastExaminationNoReportBtn.setSelected(false);
-		
-	//Gesamtbeurteilung der Anlage
-		  dangerCategorieGroupABtn.setSelected(false);
-		  dangerCategorieGroupBBtn.setSelected(false);
-		  dangerCategorieGroupCBtn.setSelected(false);
-		  dangerCategorieGroupDBtn.setSelected(false);
-		  dangerCategoryExtensionField.clear();
-		
-	//Prüfergebnis
-		  noDefectsBtn.setSelected(false);
-		  defectsAttachedBtn.setSelected(false);
-		  defectsAttachedDateField.clear();
-		  removeDefectsImmediatelyBtn.setSelected(false);
-
-	// Messungen
-		  isoMinYesBtn.setSelected(false);
-		  isoMinNoBtn.setSelected(false);
-		  isoProtocolYesBtn.setSelected(false);
-		  isoProtocolNoBtn.setSelected(false);
-		  isoCompensationYesBtn.setSelected(false);
-		  isoCompensationNoBtn.setSelected(false);
-		  isoCompensationCommentField.clear();
-		  rcdAllBtn.setSelected(false);
-		  rcdPercentageField.clear();
-		  rcdNotBtn.setSelected(false);
-		  rcdCommentField.clear();
-		  resistanceYesBtn.setSelected(false);
-		  resistancePercentageField.clear();
-		  resistanceNoBtn.setSelected(false);
-		  resistanceCommentField.clear();
-		  thermicYesBtn.setSelected(false);
-		  thermicNoBtn.setSelected(false);
-		  thermicCommentField.clear();
-		
-	//Ortsveränderliche Betriebsmittel
-		  portableUtilitiesYesBtn.setSelected(false);
-		  portableUtilitiesNoBtn.setSelected(false);
-		  externalPortableUtilitiesYesBtn.setSelected(false);
-		  externalPortableUtilitiesNoBtn.setSelected(false);
-		  externalPortableUtilitiesNrBtn.setSelected(false);
-		
-	//Allgemeine Informationen zur geprüften elektrischen Anlage
-		  supplySystemTNBtn.setSelected(false);
-		  supplySystemTTBtn.setSelected(false);
-		  supplySystemITBtn.setSelected(false);
-		  supplySystemCircleBtn.setSelected(false);
-		  powerConsumptionField.clear();
-		  externalPowerPercentageField.clear();
-		  maxCapacityPercentageField.clear();
-		  protectedCirclesPercentageField.clear();
-		  hardWiredLoadsUnder250Btn.setSelected(false);
-		  hardWiredLoadsUnder500Btn.setSelected(false);
-		  hardWiredLoadsUnder1000Btn.setSelected(false);
-		  hardWiredLoadsUnder5000Btn.setSelected(false);
-		  hardWiredLoadsAbove5000Btn.setSelected(false);
-		  furtherExplanationsField.clear();
-
-	
-    //Hinzufuegen
-		  defectSearchField.clear();
-		  resultDefectId.clear();
-		  branchText.clear();
-		  buildingText.clear();
-		  roomText.clear();
-		  machineText.clear();
-		  customDescriptionText.clear();
-		  dangerFireSwitchBox.disarm();
-		  dangerPersonSwitchBox.disarm();
+		//TODO: Cleanup Table
 	}
+	
+	private <T extends Pane> void clearNode(T parentPane) {
+		for (Node newnode : parentPane.getChildren()) {
+			if (newnode instanceof TextField) {
+				((TextField) newnode).clear();
+            } else {
+            	if (newnode instanceof RadioButton) {
+            		((RadioButton) newnode).setSelected(false);
+            	} else {
+            		if (newnode instanceof CheckBox) {
+            			((CheckBox) newnode).setSelected(false);
+            		} else {
+            			if (newnode instanceof DatePicker) {
+            				((DatePicker) newnode).setValue(null);
+            			} else {
+            				if (newnode instanceof ComboBox) {
+            					((ComboBox) newnode).setValue(null);
+            				}
+            			}
+            		}
+            	}
+            }
+            if (newnode instanceof Pane) {
+                clearNode((Pane) newnode);
+            }
+		} 
+	}
+	
 	
 	/**
 	 * Export current result as PDF (after save)
@@ -1353,8 +1294,8 @@ public class Tab_InspectionResult implements Initializable{
 		//Check if saved
 		//Cleanup every entry
 		if(inspectionResultSaved) {
-			mainController.closeDiagnosis();
-			reset();
+			//mainController.closeDiagnosis();
+			cleanUpSession();
 		} else {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Warnung - Befundschein nicht gesichert");
@@ -1369,8 +1310,8 @@ public class Tab_InspectionResult implements Initializable{
 
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get() == discardButton){
-				mainController.closeDiagnosis();
-				reset();
+				//mainController.closeDiagnosis();
+				cleanUpSession();
 			} else if (result.get() == saveButton) {
 				addDiagnosis(null);
 			}
@@ -1529,7 +1470,7 @@ public class Tab_InspectionResult implements Initializable{
 
 	public void prepare() {
 		// TODO Auto-generated method stub
-		reset();
+		cleanUpSession();
 		loadCompanies();
 		pdfExpBtn.setDisable(true);
 	}
