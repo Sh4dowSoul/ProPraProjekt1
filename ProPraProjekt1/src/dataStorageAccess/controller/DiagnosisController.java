@@ -89,7 +89,7 @@ public class DiagnosisController {
 				Statement statement = connection.createStatement();
 				ResultSet resultSet = statement.executeQuery(
 						"SELECT * "+ 
-						"FROM InspectionReport NATURAL JOIN CompanyPlant Natural JOIN Company NATURAL JOIN Branch "+ 
+						"FROM InspectionReport NATURAL JOIN CompanyPlant Natural JOIN Company LEFT JOIN Branch ON  InspectionReport.branchId = Branch.branchId "+ 
 						"WHERE inspectionReportId = " + id);
 			) {
 				while (resultSet.next()) {
@@ -141,8 +141,8 @@ public class DiagnosisController {
 					//ExaminationDuration
 					result.setExaminationDuration((Double) resultSet.getObject("examinationDuration"));
 					
-					//Branch
-					result.setBranch(new Branch((Integer) resultSet.getObject("branchId"), resultSet.getString("branchName")));//TODO: Convert BranchID to INTEGER
+					//Branch					
+					result.setBranch(new Branch((Integer) resultSet.getObject("branchId")));//TODO: Convert BranchID to INTEGER
 					
 					//FrequencyControlledUtilities
 					result.setFrequencyControlledUtilities(resultSet.getObject("frequencyControlledUtilities") != null ? resultSet.getBoolean("frequencyControlledUtilities") : null);
