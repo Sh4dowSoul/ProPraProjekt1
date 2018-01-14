@@ -2,6 +2,7 @@ package applicationLogic;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Collections;
 
 import javafx.scene.control.TextField;
 
@@ -45,5 +46,33 @@ public class Util {
 	
 	public static Boolean getNullableBoolean(Object obj, Boolean bln) {
 		return obj != null ? bln : null;
+	}
+	
+	public static boolean validateInt(TextField tf) {
+		if (tf.getText().isEmpty()) {
+			return false;
+		}
+		try {
+			Integer.valueOf(tf.getText());
+			tf.getStyleClass().removeAll(Collections.singleton("error")); 
+		} catch (NumberFormatException e) {
+			tf.getStyleClass().add("error");
+			return false;
+		}
+		return true;
+	}
+	
+	public static boolean validateDouble(TextField tf) {
+		if (tf.getText().isEmpty()) {
+			return false;
+		}
+		try {
+			Double.valueOf(tf.getText());
+			tf.getStyleClass().removeAll(Collections.singleton("error")); 
+		} catch (NumberFormatException e) {
+			tf.getStyleClass().add("error");
+			return false;
+		}
+		return true;
 	}
 }

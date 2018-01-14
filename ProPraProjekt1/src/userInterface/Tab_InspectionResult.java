@@ -58,6 +58,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
@@ -119,6 +120,10 @@ public class Tab_InspectionResult implements Initializable{
 	@FXML private RadioButton defectsLastExaminationNoBtn;
 	@FXML private RadioButton defectsLastExaminationNoReportBtn;
 	@FXML private ToggleGroup freqGroup;
+	@FXML private ToggleGroup precautionGroup;
+	@FXML private ToggleGroup completeGroup;
+	@FXML private ToggleGroup changesSinceLastExaminationGroup;
+	@FXML private ToggleGroup defectsLastExaminationFixedGroup;
 	
 //Gesamtbeurteilung der Anlage
 	@FXML private RadioButton dangerCategorieGroupABtn;
@@ -126,6 +131,7 @@ public class Tab_InspectionResult implements Initializable{
 	@FXML private RadioButton dangerCategorieGroupCBtn;
 	@FXML private RadioButton dangerCategorieGroupDBtn;
 	@FXML private TextField dangerCategoryExtensionField;
+	@FXML private ToggleGroup dangerCategorieGroup;
 	
 //Prüfergebnis
 	@FXML private CheckBox noDefectsBtn;
@@ -152,6 +158,12 @@ public class Tab_InspectionResult implements Initializable{
 	@FXML private RadioButton thermicYesBtn;
 	@FXML private RadioButton thermicNoBtn;
 	@FXML private TextField thermicCommentField;
+	@FXML private ToggleGroup IsoMinGroup;
+	@FXML private ToggleGroup IsoProtocollGroup;
+	@FXML private ToggleGroup IsoCompensationGroup;
+	@FXML private ToggleGroup RcdGroup;
+	@FXML private ToggleGroup ResistanceGroup;
+	@FXML private ToggleGroup ThermicGroup;
 	
 //Ortsveränderliche Betriebsmittel
 	@FXML private RadioButton portableUtilitiesYesBtn;
@@ -159,6 +171,8 @@ public class Tab_InspectionResult implements Initializable{
 	@FXML private RadioButton externalPortableUtilitiesYesBtn;
 	@FXML private RadioButton externalPortableUtilitiesNoBtn;
 	@FXML private RadioButton externalPortableUtilitiesNrBtn;
+	@FXML private ToggleGroup PortableUtilitiesGroup;
+	@FXML private ToggleGroup ExternalPortableUtilitiesGroup;
 	
 //Allgemeine Informationen zur geprüften elektrischen Anlage
 	@FXML private RadioButton supplySystemTNBtn;
@@ -175,6 +189,8 @@ public class Tab_InspectionResult implements Initializable{
 	@FXML private RadioButton hardWiredLoadsUnder5000Btn;
 	@FXML private RadioButton hardWiredLoadsAbove5000Btn;
 	@FXML private TextArea furtherExplanationsField;
+	@FXML private ToggleGroup SupplySystemGroup;
+	@FXML private ToggleGroup HardWiredLoadsGroup;
 
 // Anhang A
 	@FXML private TableView<FlawListElement> defectTableView;
@@ -593,8 +609,17 @@ public class Tab_InspectionResult implements Initializable{
 	 * @throws SQLException 
 	 */
 	public void addDiagnosis(ActionEvent add){
+		fetchInspectionReportData();
+		/*try {
+			InspectionReportAccess.saveNewCompleteResult(currentInspectionReport);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} */
 		//Wrapps user input in ResulteComplete object
-		if (loadResultData()) {
+		/*
+		if (fetchInspectionReportData()) {
+			
 			boolean newDiagnosis = true;
 			boolean cancelled = false;
 			
@@ -676,7 +701,7 @@ public class Tab_InspectionResult implements Initializable{
 			}
 			alert.setContentText(content);
 			alert.showAndWait();
-		}
+		}*/
 		
 	}
 	
@@ -955,294 +980,99 @@ public class Tab_InspectionResult implements Initializable{
 	 * 
 	 * @return if loading was sucessful
 	 */
-	private boolean loadResultData() {
+	private void fetchInspectionReportData() {
 		currentInspectionReport = new InspectionReportFull();
+		
+		//Company
+		currentInspectionReport.setCompanyPlant(currentCompanyPlant);
 		
 		//ExaminationInfo
 		currentInspectionReport.setCompanion(plantCompanionField.getText());
 		currentInspectionReport.setSurveyor(plantExpertField.getText());
-		if (validateInt(plantAnerkNrField)){
+		if (Util.validateInt(plantAnerkNrField)){
 			currentInspectionReport.setVdsApprovalNr(Integer.valueOf(plantAnerkNrField.getText()));
 		}
 		currentInspectionReport.setDate(datePickerExaminationDate.getValue());
-		if(validateInt(plantInspectionTimeField)) {
-			currentInspectionReport.setExaminationDuration(Integer.valueOf(plantInspectionTimeField.getText()));
+		if(Util.validateDouble(plantInspectionTimeField)) {
+			currentInspectionReport.setExaminationDuration(Double.valueOf(plantInspectionTimeField.getText()));
 		}
 		
 		//Art des Betriebs/Anlage
-		if(validateInt(branchName)) {
+		if(Util.validateInt(branchName)) {
 			currentInspectionReport.setBranch(new Branch(Integer.valueOf(branchName.getText())));
 		}
+		currentInspectionReport.setFrequencyControlledUtilities(freqGroup.getSelectedToggle() != null ? freqYesBtn.isSelected() : null);
+		currentInspectionReport.setPrecautionsDeclared(precautionGroup.getSelectedToggle() != null ? precautionYesBtn.isSelected() : null);
+		currentInspectionReport.setPrecautionsDeclaredLocation(precautionField.getText());
+		currentInspectionReport.setExaminationComplete(completeGroup.getSelectedToggle() != null ? completeYesBtn.isSelected() : null);
+		currentInspectionReport.setSubsequentExaminationDate(datePickerSubsequentExaminationDate.getValue());
+		currentInspectionReport.setExaminationIncompleteReason(completeReasonField.getText());
+		currentInspectionReport.setChangesSinceLastExamination(changesSinceLastExaminationGroup.getSelectedToggle() != null ? getSelectedToggle(changesSinceLastExaminationGroup) : null);
+		currentInspectionReport.setDefectsLastExaminationFixed(defectsLastExaminationFixedGroup.getSelectedToggle() != null ? getSelectedToggle(defectsLastExaminationFixedGroup) : null);
 		
-		System.out.println(freqGroup.getSelectedToggle());
-		
-		/*
-		
-		boolean dangerGroupA = dangerCategorieGroupABtn.isSelected();
-		boolean dangerGroupB = dangerCategorieGroupBBtn.isSelected();
-		boolean dangerGroupC = dangerCategorieGroupCBtn.isSelected();
-		boolean dangerGroupD = dangerCategorieGroupDBtn.isSelected();
-		int dangerGroup = -1;
-		
-		boolean externalPortableUtilitiesYes = externalPortableUtilitiesYesBtn.isSelected();
-		boolean externalPortableUtilitiesNo = externalPortableUtilitiesNoBtn.isSelected();
-		boolean externalPortableUtilitiesNr = externalPortableUtilitiesNrBtn.isSelected();
-		int epu = -1;
-		
-		boolean supplySystemTN = supplySystemTNBtn.isSelected();
-		boolean supplySystemTT = supplySystemTTBtn.isSelected();
-		boolean supplySystemIT = supplySystemITBtn.isSelected();
-		boolean supplySystemCircle = supplySystemCircleBtn.isSelected();
-		int supplySys = -1;
-
-		boolean hardWiredLoadsUnder250 = hardWiredLoadsUnder250Btn.isSelected();
-		boolean hardWiredLoadsUnder500 = hardWiredLoadsUnder500Btn.isSelected();
-		boolean hardWiredLoadsUnder1000 = hardWiredLoadsUnder1000Btn.isSelected();
-		boolean hardWiredLoadsUnder5000 = hardWiredLoadsUnder5000Btn.isSelected();
-		boolean hardWiredLoadsAbove5000 = hardWiredLoadsAbove5000Btn.isSelected();
-		int hwl = -1;
-		
-		boolean dlenr = defectsLastExaminationNoReportBtn.isSelected();
-		boolean dflf = defectsLastExaminationYesBtn.isSelected();
-		int defectsLastEx = -1;
-		
-		boolean csle = changesSinceLastExaminationYesBtn.isSelected();
-		boolean cslefe = changesSinceLastExaminationFirstExaminationBtn.isSelected();
-		int changesSinceLastEx = -1;
-		
-		if(dangerGroupA) {
-			dangerGroup = 0;
-		}else if(dangerGroupB){
-			dangerGroup = 1;
-		}else if(dangerGroupC){
-			dangerGroup = 2;
-		}else if(dangerGroupD){
-			dangerGroup = 3;
-		}
-		
-		if(externalPortableUtilitiesYes) {
-			epu = 0;	
-		}else if(externalPortableUtilitiesNo) {
-			epu = 1;
-		}else if (externalPortableUtilitiesNr) {
-			epu = 2;
-		}
-		
-		if(supplySystemTN) {
-			supplySys = 0;
-		}else if (supplySystemTT) {
-			supplySys = 1;
-		}else if (supplySystemIT) {
-			supplySys = 2;
-		}else if (supplySystemCircle) {
-			supplySys = 3;
-		}
-		
-		if(hardWiredLoadsUnder250) {
-			hwl = 0;
-		}else if(hardWiredLoadsUnder500) {
-			hwl = 1;
-		}else if(hardWiredLoadsUnder1000) {
-			hwl = 2;
-		}else if(hardWiredLoadsUnder5000) {
-			hwl = 3;
-		}else if(hardWiredLoadsAbove5000) {
-			hwl = 4;
-		}
-		
-		if(dlenr) {
-			defectsLastEx = 0;
-		}else if (dflf) {
-			defectsLastEx = 1;
-		}
-		
-		if(csle) {
-			changesSinceLastEx = 0;
-		}else if (cslefe) {
-			changesSinceLastEx = 1;
-		}
-		
-		
-		boolean valid = true;
-		
-		if (inspectionResultCompanyPlant == null) {
-			valid = false;
-			errors.add("Werk");
-			System.out.println("Plant not valid");
-		}
-		
-		if(plantCompanionField.getText().isEmpty() ||plantExpertField.getText().isEmpty() ||plantAnerkNrField.getText().isEmpty() ||plantInspectionField.getText().isEmpty() ||plantInspectionTimeField.getText().isEmpty()) {
-			valid = false;
-			errors.add("Risiko");
-			System.out.println("Risiko not valid");
-		}
+		//Gesamtbeurteilung der Anlage
+		currentInspectionReport.setDangerCategory(dangerCategorieGroup.getSelectedToggle() != null ? getSelectedToggle(dangerCategorieGroup) : null);
+		currentInspectionReport.setDangerCategoryDescription(dangerCategoryExtensionField.getText());
 		
 		//Prüfergebnis
-		if((!noDefectsBtn.isSelected() && !defectsAttachedBtn.isSelected() && !removeDefectsImmediatelyBtn.isSelected()) ||(defectsAttachedBtn.isSelected() && defectsAttachedDateField.getText().isEmpty())) {
-			valid = false;
-			errors.add("Prüfergebnis");
-			System.out.println("Fehler: 'Prüfergebnis'");
-		}
+		currentInspectionReport.setExaminationResultNoDefect(noDefectsBtn.isSelected());
+		currentInspectionReport.setExaminationResultDefect(defectsAttachedBtn.isSelected());
+		currentInspectionReport.setExaminationResultDefectDate(datePickerResolvedUntil.getValue());
+		currentInspectionReport.setExaminationResultDanger(removeDefectsImmediatelyBtn.isSelected());
 		
-		//Art des Betriebs
-		if((branchName.getText().isEmpty() || precautionYesBtn.isSelected() && precautionField.getText().isEmpty()) || (completeNoBtn.isSelected() && completeDateField.getText().isEmpty())) {
-			valid = false;
-			errors.add("Art des Betriebes oder der Anlage");
-			System.out.println("Fehler: 'Art des Betriebes oder der Anlage'");
-		}
 		
 		//Messungen
-		if((rcdAllBtn.isSelected() && rcdPercentageField.getText().isEmpty()) || resistanceYesBtn.isSelected() && resistancePercentageField.getText().isEmpty()) {
-			valid = false;
-			errors.add("Messungen");
-			System.out.println("Fehler: 'Messungen'");
+		currentInspectionReport.setIsolationChecked(IsoMinGroup.getSelectedToggle() != null ? isoMinYesBtn.isSelected() : null);
+		currentInspectionReport.setIsolationMesasurementProtocols(IsoProtocollGroup.getSelectedToggle() != null ? isoProtocolYesBtn.isSelected() : null);
+		currentInspectionReport.setIsolationCompensationMeasures(IsoCompensationGroup.getSelectedToggle() != null ? isoCompensationYesBtn.isSelected() : null);
+		currentInspectionReport.setIsolationCompensationMeasuresAnnotation(isoCompensationCommentField.getText());
+		currentInspectionReport.setRcdAvailable(RcdGroup.getSelectedToggle() != null ? rcdAllBtn.isSelected() : null);
+		if (Util.validateDouble(rcdPercentageField)) {
+			currentInspectionReport.setRcdAvailablePercent(Double.valueOf(rcdPercentageField.getText()));
 		}
-			
-		
-		if(powerConsumptionField.getText().isEmpty() || externalPowerPercentageField.getText().isEmpty() || maxCapacityPercentageField.getText().isEmpty() || protectedCirclesPercentageField.getText().isEmpty()) {
-			valid = false;	
-			errors.add("Allgemeine Informationen zur elektrischen Anlage");
-			System.out.println("Fehler: 'Allgemeine Informationen zur elektrischen Anlage'");
+		currentInspectionReport.setRcdAnnotation(rcdCommentField.getText());
+		currentInspectionReport.setResistance(ResistanceGroup.getSelectedToggle() != null ? resistanceYesBtn.isSelected() : null);
+		if (Util.validateInt(resistancePercentageField)) {
+			currentInspectionReport.setResistanceNumber(Integer.valueOf(resistancePercentageField.getText()));
 		}
+		currentInspectionReport.setThermalAbnormality(ThermicGroup.getSelectedToggle() != null ? thermicYesBtn.isSelected() : null);
+		currentInspectionReport.setResistanceAnnotation(resistanceCommentField.getText());
 		
 		
-		//invalid combinations check and correction
-		if(precautionNoBtn.isSelected() && !precautionField.getText().isEmpty()) {
-				System.out.println("Eine Felderkombination ist nicht möglich");
-				precautionField.clear();
+		//Ortsveränderliche Betriebsmittel
+		currentInspectionReport.setInternalPortableUtilities(PortableUtilitiesGroup.getSelectedToggle() != null ? portableUtilitiesYesBtn.isSelected() : null);
+		currentInspectionReport.setExternalPortableUtilities(ExternalPortableUtilitiesGroup.getSelectedToggle() != null ? getSelectedToggle(ExternalPortableUtilitiesGroup) : null);
+		
+		
+		//Allgemeine Informationen
+		currentInspectionReport.setSupplySystem(SupplySystemGroup.getSelectedToggle() != null ? getSelectedToggle(SupplySystemGroup) : null);
+		if (Util.validateInt(powerConsumptionField)) {
+			currentInspectionReport.setEnergyDemand(Integer.valueOf(powerConsumptionField.getText()));
 		}
-		
-		if(completeYesBtn.isSelected() && !completeDateField.getText().isEmpty()) {
-				System.out.println("Eine Felderkombination ist nicht möglich");
-				completeDateField.setText("0001-01-01");
+		if (Util.validateInt(externalPowerPercentageField)) {
+			currentInspectionReport.setMaxEnergyDemandExternal(Integer.valueOf(externalPowerPercentageField.getText()));
 		}
-		
-		if(!defectsAttachedBtn.isSelected() && !defectsAttachedDateField.getText().isEmpty()) {
-				System.out.println("Eine Felderkombination ist nicht möglich");
-				defectsAttachedDateField.setText("0001-01-01");
+		if (Util.validateInt(maxCapacityPercentageField)) {
+			currentInspectionReport.setMaxEnergyDemandInternal(Integer.valueOf(maxCapacityPercentageField.getText()));
 		}
-		
-		
-		
-		if(rcdNotBtn.isSelected() && !rcdPercentageField.getText().isEmpty()) {
-				System.out.println("Eine Felderkombination ist nicht möglich");
-				rcdPercentageField.clear();
+		if (Util.validateDouble(protectedCirclesPercentageField)) {
+			currentInspectionReport.setProtectedCircuitsPercent(Integer.valueOf(protectedCirclesPercentageField.getText()));
 		}
-		
-		if(resistanceNoBtn.isSelected() && !resistancePercentageField.getText().isEmpty()) {
-				System.out.println("Eine Felderkombination ist nicht möglich");
-				resistancePercentageField.clear();
-		}
-		
-		if(valid) {
-			LocalDate date = LocalDate.parse(plantInspectionField.getText());
-			LocalDate lastEdited = LocalDate.now();
-			String companion = plantCompanionField.getText();
-			String surveyor = plantExpertField.getText();
-			int vdsApprovalNr = Integer.parseInt(plantAnerkNrField.getText());
-			int branchId = Integer.valueOf(branchName.getText());
-			double examinationDuration = Double.parseDouble(plantInspectionTimeField.getText());
-			boolean frequencyControlledUtilities = freqYesBtn.isSelected();
-			boolean precautionsDeclared = precautionYesBtn.isSelected();
-			String precautionsDeclaredLocation = precautionField.getText();
-			boolean examinationComplete = completeYesBtn.isSelected();
-			LocalDate subsequentExaminationDate = null;
-			if (!completeDateField.getText().isEmpty()) {
-				subsequentExaminationDate  = LocalDate.parse(completeDateField.getText()); 
-			}
-			String examinationIncompleteReason = completeReasonField.getText();
-			int changesSinceLastExamination = changesSinceLastEx;
-			int defectsLastExaminationFixed = defectsLastEx;
-			int dangerCategory = dangerGroup;										
-			String dangerCategoryDescription = dangerCategoryExtensionField.getText();
-			boolean examinationResultNoDefect = noDefectsBtn.isSelected();	
-			boolean examinationResultDefect = defectsAttachedBtn.isSelected();
-			LocalDate examinationResultDefectDate = null;
-			if (!defectsAttachedDateField.getText().isEmpty()) {
-				examinationResultDefectDate = LocalDate.parse(defectsAttachedDateField.getText()); 
-			}
-			boolean examinationResultDanger = removeDefectsImmediatelyBtn.isSelected();
-			boolean isolationChecked = isoMinYesBtn.isSelected();
-			boolean isolationMesasurementProtocols = isoProtocolYesBtn.isSelected();
-			boolean isolationCompensationMeasures = isoCompensationYesBtn.isSelected();
-			String isolationCompensationMeasuresAnnotation = isoCompensationCommentField.getText();
-			boolean rcdAvailable = rcdAllBtn.isSelected();
-			int rcdAvailablePercent = 0;
-			if(!rcdPercentageField.getText().isEmpty()) {
-				rcdAvailablePercent = Integer.parseInt(rcdPercentageField.getText());
-			}
-			String rcdAnnotation = rcdCommentField.getText();
-			boolean resistance = resistanceYesBtn.isSelected();
-			int resistanceNumber = 0;
-			if(!resistancePercentageField.getText().isEmpty()) {
-				resistanceNumber = Integer.parseInt(resistancePercentageField.getText());
-			}
-			String resistanceAnnotation = resistanceCommentField.getText();
-			boolean thermalAbnormality = thermicYesBtn.isSelected();
-			String thermalAbnormalityAnnotation = thermicCommentField.getText();
-			boolean internalPortableUtilities = portableUtilitiesYesBtn.isSelected();
-			int externalPortableUtilities = epu; 									//boolean? externalPortableUtilitiesNrBtn.isSelected();
-			int supplySystem = supplySys;
-			int energyDemand = Integer.parseInt(powerConsumptionField.getText());
-			int maxEnergyDemandExternal = Integer.parseInt(externalPowerPercentageField.getText());
-			int maxEnergyDemandInternal = Integer.parseInt(maxCapacityPercentageField.getText());
-			int protectedCircuitsPercent = Integer.parseInt(protectedCirclesPercentageField.getText());
-			int hardWiredLoads = hwl;
-			String additionalAnnotations = furtherExplanationsField.getText();
-			Branch branch = new Branch(branchId,"");
-			
-			resultComplete = new InspectionReportFull(inspectionResultId,
-					 date,
-					 lastEdited,
-					 companion,
-					 surveyor,
-					 vdsApprovalNr,
-					 examinationDuration,
-					 branch,
-					 frequencyControlledUtilities,
-					 precautionsDeclared,
-					 precautionsDeclaredLocation,
-					 examinationComplete,
-					 subsequentExaminationDate,
-					 examinationIncompleteReason,
-					 changesSinceLastExamination,
-					 defectsLastExaminationFixed,
-					 dangerCategory,
-					 dangerCategoryDescription,
-					 examinationResultNoDefect,
-					 examinationResultDefect,
-					 examinationResultDefectDate,
-					 examinationResultDanger,
-					 isolationChecked,
-					 isolationMesasurementProtocols,
-					 isolationCompensationMeasures,
-					 isolationCompensationMeasuresAnnotation,
-					 rcdAvailable,
-					 rcdAvailablePercent,
-					 rcdAnnotation,
-					 resistance,
-					 resistanceNumber,
-					 resistanceAnnotation,
-					 thermalAbnormality,
-					 thermalAbnormalityAnnotation,
-					 internalPortableUtilities,
-					 externalPortableUtilities,
-					 supplySystem,
-					 energyDemand,
-					 maxEnergyDemandExternal,
-					 maxEnergyDemandInternal,
-					 protectedCircuitsPercent,
-					 hardWiredLoads,
-					 additionalAnnotations,
-					 inspectionResultCompanyPlant
-					);
-			resultComplete.setDefects(new ArrayList<>(defectTableView.getItems()));
-			return true;
-		} */
-		return false;
+		currentInspectionReport.setHardWiredLoads(HardWiredLoadsGroup.getSelectedToggle() != null ? getSelectedToggle(HardWiredLoadsGroup) : null);
+		currentInspectionReport.setAdditionalAnnotations(furtherExplanationsField.getText());
 	}
 	
 	
+	private int getSelectedToggle(ToggleGroup toggleGroup) {
+		ObservableList<Toggle> toggles = toggleGroup.getToggles();
+		for (int i = 0; i < toggles.size(); i++) {
+			if (toggles.get(i).isSelected()) {
+				return i;
+			}
+		}
+		return 0;
+	}
+
 	/**
 	 * Resets all buttons and textfields
 	 */
@@ -1457,19 +1287,6 @@ public class Tab_InspectionResult implements Initializable{
 	    return true;
 	}
 	
-	private boolean validateInt(TextField tf) {
-		if (tf.getText().isEmpty()) {
-			return false;
-		}
-		try {
-			Integer.valueOf(tf.getText());
-			tf.getStyleClass().removeAll(Collections.singleton("error")); 
-		} catch (NumberFormatException e) {
-			tf.getStyleClass().add("error");
-			return false;
-		}
-		return true;
-	}
 
 	public void prepare() {
 		// TODO Auto-generated method stub
