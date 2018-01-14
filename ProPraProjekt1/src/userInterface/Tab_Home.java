@@ -70,7 +70,8 @@ public class Tab_Home implements Initializable{
 					setGraphic(null);
 				}
 				else {
-					setText("Befundschein " + item.getId() + " - Firma " + item.getCompanyName() + " - Änderung " + item.getLastEditedNice() + " - Status TODO");
+					String companyName = item.getCompanyName() != null ? item.getCompanyName() : "Unbekannt";
+					setText("Befundschein " + item.getId() + " - Firma " + companyName + " - Änderung " + item.getLastEditedNice() + " - Status TODO");
 					setOnMouseClicked(new EventHandler<Event>() {
 						@Override
 						public void handle(Event event) {

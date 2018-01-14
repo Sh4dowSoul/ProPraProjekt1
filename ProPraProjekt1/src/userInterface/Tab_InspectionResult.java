@@ -698,12 +698,15 @@ public class Tab_InspectionResult implements Initializable{
 			defectTableView.setItems(FXCollections.observableArrayList(currentInspectionReport.getDefects()));
 			
 			//Set current Company(Plant)
-			currentCompanyPlant = currentInspectionReport.getCompanyPlant();
-			currentCompany = currentCompanyPlant.getCompany();
-			//Load Company Data into form
-			comboBoxCompanyName.setValue(currentCompany);
-			currentCompanyPlant = currentInspectionReport.getCompanyPlant();//Warnung: Muss ein weiteres Mal geladen werden, da nachdem die Firma in die ComboBox geladen wurde, wurde currentCompanyPlant null gesetzt. TODO Fix this unwanted behavior
-			comboBoxCompanyPlantStreet.setValue(currentCompanyPlant);
+			if(currentInspectionReport.getCompanyPlant()!= null) {
+				currentCompanyPlant = currentInspectionReport.getCompanyPlant();
+				currentCompany = currentCompanyPlant.getCompany();
+				//Load Company Data into form
+				comboBoxCompanyName.setValue(currentCompany);
+				currentCompanyPlant = currentInspectionReport.getCompanyPlant();//Warnung: Muss ein weiteres Mal geladen werden, da nachdem die Firma in die ComboBox geladen wurde, wurde currentCompanyPlant null gesetzt. TODO Fix this unwanted behavior
+				comboBoxCompanyPlantStreet.setValue(currentCompanyPlant);
+			}
+			
 		
 			//Load ExaminationInfo Data
 			plantCompanionField.setText(currentInspectionReport.getCompanion());
@@ -1294,7 +1297,7 @@ public class Tab_InspectionResult implements Initializable{
 		//Check if saved
 		//Cleanup every entry
 		if(inspectionResultSaved) {
-			//mainController.closeDiagnosis();
+			mainController.closeDiagnosis();
 			cleanUpSession();
 		} else {
 			Alert alert = new Alert(AlertType.WARNING);
@@ -1310,7 +1313,7 @@ public class Tab_InspectionResult implements Initializable{
 
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get() == discardButton){
-				//mainController.closeDiagnosis();
+				mainController.closeDiagnosis();
 				cleanUpSession();
 			} else if (result.get() == saveButton) {
 				addDiagnosis(null);

@@ -34,8 +34,8 @@ public class DiagnosisController {
 			Connection connection = DataSource.getConnection();
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(
-					"SELECT inspectionReportId, examinationDate, companyId, companyName, inspectionReportLastEdited "+ 
-					"FROM InspectionReport NATURAL JOIN Company NATURAL JOIN CompanyPlant "+ 
+					"SELECT inspectionReportId, examinationDate, Company.companyId, companyName, inspectionReportLastEdited "+ 
+					"FROM (InspectionReport LEFT JOIN CompanyPlant on InspectionReport.plantId = CompanyPlant.plantId) Left Join Company on CompanyPlant.companyId = Company.companyId "+ 
 					"ORDER BY inspectionReportLastEdited desc "+
 					"LIMIT " + number);
 		) {
@@ -66,8 +66,8 @@ public class DiagnosisController {
 			Connection connection = DataSource.getConnection();
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(
-					"SELECT inspectionReportId, examinationDate, companyId, companyName, inspectionReportLastEdited "+ 
-					"FROM InspectionReport NATURAL JOIN Company NATURAL JOIN CompanyPlant "+ 
+					"SELECT inspectionReportId, examinationDate, Company.companyId, companyName, inspectionReportLastEdited "+ 
+					"FROM (InspectionReport LEFT JOIN CompanyPlant ON InspectionReport.plantId = CompanyPlant.plantId) LEFT JOIN Company ON CompanyPlant.companyId = Company.companyId "+ 
 					"ORDER BY companyName");
 		) {
 			while (resultSet.next()) {
@@ -99,7 +99,7 @@ public class DiagnosisController {
 				Statement statement = connection.createStatement();
 				ResultSet resultSet = statement.executeQuery(
 						"SELECT * "+ 
-						"FROM InspectionReport NATURAL JOIN CompanyPlant Natural JOIN Company LEFT JOIN Branch ON  InspectionReport.branchId = Branch.branchId "+ 
+						"FROM (InspectionReport LEFT JOIN CompanyPlant on InspectionReport.plantId = CompanyPlant.plantId)Left Join Company on CompanyPlant.companyId = Company.companyId LEFT JOIN Branch ON  InspectionReport.branchId = Branch.branchId "+ 
 						"WHERE inspectionReportId = " + id);
 			) {
 				while (resultSet.next()) {
