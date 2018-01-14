@@ -13,7 +13,7 @@ public class Tab_Manager implements Initializable {
 //	*** ADD NEW DEFECT ***
 	@FXML private TextField newIdField;
 	@FXML private TextField newDefectField;
-	@FXML private Button discardNewDefectButton;
+	@FXML private Button clearNewDefectButton;
 	@FXML private Button createNewDefectButton;
 	
 //	*** EDIT A DEFECT ***
@@ -21,13 +21,29 @@ public class Tab_Manager implements Initializable {
 	@FXML private TextField toEditDefectIdField;
 	@FXML private TextField newEditDefectField;
 	@FXML private TextField newEditDefectIdField;
-	@FXML private Button discardEditButton;
+	@FXML private Button clearEditButton;
 	@FXML private Button editDefectField;
 	@FXML private Button editDefectIdField;
 	
 	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
+	public void initialize(URL location, ResourceBundle resources) {
+		clearNew();
+		clearEdit();
 		// TODO Auto-generated method stub
+		
+	}
+	
+	public void clearNew() {
+		newDefectField.clear();
+		newIdField.clear();
+		
+	}
+		
+	public void clearEdit() {
+		toEditDefectField.clear();
+		toEditDefectIdField.clear();
+		newEditDefectField.clear();
+		newEditDefectIdField.clear();
 		
 	}
 	

@@ -17,13 +17,13 @@
       </Label>
       <HBox layoutX="15.0" layoutY="120.0" spacing="10.0">
          <children>
-            <TextField fx:id="NewIdField" layoutX="15.0" layoutY="120.0" prefHeight="25.0" prefWidth="82.0" promptText="Mangel-ID" />
+            <TextField fx:id="newIdField" layoutX="15.0" layoutY="120.0" prefHeight="25.0" prefWidth="82.0" promptText="Mangel-ID" />
             <TextField fx:id="newDefectField" layoutX="129.0" layoutY="120.0" prefHeight="25.0" prefWidth="360.0" promptText="Mangel Bezeichnung" />
          </children>
       </HBox>
       <HBox layoutX="157.0" layoutY="181.0" spacing="10.0">
          <children>
-            <Button fx:id="discardNewDefectButton" layoutX="35.0" layoutY="180.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" text="Eintrag Verwerfen" />
+            <Button fx:id="clearNewDefectButton" layoutX="35.0" layoutY="180.0" mnemonicParsing="false" onAction="#clearNew" prefHeight="30.0" prefWidth="150.0" text="Eintrag Verwerfen" />
             <Button fx:id="createNewDefectButton" layoutX="292.0" layoutY="180.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" text="Mangel erstellen" />
          </children>
       </HBox>
@@ -46,7 +46,7 @@
       </HBox>
       <HBox layoutX="500.0" layoutY="246.0" prefHeight="30.0" prefWidth="469.0" spacing="50.0">
          <children>
-            <Button fx:id="discardEditButton" layoutX="517.0" layoutY="248.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="160.0" text="Eintrag Verwerfen" />
+            <Button fx:id="clearEditButton" layoutX="517.0" layoutY="248.0" mnemonicParsing="false" onAction="#clearEdit" prefHeight="30.0" prefWidth="160.0" text="Eintrag Verwerfen" />
             <Button fx:id="editDefectField" layoutX="683.0" layoutY="248.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="160.0" text="Mangeltext ändern" />
             <Button fx:id="editDefectIdField" layoutX="860.0" layoutY="246.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="160.0" text="Mangel-ID ändern" />
          </children>

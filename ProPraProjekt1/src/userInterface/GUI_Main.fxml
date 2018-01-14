@@ -35,8 +35,8 @@
                      </children>
                   </StackPane>
                </content>
-        </Tab>       
-        <Tab fx:id="tt" text="Manager">
+        </Tab> 
+                <Tab fx:id="tt" text="Manager">
                <content>
                   <StackPane>
                      <children>
@@ -46,7 +46,7 @@
                </content>
         </Tab>
         
-        
+                
         </tabs>
       </TabPane>
    </children>
