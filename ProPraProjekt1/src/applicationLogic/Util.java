@@ -50,6 +50,7 @@ public class Util {
 	
 	public static boolean validateInt(TextField tf) {
 		if (tf.getText().isEmpty()) {
+			tf.getStyleClass().removeAll(Collections.singleton("error"));
 			return false;
 		}
 		try {
@@ -64,6 +65,7 @@ public class Util {
 	
 	public static boolean validateDouble(TextField tf) {
 		if (tf.getText().isEmpty()) {
+			tf.getStyleClass().removeAll(Collections.singleton("error"));
 			return false;
 		}
 		try {
