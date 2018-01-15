@@ -24,6 +24,19 @@ public class FlawListElement {
 		this.machine = machine;
 	}
 	
+	public FlawListElement(Flaw flaw, int branchId, int danger, String building, String room, String machine) {
+		this.flaw = flaw;
+		this.branchId = branchId;
+		this.danger = danger;
+		this.building = building;
+		this.room = room;
+		this.machine = machine;
+	}
+	
+	public void setElementId(int elementId) {
+		this.elementId = elementId;
+	}
+
 	public int getExternalFlawId() {
 		return flaw.getExternalId();
 	}

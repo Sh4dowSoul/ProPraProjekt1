@@ -18,6 +18,11 @@ public class Flaw extends AutocompleteSuggestion {
 		super(externalFlawId, internalFlawId, flawDescription);
 		this.isCustomFlaw = isCustomFlaw;
 	}
+	
+	public Flaw(int externalFlawId, boolean isCustomFlaw, String flawDescription) {
+		super(externalFlawId, 0, flawDescription);
+		this.isCustomFlaw = isCustomFlaw;
+	}
 
 	public boolean isCustomFlaw() {
 		return isCustomFlaw;

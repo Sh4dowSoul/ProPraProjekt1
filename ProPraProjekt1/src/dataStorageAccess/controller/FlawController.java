@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import applicationLogic.Flaw;
 import applicationLogic.FlawStatistic;
 import applicationLogic.InspectionReportStatistic;
+import applicationLogic.Util;
 import dataStorageAccess.DataSource;
 
 public class FlawController {
@@ -95,5 +96,36 @@ public class FlawController {
 			}
 		}
 		return inspectionReports;
-	}	
+	}
+	
+	public static int insertCustomFlaw(Flaw flaw) throws SQLException{
+		
+		String statement = "INSERT INTO Flaw "
+				+ "(externalFlawId, isCustomFlaw, flawDescription) "
+				+ "VALUES(?,?,?)";
+		PreparedStatement preparedStatement = null;
+		Connection connection = null;
+		int internalFlawId;
+		try {
+			connection = DataSource.getConnection();
+			preparedStatement = connection.prepareStatement(statement);
+
+			Util.setValues(preparedStatement, flaw.getExternalId(), true, flaw.getDescription());
+			
+			// execute insert SQL statement
+			preparedStatement.executeUpdate();
+			
+			//Get Id of inserted Company
+			ResultSet resultSet = connection.createStatement().executeQuery("SELECT last_insert_rowid() ");
+			internalFlawId = resultSet.getInt("last_insert_rowid()");
+		} finally {
+			if (preparedStatement != null) {
+				preparedStatement.close();
+			}
+			if (connection != null) {
+				connection.close();
+			}
+		}
+		return internalFlawId;	
+	}
 }

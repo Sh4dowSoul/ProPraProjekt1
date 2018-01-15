@@ -20,4 +20,8 @@ public class FlawAccess {
 	public static ArrayList<String> getFlawDescriptions(int externalFlawId) throws SQLException {
 		return FlawController.getFlawDescription(externalFlawId);
 	}
+	
+	public static int insertCustomFlaw(Flaw flaw) throws SQLException{
+		return FlawController.insertCustomFlaw(flaw);
+	}
 }

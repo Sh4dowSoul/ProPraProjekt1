@@ -245,6 +245,8 @@ public class Tab_InspectionResult implements Initializable{
 	private CompanyPlant currentCompanyPlant;
 	//InpsectionReport
 	private InspectionReportFull currentInspectionReport;
+	//Flaw
+	private Flaw currentFlaw;
 	
 	
 	@Override
@@ -262,7 +264,7 @@ public class Tab_InspectionResult implements Initializable{
 	}
 
 	private void prepareGUI() {
-		//CompanyComboBox
+	//CompanyComboBox
 		comboBoxCompanyName.setCellFactory(new Callback<ListView<Company>, ListCell<Company>>() {
 			 @Override
 			 public ListCell<Company> call(ListView<Company> param) {
@@ -342,7 +344,7 @@ public class Tab_InspectionResult implements Initializable{
 		});
 		
 		
-		//CompanyPlantComboBox
+	//CompanyPlantComboBox
 		comboBoxCompanyPlantStreet.setCellFactory(new Callback<ListView<CompanyPlant>, ListCell<CompanyPlant>>() {
 			 @Override
 			 public ListCell<CompanyPlant> call(ListView<CompanyPlant> param) {
@@ -534,11 +536,11 @@ public class Tab_InspectionResult implements Initializable{
 		try {
 			String flawDescriptionEntered = defectSearchField.getText();
 			//Check if already present or new flaw
-			if(!FlawAccess.getFlawDescriptions(newDefectId).contains(flawDescriptionEntered)) {
+			if(!FlawAccess.getFlawDescriptions(currentFlaw.getExternalId()).contains(flawDescriptionEntered)) {
 				Alert alert = new Alert(AlertType.CONFIRMATION);
 				alert.setTitle("Neuer Mangel");
 				alert.setHeaderText("Textbaustein als neuen Mangel abspeichern?");
-				alert.setContentText("Unter der Mangelnummer " + newDefectId +" ist bisher keine Mangel mit der Beschreibung \n\n'" + 
+				alert.setContentText("Unter der Mangelnummer " + currentFlaw.getExternalId() +" ist bisher keine Mangel mit der Beschreibung \n\n'" + 
 				flawDescriptionEntered +
 				"'\n\nbekannt. Soll der eingegebene Mangel in der Datenbank gespeichert werden?" );
 
@@ -549,15 +551,16 @@ public class Tab_InspectionResult implements Initializable{
 
 				Optional<ButtonType> Dialogresult = alert.showAndWait();
 				if (Dialogresult.get() == yesButton) {
-					//TODO Neuen customMangel in der Datenbank speichern
+					currentFlaw = new Flaw(currentFlaw.getExternalId(), true, flawDescriptionEntered);
+					currentFlaw.setInternalId(FlawAccess.insertCustomFlaw(currentFlaw));
+					defectSearchField.getEntries().add(currentFlaw);
 				}
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
-		//return new FlawListElement(-1, newDefectId,Integer.valueOf(branchText.getText()),defectDanger, buildingText.getText(), roomText.getText(), machineText.getText(), customDescriptionText.getText());
+		return new FlawListElement(currentFlaw, Integer.valueOf(branchText.getText()), defectDanger, buildingText.getText(), roomText.getText(), machineText.getText());
 	}
 	
 	public void addFlawToTable(ActionEvent add) {
@@ -1199,7 +1202,7 @@ public class Tab_InspectionResult implements Initializable{
 			@Override
 			public void onAutoCompleteResult(AutocompleteSuggestion suggestion) {
 				resultDefectId.setText(Integer.toString(suggestion.getExternalId()));
-				newDefectId = suggestion.getExternalId();
+				currentFlaw = (Flaw) suggestion;
 			}
 		});
 	
