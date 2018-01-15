@@ -7,23 +7,22 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="544.0" prefWidth="898.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<SplitPane dividerPositions="0.5431131019036954" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <items>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
          <children>
             <Label layoutX="15.0" layoutY="14.0" text="Neuen Mangel erstellen">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <TextField layoutX="101.0" layoutY="65.0" prefHeight="25.0" prefWidth="330.0" promptText="Mangel Bezeichnung" />
+            <TextField layoutX="100.0" layoutY="65.0" prefHeight="25.0" prefWidth="309.0" promptText="Mangel Bezeichnung" />
             <TextField layoutX="14.0" layoutY="65.0" prefHeight="25.0" prefWidth="73.0" promptText="Mangel-ID" />
             <Button layoutX="199.0" layoutY="126.0" mnemonicParsing="false" text="Eintrag Verwerfen" />
             <Button layoutX="327.0" layoutY="126.0" mnemonicParsing="false" text="Mangel erstellen" />
          </children>
       </AnchorPane>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
          <children>
             <Button layoutX="292.0" layoutY="210.0" mnemonicParsing="false" text="Mangel-ID ändern" />
             <Button layoutX="148.0" layoutY="210.0" mnemonicParsing="false" text="Mangeltext ändern" />
