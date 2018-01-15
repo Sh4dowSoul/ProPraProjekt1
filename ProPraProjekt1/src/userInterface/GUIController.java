@@ -21,7 +21,6 @@ public class GUIController implements Initializable{
 	@FXML private Tab_Home homeTabController;
 	@FXML private Tab_InspectionResult inspectionResultTabController;
 	
-	private boolean editMode;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -29,7 +28,7 @@ public class GUIController implements Initializable{
 		inspectionResultTabController.setParentController(this);
 	}
 	
-	public void openDiagnosisTab(int diagnosisId) {
+	public void openDiagnosisTab(int diagnosisId, boolean editMode) {
 		//ChangeTab
 		mainTabPane.getSelectionModel().select(1);
 		diagnosisTab.setDisable(false);
@@ -47,14 +46,5 @@ public class GUIController implements Initializable{
 		homeTab1.setDisable(false);
 		homeTabController.loadAllDiagnoses();
 		homeTabController.loadLastEdited();
-		setEditMode(false);
-	}
-	
-	public void setEditMode(boolean editing) {
-		editMode = editing;
-	}
-	
-	public boolean getEditMode() {
-		return editMode;
 	}
 }

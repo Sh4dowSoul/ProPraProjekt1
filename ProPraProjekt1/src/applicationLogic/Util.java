@@ -4,7 +4,13 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Collections;
 
+import javafx.scene.Node;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 
 /**
  * Helper methods
@@ -52,9 +58,13 @@ public class Util {
 		return obj != null ? bln : null;
 	}
 	
-	public static boolean validateInt(TextField tf) {
+	public static boolean validateInt(TextField tf, boolean canBeEmpty) {
 		if (tf.getText().isEmpty()) {
-			tf.getStyleClass().removeAll(Collections.singleton("error"));
+			if(canBeEmpty) {
+				tf.getStyleClass().removeAll(Collections.singleton("error"));
+			} else {
+				tf.getStyleClass().add("error");
+			}
 			return false;
 		}
 		try {
@@ -80,5 +90,41 @@ public class Util {
 			return false;
 		}
 		return true;
+	}
+	
+	public static boolean validateNotEmpty(TextField tf) {
+		if (tf.getText().isEmpty()) {
+			tf.getStyleClass().add("error");
+			return false;
+		}
+		tf.getStyleClass().removeAll(Collections.singleton("error")); 
+		return true;
+	}
+	
+	public static <T extends Pane> void clearNode(T parentPane) {
+		for (Node newnode : parentPane.getChildren()) {
+			if (newnode instanceof TextField) {
+				((TextField) newnode).clear();
+            } else {
+            	if (newnode instanceof RadioButton) {
+            		((RadioButton) newnode).setSelected(false);
+            	} else {
+            		if (newnode instanceof CheckBox) {
+            			((CheckBox) newnode).setSelected(false);
+            		} else {
+            			if (newnode instanceof DatePicker) {
+            				((DatePicker) newnode).setValue(null);
+            			} else {
+            				if (newnode instanceof ComboBox) {
+            					((ComboBox) newnode).setValue(null);
+            				}
+            			}
+            		}
+            	}
+            }
+            if (newnode instanceof Pane) {
+                clearNode((Pane) newnode);
+            }
+		} 
 	}
 }

@@ -97,7 +97,7 @@ public class Tab_Home implements Initializable{
 	 * @throws SQLException 
 	 */
 	public void createNewDiagnosisButton(ActionEvent add){
-		mainController.openDiagnosisTab(-1);
+		mainController.openDiagnosisTab(0, false);
 	}
 
 	private void openInspectionResultOptionsDialog(InspectionResultPreview item) {
@@ -115,8 +115,7 @@ public class Tab_Home implements Initializable{
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == editButton){
-			mainController.setEditMode(true);
-			mainController.openDiagnosisTab(item.getId());
+			mainController.openDiagnosisTab(item.getId(), true);
 		} else if (result.get() == exportButton) {
 			PDFExport.export(item.getId());
 		}

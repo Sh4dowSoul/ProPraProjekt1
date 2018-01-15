@@ -221,22 +221,16 @@ public class Tab_InspectionResult implements Initializable{
 	private GUIController mainController;
 	//New Defect
 	int newDefectDanger;
-	private int newDefectId;
 	boolean tableUpdate = false;
 	private int tableSelctedId;
-	private int showTableDialog = 1;
-	private int defectElementId = -1;
 	//InspectionResult Save
 	private boolean inspectionResultSaved;
-	private int inspectionResultId = 0;
 	private Company inspectionResultCompany;
-	private CompanyPlant inspectionResultCompanyPlant;
 	private InspectionReportFull resultComplete;
 	
-	private ArrayList<String> errors;
-	
-	
 	//Current Working Data
+	//Mode
+	boolean isEditMode = false;
 	//Company
 	private ArrayList<Company> companyList;
 	private Company currentCompany;
@@ -419,7 +413,7 @@ public class Tab_InspectionResult implements Initializable{
 	}
 
 	public void saveCompany(ActionEvent event) throws IOException {
-		if(validate(textFieldCompanyZipCode, true)) {
+		if(Util.validateInt(textFieldCompanyZipCode, false) & Util.validateNotEmpty(textFieldCompanyCity) & Util.validateNotEmpty(textFieldCompanyStreet)) {
 			currentCompany.setCity(textFieldCompanyCity.getText());
 			currentCompany.setStreet(textFieldCompanyStreet.getText());
 			currentCompany.setZipCode(Integer.valueOf(textFieldCompanyZipCode.getText()));
@@ -447,7 +441,7 @@ public class Tab_InspectionResult implements Initializable{
 	}
 	
 	public void saveCompanyPlant(ActionEvent event) throws IOException {
-		if(validate(textFieldCompanyPlantZipCode, true)) {
+		if(Util.validateInt(textFieldCompanyPlantZipCode, false) & Util.validateNotEmpty(textFieldCompanyPlantCity)) {
 			currentCompanyPlant.setCity(textFieldCompanyPlantCity.getText());
 			currentCompanyPlant.setZipCode(Integer.valueOf(textFieldCompanyPlantZipCode.getText()));
 			
@@ -497,26 +491,6 @@ public class Tab_InspectionResult implements Initializable{
 	
 	
 	
-	/**
-	 * Defect edit Dialog (Do you want to edit this defect? )
-	 * 
-	 * @param selectedItem - selected Defect
-	 */
-	private void createDignosisOptionsDialog(FlawListElement selectedItem) {
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Bearbeiten");
-		alert.setHeaderText("Wollen sie den ausgewählten Mangel bearbeiten?" );
-		alert.initStyle(StageStyle.UTILITY);
-
-		Optional<ButtonType> result = alert.showAndWait();
-		if (result.get() == ButtonType.OK){
-			addDefectButton.setText("Update " + tableSelctedId);
-			resetAddToTable();
-			openInAddToTableMenu(selectedItem);
-		}
-	}
-
-	
 	public FlawListElement getNewFlawData() {
 		//Get Danger Category
 		int defectDanger = 0;
@@ -564,7 +538,7 @@ public class Tab_InspectionResult implements Initializable{
 	}
 	
 	public void addFlawToTable(ActionEvent add) {
-		if (verifyNewFlaw()) {
+		if (Util.validateInt(resultDefectId, false) & Util.validateInt(branchText, false)) {
 			//Add new Flaw to TableView
 			defectTableView.getItems().add(getNewFlawData());
 			//Reset addFlawForm
@@ -572,9 +546,6 @@ public class Tab_InspectionResult implements Initializable{
 		}
 	}
 	
-	public boolean verifyNewFlaw() {
-		return (validate(resultDefectId, true) & validate(branchText, false));
-	}
 	
 	/**
 	 * Reset add to defect table textfields & CheckBoxes
@@ -598,11 +569,11 @@ public class Tab_InspectionResult implements Initializable{
 	 */
 	private void openInAddToTableMenu(FlawListElement defect) {
 		defectSearchField.setText(defect.getFlaw().getDescription());
-		newDefectId = defect.getFlaw().getExternalId();
+		defect.getFlaw().getExternalId();
 		resultDefectId.setText(String.valueOf(defect.getFlaw().getExternalId()));
 		branchText.setText(String.valueOf(defect.getBranchId()));
 		int danger = defect.getDanger();
-		defectElementId = defect.getElementId();
+		defect.getElementId();
 		switch (danger) {
 		case 1: 
 			dangerFireSwitchBox.setSelected(true);
@@ -620,13 +591,6 @@ public class Tab_InspectionResult implements Initializable{
 		machineText.setText(defect.getMachine());
 		tableUpdate = true;
 	}
-	
-	public boolean verifyNewTableInput() {
-		return (validate(resultDefectId, true) & validate(branchText, false));
-	}
-
-	
-	
 	
 	/**
 	 * Prepare Result for export to Database
@@ -1014,7 +978,7 @@ public class Tab_InspectionResult implements Initializable{
 		//ExaminationInfo
 		currentInspectionReport.setCompanion(plantCompanionField.getText());
 		currentInspectionReport.setSurveyor(plantExpertField.getText());
-		if (Util.validateInt(plantAnerkNrField)){
+		if (Util.validateInt(plantAnerkNrField, true)){
 			currentInspectionReport.setVdsApprovalNr(Integer.valueOf(plantAnerkNrField.getText()));
 		}
 		currentInspectionReport.setDate(datePickerExaminationDate.getValue());
@@ -1023,7 +987,7 @@ public class Tab_InspectionResult implements Initializable{
 		}
 		
 		//Art des Betriebs/Anlage
-		if(Util.validateInt(branchName)) {
+		if(Util.validateInt(branchName, true)) {
 			currentInspectionReport.setBranch(new Branch(Integer.valueOf(branchName.getText())));
 		}
 		currentInspectionReport.setFrequencyControlledUtilities(freqGroup.getSelectedToggle() != null ? freqYesBtn.isSelected() : null);
@@ -1057,7 +1021,7 @@ public class Tab_InspectionResult implements Initializable{
 		}
 		currentInspectionReport.setRcdAnnotation(rcdCommentField.getText());
 		currentInspectionReport.setResistance(ResistanceGroup.getSelectedToggle() != null ? resistanceYesBtn.isSelected() : null);
-		if (Util.validateInt(resistancePercentageField)) {
+		if (Util.validateInt(resistancePercentageField, true)) {
 			currentInspectionReport.setResistanceNumber(Integer.valueOf(resistancePercentageField.getText()));
 		}
 		currentInspectionReport.setThermalAbnormality(ThermicGroup.getSelectedToggle() != null ? thermicYesBtn.isSelected() : null);
@@ -1071,13 +1035,13 @@ public class Tab_InspectionResult implements Initializable{
 		
 		//Allgemeine Informationen
 		currentInspectionReport.setSupplySystem(SupplySystemGroup.getSelectedToggle() != null ? getSelectedToggle(SupplySystemGroup) : null);
-		if (Util.validateInt(powerConsumptionField)) {
+		if (Util.validateInt(powerConsumptionField, true)) {
 			currentInspectionReport.setEnergyDemand(Integer.valueOf(powerConsumptionField.getText()));
 		}
-		if (Util.validateInt(externalPowerPercentageField)) {
+		if (Util.validateInt(externalPowerPercentageField, true)) {
 			currentInspectionReport.setMaxEnergyDemandExternal(Integer.valueOf(externalPowerPercentageField.getText()));
 		}
-		if (Util.validateInt(maxCapacityPercentageField)) {
+		if (Util.validateInt(maxCapacityPercentageField, true)) {
 			currentInspectionReport.setMaxEnergyDemandInternal(Integer.valueOf(maxCapacityPercentageField.getText()));
 		}
 		if (Util.validateDouble(protectedCirclesPercentageField)) {
@@ -1105,37 +1069,12 @@ public class Tab_InspectionResult implements Initializable{
 		currentCompany = null;
 		currentCompanyPlant = null;
 		currentInspectionReport = null;
-		clearNode(borderPane);
+		Util.clearNode(borderPane);
 		
 		//TODO: Cleanup Table
 	}
 	
-	private <T extends Pane> void clearNode(T parentPane) {
-		for (Node newnode : parentPane.getChildren()) {
-			if (newnode instanceof TextField) {
-				((TextField) newnode).clear();
-            } else {
-            	if (newnode instanceof RadioButton) {
-            		((RadioButton) newnode).setSelected(false);
-            	} else {
-            		if (newnode instanceof CheckBox) {
-            			((CheckBox) newnode).setSelected(false);
-            		} else {
-            			if (newnode instanceof DatePicker) {
-            				((DatePicker) newnode).setValue(null);
-            			} else {
-            				if (newnode instanceof ComboBox) {
-            					((ComboBox) newnode).setValue(null);
-            				}
-            			}
-            		}
-            	}
-            }
-            if (newnode instanceof Pane) {
-                clearNode((Pane) newnode);
-            }
-		} 
-	}
+	
 	
 	
 	/**
@@ -1280,39 +1219,6 @@ public class Tab_InspectionResult implements Initializable{
 	    new Thread(loadCompaniePlantTask).start();
 	}
 	
-	
-	
-	
-	
-	
-	
-	/**
-	 * Validate if TextField is not empty (and check for NumberFormatExceptions)
-	 * 
-	 * @param tf - TextField
-	 * @param checkInt - Check for NumberFormatExceptions?
-	 * @return if textfield is not empty
-	 */
-	private boolean validate(TextField tf, boolean checkInt) {
-	    if (tf.getText().isEmpty()) {
-	    	tf.getStyleClass().add("error");
-	    	return false;
-	    }
-	    else{
-	    	if (checkInt) {
-	    		try {
-	    			Integer.valueOf(tf.getText());
-	    		} catch (NumberFormatException e) {
-	    			tf.getStyleClass().add("error");
-	    			return false;
-	    		}
-	    	}
-	    	tf.getStyleClass().remove("error");
-	    }
-	    return true;
-	}
-	
-
 	public void prepare() {
 		// TODO Auto-generated method stub
 		cleanUpSession();
