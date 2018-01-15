@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<SplitPane dividerPositions="0.5" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<SplitPane dividerPositions="0.5" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userInterface.Tab_Manager">
    <items>
       <AnchorPane prefHeight="200.0" prefWidth="400.0">
          <children>
@@ -16,12 +16,12 @@
                <font>
                   <Font size="14.0" />
                </font></Label>
-            <TextField layoutX="119.0" layoutY="70.0" prefHeight="25.0" prefWidth="171.0" promptText="Mangeltext hinzufügen" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="6.0" />
-            <TextField layoutX="14.0" layoutY="70.0" prefHeight="25.0" prefWidth="87.0" promptText="Mangel-ID" AnchorPane.leftAnchor="14.0" />
+            <TextField fx:id="newDefectField" layoutX="119.0" layoutY="70.0" prefHeight="25.0" prefWidth="171.0" promptText="Mangeltext hinzufügen" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="6.0" />
+            <TextField fx:id="newIdField" layoutX="14.0" layoutY="70.0" prefHeight="25.0" prefWidth="87.0" promptText="Mangel-ID" AnchorPane.leftAnchor="14.0" />
             <HBox alignment="TOP_RIGHT" layoutX="103.0" layoutY="123.0" prefHeight="25.0" prefWidth="281.0" spacing="10.0" AnchorPane.leftAnchor="103.0" AnchorPane.rightAnchor="12.0">
                <children>
-                  <Button layoutX="111.0" layoutY="126.0" mnemonicParsing="false" text="Eintrag Verwerfen" />
-                  <Button layoutX="192.0" layoutY="126.0" mnemonicParsing="false" text="Mangel hinzufügen" />
+                  <Button fx:id="clearNewDefectButton" layoutX="111.0" layoutY="126.0" mnemonicParsing="false" onAction="#clearNew" text="Eintrag Verwerfen" />
+                  <Button fx:id="createNewDefectButton" layoutX="192.0" layoutY="126.0" mnemonicParsing="false" text="Mangel hinzufügen" />
                </children>
             </HBox>
          </children>
@@ -33,17 +33,17 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <TextField layoutX="295.0" layoutY="72.0" prefHeight="25.0" prefWidth="87.0" promptText="Mangel-ID" AnchorPane.rightAnchor="10.0" />
-            <TextField layoutX="13.0" layoutY="72.0" prefHeight="25.0" prefWidth="272.0" promptText="zu bearbeitender Mangeltext" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="111.0" />
+            <TextField fx:id="toEditDefectIdField" layoutX="295.0" layoutY="72.0" prefHeight="25.0" prefWidth="87.0" promptText="Mangel-ID" AnchorPane.rightAnchor="10.0" />
+            <TextField fx:id="toEditDefectField" layoutX="13.0" layoutY="72.0" prefHeight="25.0" prefWidth="272.0" promptText="zu bearbeitender Mangeltext" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="111.0" />
             <HBox alignment="TOP_RIGHT" layoutX="13.0" layoutY="187.0" spacing="10.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="13.0">
                <children>
-                  <Button layoutX="32.0" layoutY="132.0" mnemonicParsing="false" text="Eintrag Verfewerfen" />
-                  <Button layoutX="101.0" layoutY="132.0" mnemonicParsing="false" text="Mangeltext ändern" />
-                  <Button layoutX="184.0" layoutY="132.0" mnemonicParsing="false" text="Mangel-ID ändern" />
+                  <Button fx:id="clearEditButton" layoutX="32.0" layoutY="132.0" mnemonicParsing="false" onAction="#clearEdit" text="Eintrag Verfewerfen" />
+                  <Button fx:id="editDefectField" layoutX="101.0" layoutY="132.0" mnemonicParsing="false" text="Mangeltext ändern" />
+                  <Button fx:id="editDefectIdField" layoutX="184.0" layoutY="132.0" mnemonicParsing="false" text="Mangel-ID ändern" />
                </children>
             </HBox>
-            <TextField layoutX="299.0" layoutY="113.0" prefHeight="25.0" prefWidth="87.0" promptText="Mangel-ID" AnchorPane.rightAnchor="10.0" />
-            <TextField layoutX="9.0" layoutY="113.0" prefHeight="25.0" prefWidth="280.0" promptText="Neuer Mangeltext" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="111.0" />
+            <TextField fx:id="newEditDefectIdField" layoutX="299.0" layoutY="113.0" prefHeight="25.0" prefWidth="87.0" promptText="Mangel-ID" AnchorPane.rightAnchor="10.0" />
+            <TextField fx:id="newEditDefectField" layoutX="9.0" layoutY="113.0" prefHeight="25.0" prefWidth="280.0" promptText="Neuer Mangeltext" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="111.0" />
          </children></AnchorPane>
    </items>
 </SplitPane>
