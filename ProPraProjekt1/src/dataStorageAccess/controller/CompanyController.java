@@ -58,6 +58,7 @@ public class CompanyController {
 				ResultSet resultSet = statement.executeQuery(
 					"SELECT DISTINCT CompanyId, CompanyName, CompanyStreet, CompanyZip, CompanyCity "+ 
 					"FROM FlawListElement LEFT JOIN InspectionReport on FlawListElement.inspectionReportId = InspectionReport.inspectionReportId NATURAL JOIN CompanyPlant NATURAL JOIN Company "+
+					"WHERE InspectionReportvalidated = 1 " +
 					"Order BY CompanyName ");
 		) {
 			while (resultSet.next()) {

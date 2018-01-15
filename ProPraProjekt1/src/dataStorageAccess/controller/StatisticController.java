@@ -31,7 +31,8 @@ public class StatisticController {
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(
 					"SELECT externalFlawId, flawDescription, count(*) " + 
-					"FROM FlawListElement JOIN InspectionReport ON FlawListElement.inspectionReportId = InspectionReport.inspectionReportId NATURAL JOIN CompanyPlant NATURAL JOIN Company NATURAL JOIN Flaw " + 
+					"FROM FlawListElement JOIN InspectionReport ON FlawListElement.inspectionReportId = InspectionReport.inspectionReportId NATURAL JOIN FLAW NATURAL JOIN CompanyPlant NATURAL JOIN Company " + 
+					"where InspectionReportvalidated = 1 " +
 					"GROUP BY externalFlawId " + 
 					"Having companyId = " + id + " " +
 					"ORDER BY count(externalFlawId) desc " 
@@ -56,7 +57,8 @@ public class StatisticController {
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(
 					"SELECT externalFlawId, flawDescription, count(*) " + 
-					"FROM FlawListElement NATURAL JOIN Flaw " + 
+					"FROM FlawListElement JOIN InspectionReport ON FlawListElement.inspectionReportId = InspectionReport.inspectionReportId NATURAL JOIN Flaw " + 
+					"where InspectionReportvalidated = 1 " +
 					"GROUP BY externalFlawId " + 
 					"ORDER BY count(*) desc " 
 					);
@@ -81,8 +83,8 @@ public class StatisticController {
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(
 					"SELECT externalFlawId, flawDescription, count(*) " + 
-					"FROM FlawListElement NATURAL JOIN Flaw " + 
-					"WHERE branchId = " + id + " " +
+					"FROM FlawListElement JOIN InspectionReport ON FlawListElement.inspectionReportId = InspectionReport.inspectionReportId NATURAL JOIN Flaw " + 
+					"WHERE FlawListElement.branchId = " + id + " and InspectionReportvalidated = 1 " +
 					"GROUP BY externalFlawId " + 
 					"ORDER BY count(*) desc "
 				);
@@ -107,7 +109,8 @@ public class StatisticController {
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(
 					"SELECT externalFlawId, flawDescription, count(*) " + 
-					"FROM FlawListElement NATURAL JOIN Flaw " + 
+					"FROM FlawListElement JOIN InspectionReport ON FlawListElement.inspectionReportId = InspectionReport.inspectionReportId NATURAL JOIN Flaw " + 
+					"where InspectionReportvalidated = 1 " +
 					"GROUP BY externalFlawId " + 
 					"ORDER BY count(*) desc "
 				);

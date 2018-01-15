@@ -46,8 +46,9 @@ public class BranchController {
 					"SELECT * " +
 					"FROM Branch " +
 					"WHERE branchId IN ( " +		
-						"SELECT branchId " +
-						"FROM FlawListElement)"
+						"SELECT FlawListElement.branchId " +
+						"FROM FlawListElement JOIN INSPECTIONREPORT on FlawListElement.inspectionReportId = InspectionReport.inspectionReportId " +
+						"WHERE InspectionReportvalidated = 1" + ")"
 			);
 		) {
 			while (resultSet.next()) {
