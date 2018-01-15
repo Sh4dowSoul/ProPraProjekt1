@@ -28,17 +28,22 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
+import javafx.scene.chart.XYChart;
 
 /**
  * @author Niklas Schnettler
@@ -60,11 +65,27 @@ public class Tab_Stats implements Initializable{
 	@FXML private ProgressIndicator statBranchProgress;
 	@FXML private ProgressIndicator statResultProgress;
 	@FXML private Button exportButton;
-  
+	
+    @FXML private BarChart<?, ?> BarChart;
+	@FXML private CategoryAxis x;
+    @FXML private NumberAxis y;
+
 	private Company currentCompany;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		XYChart.Series set1 = new XYChart.Series<>();
+		set1.getData().add(new XYChart.Data("1801", 21));
+		set1.getData().add(new XYChart.Data("1806", 12));
+		set1.getData().add(new XYChart.Data("1803", 9));
+		set1.getData().add(new XYChart.Data("1805", 9));
+		set1.getData().add(new XYChart.Data("1101", 6));
+		set1.getData().add(new XYChart.Data("1106", 6));
+		set1.getData().add(new XYChart.Data("1301", 6));
+		set1.getData().add(new XYChart.Data("1105", 3));
+		set1.getData().add(new XYChart.Data("1107", 1));
+		BarChart.getData().addAll(set1);
+		
 		setupTabListener();
 		setupStatisticLists();
 		prepareStatsTable();
@@ -326,4 +347,5 @@ public class Tab_Stats implements Initializable{
              }
 	     }
 	 }
+	
 }
