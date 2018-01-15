@@ -1331,9 +1331,9 @@ public class Tab_InspectionResult implements Initializable{
 			System.out.println("Company not valid");
 		}
 		
-		if (plantExpertField.getText().isEmpty() || plantAnerkNrField.getText().isEmpty() || plantInspectionField.getText().isEmpty() || plantInspectionTimeField.getText().isEmpty()) {
+		if (plantExpertField.getText().isEmpty() || plantAnerkNrField.getText().isEmpty() || plantInspectionField.getText().isEmpty() || plantInspectionTimeField.getText().isEmpty() || !datePickerExaminationDate.isArmed()) {
 			valid = false;
-			System.out.println("Company plant not complete");
+			System.out.println("Expert field, duration etc. not complete");
 		}
 		
 		if (!freqYesBtn.isSelected() && !freqNoBtn.isSelected()) {
@@ -1381,9 +1381,9 @@ public class Tab_InspectionResult implements Initializable{
 			System.out.println("Result not selected");
 		}
 		
-		if (defectsAttachedBtn.isSelected() && defectsAttachedDateField.getText().isEmpty()) {
+		if (defectsAttachedBtn.isSelected() && !datePickerResolvedUntil.isArmed()) {
 			valid = false;
-			System.out.println("Defects removel date empty");
+			System.out.println("Defects removel date not selected");
 		}
 		
 		if (!isoMinYesBtn.isSelected() && !isoMinNoBtn.isSelected()) {
