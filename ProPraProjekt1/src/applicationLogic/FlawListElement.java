@@ -74,6 +74,30 @@ public class FlawListElement {
 		return Util.getCheckedNull(building);
 	}
 
+	public void setFlaw(Flaw flaw) {
+		this.flaw = flaw;
+	}
+
+	public void setBranchId(int branchId) {
+		this.branchId = branchId;
+	}
+
+	public void setDanger(int danger) {
+		this.danger = danger;
+	}
+
+	public void setBuilding(String building) {
+		this.building = building;
+	}
+
+	public void setMachine(String machine) {
+		this.machine = machine;
+	}
+
+	public void setRoom(String room) {
+		this.room = room;
+	}
+
 	public String getRoom() {
 		return Util.getCheckedNull(room);
 	}

@@ -11,6 +11,8 @@ import applicationLogic.Flaw;
 import applicationLogic.FlawListElement;
 import applicationLogic.Util;
 import dataStorageAccess.DataSource;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class FlawListController {
 	/**
@@ -20,7 +22,7 @@ public class FlawListController {
 	 * @return the flawList of the InspectionReport
 	 * @throws SQLException
 	 */
-	public static ArrayList<FlawListElement> getFlawList(int reportId) throws SQLException {
+	public static ObservableList<FlawListElement> getFlawList(int reportId) throws SQLException {
 		ArrayList<FlawListElement> result = new ArrayList<FlawListElement>();
 		try (
 			Connection connection = DataSource.getConnection();
@@ -42,7 +44,7 @@ public class FlawListController {
 						resultSet.getString("machine")));
 			}
 		}
-		return result;
+		return FXCollections.observableArrayList(result);
 	}
 	
 	
@@ -53,7 +55,7 @@ public class FlawListController {
 	 * @param diagnosisId - the Id of an Diagnosis
 	 * @throws SQLException
 	 */
-	public static void insertFlawList(ArrayList<FlawListElement> flawListElements, int inspectionReportId) throws SQLException {
+	public static void insertFlawList(ObservableList<FlawListElement> flawListElements, int inspectionReportId) throws SQLException {
 		String statement = "INSERT INTO FlawListElement "
 				+ "(inspectionReportId, internalFlawId, branchId, danger, building, room, machine) "
 				+ "VALUES(?,?,?,?,?,?,?)";

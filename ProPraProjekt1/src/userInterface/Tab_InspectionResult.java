@@ -3,9 +3,7 @@ package userInterface;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -23,7 +21,6 @@ import applicationLogic.PDFExport;
 import applicationLogic.Util;
 import dataStorageAccess.BranchAccess;
 import dataStorageAccess.CompanyAccess;
-import dataStorageAccess.DefectAccess;
 import dataStorageAccess.FlawAccess;
 import dataStorageAccess.InspectionReportAccess;
 import de.schnettler.AutoCompletionEvent;
@@ -32,17 +29,11 @@ import de.schnettler.AutocompleteTextField;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -55,22 +46,14 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import javafx.util.Duration;
 import javafx.util.StringConverter;
@@ -215,14 +198,13 @@ public class Tab_InspectionResult implements Initializable{
 	@FXML private CheckBox dangerPersonSwitchBox;
 	@FXML private Button addDefectButton;
 	
-	@FXML private AnchorPane anchorPaneForm;
 	@FXML private BorderPane borderPane;
+	@FXML private GridPane gridPaneFlawForm;
 	
 	private GUIController mainController;
 	//New Defect
 	int newDefectDanger;
 	boolean tableUpdate = false;
-	private int tableSelctedId;
 	//InspectionResult Save
 	private boolean inspectionResultSaved;
 	private Company inspectionResultCompany;
@@ -231,6 +213,7 @@ public class Tab_InspectionResult implements Initializable{
 	//Current Working Data
 	//Mode
 	boolean isEditMode = false;
+	boolean flawFormIsEditMode = false;
 	//Company
 	private ArrayList<Company> companyList;
 	private Company currentCompany;
@@ -241,6 +224,7 @@ public class Tab_InspectionResult implements Initializable{
 	private InspectionReportFull currentInspectionReport;
 	//Flaw
 	private Flaw currentFlaw;
+	private FlawListElement currentFlawListElementEdit;
 	
 	
 	@Override
@@ -410,6 +394,15 @@ public class Tab_InspectionResult implements Initializable{
 		maschineColumn.setCellValueFactory(new PropertyValueFactory<FlawListElement,String>("machine"));
 		branchColumn.setCellValueFactory(new PropertyValueFactory<FlawListElement,String>("branchId"));
 		descriptionColumn.setCellValueFactory(new PropertyValueFactory<FlawListElement,String>("flawDescription"));
+		defectTableView.setRowFactory( tv -> {
+		    TableRow<FlawListElement> row = new TableRow<>();
+		    row.setOnMouseClicked(event -> {
+		        if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+		        	prepareEditOfFlawListElement(row.getItem());
+		        }
+		    });
+		    return row ;
+		});
 	}
 
 	public void saveCompany(ActionEvent event) throws IOException {
@@ -539,8 +532,23 @@ public class Tab_InspectionResult implements Initializable{
 	
 	public void addFlawToTable(ActionEvent add) {
 		if (Util.validateInt(resultDefectId, false) & Util.validateInt(branchText, false)) {
-			//Add new Flaw to TableView
-			defectTableView.getItems().add(getNewFlawData());
+			
+			if (!flawFormIsEditMode){
+				//Add new Flaw to TableView
+				defectTableView.getItems().add(getNewFlawData());
+			} else {
+				//Update Flaw in Tableview
+				FlawListElement newData = getNewFlawData();
+				currentFlawListElementEdit.setBranchId(newData.getBranchId());
+				currentFlawListElementEdit.setBuilding(newData.getBuilding());
+				currentFlawListElementEdit.setDanger(newData.getDanger());
+				currentFlawListElementEdit.setFlaw(newData.getFlaw());
+				currentFlawListElementEdit.setMachine(newData.getMachine());
+				currentFlawListElementEdit.setRoom(newData.getRoom());
+				defectTableView.refresh();
+				flawFormIsEditMode = false;
+			}
+			
 			//Reset addFlawForm
 			resetAddToTable();
 		}
@@ -567,7 +575,10 @@ public class Tab_InspectionResult implements Initializable{
 	 * 
 	 * @param defect
 	 */
-	private void openInAddToTableMenu(FlawListElement defect) {
+	private void prepareEditOfFlawListElement(FlawListElement defect) {
+		currentFlawListElementEdit = defect;
+		currentFlaw = defect.getFlaw();
+		flawFormIsEditMode = true;
 		defectSearchField.setText(defect.getFlaw().getDescription());
 		defect.getFlaw().getExternalId();
 		resultDefectId.setText(String.valueOf(defect.getFlaw().getExternalId()));
@@ -589,7 +600,6 @@ public class Tab_InspectionResult implements Initializable{
 		buildingText.setText(defect.getBuilding());
 		roomText.setText(defect.getRoom());
 		machineText.setText(defect.getMachine());
-		tableUpdate = true;
 	}
 	
 	/**
@@ -598,12 +608,20 @@ public class Tab_InspectionResult implements Initializable{
 	 */
 	public void addDiagnosis(ActionEvent add){
 		fetchInspectionReportData();
-		try {
-			InspectionReportAccess.saveNewCompleteResult(currentInspectionReport);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
+		if (!isEditMode) {
+			//New Diagnosis
+			try {
+				InspectionReportAccess.saveNewCompleteResult(currentInspectionReport);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+		} else {
+			//Edited Diagnosis
+			//TODO: Check against imported version of the Diagnosis, check for changes?
+			//TODO: Save new FlawListItems, check for edited ones
+		}
+		
 		//Wrapps user input in ResulteComplete object
 		/*
 		if (fetchInspectionReportData()) {
@@ -970,7 +988,7 @@ public class Tab_InspectionResult implements Initializable{
 	 */
 	private void fetchInspectionReportData() {
 		currentInspectionReport = new InspectionReportFull();
-//		currentInspectionReport.setDefects(defects);
+		currentInspectionReport.setDefects(defectTableView.getItems());
 		
 		//Company
 		currentInspectionReport.setCompanyPlant(currentCompanyPlant);
@@ -1061,7 +1079,14 @@ public class Tab_InspectionResult implements Initializable{
 		currentCompany = null;
 		currentCompanyPlant = null;
 		currentInspectionReport = null;
+		currentFlaw = null;
+		currentFlawListElementEdit = null;
+		isEditMode = false;
+		flawFormIsEditMode = false;
+		//FlawList Table
+		defectTableView.getItems().clear();
 		Util.clearNode(borderPane);
+		Util.clearNode(gridPaneFlawForm);
 		
 		//TODO: Cleanup Table
 	}

@@ -283,11 +283,11 @@
                                             <toggleGroup>
                                                 <ToggleGroup fx:id="ExternalPortableUtilitiesGroup" />
                                             </toggleGroup>
-                                            <padding>
-                                                <Insets left="10.0" />
-                                            </padding>
                                         </RadioButton>
-                                        <RadioButton id="externalPortableUtilitiesYesBtn" fx:id="externalPortableUtilitiesYesBtn" mnemonicParsing="false" text="Ja" toggleGroup="$ExternalPortableUtilitiesGroup" GridPane.columnIndex="1" GridPane.rowIndex="28" />
+                                        <RadioButton id="externalPortableUtilitiesYesBtn" fx:id="externalPortableUtilitiesYesBtn" mnemonicParsing="false" text="Ja" toggleGroup="$ExternalPortableUtilitiesGroup" GridPane.columnIndex="1" GridPane.rowIndex="28">
+                                 <GridPane.margin>
+                                    <Insets left="10.0" />
+                                 </GridPane.margin></RadioButton>
                                         <RadioButton fx:id="externalPortableUtilitiesNrBtn" mnemonicParsing="false" text="nr " toggleGroup="$ExternalPortableUtilitiesGroup" GridPane.columnIndex="3" GridPane.rowIndex="28" />
                                         <Label text="Allgemeine Informationen zur geprüften elektrischen Anlage" wrapText="true" GridPane.rowIndex="29">
                                             <font>
@@ -430,7 +430,7 @@
                 <Insets />
             </GridPane.margin>
         </ScrollPane>
-        <BorderPane minWidth="700.0" GridPane.columnIndex="1">
+        <BorderPane fx:id="borderPaneFlawList" minWidth="700.0" GridPane.columnIndex="1">
             <center>
                 <TableView id="defectTableView" fx:id="defectTableView" editable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
                     <columns>
@@ -448,14 +448,14 @@
                 </TableView>
             </center>
             <top>
-                <VBox BorderPane.alignment="CENTER">
+                <VBox fx:id="vboxFlawForm" BorderPane.alignment="CENTER">
                     <children>
                         <Label text="Mängelliste (Anhang A)">
                             <font>
                                 <Font name="System Bold Italic" size="14.0" />
                             </font>
                         </Label>
-                        <GridPane>
+                        <GridPane fx:id="gridPaneFlawForm">
                             <columnConstraints>
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
                                 <ColumnConstraints hgrow="SOMETIMES" />

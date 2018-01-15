@@ -24,6 +24,7 @@ import be.quodlibet.boxable.Row;
 import be.quodlibet.boxable.VerticalAlignment;
 import be.quodlibet.boxable.line.LineStyle;
 import dataStorageAccess.InspectionReportAccess;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.stage.FileChooser;
@@ -627,7 +628,7 @@ public class PDFExport {
 		LineStyle MiddleStyle = new LineStyle(Color.BLACK, 0.375f);
 		int id = 1;
 
-		ArrayList<FlawListElement> list = data.getDefects();
+		ObservableList<FlawListElement> list = data.getDefects();
 		for (FlawListElement output : list) {
 			Row<PDPage> row = table.createRow(20f);
 			Cell<PDPage> cell = row.createCell(4.45f, String.valueOf(id++), HorizontalAlignment.CENTER,

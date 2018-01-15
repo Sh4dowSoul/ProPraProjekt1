@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+import javafx.collections.ObservableList;
+
 /**
  * The Class Diagnosis
  * 
@@ -54,7 +56,7 @@ public class InspectionReportFull extends InspectionReportMinimal {
 	private Integer hardWiredLoads;
 	private String additionalAnnotations;
 	private CompanyPlant companyPlant;
-	private ArrayList<FlawListElement> defects;
+	private ObservableList<FlawListElement> defects;
 	
 	public InspectionReportFull(Integer id, LocalDate date, LocalDate lastEdited, String companion, String surveyor, Integer vdsApprovalNr,
 			Double examinationDuration, Branch branch, Boolean frequencyControlledUtilities, Boolean precautionsDeclared,
@@ -502,12 +504,12 @@ public class InspectionReportFull extends InspectionReportMinimal {
 		return additionalAnnotations;
 	}
 	
-	public ArrayList<FlawListElement> getDefects() {
+	public ObservableList<FlawListElement> getDefects() {
 		return defects;
 	}
 
 
-	public void setDefects(ArrayList<FlawListElement> defects) {
+	public void setDefects(ObservableList<FlawListElement> defects) {
 		this.defects = defects;
 	}
 }
