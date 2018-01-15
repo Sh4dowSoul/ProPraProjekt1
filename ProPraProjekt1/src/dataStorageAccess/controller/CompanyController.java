@@ -57,7 +57,7 @@ public class CompanyController {
 				Statement statement = connection.createStatement();
 				ResultSet resultSet = statement.executeQuery(
 					"SELECT DISTINCT CompanyId, CompanyName, CompanyStreet, CompanyZip, CompanyCity "+ 
-					"FROM FlawListElement NATURAL JOIN InspectionReport NATURAL JOIN CompanyPlant NATURAL JOIN Company "+
+					"FROM FlawListElement LEFT JOIN InspectionReport on FlawListElement.inspectionReportId = InspectionReport.inspectionReportId NATURAL JOIN CompanyPlant NATURAL JOIN Company "+
 					"Order BY CompanyName ");
 		) {
 			while (resultSet.next()) {
