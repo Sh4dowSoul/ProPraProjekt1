@@ -996,11 +996,11 @@ public class Tab_InspectionResult implements Initializable{
 		currentInspectionReport.setExaminationComplete(completeGroup.getSelectedToggle() != null ? completeYesBtn.isSelected() : null);
 		currentInspectionReport.setSubsequentExaminationDate(datePickerSubsequentExaminationDate.getValue());
 		currentInspectionReport.setExaminationIncompleteReason(completeReasonField.getText());
-		currentInspectionReport.setChangesSinceLastExamination(changesSinceLastExaminationGroup.getSelectedToggle() != null ? getSelectedToggle(changesSinceLastExaminationGroup) : null);
-		currentInspectionReport.setDefectsLastExaminationFixed(defectsLastExaminationFixedGroup.getSelectedToggle() != null ? getSelectedToggle(defectsLastExaminationFixedGroup) : null);
+		currentInspectionReport.setChangesSinceLastExamination(changesSinceLastExaminationGroup.getSelectedToggle() != null ? Util.getSelectedToggle(changesSinceLastExaminationGroup) : null);
+		currentInspectionReport.setDefectsLastExaminationFixed(defectsLastExaminationFixedGroup.getSelectedToggle() != null ? Util.getSelectedToggle(defectsLastExaminationFixedGroup) : null);
 		
 		//Gesamtbeurteilung der Anlage
-		currentInspectionReport.setDangerCategory(dangerCategorieGroup.getSelectedToggle() != null ? getSelectedToggle(dangerCategorieGroup) : null);
+		currentInspectionReport.setDangerCategory(dangerCategorieGroup.getSelectedToggle() != null ? Util.getSelectedToggle(dangerCategorieGroup) : null);
 		currentInspectionReport.setDangerCategoryDescription(dangerCategoryExtensionField.getText());
 		
 		//Prüfergebnis
@@ -1030,11 +1030,11 @@ public class Tab_InspectionResult implements Initializable{
 		
 		//Ortsveränderliche Betriebsmittel
 		currentInspectionReport.setInternalPortableUtilities(PortableUtilitiesGroup.getSelectedToggle() != null ? portableUtilitiesYesBtn.isSelected() : null);
-		currentInspectionReport.setExternalPortableUtilities(ExternalPortableUtilitiesGroup.getSelectedToggle() != null ? getSelectedToggle(ExternalPortableUtilitiesGroup) : null);
+		currentInspectionReport.setExternalPortableUtilities(ExternalPortableUtilitiesGroup.getSelectedToggle() != null ? Util.getSelectedToggle(ExternalPortableUtilitiesGroup) : null);
 		
 		
 		//Allgemeine Informationen
-		currentInspectionReport.setSupplySystem(SupplySystemGroup.getSelectedToggle() != null ? getSelectedToggle(SupplySystemGroup) : null);
+		currentInspectionReport.setSupplySystem(SupplySystemGroup.getSelectedToggle() != null ? Util.getSelectedToggle(SupplySystemGroup) : null);
 		if (Util.validateInt(powerConsumptionField, true)) {
 			currentInspectionReport.setEnergyDemand(Integer.valueOf(powerConsumptionField.getText()));
 		}
@@ -1047,20 +1047,12 @@ public class Tab_InspectionResult implements Initializable{
 		if (Util.validateDouble(protectedCirclesPercentageField)) {
 			currentInspectionReport.setProtectedCircuitsPercent(Integer.valueOf(protectedCirclesPercentageField.getText()));
 		}
-		currentInspectionReport.setHardWiredLoads(HardWiredLoadsGroup.getSelectedToggle() != null ? getSelectedToggle(HardWiredLoadsGroup) : null);
+		currentInspectionReport.setHardWiredLoads(HardWiredLoadsGroup.getSelectedToggle() != null ? Util.getSelectedToggle(HardWiredLoadsGroup) : null);
 		currentInspectionReport.setAdditionalAnnotations(furtherExplanationsField.getText());
 	}
 	
 	
-	private int getSelectedToggle(ToggleGroup toggleGroup) {
-		ObservableList<Toggle> toggles = toggleGroup.getToggles();
-		for (int i = 0; i < toggles.size(); i++) {
-			if (toggles.get(i).isSelected()) {
-				return i;
-			}
-		}
-		return 0;
-	}
+	
 
 	/**
 	 * Resets all buttons and textfields

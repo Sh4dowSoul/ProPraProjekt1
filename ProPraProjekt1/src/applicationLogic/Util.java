@@ -4,12 +4,15 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Collections;
 
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Toggle;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.Pane;
 
 /**
@@ -126,5 +129,15 @@ public class Util {
                 clearNode((Pane) newnode);
             }
 		} 
+	}
+	
+	public static int getSelectedToggle(ToggleGroup toggleGroup) {
+		ObservableList<Toggle> toggles = toggleGroup.getToggles();
+		for (int i = 0; i < toggles.size(); i++) {
+			if (toggles.get(i).isSelected()) {
+				return i;
+			}
+		}
+		return 0;
 	}
 }
