@@ -421,12 +421,26 @@ public class Tab_InspectionResult implements Initializable{
 			currentCompany.setCity(textFieldCompanyCity.getText());
 			currentCompany.setStreet(textFieldCompanyStreet.getText());
 			currentCompany.setZipCode(Integer.valueOf(textFieldCompanyZipCode.getText()));
-			currentCompany.setInternalId(0);
-			//Add new Plant to Lists
-			disableCompanyPrepareCompanyPlant();
-			comboBoxCompanyName.getItems().add(currentCompany);//Should be visible in ComboBox
-			companyList.add(currentCompany);
-			buttonSaveCompany.setDisable(true);
+			try {
+				//Insert Company into Database, get and set new Id
+				currentCompany.setInternalId(CompanyAccess.insertCompany(currentCompany));
+				disableCompanyPrepareCompanyPlant();
+				comboBoxCompanyName.getItems().add(currentCompany);//Should be visible in ComboBox
+				companyList.add(currentCompany);
+				buttonSaveCompany.setDisable(true);
+			} catch (SQLException e) {
+				Notifications.create()
+                .title("Es ist ein Problem aufgetreten")
+                .text("Die Firma konnte leider nicht in der Datenbank gespeichert werden")
+                .hideAfter(Duration.INDEFINITE)
+                .onAction(new EventHandler<ActionEvent>() {
+					@Override
+					public void handle(ActionEvent event) {
+						new ExceptionDialog("Export Fehler", "Fehler beim speichern der Firma", "Beim Speichern der Firma ist leider ein Fehler aufgetreten.", e);
+					}
+                })
+                .showError();
+			}
 		}
 	}
 	
@@ -434,12 +448,19 @@ public class Tab_InspectionResult implements Initializable{
 		if(validate(textFieldCompanyPlantZipCode, true)) {
 			currentCompanyPlant.setCity(textFieldCompanyPlantCity.getText());
 			currentCompanyPlant.setZipCode(Integer.valueOf(textFieldCompanyPlantZipCode.getText()));
-			currentCompanyPlant.setInternalId(0);
-			disableCompanyPlantTextFields();
-			//Add new Plant to Lists
-			comboBoxCompanyPlantStreet.getItems().add(currentCompanyPlant);//Should be visible in ComboBox
-			companyPlantsList.add(currentCompanyPlant);//CompanyPlant List
-			buttonSaveCompanyPlant.setDisable(true);
+			
+			try {
+				//Insert CompanyPlant into Database, get and set new Id
+				currentCompanyPlant.setInternalId(CompanyAccess.insertCompanyPlant(currentCompanyPlant));
+				disableCompanyPlantTextFields();
+				//Add new Plant to Lists
+				comboBoxCompanyPlantStreet.getItems().add(currentCompanyPlant);//Should be visible in ComboBox
+				companyPlantsList.add(currentCompanyPlant);//CompanyPlant List
+				buttonSaveCompanyPlant.setDisable(true);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
 		}
 	}
 	
@@ -982,6 +1003,7 @@ public class Tab_InspectionResult implements Initializable{
 	 */
 	private void fetchInspectionReportData() {
 		currentInspectionReport = new InspectionReportFull();
+//		currentInspectionReport.setDefects(defects);
 		
 		//Company
 		currentInspectionReport.setCompanyPlant(currentCompanyPlant);
