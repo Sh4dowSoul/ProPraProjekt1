@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
@@ -7,36 +8,24 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<SplitPane dividerPositions="0.5431131019036954" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<SplitPane dividerPositions="0.5" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <items>
-      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
-            <Label layoutX="15.0" layoutY="14.0" text="Neuen Mangel erstellen">
+            <Label layoutX="14.0" layoutY="14.0" text="Neuen Mangel erstellen:">
                <font>
                   <Font size="14.0" />
-               </font>
-            </Label>
-            <TextField layoutX="100.0" layoutY="65.0" prefHeight="25.0" prefWidth="309.0" promptText="Mangel Bezeichnung" />
-            <TextField layoutX="14.0" layoutY="65.0" prefHeight="25.0" prefWidth="73.0" promptText="Mangel-ID" />
-            <Button layoutX="199.0" layoutY="126.0" mnemonicParsing="false" text="Eintrag Verwerfen" />
-            <Button layoutX="327.0" layoutY="126.0" mnemonicParsing="false" text="Mangel erstellen" />
+               </font></Label>
+            <TextField layoutX="119.0" layoutY="70.0" prefHeight="25.0" prefWidth="171.0" promptText="Mangeltext hinzufügen" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="6.0" />
+            <TextField layoutX="14.0" layoutY="70.0" prefHeight="25.0" prefWidth="87.0" promptText="Mangel-ID" AnchorPane.leftAnchor="14.0" />
+            <HBox alignment="TOP_RIGHT" layoutX="44.0" layoutY="123.0" spacing="10.0" AnchorPane.leftAnchor="44.0" AnchorPane.rightAnchor="12.0">
+               <children>
+                  <Button layoutX="111.0" layoutY="126.0" mnemonicParsing="false" text="Eintrag Verwerfen" />
+                  <Button layoutX="192.0" layoutY="126.0" mnemonicParsing="false" text="Mangel hinzufügen" />
+               </children>
+            </HBox>
          </children>
       </AnchorPane>
-      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
-         <children>
-            <Button layoutX="292.0" layoutY="210.0" mnemonicParsing="false" text="Mangel-ID ändern" />
-            <Button layoutX="148.0" layoutY="210.0" mnemonicParsing="false" text="Mangeltext ändern" />
-            <TextField layoutX="294.0" layoutY="114.0" prefHeight="25.0" prefWidth="111.0" promptText="Neue Mangel-ID" />
-            <TextField layoutX="26.0" layoutY="114.0" prefHeight="25.0" prefWidth="243.0" promptText="Neuer Mangeltext" />
-            <Label layoutX="14.0" layoutY="9.0" text="Mangel Bearbeiten:">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <TextField layoutX="26.0" layoutY="70.0" prefHeight="25.0" prefWidth="243.0" promptText="zu Beareitenden Mangel" />
-            <TextField layoutX="294.0" layoutY="70.0" prefHeight="25.0" prefWidth="111.0" promptText="Mangel_ID" />
-            <Button layoutX="21.0" layoutY="210.0" mnemonicParsing="false" text="Eintrag Verferfen" />
-         </children>
-      </AnchorPane>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" />
    </items>
 </SplitPane>
