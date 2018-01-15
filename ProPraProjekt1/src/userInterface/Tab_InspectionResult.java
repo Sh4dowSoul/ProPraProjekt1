@@ -610,12 +610,12 @@ public class Tab_InspectionResult implements Initializable{
 	 */
 	public void addDiagnosis(ActionEvent add){
 		fetchInspectionReportData();
-		/*try {
+		try {
 			InspectionReportAccess.saveNewCompleteResult(currentInspectionReport);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} */
+		} 
 		//Wrapps user input in ResulteComplete object
 		/*
 		if (fetchInspectionReportData()) {

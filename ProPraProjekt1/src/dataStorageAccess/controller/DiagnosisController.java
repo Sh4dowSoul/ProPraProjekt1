@@ -369,18 +369,18 @@ public class DiagnosisController {
 	 */
 	public static int insertDiagnosis(InspectionReportFull diagnosis) throws SQLException {
 		int diagnosisId = 0;
-		String statement = "INSERT INTO Diagnosis "
-				+ "(diagnosis_lastEdited, plant_id, companion, "
-				+ "surveyor, vds_approval_nr, examination_date, "
-				+ "examination_duration, branch_id,frequency_controlled_utilities, precautions_declared, "
-				+ "precautions_declared_where, examination_completed, subsequent_examination_date, "
-				+ "subsequent_examination_reason, changes_sincel_last_examination, defects_last_examination_fixed, "
-				+ "danger_categorie_vds, danger_categorie_vds_description, examination_resultNoDefect, "
-				+ "examination_resultDefect, examinationResultDefectDate, examination_resultDanger, isolation_checkedEnough, "
-				+ "isolation_measurementProtocols, isolation_compensationMeasures, isolation_compensationMeasures_annotation, "
-				+ "rcd_available, rcd_available_percent, rcd_annotation, "
-				+ "resistance, resistance_number, resistance_annotation, "
-				+ "thermalAbnormality, thermalAbnormality_annotation, internalPortableUtilities, "
+		String statement = "INSERT INTO InspectionReport "
+				+ "(InspectionReportLastEdited, plantId, companion, "
+				+ "surveyor, vdsApprovalNr, examinationDate, "
+				+ "examinationDuration, branchId,frequencyControlledUtilities, precautionsDeclared, "
+				+ "precautionsDeclaredWhere, examinationCompleted, subsequentExaminationDate, "
+				+ "subsequentExaminationReason, changesSinceLastExamination, defectsLastExaminationFixed, "
+				+ "dangerCategoryVds, dangerCategoryVdsDescription, examinationResultNoDefect, "
+				+ "examinationResultDefect, examinationResultDefectDate, examinationResultDanger, isolationCheckedEnough, "
+				+ "isolationMeasurementProtocols, isolationCompensationMeasures, isolationCompensationMeasuresAnnotation, "
+				+ "rcdAvailable, rcdAvailablePercent, rcdAnnotation, "
+				+ "resistance, resistanceNumber, resistanceAnnotation, "
+				+ "thermalAbnormality, thermalAbnormalityAnnotation, internalPortableUtilities, "
 				+ "externalPortableUtilities, supplySystem, energyDemand, "
 				+ "maxEnergyDemandExternal, maxEnergyDemandInternal, protectedCircuitsPercent, "
 				+ "hardWiredLoads, additionalAnnotations) "
@@ -391,10 +391,14 @@ public class DiagnosisController {
 			connection = DataSource.getConnection();
 			preparedStatement = connection.prepareStatement(statement);
 
+			Integer companyId = (diagnosis.getCompanyPlant() != null ? diagnosis.getCompanyPlant().getInternalId() : null);
+			Integer branchId = (diagnosis.getBranch() != null ? diagnosis.getBranch().getInternalId() : null);
+			LocalDate lastEdited = LocalDate.now();
+			
 			Util.setValues(preparedStatement,
-					diagnosis.getLastEdited(), diagnosis.getCompanyPlant().getInternalId(), diagnosis.getCompanion(), 
+					lastEdited, companyId, diagnosis.getCompanion(), 
 					diagnosis.getSurveyor(), diagnosis.getVdsApprovalNr(), diagnosis.getDate(),
-					diagnosis.getExaminationDuration(),diagnosis.getBranch().getInternalId(), diagnosis.isFrequencyControlledUtilities(),diagnosis.isPrecautionsDeclared(),
+					diagnosis.getExaminationDuration(), branchId, diagnosis.isFrequencyControlledUtilities(),diagnosis.isPrecautionsDeclared(),
 					diagnosis.getPrecautionsDeclaredLocation(), diagnosis.isExaminationComplete(), diagnosis.getSubsequentExaminationDate(),
 					diagnosis.getExaminationIncompleteReason(), diagnosis.getChangesSinceLastExamination(), diagnosis.getDefectsLastExaminationFixed(),
 					diagnosis.getDangerCategory(), diagnosis.getDangerCategoryDescription(), diagnosis.isExaminationResultNoDefect(),
@@ -413,6 +417,7 @@ public class DiagnosisController {
 			//Get Id of inserted Diagnosis
 			ResultSet resultSet = connection.createStatement().executeQuery("SELECT last_insert_rowid() ");
 			diagnosisId = resultSet.getInt("last_insert_rowid()");
+			System.out.println(diagnosisId);
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		} finally {
