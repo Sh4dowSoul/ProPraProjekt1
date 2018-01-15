@@ -392,7 +392,7 @@ public class DiagnosisController {
 			preparedStatement = connection.prepareStatement(statement);
 
 			Integer companyId = (diagnosis.getCompanyPlant() != null ? diagnosis.getCompanyPlant().getInternalId() : null);
-			Integer branchId = (diagnosis.getBranch() != null ? diagnosis.getBranch().getInternalId() : null);
+			Integer branchId = (diagnosis.getBranch() != null ? diagnosis.getBranch().getExternalId() : null);
 			LocalDate lastEdited = LocalDate.now();
 			
 			Util.setValues(preparedStatement,
