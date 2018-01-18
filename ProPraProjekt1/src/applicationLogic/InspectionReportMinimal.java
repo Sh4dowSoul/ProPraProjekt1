@@ -3,6 +3,8 @@ package applicationLogic;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import javax.validation.constraints.NotNull;
+
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
@@ -15,6 +17,7 @@ public abstract class InspectionReportMinimal {
 	@XStreamAlias("ESNummer")
 	private int id;
 	@XStreamOmitField
+	@NotNull(message="Datum der Prüfung")
 	private LocalDate date;
 	@XStreamOmitField
 	private String niceDate;

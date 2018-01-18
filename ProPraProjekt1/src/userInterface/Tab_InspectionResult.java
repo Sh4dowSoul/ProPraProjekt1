@@ -6,6 +6,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import org.controlsfx.control.Notifications;
 
@@ -233,7 +239,6 @@ public class Tab_InspectionResult implements Initializable{
 		prepareData();
 		prepareBranchesAutocomplete();
 		prepareDefectsAutocomplete();
-		pdfExpBtn.setDisable(true);
     }
 	
 	private void prepareData() {
@@ -609,7 +614,6 @@ public class Tab_InspectionResult implements Initializable{
 	public void addDiagnosis(ActionEvent add){
 		fetchInspectionReportData();
 		if (!isEditMode) {
-			//New Diagnosis
 			try {
 				InspectionReportAccess.saveNewCompleteResult(currentInspectionReport);
 			} catch (SQLException e) {
@@ -713,6 +717,29 @@ public class Tab_InspectionResult implements Initializable{
 	
 	
 	
+	private boolean validateInspectionReport() {
+		ValidatorFactory factory = Validation.buildDefaultValidatorFactory(); 
+		Validator validator = factory.getValidator();
+		Set<ConstraintViolation<InspectionReportFull>> constraintViolations = validator.validate(currentInspectionReport);
+		if(!constraintViolations.isEmpty()){
+			//Validation failed
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Befundschein nicht komplett");
+			alert.setHeaderText("Bitte überprüfen Sie Ihre Eingaben");
+			String content = "";
+			for(ConstraintViolation<InspectionReportFull> error : constraintViolations){
+				content += "- " +error.getMessage() + "\n";
+			}
+			alert.setContentText(content);
+			alert.show();
+			return false;
+		}
+		return true;
+	}
+	
+	 
+	    
+
 	/**
 	 * Import Result for edit
 	 * @throws SQLException 
@@ -724,6 +751,7 @@ public class Tab_InspectionResult implements Initializable{
 		Integer currentInteger = null;
 		try {
 			currentInspectionReport = InspectionReportAccess.getCompleteResult(id);
+			System.out.println("LOADED ID " +currentInspectionReport.getId() );
 			
 			//Set FlawList to Tableview
 			defectTableView.setItems(FXCollections.observableArrayList(currentInspectionReport.getDefects()));
@@ -987,7 +1015,12 @@ public class Tab_InspectionResult implements Initializable{
 	 * @return if loading was sucessful
 	 */
 	private void fetchInspectionReportData() {
+		int currentId = 0;
+		if (currentInspectionReport != null) {
+			currentId = currentInspectionReport.getId();
+		}
 		currentInspectionReport = new InspectionReportFull();
+		currentInspectionReport.setId(currentId);
 		currentInspectionReport.setDefects(defectTableView.getItems());
 		
 		//Company
@@ -1101,8 +1134,14 @@ public class Tab_InspectionResult implements Initializable{
 	 * @throws IOException
 	 */
 	public void exportDiagnosis (ActionEvent event) throws IOException{
-		PDFExport.export(resultComplete.getId());
+		fetchInspectionReportData();
+		if (currentInspectionReport.getId() == 0) {
+			//TODO InspectionReport not saved yet
 		}
+		if(validateInspectionReport()) {
+			PDFExport.export(currentInspectionReport);
+		}
+	}
 	
 	public void closeDiagnosis (ActionEvent event) throws IOException{
 		//Check if saved
@@ -1240,138 +1279,6 @@ public class Tab_InspectionResult implements Initializable{
 		// TODO Auto-generated method stub
 		cleanUpSession();
 		loadCompanies();
-		pdfExpBtn.setDisable(true);
-	}
-	
-	
-	/**
-	 * checks result for mandatory field completeness
-	 * 
-	 * @return if complete
-	 */
-	public boolean checkMandatoryFields() {
-		boolean valid = true;
-		
-		if (inspectionResultCompany == null) {
-			valid = false;
-			System.out.println("Company not valid");
-		}
-		
-		if (plantExpertField.getText().isEmpty() || plantAnerkNrField.getText().isEmpty() || plantInspectionField.getText().isEmpty() || plantInspectionTimeField.getText().isEmpty() || !datePickerExaminationDate.isArmed()) {
-			valid = false;
-			System.out.println("Expert field, duration etc. not complete");
-		}
-		
-		if (!freqYesBtn.isSelected() && !freqNoBtn.isSelected()) {
-			valid = false;
-			System.out.println("Frequency not selected");
-		}
-		
-		if (branchName.getText().isEmpty()) {
-			valid = false;
-			System.out.println("Branch empty");
-		}
-		
-		if (!precautionYesBtn.isSelected() && !precautionNoBtn.isSelected()) {
-			valid = false;
-			System.out.println("Precaution not selected");
-		}
-		
-		if (precautionYesBtn.isSelected() && precautionField.getText().isEmpty()) {
-			valid = false;
-			System.out.println("Precaution field empty");
-		}
-		
-		if (!completeYesBtn.isSelected() && !completeNoBtn.isSelected()) {
-			valid = false;
-			System.out.println("Completion not selected");
-		}
-		
-		if (!changesSinceLastExaminationYesBtn.isSelected() && !changesSinceLastExaminationNoBtn.isSelected() && !changesSinceLastExaminationFirstExaminationBtn.isSelected()) {
-			valid = false;
-			System.out.println("Changes since last examination not selected");
-		}
-		
-		if (!defectsLastExaminationYesBtn.isSelected() && !defectsLastExaminationNoBtn.isSelected() && !defectsLastExaminationNoReportBtn.isSelected()) {
-			valid = false;
-			System.out.println("Defects since last examination not selected");
-		}
-		
-		if (!dangerCategorieGroupABtn.isSelected() && !dangerCategorieGroupBBtn.isSelected() && !dangerCategorieGroupCBtn.isSelected() && !dangerCategorieGroupDBtn.isSelected()) {
-			valid = false;
-			System.out.println("Danger Group not selected");
-		}
-		
-		if (!noDefectsBtn.isSelected() && !defectsAttachedBtn.isSelected() && !removeDefectsImmediatelyBtn.isSelected()){
-			valid = false;
-			System.out.println("Result not selected");
-		}
-		
-		if (defectsAttachedBtn.isSelected() && !datePickerResolvedUntil.isArmed()) {
-			valid = false;
-			System.out.println("Defects removel date not selected");
-		}
-		
-		if (!isoMinYesBtn.isSelected() && !isoMinNoBtn.isSelected()) {
-			valid = false;
-			System.out.println("Isolation not selected");
-		}
-		
-		if (!isoProtocolYesBtn.isSelected() && !isoProtocolNoBtn.isSelected()) {
-			valid = false;
-			System.out.println("Isolation protocol not selected");
-		}
-		
-		if (!isoCompensationYesBtn.isSelected() && !isoCompensationNoBtn.isSelected()) {
-			valid = false;
-			System.out.println("Isolation compensation not selected");
-		}
-		
-		if (!rcdAllBtn.isSelected() && rcdNotBtn.isSelected()) {
-			valid = false;
-			System.out.println("RCD not selected");
-		}
-		
-		if (rcdAllBtn.isSelected() && rcdPercentageField.getText().isEmpty()) {
-			valid = false;
-			System.out.println("RCD percentage empty");
-		}
-		
-		if (!resistanceYesBtn.isSelected() && !resistanceNoBtn.isSelected()) {
-			valid = false;
-			System.out.println("Resistance not selected");
-		}
-		
-		if (resistanceYesBtn.isSelected() && resistancePercentageField.getText().isEmpty()) {
-			valid = false;
-			System.out.println("Resistance percentage empty");
-		}
-		
-		if (!thermicYesBtn.isSelected() && !thermicNoBtn.isSelected()) {
-			valid = false;
-			System.out.println("Thermic not selected");
-		}
-		
-		if (portableUtilitiesYesBtn.isSelected() && !portableUtilitiesNoBtn.isSelected()) {
-			valid = false;
-			System.out.println("Portable utilities not selected");
-		}
-		
-		if (!externalPortableUtilitiesYesBtn.isSelected() && !externalPortableUtilitiesNoBtn.isSelected() && !externalPortableUtilitiesNrBtn.isSelected()) {
-			valid = false;
-			System.out.println("External portable utilities not selected");
-		}
-		
-		if (!supplySystemTNBtn.isSelected() && !supplySystemTTBtn.isSelected() && !supplySystemITBtn.isSelected() && !supplySystemCircleBtn.isSelected()) {
-			valid = false;
-			System.out.println("Supply system not selected");
-		}
-		
-		if (!hardWiredLoadsUnder250Btn.isSelected() && !hardWiredLoadsUnder500Btn.isSelected() && !hardWiredLoadsUnder1000Btn.isSelected() && !hardWiredLoadsUnder5000Btn.isSelected() && !hardWiredLoadsAbove5000Btn.isSelected()) {
-			valid = false;
-			System.out.println("Hardwired loads not selected");
-		}
-		return valid;
 	}
 }
 	

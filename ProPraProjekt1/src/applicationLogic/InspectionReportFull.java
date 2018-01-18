@@ -2,7 +2,8 @@ package applicationLogic;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import javafx.collections.ObservableList;
 
@@ -14,49 +15,83 @@ import javafx.collections.ObservableList;
 
 public class InspectionReportFull extends InspectionReportMinimal {
 
+	@NotNull(message = "Risikoanschrift (Firma)")
+	private CompanyPlant companyPlant;
+	//Wird erst später gesetzt
 	private LocalDate lastEdited;
+	//
 	private String companion;
+	@NotEmpty(message = "Sachverständiger")
 	private String surveyor;
+	@NotNull(message = "VdS-Anerk.Nr.")
 	private Integer vdsApprovalNr;
+	@NotNull(message = "Prüfungsdauer")
 	private Double examinationDuration;
+	@NotNull(message = "Art des bertiebs oder der Anlage")
 	private Branch branch;
+	@NotNull(message = "Frequenzgesteuerte Betriebsmittel")
 	private Boolean frequencyControlledUtilities;
+	@NotNull(message = "Bereiche mit besonderen Schutzmaßnahmen gekennzeichnet")
 	private Boolean precautionsDeclared;
+	//
 	private String precautionsDeclaredLocation;
+	@NotNull(message = "Alle bereiche des Standorts geprüft")
 	private Boolean examinationComplete;
+	//
 	private LocalDate subsequentExaminationDate;
+	//
 	private String examinationIncompleteReason;
+	@NotNull(message = "Anlage seit letzter Prüfung erweitert/erneuert/umgebaut")
 	private Integer changesSinceLastExamination;
+	@NotNull(message = "Mängel der letzten Prüfung beseitigt")
 	private Integer defectsLastExaminationFixed;
+	@NotNull(message = "Gesamtbeurteilung der Anlage")
 	private Integer dangerCategory;
+	//
 	private String dangerCategoryDescription;
 	private Boolean examinationResultNoDefect;
 	private Boolean examinationResultDefect;
 	private LocalDate examinationResultDefectDate;
 	private Boolean examinationResultDanger;
+	@NotNull(message = "Isolationswiderstand")
 	private Boolean isolationChecked;
+	@NotNull(message = "Messprotokolle über Isolationswiderstandsmessungen")
 	private Boolean isolationMesasurementProtocols;
+	@NotNull(message = "Ersatzmaßnahmen für Isolationswiderstandsmessungen")
 	private Boolean isolationCompensationMeasures;
+	//
 	private String isolationCompensationMeasuresAnnotation;
+	@NotNull(message = "Fehlstrom-Schutzeinrichtungen")
 	private Boolean rcdAvailable;
 	private Double rcdAvailablePercent;
+	//
 	private String rcdAnnotation;
+	@NotNull(message = "Schleifenwiderstand")
 	private Boolean resistance;
 	private Integer resistanceNumber;
+	//
 	private String resistanceAnnotation;
+	@NotNull(message = "Thermische Auffälligkeiten")
 	private Boolean thermalAbnormality;
+	//
 	private String thermalAbnormalityAnnotation;
+	@NotNull(message = "Eigene Ortsveränderliche Betriebsmittel")
 	private Boolean internalPortableUtilities;
+	@NotNull(message = "Fremde Ortsveränderliche Betriebsmittel")
 	private Integer externalPortableUtilities;
+	@NotNull(message = "Versorgungssystem")
 	private Integer supplySystem;
+	//
 	private Integer energyDemand;
 	private Integer maxEnergyDemandExternal;
 	private Integer maxEnergyDemandInternal;
 	private Integer protectedCircuitsPercent;
+	@NotNull(message = "Fest angeschlossene Verbraucher")
 	private Integer hardWiredLoads;
+	//
 	private String additionalAnnotations;
-	private CompanyPlant companyPlant;
 	private ObservableList<FlawListElement> defects;
+	private Boolean validated;
 	
 	public InspectionReportFull(Integer id, LocalDate date, LocalDate lastEdited, String companion, String surveyor, Integer vdsApprovalNr,
 			Double examinationDuration, Branch branch, Boolean frequencyControlledUtilities, Boolean precautionsDeclared,
@@ -70,7 +105,7 @@ public class InspectionReportFull extends InspectionReportMinimal {
 			Boolean thermalAbnormality, String thermalAbnormalityAnnotation, Boolean internalPortableUtilities,
 			Integer externalPortableUtilities, Integer supplySystem, Integer energyDemand, Integer maxEnergyDemandExternal,
 			Integer maxEnergyDemandInternal, Integer protectedCircuitsPercent, Integer hardWiredLoads, String additionalAnnotations,
-			CompanyPlant companyPlant) {
+			CompanyPlant companyPlant, Boolean validated) {
 		super(id, date);
 		this.lastEdited = lastEdited;
 		this.companion = companion;
