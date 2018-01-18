@@ -57,11 +57,11 @@ public class PDFExport {
 	 * @throws IOException
 	 * @throws SQLException
 	 */
-	public static void export(int id) {
+	public static void export(InspectionReportFull data) {
+		PDFExport.data = data;
 		try {
 			// Creating PDF document object
 			document = new PDDocument();
-			data = InspectionReportAccess.getCompleteResult(id);
 			pageCounter = 0;
 
 			FileChooser fileChooser = new FileChooser();
@@ -70,7 +70,7 @@ public class PDFExport {
 			FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PDF-Dateien (*.pdf)", "*.pdf");
 			fileChooser.getExtensionFilters().add(extFilter);
 			fileChooser
-					.setInitialFileName("BS" + "_" + data.getCompanyPlant().getCompany().getDescription() + "_" + id + ".pdf");
+					.setInitialFileName("BS" + "_" + data.getCompanyPlant().getCompany().getDescription() + "_" + data.getId() + ".pdf");
 
 			// Show save file dialog
 			File file = fileChooser.showSaveDialog(null);

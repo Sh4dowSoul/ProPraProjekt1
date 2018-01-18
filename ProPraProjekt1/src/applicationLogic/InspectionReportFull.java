@@ -91,8 +91,6 @@ public class InspectionReportFull extends InspectionReportMinimal {
 	//
 	private String additionalAnnotations;
 	private ObservableList<FlawListElement> defects;
-	private Boolean validated;
-	
 	public InspectionReportFull(Integer id, LocalDate date, LocalDate lastEdited, String companion, String surveyor, Integer vdsApprovalNr,
 			Double examinationDuration, Branch branch, Boolean frequencyControlledUtilities, Boolean precautionsDeclared,
 			String precautionsDeclaredLocation, Boolean examinationComplete, LocalDate subsequentExaminationDate,

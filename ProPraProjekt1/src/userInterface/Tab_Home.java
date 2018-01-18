@@ -117,7 +117,8 @@ public class Tab_Home implements Initializable{
 		if (result.get() == editButton){
 			mainController.openDiagnosisTab(item.getId(), true);
 		} else if (result.get() == exportButton) {
-			PDFExport.export(item.getId());
+			//TODO get FullReport
+			//PDFExport.export(item.getId());
 		}
 	}
 	

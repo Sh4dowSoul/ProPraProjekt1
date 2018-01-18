@@ -39,6 +39,7 @@ public abstract class InspectionReportMinimal {
 
 	public void setDate(LocalDate date) {
 		this.date = date;
+		this.niceDate = date.format(DateTimeFormatter.ofPattern("dd.MM.YYYY")); 
 	}
 
 	public void setNiceDate(String niceDate) {
