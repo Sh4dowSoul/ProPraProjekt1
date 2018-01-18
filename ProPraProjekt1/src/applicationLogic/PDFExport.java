@@ -1,6 +1,7 @@
 package applicationLogic;
 
 import java.awt.Color;
+import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -88,7 +89,17 @@ public class PDFExport {
 					document.save(file);
 					Notifications.create().title("Erfolgreich gespeichert")
 							.text("Der Befundschein " + file.getName() + " wurde erfolgreich gespeichert ")
-							.showInformation();
+							.onAction(new EventHandler<ActionEvent>() {
+								@Override
+								public void handle(ActionEvent event) {
+									try {
+										Desktop.getDesktop().open(file);
+									} catch (IOException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+								}
+							}).showInformation();
 				} catch (IOException e) {
 					Notifications.create().title("Es ist ein Problem aufgetreten")
 							.text("Der Befundschein " + file.getName() + " konnte leider nicht gespeichert werden.")

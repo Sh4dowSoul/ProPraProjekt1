@@ -1,7 +1,9 @@
 package userInterface;
 
+import java.awt.Desktop;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -328,6 +330,17 @@ public class Tab_Stats implements Initializable{
             		Notifications.create()
                     .title("Erfolgreich gespeichert")
                     .text("Die Statistik "+ file.getName() +" wurde erfolgreich gespeichert ")
+                    .onAction(new EventHandler<ActionEvent>() {
+						@Override
+						public void handle(ActionEvent event) {
+							try {
+								Desktop.getDesktop().open(file);
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+					})
                     .showInformation();
 				} catch (FileNotFoundException | SQLException e) {
 					Notifications.create()
