@@ -5,8 +5,13 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import org.controlsfx.control.Notifications;
+
+import applicationLogic.ExceptionDialog;
+import applicationLogic.InspectionReportFull;
 import applicationLogic.InspectionResultPreview;
 import applicationLogic.PDFExport;
+import applicationLogic.Util;
 import dataStorageAccess.InspectionReportAccess;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,7 +23,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.ButtonType;
@@ -28,6 +32,7 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 
 /**
  * @author Niklas Schnettler, Salih Arslan & Sven Meyer
@@ -117,8 +122,43 @@ public class Tab_Home implements Initializable{
 		if (result.get() == editButton){
 			mainController.openDiagnosisTab(item.getId(), true);
 		} else if (result.get() == exportButton) {
-			//TODO get FullReport
-			//PDFExport.export(item.getId());
+			try {
+				InspectionReportFull inspectionReport= InspectionReportAccess.getCompleteResult(item.getId());
+				Boolean isValid = inspectionReport.isValid();
+				if (isValid == null) {
+					isValid = Util.validateInspectionReport(inspectionReport, false);
+				}
+				if (isValid) {
+					PDFExport.export(inspectionReport);
+				} else {
+					Alert alert2 = new Alert(AlertType.ERROR);
+					alert2.setTitle("Befundschein nicht komplett");
+					alert2.setHeaderText("Der Befundschein kann nicht exportiert werden.");
+					alert2.setContentText("Es wurden nicht alle Pflichtfelder ausgefüllt. Wollen Sie den Befundschein jetzt öffnen um das Problem zu lösen?");
+
+					ButtonType yesButton = new ButtonType("Ja");
+					ButtonType noButton = new ButtonType("Nein", ButtonData.CANCEL_CLOSE);
+
+					alert2.getButtonTypes().setAll(yesButton, noButton);
+
+					Optional<ButtonType> result2 = alert2.showAndWait();
+					if (result2.get() == yesButton){
+						mainController.openDiagnosisTab(item.getId(), true);
+					} 
+				}
+			} catch (SQLException e) {
+				Notifications.create()
+                .title("Es ist ein Problem aufgetreten")
+                .text("Der ausgewählte Befundschein konnte leider nicht geladen werden.")
+                .hideAfter(Duration.INDEFINITE)
+                .onAction(new EventHandler<ActionEvent>() {
+					@Override
+					public void handle(ActionEvent event) {
+						new ExceptionDialog("Fehler", "Fehler beim laden des Befundscheins", "Beim Laden des Befundscheins ist leider ein Fehler aufgetreten.", e);
+					}
+                })
+                .showError();
+			}
 		}
 	}
 	

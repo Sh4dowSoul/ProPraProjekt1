@@ -285,7 +285,7 @@ public class DiagnosisController {
 			ResultSet resultSet = statement.executeQuery(
 					"SELECT inspectionReportId, examinationDate, companyName, branchId, hardWiredLoads, dangerCategoryVds "+
 					"FROM InspectionReport Natural JOIN Company Natural JOIN CompanyPlant " +
-					"WHERE companyId = " + companyId);
+					"WHERE companyId = " + companyId +" AND InspectionReportValidated");
 		) {
 			while (resultSet.next()) {
 				result.add(new InspectionReportStatistic(

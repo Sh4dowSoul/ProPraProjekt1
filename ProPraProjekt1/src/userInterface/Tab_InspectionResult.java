@@ -60,6 +60,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
 import javafx.util.Callback;
 import javafx.util.Duration;
 import javafx.util.StringConverter;
@@ -206,6 +207,12 @@ public class Tab_InspectionResult implements Initializable{
 	
 	@FXML private BorderPane borderPane;
 	@FXML private GridPane gridPaneFlawForm;
+	
+	//Information
+	@FXML private Text informationReportId;
+	@FXML private Text informationMode;
+	@FXML private Text informationSaved;
+	@FXML private Text informationValidated;
 	
 	private GUIController mainController;
 	//New Defect
@@ -716,28 +723,11 @@ public class Tab_InspectionResult implements Initializable{
 	}
 	
 	
-	
-	private boolean validateInspectionReport() {
-		ValidatorFactory factory = Validation.buildDefaultValidatorFactory(); 
-		Validator validator = factory.getValidator();
-		Set<ConstraintViolation<InspectionReportFull>> constraintViolations = validator.validate(currentInspectionReport);
-		if(!constraintViolations.isEmpty()){
-			//Validation failed
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setTitle("Befundschein nicht komplett");
-			alert.setHeaderText("Bitte überprüfen Sie Ihre Eingaben");
-			String content = "";
-			for(ConstraintViolation<InspectionReportFull> error : constraintViolations){
-				content += "- " +error.getMessage() + "\n";
-			}
-			alert.setContentText(content);
-			alert.show();
-			return false;
-		}
-		return true;
-	}
-	
-	 
+	 public void createNewInspectionReport() {
+		 isEditMode = false;
+		 informationMode.setText("Neuerstellung");
+		 informationReportId.setText("-/-");
+	 }
 	    
 
 	/**
@@ -746,12 +736,14 @@ public class Tab_InspectionResult implements Initializable{
 	 */
 	public void importInspectionReport(int id) {
 		//TODO Prepare for a new Session
+		isEditMode = true;
+		informationMode.setText("Bearbeiten");
 		
 		Boolean currentBoolean = null;
 		Integer currentInteger = null;
 		try {
 			currentInspectionReport = InspectionReportAccess.getCompleteResult(id);
-			System.out.println("LOADED ID " +currentInspectionReport.getId() );
+			informationReportId.setText(String.valueOf(currentInspectionReport.getId()));
 			
 			//Set FlawList to Tableview
 			defectTableView.setItems(FXCollections.observableArrayList(currentInspectionReport.getDefects()));
@@ -1138,7 +1130,7 @@ public class Tab_InspectionResult implements Initializable{
 		if (currentInspectionReport.getId() == 0) {
 			//TODO InspectionReport not saved yet
 		}
-		if(validateInspectionReport()) {
+		if(Util.validateInspectionReport(currentInspectionReport, true)) {
 			PDFExport.export(currentInspectionReport);
 		}
 	}
@@ -1273,12 +1265,6 @@ public class Tab_InspectionResult implements Initializable{
 	    	System.out.println("ERROR: " + loadCompaniePlantTask.getException())
 	    );
 	    new Thread(loadCompaniePlantTask).start();
-	}
-	
-	public void prepare() {
-		// TODO Auto-generated method stub
-		cleanUpSession();
-		loadCompanies();
 	}
 }
 	

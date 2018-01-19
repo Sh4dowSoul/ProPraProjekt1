@@ -3,9 +3,18 @@ package applicationLogic;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Collections;
+import java.util.Optional;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -13,6 +22,8 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.layout.Pane;
 
 /**
@@ -139,5 +150,27 @@ public class Util {
 			}
 		}
 		return 0;
+	}
+	
+	public static boolean validateInspectionReport(InspectionReportFull inspectionReport, boolean isOpened) {
+		ValidatorFactory factory = Validation.buildDefaultValidatorFactory(); 
+		Validator validator = factory.getValidator();
+		Set<ConstraintViolation<InspectionReportFull>> constraintViolations = validator.validate(inspectionReport);
+		if(!constraintViolations.isEmpty()){
+			//Validation failed
+			if (isOpened) {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Befundschein nicht komplett");
+				alert.setHeaderText("Bitte überprüfen Sie Ihre Eingaben");
+				String content = "";
+				for(ConstraintViolation<InspectionReportFull> error : constraintViolations){
+					content += "- " +error.getMessage() + "\n";
+				}
+				alert.setContentText(content);
+				alert.show();
+			}
+			return false;
+		}
+		return true;
 	}
 }

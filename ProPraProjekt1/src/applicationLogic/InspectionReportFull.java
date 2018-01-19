@@ -90,6 +90,7 @@ public class InspectionReportFull extends InspectionReportMinimal {
 	private Integer hardWiredLoads;
 	//
 	private String additionalAnnotations;
+	private Boolean isValid;
 	private ObservableList<FlawListElement> defects;
 	public InspectionReportFull(Integer id, LocalDate date, LocalDate lastEdited, String companion, String surveyor, Integer vdsApprovalNr,
 			Double examinationDuration, Branch branch, Boolean frequencyControlledUtilities, Boolean precautionsDeclared,
@@ -544,5 +545,13 @@ public class InspectionReportFull extends InspectionReportMinimal {
 
 	public void setDefects(ObservableList<FlawListElement> defects) {
 		this.defects = defects;
+	}
+
+	public Boolean isValid() {
+		return isValid;
+	}
+
+	public void setValid(Boolean isValid) {
+		this.isValid = isValid;
 	}
 }

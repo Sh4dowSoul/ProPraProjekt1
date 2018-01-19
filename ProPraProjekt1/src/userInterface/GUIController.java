@@ -36,7 +36,7 @@ public class GUIController implements Initializable{
 		if (editMode) {
 			inspectionResultTabController.importInspectionReport(diagnosisId);
 		} else {
-			inspectionResultTabController.prepare();
+			inspectionResultTabController.createNewInspectionReport();
 		}
 	}	
 	

@@ -547,7 +547,7 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Text>
-            <Text fx:id="informationReportId" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+            <Text fx:id="informationReportId" strokeType="OUTSIDE" strokeWidth="0.0" text="-/-" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="-" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Modus:">
                <font>
