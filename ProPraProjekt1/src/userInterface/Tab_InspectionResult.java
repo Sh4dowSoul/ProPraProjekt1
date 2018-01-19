@@ -514,7 +514,7 @@ public class Tab_InspectionResult implements Initializable{
 				alert.setHeaderText("Textbaustein als neuen Mangel abspeichern?");
 				alert.setContentText("Unter der Mangelnummer " + currentFlaw.getExternalId() +" ist bisher keine Mangel mit der Beschreibung \n\n'" + 
 				flawDescriptionEntered +
-				"'\n\nbekannt. Soll der eingegebene Mangel in der Datenbank gespeichert werden?" );
+				"'\n\nbekannt. Soll der eingegebene Textbaustein für eine spätere Verwendung gespeichert werden?" );
 
 
 				ButtonType noButton = new ButtonType("No", ButtonData.NO);
