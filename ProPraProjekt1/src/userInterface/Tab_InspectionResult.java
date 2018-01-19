@@ -510,15 +510,15 @@ public class Tab_InspectionResult implements Initializable{
 			//Check if already present or new flaw
 			if(!FlawAccess.getFlawDescriptions(currentFlaw.getExternalId()).contains(flawDescriptionEntered)) {
 				Alert alert = new Alert(AlertType.CONFIRMATION);
-				alert.setTitle("Neuer Mangel");
+				alert.setTitle("Neuen Mangel anlegen");
 				alert.setHeaderText("Textbaustein als neuen Mangel abspeichern?");
 				alert.setContentText("Unter der Mangelnummer " + currentFlaw.getExternalId() +" ist bisher keine Mangel mit der Beschreibung \n\n'" + 
 				flawDescriptionEntered +
-				"'\n\nbekannt. Soll der eingegebene Mangel in der Datenbank gespeichert werden?" );
+				"'\n\nbekannt. Soll der eingegebene Textbaustein für eine spätere Verwendung gespeichert werden?" );
 
 
-				ButtonType noButton = new ButtonType("No", ButtonData.NO);
-				ButtonType yesButton = new ButtonType("Yes", ButtonData.YES);
+				ButtonType noButton = new ButtonType("Nein", ButtonData.NO);
+				ButtonType yesButton = new ButtonType("Ja", ButtonData.YES);
 				alert.getButtonTypes().setAll(noButton, yesButton);
 
 				Optional<ButtonType> Dialogresult = alert.showAndWait();
