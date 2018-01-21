@@ -59,4 +59,23 @@ public abstract class InspectionReportMinimal {
 	public String getNiceDate() {
 		return niceDate;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		InspectionReportMinimal other = (InspectionReportMinimal) obj;
+		if (date == null) {
+			if (other.date != null)
+				return false;
+		} else if (!date.equals(other.date))
+			return false;
+		if (id != other.id)
+			return false;
+		return true;
+	}
 }

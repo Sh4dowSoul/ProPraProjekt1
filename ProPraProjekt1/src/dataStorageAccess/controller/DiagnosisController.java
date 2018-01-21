@@ -151,8 +151,11 @@ public class DiagnosisController {
 					//ExaminationDuration
 					result.setExaminationDuration((Double) resultSet.getObject("examinationDuration"));
 					
-					//Branch					
-					result.setBranch(new Branch((Integer) resultSet.getObject("branchId")));//TODO: Convert BranchID to INTEGER
+					//Branch	
+					Integer branchId = (Integer) resultSet.getObject("branchId");
+					if (branchId != null) {
+						result.setBranch(new Branch(branchId));
+					}
 					
 					//FrequencyControlledUtilities
 					result.setFrequencyControlledUtilities(resultSet.getObject("frequencyControlledUtilities") != null ? resultSet.getBoolean("frequencyControlledUtilities") : null);

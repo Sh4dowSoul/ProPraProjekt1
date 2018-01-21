@@ -3,6 +3,10 @@ package userInterface;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -35,6 +39,7 @@ import de.schnettler.AutocompleteTextField;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -220,8 +225,7 @@ public class Tab_InspectionResult implements Initializable{
 	boolean tableUpdate = false;
 	//InspectionResult Save
 	private boolean inspectionResultSaved;
-	private Company inspectionResultCompany;
-	private InspectionReportFull resultComplete;
+	
 	
 	//Current Working Data
 	//Mode
@@ -234,8 +238,10 @@ public class Tab_InspectionResult implements Initializable{
 	private ArrayList<CompanyPlant> companyPlantsList;
 	private CompanyPlant currentCompanyPlant;
 	//InpsectionReport
-	private InspectionReportFull currentInspectionReport;
+	private InspectionReportFull newInspectionReport;
+	private InspectionReportFull importedInspectionReport;
 	//Flaw
+	private ArrayList<FlawListElement> importedFlawList;
 	private Flaw currentFlaw;
 	private FlawListElement currentFlawListElementEdit;
 	
@@ -614,35 +620,21 @@ public class Tab_InspectionResult implements Initializable{
 		machineText.setText(defect.getMachine());
 	}
 	
+	
 	/**
 	 * Prepare Result for export to Database
 	 * @throws SQLException 
 	 */
-	public void addDiagnosis(ActionEvent add){
+	public void saveInspectionReportPrepare(ActionEvent add){
 		fetchInspectionReportData();
 		if (!isEditMode) {
-			try {
-				InspectionReportAccess.saveNewCompleteResult(currentInspectionReport);
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} 
+			//Save as new InspectionReport
+			saveInspectionReport(true);
 		} else {
-			//Edited Diagnosis
-			//TODO: Check against imported version of the Diagnosis, check for changes?
-			//TODO: Save new FlawListItems, check for edited ones
-		}
-		
-		//Wrapps user input in ResulteComplete object
-		/*
-		if (fetchInspectionReportData()) {
-			
-			boolean newDiagnosis = true;
-			boolean cancelled = false;
-			
-			//Check if "Edit Mode"
-			if (mainController.getEditMode()) {
-				//Edit Mode - Ask if save as new Result or Override old Result
+			importedInspectionReport.setDefects(FXCollections.observableArrayList(importedFlawList));
+			//Check if edited
+			if (!importedInspectionReport.equals(newInspectionReport)) {
+				//InspectionReport has been edited
 				Alert alert = new Alert(AlertType.CONFIRMATION);
 				alert.setTitle("Speichere Befundschein");
 				alert.setHeaderText("Überschreiben oder neu speichern?");
@@ -650,76 +642,32 @@ public class Tab_InspectionResult implements Initializable{
 
 				ButtonType overrideButton = new ButtonType("Überschreiben");
 				ButtonType newButton = new ButtonType("Als neuen Befundschein speichern");
-				ButtonType cancelButton = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+				ButtonType cancelButton = new ButtonType("Abbrechen", ButtonData.CANCEL_CLOSE);
 				alert.getButtonTypes().setAll(overrideButton, newButton, cancelButton);
 
 				Optional<ButtonType> Dialogresult = alert.showAndWait();
 				if (Dialogresult.get() == overrideButton){
-					newDiagnosis = false;
-				}if (Dialogresult.get() == cancelButton) {
-					cancelled = true;
+					//Override
 				}
-			} 
-			if (!cancelled) {
-				if (newDiagnosis) {
-					try {
-						InspectionReportAccess.saveNewCompleteResult(resultComplete);
-						Notifications.create()
-	                    .title("Erfolgreich gespeichert")
-	                    .text("Der Befundschein wurde erfolgreich gespeichert ")
-	                    .showInformation();
-						inspectionResultSaved = true;
-						pdfExpBtn.setDisable(false);
-					} catch (SQLException e) {
-						Notifications.create()
-		                 .title("Es ist ein Problem aufgetreten")
-		                 .text("Der Befundschein konnte leider nicht gespeichert werden.")
-		                 .hideAfter(Duration.INDEFINITE)
-		                 .onAction(new EventHandler<ActionEvent>() {
-							@Override
-							public void handle(ActionEvent event) {
-								new ExceptionDialog("Export Fehler", "Fehler beim Exportieren", "Beim Exportieren des Befundscheins ist leider ein Fehler aufgetreten.", e);
-							}
-		                 })
-		                 .showError();
-					}
-				} else {
-					try {
-						InspectionReportAccess.updateCompleteResult(resultComplete);
-						Notifications.create()
-	                    .title("Erfolgreich gespeichert")
-	                    .text("Der Befundschein wurde erfolgreich bearbeitet und gespeichert. ")
-	                    .showInformation();
-						inspectionResultSaved = true;
-						pdfExpBtn.setDisable(false);
-					} catch (SQLException e) {
-						Notifications.create()
-		                 .title("Es ist ein Problem aufgetreten")
-		                 .text("Der Befundschein konnte leider nicht gespeichert werden.")
-		                 .hideAfter(Duration.INDEFINITE)
-		                 .onAction(new EventHandler<ActionEvent>() {
-							@Override
-							public void handle(ActionEvent event) {
-								new ExceptionDialog("Export Fehler", "Fehler beim Exportieren", "Beim Exportieren des Befundscheins ist leider ein Fehler aufgetreten.", e);
-							}
-		                 })
-		                 .showError();
-					}
+				if (Dialogresult.get() == newButton){
+					saveInspectionReport(true);
 				}
-			} 
-		}
-		else {
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setTitle("Error");
-			alert.setHeaderText("Befundschein nicht komplett");
-			String content ="Bitte überprüfen Sie Ihre Eingaben in den Kategorien \n";
-			for(String entry : errors) {
-				content += "- " +entry + "\n";
+			} else {
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Information: Keine Änderung erkannt");
+				alert.setHeaderText("Information: Keine Änderung erkannt");
+				alert.setContentText("Es wurde keine Änderung des Befundscheins erkannt, deshabl wurde der Speichervorgnag abgebrochen");
+				alert.show();
 			}
-			alert.setContentText(content);
-			alert.showAndWait();
-		}*/
-		
+		}
+	}
+	
+	private void saveInspectionReport(boolean newReport) {
+		if (newReport) {
+			informationReportId.setText(String.valueOf(InspectionReportAccess.saveNewCompleteResult(newInspectionReport)));
+			importedInspectionReport = newInspectionReport;
+			informationSaved.setText("Gespeichert um " + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+		}
 	}
 	
 	
@@ -742,33 +690,42 @@ public class Tab_InspectionResult implements Initializable{
 		Boolean currentBoolean = null;
 		Integer currentInteger = null;
 		try {
-			currentInspectionReport = InspectionReportAccess.getCompleteResult(id);
-			informationReportId.setText(String.valueOf(currentInspectionReport.getId()));
+			importedInspectionReport = InspectionReportAccess.getCompleteResult(id);
+			informationReportId.setText(String.valueOf(importedInspectionReport.getId()));
 			
 			//Set FlawList to Tableview
-			defectTableView.setItems(FXCollections.observableArrayList(currentInspectionReport.getDefects()));
+			defectTableView.setItems(FXCollections.observableArrayList(importedInspectionReport.getDefects()));
+			importedFlawList = new ArrayList<>();
+			for (FlawListElement flaw : importedInspectionReport.getDefects()) {
+				importedFlawList.add(new FlawListElement(flaw.getElementId(), flaw.getFlaw(), flaw.getBranchId(), flaw.getDanger(), flaw.getBuilding(), flaw.getRoom(), flaw.getMachine()));
+			}
 			
 			//Set current Company(Plant)
-			if(currentInspectionReport.getCompanyPlant()!= null) {
-				currentCompanyPlant = currentInspectionReport.getCompanyPlant();
+			if(importedInspectionReport.getCompanyPlant()!= null) {
+				currentCompanyPlant = importedInspectionReport.getCompanyPlant();
 				currentCompany = currentCompanyPlant.getCompany();
 				//Load Company Data into form
 				comboBoxCompanyName.setValue(currentCompany);
-				currentCompanyPlant = currentInspectionReport.getCompanyPlant();//Warnung: Muss ein weiteres Mal geladen werden, da nachdem die Firma in die ComboBox geladen wurde, wurde currentCompanyPlant null gesetzt. TODO Fix this unwanted behavior
+				currentCompanyPlant = importedInspectionReport.getCompanyPlant();//Warnung: Muss ein weiteres Mal geladen werden, da nachdem die Firma in die ComboBox geladen wurde, wurde currentCompanyPlant null gesetzt. TODO Fix this unwanted behavior
+				currentCompany = currentCompanyPlant.getCompany();
 				comboBoxCompanyPlantStreet.setValue(currentCompanyPlant);
 			}
 			
 		
 			//Load ExaminationInfo Data
-			plantCompanionField.setText(currentInspectionReport.getCompanion());
-			plantExpertField.setText(currentInspectionReport.getSurveyor());
-			Util.setNullableIntToTextField(plantAnerkNrField, currentInspectionReport.getVdsApprovalNr());
-			datePickerExaminationDate.setValue(currentInspectionReport.getDate());
-			Util.setNullableDoubleToTextField(plantInspectionTimeField, currentInspectionReport.getExaminationDuration());
+			plantCompanionField.setText(importedInspectionReport.getCompanion());
+			plantExpertField.setText(importedInspectionReport.getSurveyor());
+			Util.setNullableIntToTextField(plantAnerkNrField, importedInspectionReport.getVdsApprovalNr());
+			datePickerExaminationDate.setValue(importedInspectionReport.getDate());
+			Util.setNullableDoubleToTextField(plantInspectionTimeField, importedInspectionReport.getExaminationDuration());
 			
 			//Load "Art des Betriebs" Data
-			Util.setNullableIntToTextField(branchName, currentInspectionReport.getBranch().getExternalId());
-			currentBoolean = currentInspectionReport.isFrequencyControlledUtilities();
+			Branch branch = importedInspectionReport.getBranch();
+			if (branch != null) {
+				branchName.setText(String.valueOf(branch.getExternalId()));
+			}
+			
+			currentBoolean = importedInspectionReport.isFrequencyControlledUtilities();
 			if(currentBoolean != null) {
 				if(currentBoolean) {
 					freqYesBtn.setSelected(true);
@@ -777,7 +734,7 @@ public class Tab_InspectionResult implements Initializable{
 				}
 			}
 			
-			currentBoolean = currentInspectionReport.isPrecautionsDeclared();
+			currentBoolean = importedInspectionReport.isPrecautionsDeclared();
 			if(currentBoolean != null) {
 				if(currentBoolean) {
 					precautionYesBtn.setSelected(true);
@@ -785,8 +742,8 @@ public class Tab_InspectionResult implements Initializable{
 					precautionNoBtn.setSelected(true);
 				}
 			}
-			precautionField.setText(currentInspectionReport.getPrecautionsDeclaredLocation());
-			currentBoolean = currentInspectionReport.isExaminationComplete();
+			precautionField.setText(importedInspectionReport.getPrecautionsDeclaredLocation());
+			currentBoolean = importedInspectionReport.isExaminationComplete();
 			if(currentBoolean != null) {
 				if(currentBoolean) {
 					completeYesBtn.setSelected(true);
@@ -795,9 +752,9 @@ public class Tab_InspectionResult implements Initializable{
 				}
 			}
 			
-			datePickerSubsequentExaminationDate.setValue(currentInspectionReport.getSubsequentExaminationDate());
-			completeReasonField.setText(currentInspectionReport.getExaminationIncompleteReason());
-			currentInteger = currentInspectionReport.getChangesSinceLastExamination();
+			datePickerSubsequentExaminationDate.setValue(importedInspectionReport.getSubsequentExaminationDate());
+			completeReasonField.setText(importedInspectionReport.getExaminationIncompleteReason());
+			currentInteger = importedInspectionReport.getChangesSinceLastExamination();
 			if(currentInteger != null) {
 				switch (currentInteger) {
 				case 0:
@@ -811,7 +768,7 @@ public class Tab_InspectionResult implements Initializable{
 					break;
 				}
 			}
-			currentInteger = currentInspectionReport.getDefectsLastExaminationFixed();
+			currentInteger = importedInspectionReport.getDefectsLastExaminationFixed();
 			if(currentInteger != null) {
 				switch (currentInteger) {
 				case 0:
@@ -829,7 +786,7 @@ public class Tab_InspectionResult implements Initializable{
 			
 			
 			//Load "Gesamtbeurteilung der Anlage"
-			currentInteger = currentInspectionReport.getDangerCategory();
+			currentInteger = importedInspectionReport.getDangerCategory();
 			if(currentInteger != null) {
 				switch (currentInteger) {
 				case 0:
@@ -846,27 +803,27 @@ public class Tab_InspectionResult implements Initializable{
 					break;
 				}
 			}
-			dangerCategoryExtensionField.setText(currentInspectionReport.getDangerCategoryDescription());
+			dangerCategoryExtensionField.setText(importedInspectionReport.getDangerCategoryDescription());
 			
 			
 			//Load "Prüfergebnis"
-			currentBoolean = currentInspectionReport.isExaminationResultNoDefect();
+			currentBoolean = importedInspectionReport.isExaminationResultNoDefect();
 			if (currentBoolean != null) {
 				noDefectsBtn.setSelected(currentBoolean);
 			}
-			currentBoolean = currentInspectionReport.isExaminationResultDefect();
+			currentBoolean = importedInspectionReport.isExaminationResultDefect();
 			if (currentBoolean != null) {
 				defectsAttachedBtn.setSelected(currentBoolean);
 			}
-			currentBoolean = currentInspectionReport.isExaminationResultDanger();
+			currentBoolean = importedInspectionReport.isExaminationResultDanger();
 			if (currentBoolean != null) {
 				removeDefectsImmediatelyBtn.setSelected(currentBoolean);
 			}
-			datePickerResolvedUntil.setValue(currentInspectionReport.getExaminationResultDefectDate());
+			datePickerResolvedUntil.setValue(importedInspectionReport.getExaminationResultDefectDate());
 			
 			
 			//Load "Messungen"
-			currentBoolean = currentInspectionReport.isIsolationChecked();
+			currentBoolean = importedInspectionReport.isIsolationChecked();
 			if (currentBoolean != null) {
 				if(currentBoolean) {
 					isoMinYesBtn.setSelected(true);
@@ -874,7 +831,7 @@ public class Tab_InspectionResult implements Initializable{
 					isoMinNoBtn.setSelected(true);
 				}
 			}
-			currentBoolean = currentInspectionReport.isIsolationMesasurementProtocols();
+			currentBoolean = importedInspectionReport.isIsolationMesasurementProtocols();
 			if (currentBoolean != null) {
 				if(currentBoolean) {
 					isoProtocolYesBtn.setSelected(true);
@@ -882,7 +839,7 @@ public class Tab_InspectionResult implements Initializable{
 					isoProtocolNoBtn.setSelected(true);
 				}
 			}
-			currentBoolean = currentInspectionReport.isIsolationCompensationMeasures();
+			currentBoolean = importedInspectionReport.isIsolationCompensationMeasures();
 			if (currentBoolean != null) {
 				if(currentBoolean) {
 					isoCompensationYesBtn.setSelected(true);
@@ -890,8 +847,8 @@ public class Tab_InspectionResult implements Initializable{
 					isoCompensationNoBtn.setSelected(true);
 				}
 			}
-			isoCompensationCommentField.setText(currentInspectionReport.getIsolationCompensationMeasuresAnnotation());
-			currentBoolean = currentInspectionReport.getRcdAvailable();
+			isoCompensationCommentField.setText(importedInspectionReport.getIsolationCompensationMeasuresAnnotation());
+			currentBoolean = importedInspectionReport.getRcdAvailable();
 			if (currentBoolean != null) {
 				if(currentBoolean) {
 					rcdAllBtn.setSelected(true);
@@ -899,9 +856,9 @@ public class Tab_InspectionResult implements Initializable{
 					rcdNotBtn.setSelected(true);
 				}
 			}
-			Util.setNullableDoubleToTextField(rcdPercentageField, currentInspectionReport.getRcdAvailablePercent());
-			rcdCommentField.setText(currentInspectionReport.getRcdAnnotation());
-			currentBoolean = currentInspectionReport.isResistance();
+			Util.setNullableDoubleToTextField(rcdPercentageField, importedInspectionReport.getRcdAvailablePercent());
+			rcdCommentField.setText(importedInspectionReport.getRcdAnnotation());
+			currentBoolean = importedInspectionReport.isResistance();
 			if (currentBoolean != null) {
 				if(currentBoolean) {
 					resistanceYesBtn.setSelected(true);
@@ -909,9 +866,9 @@ public class Tab_InspectionResult implements Initializable{
 					resistanceNoBtn.setSelected(true);
 				}
 			}
-			Util.setNullableIntToTextField(resistancePercentageField, currentInspectionReport.getResistanceNumber());
-			resistanceCommentField.setText(currentInspectionReport.getResistanceAnnotation());
-			currentBoolean = currentInspectionReport.isThermalAbnormality();
+			Util.setNullableIntToTextField(resistancePercentageField, importedInspectionReport.getResistanceNumber());
+			resistanceCommentField.setText(importedInspectionReport.getResistanceAnnotation());
+			currentBoolean = importedInspectionReport.isThermalAbnormality();
 			if (currentBoolean != null) {
 				if(currentBoolean) {
 					thermicYesBtn.setSelected(true);
@@ -919,11 +876,11 @@ public class Tab_InspectionResult implements Initializable{
 					thermicNoBtn.setSelected(true);
 				}
 			}
-			thermicCommentField.setText(currentInspectionReport.getThermalAbnormalityAnnotation());
+			thermicCommentField.setText(importedInspectionReport.getThermalAbnormalityAnnotation());
 			
 			
 			//Load "Ortsveränderliche Betriebsmittel"
-			currentBoolean = currentInspectionReport.isInternalPortableUtilities();
+			currentBoolean = importedInspectionReport.isInternalPortableUtilities();
 			if (currentBoolean != null) {
 				if(currentBoolean) {
 					portableUtilitiesYesBtn.setSelected(true);
@@ -932,14 +889,14 @@ public class Tab_InspectionResult implements Initializable{
 				}
 			}
 			
-			currentInteger = currentInspectionReport.getExternalPortableUtilities();
+			currentInteger = importedInspectionReport.getExternalPortableUtilities();
 			if (currentInteger != null) {
 				switch(currentInteger) {
 				case 0:
-					externalPortableUtilitiesYesBtn.setSelected(true);
+					externalPortableUtilitiesNoBtn.setSelected(true);
 					break;
 				case 1:
-					externalPortableUtilitiesNoBtn.setSelected(true);
+					externalPortableUtilitiesYesBtn.setSelected(true);
 					break;
 				case 2:
 					externalPortableUtilitiesNrBtn.setSelected(true);
@@ -949,7 +906,7 @@ public class Tab_InspectionResult implements Initializable{
 			
 			
 			//Load "Allgemeine Informationen..."
-			currentInteger = currentInspectionReport.getSupplySystem();
+			currentInteger = importedInspectionReport.getSupplySystem();
 			if (currentInteger != null) {
 				switch(currentInteger) {
 				case 0:
@@ -967,12 +924,12 @@ public class Tab_InspectionResult implements Initializable{
 				}
 			}
 			
-			Util.setNullableIntToTextField(powerConsumptionField, currentInspectionReport.getEnergyDemand());
-			Util.setNullableIntToTextField(externalPowerPercentageField, currentInspectionReport.getMaxEnergyDemandExternal());
-			Util.setNullableIntToTextField(maxCapacityPercentageField, currentInspectionReport.getMaxEnergyDemandInternal());
-			Util.setNullableIntToTextField(protectedCirclesPercentageField, currentInspectionReport.getProtectedCircuitsPercent());
+			Util.setNullableIntToTextField(powerConsumptionField, importedInspectionReport.getEnergyDemand());
+			Util.setNullableIntToTextField(externalPowerPercentageField, importedInspectionReport.getMaxEnergyDemandExternal());
+			Util.setNullableIntToTextField(maxCapacityPercentageField, importedInspectionReport.getMaxEnergyDemandInternal());
+			Util.setNullableIntToTextField(protectedCirclesPercentageField, importedInspectionReport.getProtectedCircuitsPercent());
 			
-			currentInteger = currentInspectionReport.getHardWiredLoads();
+			currentInteger = importedInspectionReport.getHardWiredLoads();
 			if (currentInteger != null) {
 				switch(currentInteger) {
 					case 0:
@@ -993,7 +950,7 @@ public class Tab_InspectionResult implements Initializable{
 				}
 			}
 			
-			furtherExplanationsField.setText(currentInspectionReport.getAdditionalAnnotations());
+			furtherExplanationsField.setText(importedInspectionReport.getAdditionalAnnotations());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1008,90 +965,95 @@ public class Tab_InspectionResult implements Initializable{
 	 */
 	private void fetchInspectionReportData() {
 		int currentId = 0;
-		if (currentInspectionReport != null) {
-			currentId = currentInspectionReport.getId();
+		if (importedInspectionReport != null) {
+			currentId = importedInspectionReport.getId();
 		}
-		currentInspectionReport = new InspectionReportFull();
-		currentInspectionReport.setId(currentId);
-		currentInspectionReport.setDefects(defectTableView.getItems());
+		newInspectionReport = new InspectionReportFull();
+		newInspectionReport.setId(currentId);
+		newInspectionReport.setDefects(defectTableView.getItems());
 		
 		//Company
-		currentInspectionReport.setCompanyPlant(currentCompanyPlant);
+		if (currentCompanyPlant != null) {
+			newInspectionReport.setCompanyPlant(currentCompanyPlant);
+			newInspectionReport.getCompanyPlant().setCompany(currentCompany);
+		}
 		
 		//ExaminationInfo
-		currentInspectionReport.setCompanion(plantCompanionField.getText());
-		currentInspectionReport.setSurveyor(plantExpertField.getText());
+		newInspectionReport.setCompanion(plantCompanionField.getText());
+		newInspectionReport.setSurveyor(plantExpertField.getText());
 		if (Util.validateInt(plantAnerkNrField, true)){
-			currentInspectionReport.setVdsApprovalNr(Integer.valueOf(plantAnerkNrField.getText()));
+			newInspectionReport.setVdsApprovalNr(Integer.valueOf(plantAnerkNrField.getText()));
 		}
-		currentInspectionReport.setDate(datePickerExaminationDate.getValue());
+		newInspectionReport.setDate(datePickerExaminationDate.getValue());
 		if(Util.validateDouble(plantInspectionTimeField)) {
-			currentInspectionReport.setExaminationDuration(Double.valueOf(plantInspectionTimeField.getText()));
+			newInspectionReport.setExaminationDuration(Double.valueOf(plantInspectionTimeField.getText()));
 		}
 		
 		//Art des Betriebs/Anlage
 		if(Util.validateInt(branchName, true)) {
-			currentInspectionReport.setBranch(new Branch(Integer.valueOf(branchName.getText())));
+			newInspectionReport.setBranch(new Branch(Integer.valueOf(branchName.getText())));
 		}
-		currentInspectionReport.setFrequencyControlledUtilities(freqGroup.getSelectedToggle() != null ? freqYesBtn.isSelected() : null);
-		currentInspectionReport.setPrecautionsDeclared(precautionGroup.getSelectedToggle() != null ? precautionYesBtn.isSelected() : null);
-		currentInspectionReport.setPrecautionsDeclaredLocation(precautionField.getText());
-		currentInspectionReport.setExaminationComplete(completeGroup.getSelectedToggle() != null ? completeYesBtn.isSelected() : null);
-		currentInspectionReport.setSubsequentExaminationDate(datePickerSubsequentExaminationDate.getValue());
-		currentInspectionReport.setExaminationIncompleteReason(completeReasonField.getText());
-		currentInspectionReport.setChangesSinceLastExamination(changesSinceLastExaminationGroup.getSelectedToggle() != null ? Util.getSelectedToggle(changesSinceLastExaminationGroup) : null);
-		currentInspectionReport.setDefectsLastExaminationFixed(defectsLastExaminationFixedGroup.getSelectedToggle() != null ? Util.getSelectedToggle(defectsLastExaminationFixedGroup) : null);
+		newInspectionReport.setFrequencyControlledUtilities(freqGroup.getSelectedToggle() != null ? freqYesBtn.isSelected() : null);
+		newInspectionReport.setPrecautionsDeclared(precautionGroup.getSelectedToggle() != null ? precautionYesBtn.isSelected() : null);
+		newInspectionReport.setPrecautionsDeclaredLocation(precautionField.getText());
+		newInspectionReport.setExaminationComplete(completeGroup.getSelectedToggle() != null ? completeYesBtn.isSelected() : null);
+		newInspectionReport.setSubsequentExaminationDate(datePickerSubsequentExaminationDate.getValue());
+		newInspectionReport.setExaminationIncompleteReason(completeReasonField.getText());
+		newInspectionReport.setChangesSinceLastExamination(changesSinceLastExaminationGroup.getSelectedToggle() != null ? Util.getSelectedToggle(changesSinceLastExaminationGroup) : null);
+		newInspectionReport.setDefectsLastExaminationFixed(defectsLastExaminationFixedGroup.getSelectedToggle() != null ? Util.getSelectedToggle(defectsLastExaminationFixedGroup) : null);
 		
 		//Gesamtbeurteilung der Anlage
-		currentInspectionReport.setDangerCategory(dangerCategorieGroup.getSelectedToggle() != null ? Util.getSelectedToggle(dangerCategorieGroup) : null);
-		currentInspectionReport.setDangerCategoryDescription(dangerCategoryExtensionField.getText());
+		newInspectionReport.setDangerCategory(dangerCategorieGroup.getSelectedToggle() != null ? Util.getSelectedToggle(dangerCategorieGroup) : null);
+		newInspectionReport.setDangerCategoryDescription(dangerCategoryExtensionField.getText());
 		
 		//Prüfergebnis
-		currentInspectionReport.setExaminationResultNoDefect(noDefectsBtn.isSelected());
-		currentInspectionReport.setExaminationResultDefect(defectsAttachedBtn.isSelected());
-		currentInspectionReport.setExaminationResultDefectDate(datePickerResolvedUntil.getValue());
-		currentInspectionReport.setExaminationResultDanger(removeDefectsImmediatelyBtn.isSelected());
+		newInspectionReport.setExaminationResultNoDefect(noDefectsBtn.isSelected());
+		newInspectionReport.setExaminationResultDefect(defectsAttachedBtn.isSelected());
+		newInspectionReport.setExaminationResultDefectDate(datePickerResolvedUntil.getValue());
+		newInspectionReport.setExaminationResultDanger(removeDefectsImmediatelyBtn.isSelected());
 		
 		
 		//Messungen
-		currentInspectionReport.setIsolationChecked(IsoMinGroup.getSelectedToggle() != null ? isoMinYesBtn.isSelected() : null);
-		currentInspectionReport.setIsolationMesasurementProtocols(IsoProtocollGroup.getSelectedToggle() != null ? isoProtocolYesBtn.isSelected() : null);
-		currentInspectionReport.setIsolationCompensationMeasures(IsoCompensationGroup.getSelectedToggle() != null ? isoCompensationYesBtn.isSelected() : null);
-		currentInspectionReport.setIsolationCompensationMeasuresAnnotation(isoCompensationCommentField.getText());
-		currentInspectionReport.setRcdAvailable(RcdGroup.getSelectedToggle() != null ? rcdAllBtn.isSelected() : null);
+		newInspectionReport.setIsolationChecked(IsoMinGroup.getSelectedToggle() != null ? isoMinYesBtn.isSelected() : null);
+		newInspectionReport.setIsolationMesasurementProtocols(IsoProtocollGroup.getSelectedToggle() != null ? isoProtocolYesBtn.isSelected() : null);
+		newInspectionReport.setIsolationCompensationMeasures(IsoCompensationGroup.getSelectedToggle() != null ? isoCompensationYesBtn.isSelected() : null);
+		newInspectionReport.setIsolationCompensationMeasuresAnnotation(isoCompensationCommentField.getText());
+		newInspectionReport.setRcdAvailable(RcdGroup.getSelectedToggle() != null ? rcdAllBtn.isSelected() : null);
 		if (Util.validateDouble(rcdPercentageField)) {
-			currentInspectionReport.setRcdAvailablePercent(Double.valueOf(rcdPercentageField.getText()));
+			newInspectionReport.setRcdAvailablePercent(Double.valueOf(rcdPercentageField.getText()));
 		}
-		currentInspectionReport.setRcdAnnotation(rcdCommentField.getText());
-		currentInspectionReport.setResistance(ResistanceGroup.getSelectedToggle() != null ? resistanceYesBtn.isSelected() : null);
+		newInspectionReport.setRcdAnnotation(rcdCommentField.getText());
+		newInspectionReport.setResistance(ResistanceGroup.getSelectedToggle() != null ? resistanceYesBtn.isSelected() : null);
 		if (Util.validateInt(resistancePercentageField, true)) {
-			currentInspectionReport.setResistanceNumber(Integer.valueOf(resistancePercentageField.getText()));
+			newInspectionReport.setResistanceNumber(Integer.valueOf(resistancePercentageField.getText()));
 		}
-		currentInspectionReport.setThermalAbnormality(ThermicGroup.getSelectedToggle() != null ? thermicYesBtn.isSelected() : null);
-		currentInspectionReport.setResistanceAnnotation(resistanceCommentField.getText());
+		newInspectionReport.setResistanceAnnotation(resistanceCommentField.getText());
+		newInspectionReport.setThermalAbnormality(ThermicGroup.getSelectedToggle() != null ? thermicYesBtn.isSelected() : null);
+		newInspectionReport.setThermalAbnormalityAnnotation(thermicCommentField.getText());
+		
 		
 		
 		//Ortsveränderliche Betriebsmittel
-		currentInspectionReport.setInternalPortableUtilities(PortableUtilitiesGroup.getSelectedToggle() != null ? portableUtilitiesYesBtn.isSelected() : null);
-		currentInspectionReport.setExternalPortableUtilities(ExternalPortableUtilitiesGroup.getSelectedToggle() != null ? Util.getSelectedToggle(ExternalPortableUtilitiesGroup) : null);
+		newInspectionReport.setInternalPortableUtilities(PortableUtilitiesGroup.getSelectedToggle() != null ? portableUtilitiesYesBtn.isSelected() : null);
+		newInspectionReport.setExternalPortableUtilities(ExternalPortableUtilitiesGroup.getSelectedToggle() != null ? Util.getSelectedToggle(ExternalPortableUtilitiesGroup) : null);
 		
 		
 		//Allgemeine Informationen
-		currentInspectionReport.setSupplySystem(SupplySystemGroup.getSelectedToggle() != null ? Util.getSelectedToggle(SupplySystemGroup) : null);
+		newInspectionReport.setSupplySystem(SupplySystemGroup.getSelectedToggle() != null ? Util.getSelectedToggle(SupplySystemGroup) : null);
 		if (Util.validateInt(powerConsumptionField, true)) {
-			currentInspectionReport.setEnergyDemand(Integer.valueOf(powerConsumptionField.getText()));
+			newInspectionReport.setEnergyDemand(Integer.valueOf(powerConsumptionField.getText()));
 		}
 		if (Util.validateInt(externalPowerPercentageField, true)) {
-			currentInspectionReport.setMaxEnergyDemandExternal(Integer.valueOf(externalPowerPercentageField.getText()));
+			newInspectionReport.setMaxEnergyDemandExternal(Integer.valueOf(externalPowerPercentageField.getText()));
 		}
 		if (Util.validateInt(maxCapacityPercentageField, true)) {
-			currentInspectionReport.setMaxEnergyDemandInternal(Integer.valueOf(maxCapacityPercentageField.getText()));
+			newInspectionReport.setMaxEnergyDemandInternal(Integer.valueOf(maxCapacityPercentageField.getText()));
 		}
 		if (Util.validateDouble(protectedCirclesPercentageField)) {
-			currentInspectionReport.setProtectedCircuitsPercent(Integer.valueOf(protectedCirclesPercentageField.getText()));
+			newInspectionReport.setProtectedCircuitsPercent(Integer.valueOf(protectedCirclesPercentageField.getText()));
 		}
-		currentInspectionReport.setHardWiredLoads(HardWiredLoadsGroup.getSelectedToggle() != null ? Util.getSelectedToggle(HardWiredLoadsGroup) : null);
-		currentInspectionReport.setAdditionalAnnotations(furtherExplanationsField.getText());
+		newInspectionReport.setHardWiredLoads(HardWiredLoadsGroup.getSelectedToggle() != null ? Util.getSelectedToggle(HardWiredLoadsGroup) : null);
+		newInspectionReport.setAdditionalAnnotations(furtherExplanationsField.getText());
 	}
 	
 	
@@ -1103,7 +1065,8 @@ public class Tab_InspectionResult implements Initializable{
 	public void cleanUpSession() {
 		currentCompany = null;
 		currentCompanyPlant = null;
-		currentInspectionReport = null;
+		newInspectionReport = null;
+		importedInspectionReport = null;
 		currentFlaw = null;
 		currentFlawListElementEdit = null;
 		isEditMode = false;
@@ -1127,38 +1090,44 @@ public class Tab_InspectionResult implements Initializable{
 	 */
 	public void exportDiagnosis (ActionEvent event) throws IOException{
 		fetchInspectionReportData();
-		if (currentInspectionReport.getId() == 0) {
+		if (newInspectionReport.getId() == 0) {
 			//TODO InspectionReport not saved yet
 		}
-		if(Util.validateInspectionReport(currentInspectionReport, true)) {
-			PDFExport.export(currentInspectionReport);
+		if(Util.validateInspectionReport(newInspectionReport, true)) {
+			PDFExport.export(newInspectionReport);
 		}
 	}
 	
 	public void closeDiagnosis (ActionEvent event) throws IOException{
-		//Check if saved
-		//Cleanup every entry
-		if(inspectionResultSaved) {
+		fetchInspectionReportData();
+		if (!isEditMode) {
+			//TODO: Check if something has been entered
 			mainController.closeDiagnosis();
 			cleanUpSession();
 		} else {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("Warnung - Befundschein nicht gesichert");
-			alert.setHeaderText("Achtung, der aktuelle Befundschein wurde noch nicht gespeichert.");
-			alert.setContentText("Wollen sie den Befundschein verwerfen?");
-
-			ButtonType discardButton = new ButtonType("Verwerfen");
-			ButtonType saveButton = new ButtonType("Speichern");
-			ButtonType cancelButton = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
-
-			alert.getButtonTypes().setAll(discardButton, saveButton, cancelButton);
-
-			Optional<ButtonType> result = alert.showAndWait();
-			if (result.get() == discardButton){
+			//Check for Changes 
+			if (!importedInspectionReport.equals(newInspectionReport)) {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Warnung - Befundschein nicht gesichert");
+				alert.setHeaderText("Achtung, der aktuelle Befundschein wurde noch nicht gespeichert.");
+				alert.setContentText("Wollen sie den Befundschein verwerfen?");
+				ButtonType discardButton = new ButtonType("Verwerfen");
+				ButtonType saveButton = new ButtonType("Speichern");
+				ButtonType cancelButton = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+				alert.getButtonTypes().setAll(discardButton, saveButton, cancelButton);					
+				Optional<ButtonType> result = alert.showAndWait();
+				if (result.get() == discardButton){
+					//Discard
+					mainController.closeDiagnosis();
+					cleanUpSession();
+				} else if (result.get() == saveButton) {
+					//Prepare Save
+					saveInspectionReportPrepare(null);
+				}
+			} else{
+				//No Changes
 				mainController.closeDiagnosis();
 				cleanUpSession();
-			} else if (result.get() == saveButton) {
-				addDiagnosis(null);
 			}
 		}
 	}

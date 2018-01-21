@@ -54,4 +54,36 @@ public class CompanyPlant extends AutocompleteSuggestion {
 		this.city = city;
 	}
 
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CompanyPlant other = (CompanyPlant) obj;
+		if (city == null) {
+			if (other.city != null)
+				return false;
+		} else if (!city.equals(other.city))
+			return false;
+		if (company == null) {
+			if (other.company != null)
+				return false;
+		} else if (!company.equals(other.company))
+			return false;
+		if (street == null) {
+			if (other.street != null)
+				return false;
+		} else if (!street.equals(other.street))
+			return false;
+		if (zipCode != other.zipCode)
+			return false;
+		return true;
+	}
 }

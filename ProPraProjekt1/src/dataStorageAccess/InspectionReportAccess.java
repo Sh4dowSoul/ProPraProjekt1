@@ -3,12 +3,18 @@ package dataStorageAccess;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.controlsfx.control.Notifications;
+
+import applicationLogic.ExceptionDialog;
 import applicationLogic.FlawListElement;
 import applicationLogic.InspectionReportFull;
 import applicationLogic.InspectionReportStatistic;
 import applicationLogic.InspectionResultPreview;
 import dataStorageAccess.controller.DiagnosisController;
 import dataStorageAccess.controller.FlawListController;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.util.Duration;
 
 /**
  * @author Niklas Schnettler
@@ -35,9 +41,29 @@ public class InspectionReportAccess {
 	 * @param result - The complete InspectionResult
 	 * @throws SQLException
 	 */
-	public static void saveNewCompleteResult(InspectionReportFull result) throws SQLException {
-		int diagnosisId = DiagnosisController.insertDiagnosis(result);
-		FlawListController.insertFlawList(result.getDefects(), diagnosisId);
+	public static int saveNewCompleteResult(InspectionReportFull result) {
+		int diagnosisId = 0;
+		try {
+			diagnosisId = DiagnosisController.insertDiagnosis(result);
+			FlawListController.insertFlawList(result.getDefects(), diagnosisId);
+			Notifications.create()
+            .title("Erfolgreich gespeichert")
+            .text("Der Befundschein wurde erfolgreich gespeichert ")
+            .showInformation();
+		} catch (SQLException e) {
+			Notifications.create()
+            .title("Es ist ein Problem aufgetreten")
+            .text("Der Befundschein konnte leider nicht gespeichert werden.")
+            .hideAfter(Duration.INDEFINITE)
+            .onAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					new ExceptionDialog("Export Fehler", "Fehler beim Exportieren", "Beim Exportieren des Befundscheins ist leider ein Fehler aufgetreten.", e);
+				}
+            })
+            .showError();
+		}
+		return diagnosisId;
 	}
 	
 	/**

@@ -522,7 +522,7 @@
                                 <Insets right="15.0" />
                             </HBox.margin>
                         </Button>
-                        <Button id="AddBtn" fx:id="AddDiagnosisBtn" mnemonicParsing="false" onAction="#addDiagnosis" prefHeight="100.0" prefWidth="200.0" text="In Datenbank speichern">
+                        <Button id="AddBtn" fx:id="AddDiagnosisBtn" mnemonicParsing="false" onAction="#saveInspectionReportPrepare" prefHeight="100.0" prefWidth="200.0" text="In Datenbank speichern">
                             <HBox.margin>
                                 <Insets right="15.0" />
                             </HBox.margin>

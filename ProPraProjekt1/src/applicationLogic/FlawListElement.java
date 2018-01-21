@@ -41,6 +41,10 @@ public class FlawListElement {
 		return flaw.getExternalId();
 	}
 	
+	public int getInternalFlawId() {
+		return flaw.getInternalId();
+	}
+
 	public String getFlawDescription() {
 		return flaw.getDescription();
 	}
@@ -108,5 +112,51 @@ public class FlawListElement {
 	
 	public Flaw getFlaw() {
 		return flaw;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		FlawListElement other = (FlawListElement) obj;
+		if (branchId != other.branchId)
+			return false;
+		if (building == null) {
+			if (other.building != null)
+				return false;
+		} else if (!building.equals(other.building))
+			if (!(building.isEmpty() && other.building == null)) {
+				return false;
+			}
+		if (danger != other.danger)
+			return false;
+		if (elementId != other.elementId)
+			return false;
+		if (flaw == null) {
+			if (other.flaw != null)
+				return false;
+		} else if (!flaw.equals(other.flaw))
+			return false;
+		if (machine == null) {
+			if (other.machine != null)
+				return false;
+		} else if (!machine.equals(other.machine))
+			if (!(machine.isEmpty() && other.machine == null)) {
+				return false;
+			}
+		System.out.println("ROOM " + room + " - " +other.room);
+		if (room == null) {
+			if (other.room != null)
+				return false;
+		} else if (!room.equals(other.room)) {
+			if (!(room.isEmpty() && other.room == null)) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

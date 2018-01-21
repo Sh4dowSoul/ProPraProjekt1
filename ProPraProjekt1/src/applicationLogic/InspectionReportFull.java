@@ -554,4 +554,231 @@ public class InspectionReportFull extends InspectionReportMinimal {
 	public void setValid(Boolean isValid) {
 		this.isValid = isValid;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		InspectionReportFull other = (InspectionReportFull) obj;
+		if (additionalAnnotations == null) {
+			if (other.additionalAnnotations != null)
+				return false;
+		} else if (!additionalAnnotations.equals(other.additionalAnnotations))
+			return false;
+		if (branch == null) {
+			if (other.branch != null)
+				return false;
+		} else if (!branch.equals(other.branch))
+			return false;
+		if (changesSinceLastExamination == null) {
+			if (other.changesSinceLastExamination != null)
+				return false;
+		} else if (!changesSinceLastExamination.equals(other.changesSinceLastExamination))
+			return false;
+		if (companion == null) {
+			if (other.companion != null)
+				return false;
+		} else if (!companion.equals(other.companion))
+			return false;
+		if (companyPlant == null) {
+			if (other.companyPlant != null)
+				return false;
+		} else if (!companyPlant.equals(other.companyPlant))
+			return false;
+		if (dangerCategory == null) {
+			if (other.dangerCategory != null)
+				return false;
+		} else if (!dangerCategory.equals(other.dangerCategory))
+			return false;
+		if (dangerCategoryDescription == null) {
+			if (other.dangerCategoryDescription != null)
+				return false;
+		} else if (!dangerCategoryDescription.equals(other.dangerCategoryDescription))
+			return false;
+		if (defectsLastExaminationFixed == null) {
+			if (other.defectsLastExaminationFixed != null)
+				return false;
+		} else if (!defectsLastExaminationFixed.equals(other.defectsLastExaminationFixed))
+			return false;
+		if (energyDemand == null) {
+			if (other.energyDemand != null)
+				return false;
+		} else if (!energyDemand.equals(other.energyDemand))
+			return false;
+		if (examinationComplete == null) {
+			if (other.examinationComplete != null)
+				return false;
+		} else if (!examinationComplete.equals(other.examinationComplete))
+			return false;
+		if (examinationDuration == null) {
+			if (other.examinationDuration != null)
+				return false;
+		} else if (!examinationDuration.equals(other.examinationDuration))
+			return false;
+		if (examinationIncompleteReason == null) {
+			if (other.examinationIncompleteReason != null)
+				return false;
+		} else if (!examinationIncompleteReason.equals(other.examinationIncompleteReason))
+			return false;
+		if (examinationResultDanger == null) {
+			if (other.examinationResultDanger != null)
+				return false;
+		} else if (!examinationResultDanger.equals(other.examinationResultDanger))
+			return false;
+		if (examinationResultDefect == null) {
+			if (other.examinationResultDefect != null)
+				return false;
+		} else if (!examinationResultDefect.equals(other.examinationResultDefect))
+			return false;
+		if (examinationResultDefectDate == null) {
+			if (other.examinationResultDefectDate != null)
+				return false;
+		} else if (!examinationResultDefectDate.equals(other.examinationResultDefectDate))
+			return false;
+		if (examinationResultNoDefect == null) {
+			if (other.examinationResultNoDefect != null)
+				return false;
+		} else if (!examinationResultNoDefect.equals(other.examinationResultNoDefect))
+			return false;
+		if (externalPortableUtilities == null) {
+			if (other.externalPortableUtilities != null)
+				return false;
+		} else if (!externalPortableUtilities.equals(other.externalPortableUtilities))
+			return false;
+		if (frequencyControlledUtilities == null) {
+			if (other.frequencyControlledUtilities != null)
+				return false;
+		} else if (!frequencyControlledUtilities.equals(other.frequencyControlledUtilities))
+			return false;
+		if (hardWiredLoads == null) {
+			if (other.hardWiredLoads != null)
+				return false;
+		} else if (!hardWiredLoads.equals(other.hardWiredLoads))
+			return false;
+		if (internalPortableUtilities == null) {
+			if (other.internalPortableUtilities != null)
+				return false;
+		} else if (!internalPortableUtilities.equals(other.internalPortableUtilities))
+			return false;
+		if (isValid == null) {
+			if (other.isValid != null)
+				return false;
+		} else if (!isValid.equals(other.isValid))
+			return false;
+		if (isolationChecked == null) {
+			if (other.isolationChecked != null)
+				return false;
+		} else if (!isolationChecked.equals(other.isolationChecked))
+			return false;
+		if (isolationCompensationMeasures == null) {
+			if (other.isolationCompensationMeasures != null)
+				return false;
+		} else if (!isolationCompensationMeasures.equals(other.isolationCompensationMeasures))
+			return false;
+		if (isolationCompensationMeasuresAnnotation == null) {
+			if (other.isolationCompensationMeasuresAnnotation != null)
+				return false;
+		} else if (!isolationCompensationMeasuresAnnotation.equals(other.isolationCompensationMeasuresAnnotation))
+			return false;
+		if (isolationMesasurementProtocols == null) {
+			if (other.isolationMesasurementProtocols != null)
+				return false;
+		} else if (!isolationMesasurementProtocols.equals(other.isolationMesasurementProtocols))
+			return false;
+		if (maxEnergyDemandExternal == null) {
+			if (other.maxEnergyDemandExternal != null)
+				return false;
+		} else if (!maxEnergyDemandExternal.equals(other.maxEnergyDemandExternal))
+			return false;
+		if (maxEnergyDemandInternal == null) {
+			if (other.maxEnergyDemandInternal != null)
+				return false;
+		} else if (!maxEnergyDemandInternal.equals(other.maxEnergyDemandInternal))
+			return false;
+		if (precautionsDeclared == null) {
+			if (other.precautionsDeclared != null)
+				return false;
+		} else if (!precautionsDeclared.equals(other.precautionsDeclared))
+			return false;
+		if (precautionsDeclaredLocation == null) {
+			if (other.precautionsDeclaredLocation != null)
+				return false;
+		} else if (!precautionsDeclaredLocation.equals(other.precautionsDeclaredLocation))
+			return false;
+		if (protectedCircuitsPercent == null) {
+			if (other.protectedCircuitsPercent != null)
+				return false;
+		} else if (!protectedCircuitsPercent.equals(other.protectedCircuitsPercent))
+			return false;
+		if (rcdAnnotation == null) {
+			if (other.rcdAnnotation != null)
+				return false;
+		} else if (!rcdAnnotation.equals(other.rcdAnnotation))
+			return false;
+		if (rcdAvailable == null) {
+			if (other.rcdAvailable != null)
+				return false;
+		} else if (!rcdAvailable.equals(other.rcdAvailable))
+			return false;
+		if (rcdAvailablePercent == null) {
+			if (other.rcdAvailablePercent != null)
+				return false;
+		} else if (!rcdAvailablePercent.equals(other.rcdAvailablePercent))
+			return false;
+		if (resistance == null) {
+			if (other.resistance != null)
+				return false;
+		} else if (!resistance.equals(other.resistance))
+			return false;
+		if (resistanceAnnotation == null) {
+			if (other.resistanceAnnotation != null)
+				return false;
+		} else if (!resistanceAnnotation.equals(other.resistanceAnnotation))
+			return false;
+		if (resistanceNumber == null) {
+			if (other.resistanceNumber != null)
+				return false;
+		} else if (!resistanceNumber.equals(other.resistanceNumber))
+			return false;
+		if (subsequentExaminationDate == null) {
+			if (other.subsequentExaminationDate != null)
+				return false;
+		} else if (!subsequentExaminationDate.equals(other.subsequentExaminationDate))
+			return false;
+		if (supplySystem == null) {
+			if (other.supplySystem != null)
+				return false;
+		} else if (!supplySystem.equals(other.supplySystem))
+			return false;
+		if (surveyor == null) {
+			if (other.surveyor != null)
+				return false;
+		} else if (!surveyor.equals(other.surveyor))
+			return false;
+		if (thermalAbnormality == null) {
+			if (other.thermalAbnormality != null)
+				return false;
+		} else if (!thermalAbnormality.equals(other.thermalAbnormality))
+			return false;
+		if (thermalAbnormalityAnnotation == null) {
+			if (other.thermalAbnormalityAnnotation != null)
+				return false;
+		} else if (!thermalAbnormalityAnnotation.equals(other.thermalAbnormalityAnnotation))
+			return false;
+		if (vdsApprovalNr == null) {
+			if (other.vdsApprovalNr != null)
+				return false;
+		} else if (!vdsApprovalNr.equals(other.vdsApprovalNr))
+			return false;
+		if (defects == null) {
+			if (other.defects != null)
+				return false;
+		} else if (!defects.equals(other.defects))
+			return false;
+		return true;
+	}
 }
