@@ -42,9 +42,11 @@ import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -53,6 +55,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
@@ -405,9 +408,24 @@ public class Tab_InspectionResult implements Initializable{
 		defectTableView.setRowFactory( tv -> {
 		    TableRow<FlawListElement> row = new TableRow<>();
 		    row.setOnMouseClicked(event -> {
+		    	//DoubleClick to Edit
 		        if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
 		        	prepareEditOfFlawListElement(row.getItem());
 		        }
+		        //Right Click to open Menu (Remove, ... )
+		        if (event.getButton() == MouseButton.SECONDARY) {
+		        	final ContextMenu contextMenu = new ContextMenu();
+		        	MenuItem remove = new MenuItem("Entfernen");
+		        	remove.setOnAction(new EventHandler<ActionEvent>() {
+		        	    @Override
+		        	    public void handle(ActionEvent event) {
+		        	       defectTableView.getItems().remove(row.getIndex());
+		        	       defectTableView.refresh();
+		        	    }
+		        	});
+		        	contextMenu.getItems().addAll(remove);
+		        	contextMenu.show(row,event.getScreenX(), event.getScreenY());
+                }
 		    });
 		    return row ;
 		});
