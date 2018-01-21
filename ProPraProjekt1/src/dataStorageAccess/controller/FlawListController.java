@@ -49,6 +49,30 @@ public class FlawListController {
 		return FXCollections.observableArrayList(result);
 	}
 	
+	public static void removeFlawList(int reportId) throws SQLException {
+		Statement statement = null;
+		Connection connection = null;
+		String sql = 
+				"DELETE " + 
+				"FROM FlawListElement " + 
+				"WHERE inspectionReportId = " + reportId;
+		try {
+			connection = DataSource.getConnection();
+			statement = connection.createStatement();
+			statement.executeUpdate(sql);
+		}
+		catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} finally {
+			if (statement != null) {
+				statement.close();
+			}
+			if (connection != null) {
+				connection.close();
+			}
+		}
+	}
+	
 	
 	/**
 	 * Insert a Defect into the Database

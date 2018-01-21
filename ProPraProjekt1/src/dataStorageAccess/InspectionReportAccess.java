@@ -74,14 +74,10 @@ public class InspectionReportAccess {
 	 */
 	public static void updateCompleteResult(InspectionReportFull result) throws SQLException {
 		DiagnosisController.updateDiagnosis(result);
-		for (FlawListElement defect : result.getDefects()) {
-			//TODO: Fix inserting/updating FlawListElement
-			//if (defect.getElementId() != -1) {
-			//	DefectController.updateDefect(defect, result.getId());
-			//} else {
-			//	DefectController.insertDefect(defect, result.getId());
-			//}
-		}
+		//Delete old FlawList
+		FlawListController.removeFlawList(result.getId());
+		//Insert new FlawList
+		FlawListController.insertFlawList(result.getDefects(), result.getId());
 	}
 	
 	/**

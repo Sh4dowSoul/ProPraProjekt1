@@ -655,7 +655,7 @@ public class Tab_InspectionResult implements Initializable{
 
 				Optional<ButtonType> Dialogresult = alert.showAndWait();
 				if (Dialogresult.get() == overrideButton){
-					//Override
+					saveInspectionReport(false);
 				}
 				if (Dialogresult.get() == newButton){
 					saveInspectionReport(true);
@@ -675,6 +675,30 @@ public class Tab_InspectionResult implements Initializable{
 			informationReportId.setText(String.valueOf(InspectionReportAccess.saveNewCompleteResult(newInspectionReport)));
 			importedInspectionReport = newInspectionReport;
 			informationSaved.setText("Gespeichert um " + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+		} else {
+			ArrayList<FlawListElement> newFlaws = new ArrayList<>();
+			ArrayList<FlawListElement> editedFlaws = new ArrayList<>();
+			for (FlawListElement currentFlawElement : newInspectionReport.getDefects()) {
+				//Get New FlawListElements
+				if (currentFlawElement.getElementId() == 0) {
+					newFlaws.add(currentFlawElement);
+				} else {
+					//Get Edited FlawListElements
+					for (FlawListElement importedFlawElement : importedFlawList) {
+						if (importedFlawElement.getElementId() == currentFlawElement.getElementId()) {
+							if (!currentFlawElement.equals(importedFlawElement)) {
+								editedFlaws.add(currentFlawElement);
+							}
+						}
+					}
+				}
+			}
+			try {
+				InspectionReportAccess.updateCompleteResult(newInspectionReport);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	

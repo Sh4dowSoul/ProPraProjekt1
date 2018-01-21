@@ -310,14 +310,17 @@ public class DiagnosisController {
 	 * @throws SQLException
 	 */
 	public static void updateDiagnosis(InspectionReportFull diagnosis) throws SQLException {
-		System.out.println("TEST " + diagnosis.getId() + " " + "Test2 " + diagnosis.getExaminationDuration());
-		String statement = "UPDATE Diagnosis "
-				+ "SET inspectionReportLastEdited = ?, plantId = ?, companion = ?, "
+
+		Integer companyId = (diagnosis.getCompanyPlant() != null ? diagnosis.getCompanyPlant().getInternalId() : null);
+		Integer branchId = (diagnosis.getBranch() != null ? diagnosis.getBranch().getExternalId() : null);
+		
+		String statement = "UPDATE InspectionReport "
+				+ "SET InspectionReportLastEdited = ?, plantId = ?, companion = ?, "
 				+ "surveyor = ?, vdsApprovalNr = ?, examinationDate = ?, "
 				+ "examinationDuration = ?, branchId = ?,frequencyControlledUtilities = ?, precautionsDeclared = ?, "
 				+ "precautionsDeclaredWhere = ?, examinationCompleted = ?, subsequentExaminationDate = ?, "
 				+ "subsequentExaminationReason = ?, changesSinceLastExamination = ?, defectsLastExaminationFixed = ?, "
-				+ "dangerCategorieVds = ?, dangerCategorieVdsDescription = ?, examinationResultNoDefect = ?, "
+				+ "dangerCategoryVds = ?, dangerCategoryVdsDescription = ?, examinationResultNoDefect = ?, "
 				+ "examinationResultDefect = ?, examinationResultDefectDate = ?, examinationResultDanger = ?, isolationCheckedEnough = ?, "
 				+ "isolationMeasurementProtocols = ?, isolationCompensationMeasures = ?, isolationCompensationMeasuresAnnotation = ?, "
 				+ "rcdAvailable = ?, rcdAvailablePercent = ?, rcdAnnotation = ?, "
@@ -326,7 +329,7 @@ public class DiagnosisController {
 				+ "externalPortableUtilities = ?, supplySystem = ?, energyDemand = ?, "
 				+ "maxEnergyDemandExternal = ?, maxEnergyDemandInternal = ?, protectedCircuitsPercent = ?, "
 				+ "hardWiredLoads = ?, additionalAnnotations = ? " 
-				+ "WHERE diagnosis_id = " + diagnosis.getId();
+				+ "WHERE InspectionReportId = " + diagnosis.getId();
 
 		PreparedStatement preparedStatement = null;
 		Connection connection = null;
@@ -335,9 +338,9 @@ public class DiagnosisController {
 			preparedStatement = connection.prepareStatement(statement);
 
 			Util.setValues(preparedStatement,
-					diagnosis.getLastEdited(), diagnosis.getCompanyPlant().getInternalId(), diagnosis.getCompanion(), 
+					LocalDate.now(), companyId, diagnosis.getCompanion(), 
 					diagnosis.getSurveyor(), diagnosis.getVdsApprovalNr(), diagnosis.getDate(),
-					diagnosis.getExaminationDuration(),diagnosis.getBranch().getInternalId(), diagnosis.isFrequencyControlledUtilities(),diagnosis.isPrecautionsDeclared(),
+					diagnosis.getExaminationDuration(),branchId, diagnosis.isFrequencyControlledUtilities(),diagnosis.isPrecautionsDeclared(),
 					diagnosis.getPrecautionsDeclaredLocation(), diagnosis.isExaminationComplete(), diagnosis.getSubsequentExaminationDate(),
 					diagnosis.getExaminationIncompleteReason(), diagnosis.getChangesSinceLastExamination(), diagnosis.getDefectsLastExaminationFixed(),
 					diagnosis.getDangerCategory(), diagnosis.getDangerCategoryDescription(), diagnosis.isExaminationResultNoDefect(),
