@@ -30,7 +30,8 @@ public class FlawListController {
 			ResultSet resultSet = statement.executeQuery(
 					"SELECT * " + 
 					"FROM FlawListElement NATURAL JOIN Flaw " + 
-					"WHERE inspectionReportId = " + reportId
+					"WHERE inspectionReportId = " + reportId + " " + 
+					"ORDER BY position"
 			);
 		) {
 			while (resultSet.next()) {
@@ -41,7 +42,8 @@ public class FlawListController {
 						resultSet.getInt("danger"), 
 						resultSet.getString("building"), 
 						resultSet.getString("room"), 
-						resultSet.getString("machine")));
+						resultSet.getString("machine"),
+						resultSet.getInt("position")));
 			}
 		}
 		return FXCollections.observableArrayList(result);
@@ -57,8 +59,8 @@ public class FlawListController {
 	 */
 	public static void insertFlawList(ObservableList<FlawListElement> flawListElements, int inspectionReportId) throws SQLException {
 		String statement = "INSERT INTO FlawListElement "
-				+ "(inspectionReportId, internalFlawId, branchId, danger, building, room, machine) "
-				+ "VALUES(?,?,?,?,?,?,?)";
+				+ "(inspectionReportId, internalFlawId, branchId, danger, building, room, machine, position) "
+				+ "VALUES(?,?,?,?,?,?,?,?)";
 		PreparedStatement preparedStatement = null;
 		Connection connection = null;
 		try {
@@ -74,7 +76,8 @@ public class FlawListController {
 						flawListElement.getDanger(), 
 						flawListElement.getBuilding(), 
 						flawListElement.getRoom(),
-						flawListElement.getMachine()
+						flawListElement.getMachine(),
+						flawListElement.getPosition()
 						);
 				preparedStatement.executeUpdate();
 			}

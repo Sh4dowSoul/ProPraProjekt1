@@ -13,8 +13,9 @@ public class FlawListElement {
 	private String building;
 	private String room;
 	private String machine;
+	private int position;
 	
-	public FlawListElement(int elementId, Flaw flaw, int branchId, int danger, String building, String room, String machine) {
+	public FlawListElement(int elementId, Flaw flaw, int branchId, int danger, String building, String room, String machine, int position) {
 		this.elementId = elementId;
 		this.flaw = flaw;
 		this.branchId = branchId;
@@ -22,17 +23,27 @@ public class FlawListElement {
 		this.building = building;
 		this.room = room;
 		this.machine = machine;
+		this.position = position;
 	}
 	
-	public FlawListElement(Flaw flaw, int branchId, int danger, String building, String room, String machine) {
+	public FlawListElement(Flaw flaw, int branchId, int danger, String building, String room, String machine, int position) {
 		this.flaw = flaw;
 		this.branchId = branchId;
 		this.danger = danger;
 		this.building = building;
 		this.room = room;
 		this.machine = machine;
+		this.position = position;
 	}
 	
+	public int getPosition() {
+		return position;
+	}
+
+	public void setPosition(int position) {
+		this.position = position;
+	}
+
 	public void setElementId(int elementId) {
 		this.elementId = elementId;
 	}

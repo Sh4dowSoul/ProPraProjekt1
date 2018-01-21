@@ -68,7 +68,7 @@ public class DiagnosisController {
 			ResultSet resultSet = statement.executeQuery(
 					"SELECT inspectionReportId, examinationDate, Company.companyId, companyName, inspectionReportLastEdited "+ 
 					"FROM (InspectionReport LEFT JOIN CompanyPlant ON InspectionReport.plantId = CompanyPlant.plantId) LEFT JOIN Company ON CompanyPlant.companyId = Company.companyId "+ 
-					"ORDER BY companyName");
+					"ORDER BY inspectionReportId");
 		) {
 			while (resultSet.next()) {
 				String examinationDateString = resultSet.getString("examinationDate");

@@ -3,20 +3,11 @@ package userInterface;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.Set;
-
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-
 import org.controlsfx.control.Notifications;
 
 
@@ -39,7 +30,6 @@ import de.schnettler.AutocompleteTextField;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -545,7 +535,7 @@ public class Tab_InspectionResult implements Initializable{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return new FlawListElement(currentFlaw, Integer.valueOf(branchText.getText()), defectDanger, buildingText.getText(), roomText.getText(), machineText.getText());
+		return new FlawListElement(currentFlaw, Integer.valueOf(branchText.getText()), defectDanger, buildingText.getText(), roomText.getText(), machineText.getText(), 0);
 	}
 	
 	public void addFlawToTable(ActionEvent add) {
@@ -697,7 +687,7 @@ public class Tab_InspectionResult implements Initializable{
 			defectTableView.setItems(FXCollections.observableArrayList(importedInspectionReport.getDefects()));
 			importedFlawList = new ArrayList<>();
 			for (FlawListElement flaw : importedInspectionReport.getDefects()) {
-				importedFlawList.add(new FlawListElement(flaw.getElementId(), flaw.getFlaw(), flaw.getBranchId(), flaw.getDanger(), flaw.getBuilding(), flaw.getRoom(), flaw.getMachine()));
+				importedFlawList.add(new FlawListElement(flaw.getElementId(), flaw.getFlaw(), flaw.getBranchId(), flaw.getDanger(), flaw.getBuilding(), flaw.getRoom(), flaw.getMachine(), flaw.getPosition()));
 			}
 			
 			//Set current Company(Plant)
@@ -970,6 +960,10 @@ public class Tab_InspectionResult implements Initializable{
 		}
 		newInspectionReport = new InspectionReportFull();
 		newInspectionReport.setId(currentId);
+		//Get current position of Flaws
+		for (FlawListElement element : defectTableView.getItems()) {
+			element.setPosition(defectTableView.getItems().indexOf(element) + 1);
+		}
 		newInspectionReport.setDefects(defectTableView.getItems());
 		
 		//Company
