@@ -315,7 +315,7 @@ public class DiagnosisController {
 		Integer branchId = (diagnosis.getBranch() != null ? diagnosis.getBranch().getExternalId() : null);
 		
 		String statement = "UPDATE InspectionReport "
-				+ "SET InspectionReportLastEdited = ?, plantId = ?, companion = ?, "
+				+ "SET InspectionReportLastEdited = ?, InspectionReportValidated = ? ,plantId = ?, companion = ?, "
 				+ "surveyor = ?, vdsApprovalNr = ?, examinationDate = ?, "
 				+ "examinationDuration = ?, branchId = ?,frequencyControlledUtilities = ?, precautionsDeclared = ?, "
 				+ "precautionsDeclaredWhere = ?, examinationCompleted = ?, subsequentExaminationDate = ?, "
@@ -338,7 +338,7 @@ public class DiagnosisController {
 			preparedStatement = connection.prepareStatement(statement);
 
 			Util.setValues(preparedStatement,
-					LocalDate.now(), companyId, diagnosis.getCompanion(), 
+					LocalDate.now(), diagnosis.isValid() ,companyId, diagnosis.getCompanion(), 
 					diagnosis.getSurveyor(), diagnosis.getVdsApprovalNr(), diagnosis.getDate(),
 					diagnosis.getExaminationDuration(),branchId, diagnosis.isFrequencyControlledUtilities(),diagnosis.isPrecautionsDeclared(),
 					diagnosis.getPrecautionsDeclaredLocation(), diagnosis.isExaminationComplete(), diagnosis.getSubsequentExaminationDate(),
@@ -376,7 +376,7 @@ public class DiagnosisController {
 	public static int insertDiagnosis(InspectionReportFull diagnosis) throws SQLException {
 		int diagnosisId = 0;
 		String statement = "INSERT INTO InspectionReport "
-				+ "(InspectionReportLastEdited, plantId, companion, "
+				+ "(InspectionReportLastEdited, InspectionReportValidated, plantId, companion, "
 				+ "surveyor, vdsApprovalNr, examinationDate, "
 				+ "examinationDuration, branchId,frequencyControlledUtilities, precautionsDeclared, "
 				+ "precautionsDeclaredWhere, examinationCompleted, subsequentExaminationDate, "
@@ -390,7 +390,7 @@ public class DiagnosisController {
 				+ "externalPortableUtilities, supplySystem, energyDemand, "
 				+ "maxEnergyDemandExternal, maxEnergyDemandInternal, protectedCircuitsPercent, "
 				+ "hardWiredLoads, additionalAnnotations) "
-				+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		PreparedStatement preparedStatement = null;
 		Connection connection = null;
 		try {
@@ -402,7 +402,7 @@ public class DiagnosisController {
 			LocalDate lastEdited = LocalDate.now();
 			
 			Util.setValues(preparedStatement,
-					lastEdited, companyId, diagnosis.getCompanion(), 
+					lastEdited, diagnosis.isValid(), companyId, diagnosis.getCompanion(), 
 					diagnosis.getSurveyor(), diagnosis.getVdsApprovalNr(), diagnosis.getDate(),
 					diagnosis.getExaminationDuration(), branchId, diagnosis.isFrequencyControlledUtilities(),diagnosis.isPrecautionsDeclared(),
 					diagnosis.getPrecautionsDeclaredLocation(), diagnosis.isExaminationComplete(), diagnosis.getSubsequentExaminationDate(),

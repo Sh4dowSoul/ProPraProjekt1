@@ -632,6 +632,7 @@ public class Tab_InspectionResult implements Initializable{
 	 */
 	public void saveInspectionReportPrepare(ActionEvent add){
 		fetchInspectionReportData();
+		newInspectionReport.setValid(Util.validateInspectionReport(newInspectionReport, false));
 		if (!isEditMode) {
 			//Save as new InspectionReport
 			saveInspectionReport(true);
@@ -1136,9 +1137,6 @@ public class Tab_InspectionResult implements Initializable{
 	 */
 	public void exportDiagnosis (ActionEvent event) throws IOException{
 		fetchInspectionReportData();
-		if (newInspectionReport.getId() == 0) {
-			//TODO InspectionReport not saved yet
-		}
 		if(Util.validateInspectionReport(newInspectionReport, true)) {
 			PDFExport.export(newInspectionReport);
 		}

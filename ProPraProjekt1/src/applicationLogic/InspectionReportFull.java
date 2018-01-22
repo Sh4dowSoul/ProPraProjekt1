@@ -664,11 +664,6 @@ public class InspectionReportFull extends InspectionReportMinimal {
 				return false;
 		} else if (!internalPortableUtilities.equals(other.internalPortableUtilities))
 			return false;
-		if (isValid == null) {
-			if (other.isValid != null)
-				return false;
-		} else if (!isValid.equals(other.isValid))
-			return false;
 		if (isolationChecked == null) {
 			if (other.isolationChecked != null)
 				return false;
