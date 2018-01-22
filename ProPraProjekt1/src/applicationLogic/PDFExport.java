@@ -730,13 +730,14 @@ public class PDFExport {
 		float paddingP1;
 
 		// Creating PDImageXObject object
-		PDImageXObject pdImage = PDImageXObject.createFromFile("img/pdf_komplett_72dpi.png", document);
+		PDImageXObject pdImage = PDImageXObject.createFromFile("img/pdf_komplett_300dpi.png", document);
 
 		// Creating the PDPageContentStream object
 		contentStream = new PDPageContentStream(document, page1);
 
 		// Drawing the image in the PDF document
-		contentStream.drawImage(pdImage, 0, 692);
+		float scale = 0.655f;
+		contentStream.drawImage(pdImage, 0, 692, pdImage.getWidth()*scale, pdImage.getHeight()*scale);
 
 		// Drawing the small line on the left side of the document
 		drawSeparatorLine(0.75f, 0, 542, 15, 542, false);
