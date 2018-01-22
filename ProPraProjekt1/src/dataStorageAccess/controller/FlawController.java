@@ -40,6 +40,25 @@ public class FlawController {
 		return result;
 	}
 	
+	public static ArrayList<Flaw> getCustomFlaws() throws SQLException {
+		ArrayList<Flaw> result = new ArrayList<Flaw>();
+		try (
+			Connection connection = DataSource.getConnection();
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery("SELECT * FROM Flaw WHERE isCustomFlaw");
+		) {
+			while (resultSet.next()) {
+				result.add(new Flaw(
+						resultSet.getInt("externalFlawId"),
+						resultSet.getInt("internalFlawId"),
+						resultSet.getBoolean("isCustomFlaw"),
+						resultSet.getString("flawDescription")
+						));
+			}
+		}
+		return result;
+	}
+	
 	public static ArrayList<String> getFlawDescription(int externalFlawId) throws SQLException {
 		ArrayList<String> result = new ArrayList<>();
 		try (
