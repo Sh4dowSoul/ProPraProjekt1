@@ -9,6 +9,7 @@ public class Company extends AutocompleteSuggestion{
 	private String street;
 	private int zipCode;
 	private String city;
+	private boolean isDummy;
 	
 	/*
 	 * Id Guide:
@@ -29,6 +30,16 @@ public class Company extends AutocompleteSuggestion{
 		super(internalId, internalId, name);
 	}
 	
+	//Dummy Company
+	public Company(String name) {
+		super(0, 0, name);
+		this.isDummy = true;
+	}
+	
+	public boolean isDummy() {
+		return isDummy;
+	}
+
 	public String getStreet() {
 		return street;
 	}

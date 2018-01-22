@@ -20,12 +20,13 @@ import dataStorageAccess.BranchAccess;
 import dataStorageAccess.CompanyAccess;
 import dataStorageAccess.DefectAccess;
 import dataStorageAccess.StatisticAccess;
+import de.schnettler.AutocompleteSuggestion;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Service;
 import javafx.concurrent.Task;
-import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -45,7 +46,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
-import javafx.scene.chart.XYChart;
 
 /**
  * @author Niklas Schnettler
@@ -72,7 +72,9 @@ public class Tab_Stats implements Initializable{
 	@FXML private CategoryAxis x;
     @FXML private NumberAxis y;
 
-	private Company currentCompany;
+	//Tasks
+	private LoadCompaniesTask companiesTask;
+	private LoadStatisticTask statisticTask;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -88,57 +90,31 @@ public class Tab_Stats implements Initializable{
 		set1.getData().add(new XYChart.Data("1107", 1));
 		BarChart.getData().addAll(set1);
 		
-		setupTabListener();
-		setupStatisticLists();
-		prepareStatsTable();
-		loadCompanyList();
-	    loadBranchesList();
-	    companyList.getSelectionModel().selectFirst();
+		prepareGUI();
+		prepareTasks();
+		setupSelectionListeners();
+		
+		companyList.getSelectionModel().selectFirst();
+		
+	    
     }
 	
-	
-	/**
-	 * Setup Listener to switch between companies and branches
-	 */
-	private void setupTabListener() {
-		statTabs.getSelectionModel().selectedItemProperty().addListener(
-			    new ChangeListener<Tab>() {
-			        @Override
-			        public void changed(ObservableValue<? extends Tab> ov, Tab t, Tab t1) {
-			            switch (t1.getId()) {
-			            	case "companyListTab":
-			            		companyList.getSelectionModel().select(0);
-			            		break;
-			            	case "branchListTab":
-			            		branchList.getSelectionModel().select(0);
-			            		currentCompany = null;
-			            		exportButton.setVisible(false);
-			            		break;
-			            }
-			        }
-			    }
-			);
+	protected void loadCompaniesWithFlaw() {
+		if (!companiesTask.isRunning()) {
+			companiesTask.restart();
+		}
 	}
-
-
-	/**
-	 * Prepare Stats Table
-	 */
-	private void prepareStatsTable() {
-    	statsDefectsColumn.setCellValueFactory(new PropertyValueFactory<FlawStatistic,String>("externalId"));
+	
+	private void prepareGUI() {
+		//TableView
+		statsDefectsColumn.setCellValueFactory(new PropertyValueFactory<FlawStatistic,String>("externalId"));
     	statsDefectDescriptionColumn.setCellValueFactory(new PropertyValueFactory<FlawStatistic,String>("Description"));
     	statsQuantityColumn.setCellValueFactory(new PropertyValueFactory<FlawStatistic,String>("numberOccurrence"));
-	}
-	
-	
-
-	
-	/**
-	 * Prepares Company and Branch Lists
-	 * 		CellFactory: Content of the rows
-	 * 		Listener: Get selected row
-	 */
-	private void setupStatisticLists() {
+    	
+		//Stats Tab (Company - Branch)
+    	companyList.getItems().add(0, new Company("Alle Firmen"));
+    	
+		//Company Cell Factory
 		companyList.setCellFactory(param -> new ListCell<Company>() {
 			@Override
 			protected void updateItem(Company item, boolean empty) {
@@ -152,22 +128,8 @@ public class Tab_Stats implements Initializable{
 				} 
 			}
 		});
-		companyList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Company>() {
-			@Override
-			public void changed(ObservableValue<? extends Company> observable, Company oldValue, Company newValue) {
-				
-				if (newValue.getInternalId() == -1) {
-					loadCompanyStatistic(newValue.getInternalId(), true);
-					exportButton.setVisible(false);
-				}else {
-					loadCompanyStatistic(newValue.getInternalId(), false);
-					currentCompany = newValue;
-					exportButton.setVisible(true);
-				}
-			}
-		});
 		
-		
+		//Branch Cell Factory
 		branchList.setCellFactory(param -> new ListCell<Branch>() {
 			@Override
 			protected void updateItem(Branch item, boolean empty) {
@@ -177,7 +139,7 @@ public class Tab_Stats implements Initializable{
 					setGraphic(null);
 				}
 				else {
-					if (item.getExternalId() != -1) {
+					if (!item.isDummy()) {
 						setText(item.getExternalId() + " - " + item.getDescription());
 					} else {
 						setText(item.getDescription());
@@ -186,125 +148,89 @@ public class Tab_Stats implements Initializable{
 				} 
 			}
 		});
-		branchList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Branch>() {
-			@Override
-			public void changed(ObservableValue<? extends Branch> observable, Branch oldValue, Branch newValue) {
-				if (newValue.getExternalId() == -1) {
-					loadBranchStatistic(newValue.getExternalId(), true);
-				}else {
-					loadBranchStatistic(newValue.getExternalId(), false);
-				}
-			}
+		
+	}
+
+	private void prepareTasks() {
+		//Company Task
+		companiesTask = new LoadCompaniesTask();
+		statCompanyProgress.visibleProperty().bind(companiesTask.runningProperty());
+		companiesTask.setOnSucceeded(event -> {
+			companyList.getItems().remove(1,  companyList.getItems().size());
+			companyList.getItems().addAll(companiesTask.getValue());
+    		companyList.getSelectionModel().select(0);
+		});
+		
+		
+		//Branch Task
+		Task< ObservableList<Branch>> branchesTask = new Task< ObservableList<Branch>>() {
+			   @Override 
+			   protected ObservableList<Branch> call() throws Exception {
+				   return FXCollections.observableArrayList(BranchAccess.getBranches(true));
+			   }
+		};
+		branchesTask.setOnSucceeded(event -> {
+			branchList.setItems((ObservableList<Branch>) branchesTask.getValue());
+			branchList.getItems().add(0, new Branch("Alle Branchen"));
+		});
+		statBranchProgress.visibleProperty().bind(branchesTask.runningProperty());
+		new Thread(branchesTask).start();
+		
+		
+		//Statistic Task
+		statisticTask = new LoadStatisticTask();
+		statResultProgress.visibleProperty().bind(statisticTask.runningProperty());
+		statisticTask.setOnSucceeded(event -> {
+			statisticTableView.setItems(statisticTask.getValue());
 		});
 	}
 
-	
-	/**
-	 * Loads the Companies in a Background Task
-	 */
-	private void loadCompanyList() {
-		final Task<ObservableList<Company>> companyListTask = new Task<ObservableList<Company>>() {
-            @Override
-            protected ObservableList<Company> call() throws Exception {
-        		return FXCollections.observableArrayList(CompanyAccess.getCompanies(true));
-            }
-        };
-        statCompanyProgress.visibleProperty().bind(companyListTask.runningProperty());
-	    companyListTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+	private void setupSelectionListeners() {
+		//Company List Selection Listener
+			companyList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Company>() {
+				@Override
+				public void changed(ObservableValue<? extends Company> observable, Company oldValue, Company newValue) {
+					if (newValue != null) {
+						statisticTask.setItem(newValue);
+						statisticTask.restart();
+						exportButton.setVisible(!newValue.isDummy());		
+					}
+				}
+			});
+		//Branch List Seletion Listener
+		branchList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Branch>() {
 			@Override
-			public void handle(WorkerStateEvent event) {
-				companyList.setItems(companyListTask.getValue());
-				companyList.getItems().add(0, new Company(-1, "Alle Firmen"));
-				companyList.getSelectionModel().select(0);
+			public void changed(ObservableValue<? extends Branch> observable, Branch oldValue, Branch newValue) {
+				if (newValue != null) {
+					statisticTask.setItem(newValue);
+					statisticTask.restart();
+				}
 			}
 		});
-	    companyListTask.setOnFailed(event ->
-	    	System.out.println("ERROR: " + companyListTask.getException())
-	    );
-	    new Thread(companyListTask).start();
+		//TabBar
+		statTabs.getSelectionModel().selectedItemProperty().addListener(
+			    new ChangeListener<Tab>() {
+			        @Override
+			        public void changed(ObservableValue<? extends Tab> ov, Tab t, Tab t1) {
+			        	statisticTableView.getItems().clear();
+			            switch (t1.getId()) {
+			            	case "companyListTab":
+			            		companyList.getSelectionModel().select(0);
+			            		branchList.getSelectionModel().clearSelection();
+			            		break;
+			            	case "branchListTab":
+			            		branchList.getSelectionModel().select(0);
+			            		companyList.getSelectionModel().clearSelection();
+			            		exportButton.setVisible(false);
+			            		break;
+			            }
+			        }
+			    }
+			);
 	}
 	
-	
-	/**
-	 * Loads the Branches in a Background Task
-	 */
-	private void loadBranchesList() {
-		final Task<ObservableList<Branch>> branchListTask = new Task<ObservableList<Branch>>() {
-            @Override
-            protected ObservableList<Branch> call() throws Exception {
-        		return FXCollections.observableArrayList(BranchAccess.getBranches(true));
-            }
-        };
-        statBranchProgress.visibleProperty().bind(branchListTask.runningProperty());
-        branchListTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
-			@Override
-			public void handle(WorkerStateEvent event) {
-				branchList.setItems(branchListTask.getValue());
-				branchList.getItems().add(0, new Branch(-1, "Alle Branchen"));
-				//branchList.getSelectionModel().select(0);
-			}
-		});
-        branchListTask.setOnFailed(event ->
-	    	System.out.println("ERROR: " + branchListTask.getException())
-	    );
-	    new Thread(branchListTask).start();
-	}
-	
-	
-	/**
-	 * Loads the Statistic of a company in a Background Task
-	 * @param companyId - Id of the selected Company
-	 */
-	private void loadCompanyStatistic(int companyId, boolean loadAll) {
-		// TODO Auto-generated method stub
-		final Task<ObservableList<FlawStatistic>> statisticListTask = new Task<ObservableList<FlawStatistic>>() {
-            @Override
-            protected ObservableList<FlawStatistic> call() throws Exception {
-            	if (!loadAll) {
-            		return FXCollections.observableArrayList(DefectAccess.getFrequentDefectsCompany(true, companyId));
-            	} else {
-            		return FXCollections.observableArrayList(DefectAccess.getFrequentDefectsCompany(false, companyId));
-            	}
-        		
-            }
-        };
-        statResultProgress.visibleProperty().bind(statisticListTask.runningProperty());
-        statisticListTask.setOnSucceeded(event ->
-	    	statisticTableView.setItems(statisticListTask.getValue())
-	    );
-        statisticListTask.setOnFailed(event ->
-	    	System.out.println("ERROR: " + statisticListTask.getException())
-	    );
-	    new Thread(statisticListTask).start();
-	}
-	
-	/**
-	 * Loads the Statistic of a Branch in a Background Task
-	 * @param companyId - Id of the selected Company
-	 */
-	private void loadBranchStatistic(int branchId, boolean loadAll) {
-		// TODO Auto-generated method stub
-		final Task<ObservableList<FlawStatistic>> branchStatisticListTask = new Task<ObservableList<FlawStatistic>>() {
-            @Override
-            protected ObservableList<FlawStatistic> call() throws Exception {
-            	if (!loadAll) {
-            		return FXCollections.observableArrayList(DefectAccess.getFrequentDefectsBranch(true, branchId));
-            	} else {
-            		return FXCollections.observableArrayList(DefectAccess.getFrequentDefectsBranch(false, branchId));
-            	}
-        		
-            }
-        };
-        statResultProgress.visibleProperty().bind(branchStatisticListTask.runningProperty());
-        branchStatisticListTask.setOnSucceeded(event ->
-	    	statisticTableView.setItems(branchStatisticListTask.getValue())
-	    );
-        branchStatisticListTask.setOnFailed(event ->
-	    	System.out.println("ERROR: " + branchStatisticListTask.getException())
-	    );
-	    new Thread(branchStatisticListTask).start();
-	}
-	
+
+
 	 /**
 	  * Handle XML Export Button
 	  * 
@@ -312,13 +238,14 @@ public class Tab_Stats implements Initializable{
 	 */
 	@FXML
 	 private void handleExportButton(ActionEvent event) {
-		 if(currentCompany != null) {
+		Company selectedCompany = companyList.getSelectionModel().getSelectedItem(); 
+		 if(!selectedCompany.isDummy()) {
 			 FileChooser fileChooser = new FileChooser();
    		  
              //Set extension filter
              FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Statistik Dateien (*.xml)", "*.xml");
              fileChooser.getExtensionFilters().add(extFilter);
-             fileChooser.setInitialFileName("VdS-Statistik_" + currentCompany.getDescription() + "_" + new SimpleDateFormat("dd_MM_yyyy").format(Calendar.getInstance().getTime()) +".xml");
+             fileChooser.setInitialFileName("VdS-Statistik_" + selectedCompany.getDescription() + "_" + new SimpleDateFormat("dd_MM_yyyy").format(Calendar.getInstance().getTime()) +".xml");
 
              
              //Show save file dialog
@@ -326,7 +253,7 @@ public class Tab_Stats implements Initializable{
              
              if(file != null){
             	 try {
-					StatisticAccess.exportStatisticCompany(currentCompany.getInternalId(), file.getAbsolutePath());
+					StatisticAccess.exportStatisticCompany(selectedCompany.getInternalId(), file.getAbsolutePath());
             		Notifications.create()
                     .title("Erfolgreich gespeichert")
                     .text("Die Statistik "+ file.getName() +" wurde erfolgreich gespeichert ")
@@ -355,10 +282,54 @@ public class Tab_Stats implements Initializable{
 	                 })
 	                 .showError();
 				}
-            	 
-            	 
              }
 	     }
 	 }
 	
+	
+	
+	
+	
+	
+////////////////////////////////////////////////////////////////////////////////////////////////////////	
+//////////////////////////////////////////////TASKS
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+	private static class LoadCompaniesTask extends Service<ObservableList<Company>> {
+		protected Task<ObservableList<Company>> createTask() {
+            return new Task<ObservableList<Company>>() {
+                protected ObservableList<Company> call() throws SQLException {
+                	return FXCollections.observableArrayList(CompanyAccess.getCompanies(true));
+                }
+            };
+        }
+    }
+	
+	/**
+	 * Task to load Statistics of Company/Branch
+	 * Be aware: Not typesafe (AutoCompleteSuggestion needs to be Branch or Company)
+	 * 
+	 * @author Niklas Schnettler
+	 *
+	 */
+	private static class LoadStatisticTask extends Service<ObservableList<FlawStatistic>> {
+		private AutocompleteSuggestion item;
+		
+		protected Task<ObservableList<FlawStatistic>> createTask() {
+            return new Task<ObservableList<FlawStatistic>>() {
+                protected ObservableList<FlawStatistic> call() throws SQLException {
+                	if (item instanceof Company) {
+                		//Statistic of Company
+                		return FXCollections.observableArrayList(DefectAccess.getFrequentDefectsCompany(!((Company) item).isDummy(), item.getInternalId()));
+                	} else {
+                		//Statistic of Branch
+                		return FXCollections.observableArrayList(DefectAccess.getFrequentDefectsBranch(!((Branch) item).isDummy(), item.getInternalId()));
+                	}
+                }
+            };
+        }
+
+		public void setItem(AutocompleteSuggestion item) {
+			this.item = item;
+		}
+    }
 }

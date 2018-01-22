@@ -31,7 +31,7 @@
                <content>
                   <StackPane>
                      <children>
-                        <fx:include source="GUI_Statistic.fxml" />
+                        <fx:include fx:id="statsTab" source="GUI_Statistic.fxml" />
                      </children>
                   </StackPane>
                </content>
