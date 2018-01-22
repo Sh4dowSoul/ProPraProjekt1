@@ -30,6 +30,7 @@ import de.schnettler.AutocompleteTextField;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -215,8 +216,6 @@ public class Tab_InspectionResult implements Initializable{
 	//New Defect
 	int newDefectDanger;
 	boolean tableUpdate = false;
-	//InspectionResult Save
-	private boolean inspectionResultSaved;
 	
 	
 	//Current Working Data
@@ -669,11 +668,16 @@ public class Tab_InspectionResult implements Initializable{
 	}
 	
 	private void saveInspectionReport(boolean newReport) {
+		//save as new Report
 		if (newReport) {
 			informationReportId.setText(String.valueOf(InspectionReportAccess.saveNewCompleteResult(newInspectionReport)));
 			importedInspectionReport = newInspectionReport;
+			setImportedFlawList(newInspectionReport.getDefects());
 			informationSaved.setText("Gespeichert um " + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+			isEditMode = true;
+			informationMode.setText("Bearbeitung");
 		} else {
+			//Override Report
 			ArrayList<FlawListElement> newFlaws = new ArrayList<>();
 			ArrayList<FlawListElement> editedFlaws = new ArrayList<>();
 			for (FlawListElement currentFlawElement : newInspectionReport.getDefects()) {
@@ -693,6 +697,9 @@ public class Tab_InspectionResult implements Initializable{
 			}
 			try {
 				InspectionReportAccess.updateCompleteResult(newInspectionReport);
+				importedInspectionReport = newInspectionReport;
+				setImportedFlawList(newInspectionReport.getDefects());
+				informationSaved.setText("Gespeichert um " + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -715,7 +722,7 @@ public class Tab_InspectionResult implements Initializable{
 	public void importInspectionReport(int id) {
 		//TODO Prepare for a new Session
 		isEditMode = true;
-		informationMode.setText("Bearbeiten");
+		informationMode.setText("Bearbeitung");
 		
 		Boolean currentBoolean = null;
 		Integer currentInteger = null;
@@ -725,10 +732,7 @@ public class Tab_InspectionResult implements Initializable{
 			
 			//Set FlawList to Tableview
 			defectTableView.setItems(FXCollections.observableArrayList(importedInspectionReport.getDefects()));
-			importedFlawList = new ArrayList<>();
-			for (FlawListElement flaw : importedInspectionReport.getDefects()) {
-				importedFlawList.add(new FlawListElement(flaw.getElementId(), flaw.getFlaw(), flaw.getBranchId(), flaw.getDanger(), flaw.getBuilding(), flaw.getRoom(), flaw.getMachine(), flaw.getPosition()));
-			}
+			setImportedFlawList(importedInspectionReport.getDefects());
 			
 			//Set current Company(Plant)
 			if(importedInspectionReport.getCompanyPlant()!= null) {
@@ -988,6 +992,14 @@ public class Tab_InspectionResult implements Initializable{
 	}
 	
 	
+	private void setImportedFlawList(ObservableList<FlawListElement> flaws) {
+		// TODO Auto-generated method stub
+		importedFlawList = new ArrayList<>();
+		for (FlawListElement flaw : importedInspectionReport.getDefects()) {
+			importedFlawList.add(new FlawListElement(flaw.getElementId(), flaw.getFlaw(), flaw.getBranchId(), flaw.getDanger(), flaw.getBuilding(), flaw.getRoom(), flaw.getMachine(), flaw.getPosition()));
+		}
+	}
+
 	/**
 	 * Get user Input
 	 * 
