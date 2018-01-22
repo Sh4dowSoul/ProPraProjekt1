@@ -465,7 +465,6 @@
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             </rowConstraints>
                             <children>
                                 <AutocompleteTextField fx:id="defectSearchField" prefHeight="25.0" prefWidth="1000.0" promptText="Mangel hinzufügen" />
@@ -499,9 +498,11 @@
                                         </TextField>
                                     </children>
                                 </HBox>
-                                <AutocompleteTextField fx:id="branchText" minWidth="100.0" prefWidth="150.0" promptText="Branchen ID" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                <TextField fx:id="customDescriptionText" promptText="Erweiterte Beschreibung" GridPane.rowIndex="3" />
-                                <Button fx:id="addDefectButton" minWidth="100.0" mnemonicParsing="false" onAction="#addFlawToTable" prefWidth="150.0" text="Hinzufügen" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                <AutocompleteTextField fx:id="branchText" minWidth="100.0" prefWidth="150.0" promptText="Branchen ID" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <GridPane.margin>
+                              <Insets left="15.0" />
+                           </GridPane.margin></AutocompleteTextField>
+                                <Button fx:id="addDefectButton" minWidth="100.0" mnemonicParsing="false" onAction="#addFlawToTable" prefWidth="150.0" text="Hinzufügen" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                     <GridPane.margin>
                                         <Insets left="15.0" />
                                     </GridPane.margin>

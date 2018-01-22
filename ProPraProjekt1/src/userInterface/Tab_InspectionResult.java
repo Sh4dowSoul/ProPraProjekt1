@@ -198,7 +198,6 @@ public class Tab_InspectionResult implements Initializable{
 	@FXML private TextField buildingText;
 	@FXML private TextField roomText;
 	@FXML private TextField machineText;
-	@FXML private TextField customDescriptionText;
 	@FXML private CheckBox dangerFireSwitchBox;
 	@FXML private CheckBox dangerPersonSwitchBox;
 	@FXML private Button addDefectButton;
@@ -593,7 +592,6 @@ public class Tab_InspectionResult implements Initializable{
 		roomText.clear();
 		machineText.clear();
 		machineText.clear();
-		customDescriptionText.clear();
 	}
 	
 	/**
