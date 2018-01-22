@@ -160,7 +160,7 @@ public class InspectionReportFull extends InspectionReportMinimal {
 	}
 	
 	public String getExaminationResultDefectDateNice() {
-		return examinationResultDefectDate.format(DateTimeFormatter.ofPattern("dd.MM.YYYY"));
+		return examinationResultDefectDate != null ? examinationResultDefectDate.format(DateTimeFormatter.ofPattern("dd.MM.YYYY")) : "";
 	}
 
 
@@ -391,7 +391,7 @@ public class InspectionReportFull extends InspectionReportMinimal {
 	}
 
 	public String getSubsequentExaminationDateNice() {
-		return subsequentExaminationDate.format(DateTimeFormatter.ofPattern("dd.MM.YYYY"));
+		return (subsequentExaminationDate != null ? subsequentExaminationDate.format(DateTimeFormatter.ofPattern("dd.MM.YYYY")) : "");
 	}
 
 	public String getExaminationIncompleteReason() {
