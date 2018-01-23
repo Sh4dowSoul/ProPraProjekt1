@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane maxHeight="1080.0" maxWidth="1920.0" minWidth="100.0" prefHeight="1000.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userInterface.Tab_Stats">
+<GridPane minHeight="720.0" minWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userInterface.Tab_Stats">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="600.0" minWidth="300.0" percentWidth="15.0" prefWidth="500.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="1000.0" minWidth="400.0" percentWidth="40.0" prefWidth="800.0" />
@@ -18,13 +18,13 @@
          <children>
       <VBox alignment="CENTER" spacing="15.0">
          <children>
-               <TabPane fx:id="statTabs" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" tabClosingPolicy="UNAVAILABLE">
+               <TabPane fx:id="statTabs" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
                   <tabs>
                       <Tab id="companyListTab" fx:id="companyListTab" text="Firma">
                           <content>
                               <StackPane>
                                   <children>
-                                      <ListView fx:id="companyList" prefHeight="1000.0" />
+                                      <ListView fx:id="companyList" />
                                       <ProgressIndicator fx:id="statCompanyProgress" maxHeight="-Infinity" maxWidth="-Infinity" />
                                   </children>
                               </StackPane>
@@ -34,7 +34,7 @@
                           <content>
                               <StackPane>
                                   <children>
-                                      <ListView id="branchList" fx:id="branchList" prefHeight="1000.0" />
+                                      <ListView id="branchList" fx:id="branchList" />
                                       <ProgressIndicator fx:id="statBranchProgress" maxHeight="-Infinity" maxWidth="-Infinity" />
                                   </children>
                               </StackPane>
@@ -67,9 +67,9 @@
                       <ProgressIndicator fx:id="statResultProgress" maxHeight="50.0" maxWidth="50.0" prefHeight="50.0" prefWidth="50.0" />
                   </children>
               </StackPane>
-            <BarChart fx:id="barChart" title="Statistik" GridPane.columnIndex="2" >
+            <BarChart fx:id="barChart" title="Statistik" GridPane.columnIndex="2">
               <xAxis>
-                <CategoryAxis fx:id="xAxis" label="Mangel Nr." side="BOTTOM" />
+                <CategoryAxis label="Mangel Nr." side="BOTTOM" fx:id="xAxis" />
               </xAxis>
               <yAxis>
                 <NumberAxis fx:id="yAxis" label="Anzahl" side="LEFT" />
