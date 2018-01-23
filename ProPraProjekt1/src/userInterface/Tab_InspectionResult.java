@@ -411,14 +411,14 @@ public class Tab_InspectionResult implements Initializable{
 		        	prepareEditOfFlawListElement(row.getItem());
 		        }
 		        //Right Click to open Menu (Remove, ... )
-		        if (event.getButton() == MouseButton.SECONDARY) {
+		        if (!row.isEmpty() && event.getButton() == MouseButton.SECONDARY) {
 		        	final ContextMenu contextMenu = new ContextMenu();
 		        	MenuItem remove = new MenuItem("Entfernen");
 		        	remove.setOnAction(new EventHandler<ActionEvent>() {
 		        	    @Override
 		        	    public void handle(ActionEvent event) {
-		        	       defectTableView.getItems().remove(row.getIndex());
-		        	       defectTableView.refresh();
+		        	    	defectTableView.getItems().remove(row.getIndex());
+		        	    	defectTableView.refresh();
 		        	    }
 		        	});
 		        	contextMenu.getItems().addAll(remove);

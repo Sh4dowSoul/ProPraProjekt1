@@ -30,6 +30,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
@@ -61,9 +62,14 @@ public class Tab_Home implements Initializable{
 		tableColumnInspectionReportId.setCellValueFactory(new PropertyValueFactory<InspectionResultPreview,String>("id"));
 		tableColumnCompany.setCellValueFactory(new PropertyValueFactory<InspectionResultPreview,String>("companyName"));
 		tableColumnDate.setCellValueFactory(new PropertyValueFactory<InspectionResultPreview,String>("niceDate"));
-		tableViewInspectionReports.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-			openInspectionResultOptionsDialog((InspectionResultPreview) tableViewInspectionReports.getSelectionModel().getSelectedItem());
+		tableViewInspectionReports.setRowFactory(tr -> {
+            TableRow<InspectionResultPreview> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+            	openInspectionResultOptionsDialog(row.getItem());
+            });
+            return row;
 		});
+        
 		
 		//Last Edited List
 		recentlyUsedList.setCellFactory(param -> new ListCell<InspectionResultPreview>() {
