@@ -58,7 +58,7 @@ public class InspectionReportAccess {
             .onAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					new ExceptionDialog("Export Fehler", "Fehler beim Exportieren", "Beim Exportieren des Befundscheins ist leider ein Fehler aufgetreten.", e);
+					new ExceptionDialog("Fehler", "Fehler beim Speichern", "Beim Speichern des Befundscheins ist leider ein Fehler aufgetreten.", e);
 				}
             })
             .showError();
@@ -72,12 +72,30 @@ public class InspectionReportAccess {
 	 * @param result - The complete InspectionResult
 	 * @throws SQLException
 	 */
-	public static void updateCompleteResult(InspectionReportFull result) throws SQLException {
-		DiagnosisController.updateDiagnosis(result);
-		//Delete old FlawList
-		FlawListController.removeFlawList(result.getId());
-		//Insert new FlawList
-		FlawListController.insertFlawList(result.getDefects(), result.getId());
+	public static void updateCompleteResult(InspectionReportFull result) {
+		try {
+			DiagnosisController.updateDiagnosis(result);
+			//Delete old FlawList
+			FlawListController.removeFlawList(result.getId());
+			//Insert new FlawList
+			FlawListController.insertFlawList(result.getDefects(), result.getId());
+			Notifications.create()
+            .title("Erfolgreich gespeichert")
+            .text("Der Befundschein wurde erfolgreich gespeichert (überschrieben)")
+            .showInformation();
+		} catch (SQLException e) {
+			Notifications.create()
+            .title("Es ist ein Problem aufgetreten")
+            .text("Der Befundschein konnte leider nicht gespeichert werden.")
+            .hideAfter(Duration.INDEFINITE)
+            .onAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					new ExceptionDialog("Fehler", "Fehler beim Speichern", "Beim Speichern des Befundscheins ist leider ein Fehler aufgetreten.", e);
+				}
+            })
+            .showError();
+		}
 	}
 	
 	/**

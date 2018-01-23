@@ -159,7 +159,6 @@ public class FlawListElement {
 			if (!(machine.isEmpty() && other.machine == null)) {
 				return false;
 			}
-		System.out.println("ROOM " + room + " - " +other.room);
 		if (room == null) {
 			if (other.room != null)
 				return false;

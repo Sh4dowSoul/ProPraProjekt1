@@ -671,48 +671,33 @@ public class Tab_InspectionResult implements Initializable{
 	private void saveInspectionReport(boolean newReport) {
 		//save as new Report
 		if (newReport) {
-			informationReportId.setText(String.valueOf(InspectionReportAccess.saveNewCompleteResult(newInspectionReport)));
+			newInspectionReport.setId(InspectionReportAccess.saveNewCompleteResult(newInspectionReport));
 			importedInspectionReport = newInspectionReport;
 			setImportedFlawList(newInspectionReport.getDefects());
-			informationSaved.setText("Gespeichert um " + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
 			isEditMode = true;
-			informationMode.setText("Bearbeitung");
+			updateInformation();
 		} else {
 			//Override Report
-			ArrayList<FlawListElement> newFlaws = new ArrayList<>();
-			ArrayList<FlawListElement> editedFlaws = new ArrayList<>();
-			for (FlawListElement currentFlawElement : newInspectionReport.getDefects()) {
-				//Get New FlawListElements
-				if (currentFlawElement.getElementId() == 0) {
-					newFlaws.add(currentFlawElement);
-				} else {
-					//Get Edited FlawListElements
-					for (FlawListElement importedFlawElement : importedFlawList) {
-						if (importedFlawElement.getElementId() == currentFlawElement.getElementId()) {
-							if (!currentFlawElement.equals(importedFlawElement)) {
-								editedFlaws.add(currentFlawElement);
-							}
-						}
-					}
-				}
-			}
-			try {
-				InspectionReportAccess.updateCompleteResult(newInspectionReport);
-				importedInspectionReport = newInspectionReport;
-				setImportedFlawList(newInspectionReport.getDefects());
-				informationSaved.setText("Gespeichert um " + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			InspectionReportAccess.updateCompleteResult(newInspectionReport);
+			importedInspectionReport = newInspectionReport;
+			setImportedFlawList(newInspectionReport.getDefects());
+			updateInformation();
 		}
+	}
+	
+	private void updateInformation() {
+		informationReportId.setText(String.valueOf(importedInspectionReport.getId()));
+		String time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"));
+		informationSaved.setText("Gespeichert (" + time + ")");
+		String valid = newInspectionReport.isValid() ? "Vollständig (" : "Unvollständig (";
+		informationValidated.setText(valid + time + ")");
+		informationMode.setText(isEditMode ? "Bearbeitung" : "Neuerstellung");
 	}
 	
 	
 	 public void createNewInspectionReport() {
 		 isEditMode = false;
 		 informationMode.setText("Neuerstellung");
-		 informationReportId.setText("-/-");
 	 }
 	    
 
@@ -1114,6 +1099,11 @@ public class Tab_InspectionResult implements Initializable{
 		currentCompanyPlant = null;
 		newInspectionReport = null;
 		importedInspectionReport = null;
+		importedFlawList = null;
+		informationMode.setText("-/-");
+		informationReportId.setText("-/-");
+		informationSaved.setText("-/-");
+		informationValidated.setText("-/-");
 		currentFlaw = null;
 		currentFlawListElementEdit = null;
 		isEditMode = false;
