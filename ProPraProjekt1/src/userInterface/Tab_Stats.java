@@ -99,7 +99,6 @@ public class Tab_Stats implements Initializable {
 		prepareGUI();
 		prepareTasks();
 		setupSelectionListeners();
-		generateChart();
 
 		companyList.getSelectionModel().selectFirst();
 
@@ -112,6 +111,10 @@ public class Tab_Stats implements Initializable {
 	}
 
 	private void prepareGUI() {
+		//Chart Labels
+		xAxis.setLabel("Mangel Nr");
+		yAxis.setLabel("Anzahl");
+
 		// TableView
 		statsDefectsColumn.setCellValueFactory(new PropertyValueFactory<FlawStatistic, String>("externalId"));
 		statsDefectDescriptionColumn
@@ -185,6 +188,7 @@ public class Tab_Stats implements Initializable {
 		statResultProgress.visibleProperty().bind(statisticTask.runningProperty());
 		statisticTask.setOnSucceeded(event -> {
 			statisticTableView.setItems(statisticTask.getValue());
+			generateChart(statisticTask.getValue());
 		});
 	}
 
@@ -326,17 +330,12 @@ public class Tab_Stats implements Initializable {
 		}
 	}
 
-	private void generateChart() {
-		xAxis.setLabel("Mangel Nr");
-		yAxis.setLabel("Anzahl");
-
-		XYChart.Series series1 = new XYChart.Series();
-		series1.getData().add(new XYChart.Data<>("1801", 6));
-		series1.getData().add(new XYChart.Data<>("1806", 4));
-		series1.getData().add(new XYChart.Data<>("1803", 12));
-		series1.getData().add(new XYChart.Data<>("1993", 8));
-		series1.getData().add(new XYChart.Data<>("1453", 1));
-		barChart.getData().add(series1);
+	private void generateChart(ObservableList<FlawStatistic> data) {
+		XYChart.Series series = new XYChart.Series();
+		for (FlawStatistic flaw : data) {
+			series.getData().add(new XYChart.Data<>(String.valueOf(flaw.getExternalId()), flaw.getNumberOccurrence()));
+		}
+		barChart.getData().clear();
+		barChart.getData().add(series);
 	}
-
 }
