@@ -67,12 +67,12 @@
                       <ProgressIndicator fx:id="statResultProgress" maxHeight="50.0" maxWidth="50.0" prefHeight="50.0" prefWidth="50.0" />
                   </children>
               </StackPane>
-            <BarChart fx:id="BarChart" title="Statistik" GridPane.columnIndex="2">
+            <BarChart fx:id="barChart" title="Statistik" GridPane.columnIndex="2" >
               <xAxis>
-                <CategoryAxis side="BOTTOM" fx:id="x" />
+                <CategoryAxis fx:id="xAxis" label="Mangel Nr." side="BOTTOM" />
               </xAxis>
               <yAxis>
-                <NumberAxis fx:id="y" side="LEFT" />
+                <NumberAxis fx:id="yAxis" label="Anzahl" side="LEFT" />
               </yAxis>
          <GridPane.margin>
             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
