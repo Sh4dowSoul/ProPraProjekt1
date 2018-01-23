@@ -34,7 +34,7 @@ public class DiagnosisController {
 			Connection connection = DataSource.getConnection();
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(
-					"SELECT inspectionReportId, examinationDate, Company.companyId, companyName, inspectionReportLastEdited "+ 
+					"SELECT inspectionReportId, examinationDate, Company.companyId, companyName, inspectionReportLastEdited,InspectionReportValidated "+ 
 					"FROM (InspectionReport LEFT JOIN CompanyPlant on InspectionReport.plantId = CompanyPlant.plantId) Left Join Company on CompanyPlant.companyId = Company.companyId "+ 
 					"ORDER BY inspectionReportLastEdited desc "+
 					"LIMIT " + number);
@@ -50,7 +50,8 @@ public class DiagnosisController {
 						examinationDate, 
 						resultSet.getInt("companyId"), 
 						resultSet.getString("companyName"), 
-						LocalDate.parse(resultSet.getString("inspectionReportLastEdited"))));
+						LocalDate.parse(resultSet.getString("inspectionReportLastEdited")),
+						resultSet.getBoolean("InspectionReportValidated")));
 			}
 		}
 		return result;
@@ -66,7 +67,7 @@ public class DiagnosisController {
 			Connection connection = DataSource.getConnection();
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(
-					"SELECT inspectionReportId, examinationDate, Company.companyId, companyName, inspectionReportLastEdited "+ 
+					"SELECT inspectionReportId, examinationDate, Company.companyId, companyName, inspectionReportLastEdited,InspectionReportValidated "+ 
 					"FROM (InspectionReport LEFT JOIN CompanyPlant ON InspectionReport.plantId = CompanyPlant.plantId) LEFT JOIN Company ON CompanyPlant.companyId = Company.companyId "+ 
 					"ORDER BY inspectionReportId");
 		) {
@@ -81,7 +82,8 @@ public class DiagnosisController {
 						examinationDate,
 						resultSet.getInt("companyId"), 
 						resultSet.getString("companyName"), 
-						LocalDate.parse(resultSet.getString("inspectionReportLastEdited"))));
+						LocalDate.parse(resultSet.getString("inspectionReportLastEdited")),
+						resultSet.getBoolean("InspectionReportValidated")));
 			}
 		}
 		return result;

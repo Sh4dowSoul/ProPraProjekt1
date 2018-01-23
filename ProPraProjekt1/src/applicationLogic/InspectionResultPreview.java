@@ -19,12 +19,15 @@ public class InspectionResultPreview extends InspectionReportMinimal{
 	private String companyName;
 	@XStreamOmitField
 	private LocalDate lastEdited;
+	@XStreamOmitField
+	private boolean isValid;
 	
-	public InspectionResultPreview(int id, LocalDate date, int companyId, String companyName, LocalDate lastEdited) {
+	public InspectionResultPreview(int id, LocalDate date, int companyId, String companyName, LocalDate lastEdited, boolean isValid) {
 		super(id, date);
 		this.companyId = companyId;
 		this.companyName = companyName;
 		this.lastEdited = lastEdited;
+		this.isValid = isValid;
 	}
 	
 	public InspectionResultPreview() {};
@@ -51,5 +54,13 @@ public class InspectionResultPreview extends InspectionReportMinimal{
 	
 	public String getLastEditedNice() {
 		return lastEdited.format(DateTimeFormatter.ofPattern("dd.MM.YYYY"));
+	}
+	
+	public boolean isValid() {
+		return isValid;
+	}
+	
+	public String getValidString() {
+		return isValid ? "Vollständig" : "Unvollständig";
 	}
 }

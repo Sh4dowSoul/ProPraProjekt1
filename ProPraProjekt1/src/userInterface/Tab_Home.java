@@ -62,6 +62,7 @@ public class Tab_Home implements Initializable{
 		tableColumnInspectionReportId.setCellValueFactory(new PropertyValueFactory<InspectionResultPreview,String>("id"));
 		tableColumnCompany.setCellValueFactory(new PropertyValueFactory<InspectionResultPreview,String>("companyName"));
 		tableColumnDate.setCellValueFactory(new PropertyValueFactory<InspectionResultPreview,String>("niceDate"));
+		tableColumnStatus.setCellValueFactory(new PropertyValueFactory<InspectionResultPreview,String>("validString"));
 		tableViewInspectionReports.setRowFactory(tr -> {
             TableRow<InspectionResultPreview> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
@@ -82,7 +83,7 @@ public class Tab_Home implements Initializable{
 				}
 				else {
 					String companyName = item.getCompanyName() != null ? item.getCompanyName() : "Unbekannt";
-					setText("Befundschein " + item.getId() + " - Firma " + companyName + " - Änderung " + item.getLastEditedNice() + " - Status TODO");
+					setText("Befundschein " + item.getId() + " - " + companyName + " - " + item.getLastEditedNice() + " - " + item.getValidString() );
 					setOnMouseClicked(new EventHandler<Event>() {
 						@Override
 						public void handle(Event event) {
