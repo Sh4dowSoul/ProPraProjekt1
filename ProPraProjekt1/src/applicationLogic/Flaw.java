@@ -2,8 +2,6 @@ package applicationLogic;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
-import de.schnettler.AutocompleteSuggestion;
-
 /**
  * The Class Defect
  * 

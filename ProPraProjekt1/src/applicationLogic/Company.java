@@ -1,9 +1,5 @@
 package applicationLogic;
 
-import java.util.ArrayList;
-
-import de.schnettler.AutocompleteSuggestion;
-
 public class Company extends AutocompleteSuggestion{
 
 	private String street;

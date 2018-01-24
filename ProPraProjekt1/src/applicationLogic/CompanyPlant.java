@@ -1,7 +1,5 @@
 package applicationLogic;
 
-import de.schnettler.AutocompleteSuggestion;
-
 public class CompanyPlant extends AutocompleteSuggestion {
 
 	private String street;

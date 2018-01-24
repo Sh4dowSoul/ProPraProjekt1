@@ -1,6 +1,5 @@
 package applicationLogic;
 
-import de.schnettler.AutocompleteSuggestion;
 
 public class Branch extends AutocompleteSuggestion {
 	

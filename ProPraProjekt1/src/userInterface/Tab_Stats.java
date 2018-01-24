@@ -12,6 +12,7 @@ import java.util.ResourceBundle;
 
 import org.controlsfx.control.Notifications;
 
+import applicationLogic.AutocompleteSuggestion;
 import applicationLogic.Branch;
 import applicationLogic.Company;
 import applicationLogic.ExceptionDialog;
@@ -20,7 +21,6 @@ import dataStorageAccess.BranchAccess;
 import dataStorageAccess.CompanyAccess;
 import dataStorageAccess.DefectAccess;
 import dataStorageAccess.StatisticAccess;
-import de.schnettler.AutocompleteSuggestion;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
