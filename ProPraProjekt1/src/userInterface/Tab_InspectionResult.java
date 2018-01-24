@@ -632,15 +632,18 @@ public class Tab_InspectionResult implements Initializable{
 	 */
 	public void saveInspectionReportPrepare(ActionEvent add){
 		fetchInspectionReportData();
+		//Validate
 		newInspectionReport.setValid(Util.validateInspectionReport(newInspectionReport, false));
-		if (!isEditMode) {
-			//Save as new InspectionReport
-			saveInspectionReport(true);
-		} else {
+		//Set imported Defects for Comparison (Unlinked from ObservableList)
+		if (importedFlawList != null) {
 			importedInspectionReport.setDefects(FXCollections.observableArrayList(importedFlawList));
-			//Check if edited
-			if (!importedInspectionReport.equals(newInspectionReport)) {
-				//InspectionReport has been edited
+		}
+		//Check if edited
+		if (!importedInspectionReport.equals(newInspectionReport)) {									//InspectionReport has been edited
+			if (!isEditMode) {
+				//Save as new InspectionReport
+				saveInspectionReport(true);
+			} else {
 				Alert alert = new Alert(AlertType.CONFIRMATION);
 				alert.setTitle("Speichere Befundschein");
 				alert.setHeaderText("Überschreiben oder neu speichern?");
@@ -658,13 +661,13 @@ public class Tab_InspectionResult implements Initializable{
 				if (Dialogresult.get() == newButton){
 					saveInspectionReport(true);
 				}
-			} else {
+			}
+		} else {
 				Alert alert = new Alert(AlertType.INFORMATION);
 				alert.setTitle("Information: Keine Änderung erkannt");
 				alert.setHeaderText("Information: Keine Änderung erkannt");
 				alert.setContentText("Es wurde keine Änderung des Befundscheins erkannt, deshabl wurde der Speichervorgnag abgebrochen");
 				alert.show();
-			}
 		}
 	}
 	
@@ -673,7 +676,9 @@ public class Tab_InspectionResult implements Initializable{
 		if (newReport) {
 			newInspectionReport.setId(InspectionReportAccess.saveNewCompleteResult(newInspectionReport));
 			importedInspectionReport = newInspectionReport;
-			setImportedFlawList(newInspectionReport.getDefects());
+			if(newInspectionReport.getDefects() != null) {
+				setImportedFlawList(newInspectionReport.getDefects());
+			}
 			isEditMode = true;
 			updateInformation();
 		} else {
@@ -698,6 +703,7 @@ public class Tab_InspectionResult implements Initializable{
 	 public void createNewInspectionReport() {
 		 isEditMode = false;
 		 informationMode.setText("Neuerstellung");
+		 importedInspectionReport = new InspectionReportFull();
 	 }
 	    
 
@@ -1002,7 +1008,8 @@ public class Tab_InspectionResult implements Initializable{
 		for (FlawListElement element : defectTableView.getItems()) {
 			element.setPosition(defectTableView.getItems().indexOf(element) + 1);
 		}
-		newInspectionReport.setDefects(defectTableView.getItems());
+		
+		newInspectionReport.setDefects(defectTableView.getItems().isEmpty() ? null : defectTableView.getItems());
 		
 		//Company
 		if (currentCompanyPlant != null) {
@@ -1011,8 +1018,10 @@ public class Tab_InspectionResult implements Initializable{
 		}
 		
 		//ExaminationInfo
-		newInspectionReport.setCompanion(plantCompanionField.getText());
-		newInspectionReport.setSurveyor(plantExpertField.getText());
+		String plantCompanion = plantCompanionField.getText();
+		newInspectionReport.setCompanion(plantCompanion != null && !plantCompanion.isEmpty()? plantCompanion : null);
+		String plantExpert = plantExpertField.getText();
+		newInspectionReport.setSurveyor(plantExpert != null && !plantExpert.isEmpty()? plantExpert : null);
 		if (Util.validateInt(plantAnerkNrField, true)){
 			newInspectionReport.setVdsApprovalNr(Integer.valueOf(plantAnerkNrField.getText()));
 		}
@@ -1027,16 +1036,19 @@ public class Tab_InspectionResult implements Initializable{
 		}
 		newInspectionReport.setFrequencyControlledUtilities(freqGroup.getSelectedToggle() != null ? freqYesBtn.isSelected() : null);
 		newInspectionReport.setPrecautionsDeclared(precautionGroup.getSelectedToggle() != null ? precautionYesBtn.isSelected() : null);
-		newInspectionReport.setPrecautionsDeclaredLocation(precautionField.getText());
+		String precautionsDeclaredLocation = precautionField.getText();
+		newInspectionReport.setPrecautionsDeclaredLocation(precautionsDeclaredLocation != null && !precautionsDeclaredLocation.isEmpty()? precautionsDeclaredLocation : null);
 		newInspectionReport.setExaminationComplete(completeGroup.getSelectedToggle() != null ? completeYesBtn.isSelected() : null);
 		newInspectionReport.setSubsequentExaminationDate(datePickerSubsequentExaminationDate.getValue());
-		newInspectionReport.setExaminationIncompleteReason(completeReasonField.getText());
+		String examinationIncompleteReason = completeReasonField.getText();
+		newInspectionReport.setExaminationIncompleteReason(examinationIncompleteReason != null && !examinationIncompleteReason.isEmpty()? examinationIncompleteReason : null);
 		newInspectionReport.setChangesSinceLastExamination(changesSinceLastExaminationGroup.getSelectedToggle() != null ? Util.getSelectedToggle(changesSinceLastExaminationGroup) : null);
 		newInspectionReport.setDefectsLastExaminationFixed(defectsLastExaminationFixedGroup.getSelectedToggle() != null ? Util.getSelectedToggle(defectsLastExaminationFixedGroup) : null);
 		
 		//Gesamtbeurteilung der Anlage
 		newInspectionReport.setDangerCategory(dangerCategorieGroup.getSelectedToggle() != null ? Util.getSelectedToggle(dangerCategorieGroup) : null);
-		newInspectionReport.setDangerCategoryDescription(dangerCategoryExtensionField.getText());
+		String dangerCategoryDescription = dangerCategoryExtensionField.getText();
+		newInspectionReport.setDangerCategoryDescription(dangerCategoryDescription != null && !dangerCategoryDescription.isEmpty()? dangerCategoryDescription : null);
 		
 		//Prüfergebnis
 		newInspectionReport.setExaminationResultNoDefect(noDefectsBtn.isSelected());
@@ -1049,19 +1061,23 @@ public class Tab_InspectionResult implements Initializable{
 		newInspectionReport.setIsolationChecked(IsoMinGroup.getSelectedToggle() != null ? isoMinYesBtn.isSelected() : null);
 		newInspectionReport.setIsolationMesasurementProtocols(IsoProtocollGroup.getSelectedToggle() != null ? isoProtocolYesBtn.isSelected() : null);
 		newInspectionReport.setIsolationCompensationMeasures(IsoCompensationGroup.getSelectedToggle() != null ? isoCompensationYesBtn.isSelected() : null);
-		newInspectionReport.setIsolationCompensationMeasuresAnnotation(isoCompensationCommentField.getText());
+		String isolationCompensationMeasuresAnnotation = isoCompensationCommentField.getText();
+		newInspectionReport.setIsolationCompensationMeasuresAnnotation(isolationCompensationMeasuresAnnotation != null && !isolationCompensationMeasuresAnnotation.isEmpty()? isolationCompensationMeasuresAnnotation : null);
 		newInspectionReport.setRcdAvailable(RcdGroup.getSelectedToggle() != null ? rcdAllBtn.isSelected() : null);
 		if (Util.validateDouble(rcdPercentageField)) {
 			newInspectionReport.setRcdAvailablePercent(Double.valueOf(rcdPercentageField.getText()));
 		}
-		newInspectionReport.setRcdAnnotation(rcdCommentField.getText());
+		String rcdAnnotation = rcdCommentField.getText();
+		newInspectionReport.setRcdAnnotation(rcdAnnotation != null && !rcdAnnotation.isEmpty()? rcdAnnotation : null);
 		newInspectionReport.setResistance(ResistanceGroup.getSelectedToggle() != null ? resistanceYesBtn.isSelected() : null);
 		if (Util.validateInt(resistancePercentageField, true)) {
 			newInspectionReport.setResistanceNumber(Integer.valueOf(resistancePercentageField.getText()));
 		}
-		newInspectionReport.setResistanceAnnotation(resistanceCommentField.getText());
+		String resistanceAnnotation = resistanceCommentField.getText();
+		newInspectionReport.setResistanceAnnotation(resistanceAnnotation != null && !resistanceAnnotation.isEmpty()? resistanceAnnotation : null);
 		newInspectionReport.setThermalAbnormality(ThermicGroup.getSelectedToggle() != null ? thermicYesBtn.isSelected() : null);
-		newInspectionReport.setThermalAbnormalityAnnotation(thermicCommentField.getText());
+		String thermalAbnormalityAnnotation = thermicCommentField.getText();
+		newInspectionReport.setThermalAbnormalityAnnotation(thermalAbnormalityAnnotation != null && !thermalAbnormalityAnnotation.isEmpty()? thermalAbnormalityAnnotation : null);
 		
 		
 		
@@ -1085,7 +1101,7 @@ public class Tab_InspectionResult implements Initializable{
 			newInspectionReport.setProtectedCircuitsPercent(Integer.valueOf(protectedCirclesPercentageField.getText()));
 		}
 		newInspectionReport.setHardWiredLoads(HardWiredLoadsGroup.getSelectedToggle() != null ? Util.getSelectedToggle(HardWiredLoadsGroup) : null);
-		newInspectionReport.setAdditionalAnnotations(furtherExplanationsField.getText());
+		newInspectionReport.setAdditionalAnnotations(furtherExplanationsField.getText() != null && !furtherExplanationsField.getText().isEmpty()? furtherExplanationsField.getText() : null);
 	}
 	
 	
@@ -1134,35 +1150,29 @@ public class Tab_InspectionResult implements Initializable{
 	
 	public void closeDiagnosis (ActionEvent event) throws IOException{
 		fetchInspectionReportData();
-		if (!isEditMode) {
-			//TODO: Check if something has been entered
-			mainController.closeDiagnosis();
-			cleanUpSession();
-		} else {
-			//Check for Changes 
-			if (!importedInspectionReport.equals(newInspectionReport)) {
-				Alert alert = new Alert(AlertType.WARNING);
-				alert.setTitle("Warnung - Befundschein nicht gesichert");
-				alert.setHeaderText("Achtung, der aktuelle Befundschein wurde noch nicht gespeichert.");
-				alert.setContentText("Wollen sie den Befundschein verwerfen?");
-				ButtonType discardButton = new ButtonType("Verwerfen");
-				ButtonType saveButton = new ButtonType("Speichern");
-				ButtonType cancelButton = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
-				alert.getButtonTypes().setAll(discardButton, saveButton, cancelButton);					
-				Optional<ButtonType> result = alert.showAndWait();
-				if (result.get() == discardButton){
-					//Discard
-					mainController.closeDiagnosis();
-					cleanUpSession();
-				} else if (result.get() == saveButton) {
-					//Prepare Save
-					saveInspectionReportPrepare(null);
-				}
-			} else{
-				//No Changes
+		//Check for Changes 
+		if (!importedInspectionReport.equals(newInspectionReport)) {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Warnung - Befundschein nicht gesichert");
+			alert.setHeaderText("Achtung, der aktuelle Befundschein wurde noch nicht gespeichert.");
+			alert.setContentText("Wollen sie den Befundschein verwerfen?");
+			ButtonType discardButton = new ButtonType("Verwerfen");
+			ButtonType saveButton = new ButtonType("Speichern");
+			ButtonType cancelButton = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+			alert.getButtonTypes().setAll(discardButton, saveButton, cancelButton);					
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == discardButton){
+				//Discard
 				mainController.closeDiagnosis();
 				cleanUpSession();
+			} else if (result.get() == saveButton) {
+				//Prepare Save
+				saveInspectionReportPrepare(null);
 			}
+		} else{
+			//No Changes
+			mainController.closeDiagnosis();
+			cleanUpSession();
 		}
 	}
 	
