@@ -32,8 +32,8 @@ public class StatisticController {
 			ResultSet resultSet = statement.executeQuery(
 					"SELECT externalFlawId, flawDescription, count(*) " + 
 					"FROM FlawListElement JOIN InspectionReport ON FlawListElement.inspectionReportId = InspectionReport.inspectionReportId NATURAL JOIN FLAW NATURAL JOIN CompanyPlant NATURAL JOIN Company " + 
-					"where InspectionReportvalidated = 1 " +
-					"GROUP BY externalFlawId " + 
+					"WHERE InspectionReportvalidated " +
+					"GROUP BY externalFlawId, CompanyId " + 
 					"Having companyId = " + id + " " +
 					"ORDER BY count(externalFlawId) desc " 
 					);
@@ -58,7 +58,7 @@ public class StatisticController {
 			ResultSet resultSet = statement.executeQuery(
 					"SELECT externalFlawId, flawDescription, count(*) " + 
 					"FROM FlawListElement JOIN InspectionReport ON FlawListElement.inspectionReportId = InspectionReport.inspectionReportId NATURAL JOIN Flaw " + 
-					"where InspectionReportvalidated = 1 " +
+					"WHERE InspectionReportvalidated " +
 					"GROUP BY externalFlawId " + 
 					"ORDER BY count(*) desc " 
 					);
@@ -84,8 +84,9 @@ public class StatisticController {
 			ResultSet resultSet = statement.executeQuery(
 					"SELECT externalFlawId, flawDescription, count(*) " + 
 					"FROM FlawListElement JOIN InspectionReport ON FlawListElement.inspectionReportId = InspectionReport.inspectionReportId NATURAL JOIN Flaw " + 
-					"WHERE FlawListElement.branchId = " + id + " and InspectionReportvalidated = 1 " +
-					"GROUP BY externalFlawId " + 
+					"WHERE InspectionReportvalidated " +
+					"GROUP BY externalFlawId, FlawListElement.BranchId " + 
+					"HAVING FlawListElement.branchId = " + id +" " +
 					"ORDER BY count(*) desc "
 				);
 			) {
@@ -110,8 +111,8 @@ public class StatisticController {
 			ResultSet resultSet = statement.executeQuery(
 					"SELECT externalFlawId, flawDescription, count(*) " + 
 					"FROM FlawListElement JOIN InspectionReport ON FlawListElement.inspectionReportId = InspectionReport.inspectionReportId NATURAL JOIN Flaw " + 
-					"where InspectionReportvalidated = 1 " +
-					"GROUP BY externalFlawId " + 
+					"WHERE InspectionReportvalidated " +
+					"GROUP BY externalFlawId, FlawListElement.BranchId " + 
 					"ORDER BY count(*) desc "
 				);
 			) {
