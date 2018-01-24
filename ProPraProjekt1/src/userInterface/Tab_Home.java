@@ -8,13 +8,12 @@ import java.util.ResourceBundle;
 import org.controlsfx.control.Notifications;
 
 import applicationLogic.ExceptionDialog;
-import applicationLogic.InspectionReportFull;
 import applicationLogic.InspectionResultPreview;
 import applicationLogic.PDFExport;
-import applicationLogic.Util;
 import dataStorageAccess.InspectionReportAccess;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -51,12 +50,45 @@ public class Tab_Home implements Initializable{
 
 	private GUIController mainController;
 	
+	//Tasks
+	private LoadReportstask loadLastEditedReports;
+	private LoadReportstask loadAllReports;
+	
+	//Parent Controller
+	public void setParentController(GUIController parentController) {
+	    this.mainController = parentController;
+	}
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		setupGUI();
-		loadData();
+		prepareTasks();
+		loadReports();
     }
 	
+	protected void loadReports() {
+		System.out.println("LOADING DATA");
+		loadLastEditedReports.restart();
+		loadAllReports.restart();
+	}
+
+	private void prepareTasks() {
+		// Load Last Edited Task
+		loadLastEditedReports = new LoadReportstask(true);
+		loadLastEditedReports.setOnSucceeded(event ->{
+			recentlyUsedList.setItems(loadLastEditedReports.getValue());
+			recentlyUsedList.refresh();
+		});
+		
+		// Load all Task
+		loadAllReports = new LoadReportstask(false);
+		diagnosisTableProgress.visibleProperty().bind(loadAllReports.runningProperty());
+		loadAllReports.setOnSucceeded(event -> {
+			tableViewInspectionReports.setItems(loadAllReports.getValue());
+			tableViewInspectionReports.refresh();
+		});
+	}
+
 	private void setupGUI() {
 		//InspectionReport TableView
 		tableColumnInspectionReportId.setCellValueFactory(new PropertyValueFactory<InspectionResultPreview,String>("id"));
@@ -95,14 +127,7 @@ public class Tab_Home implements Initializable{
 		});
 	}
 
-	private void loadData() {
-		loadLastEdited();
-		loadAllDiagnoses();
-	}
 	
-	public void setParentController(GUIController parentController) {
-	    this.mainController = parentController;
-	}
 	
 	/**
 	 * Adds diagnosis to the database
@@ -150,42 +175,23 @@ public class Tab_Home implements Initializable{
 		}
 	}
 	
-	/**
-	 * Load Last Edited List
-	 */
-	public void loadLastEdited() {
-		final Task<ObservableList<InspectionResultPreview>> lastEditedListTask = new Task<ObservableList<InspectionResultPreview>>() {
-            @Override
-            protected ObservableList<InspectionResultPreview> call() throws Exception {
-        		return FXCollections.observableArrayList(InspectionReportAccess.getResultsPreview(true));
-            }
-        };
-        lastEditedListTask.setOnSucceeded(event ->
-        	recentlyUsedList.setItems(lastEditedListTask.getValue())
-	    );
-        lastEditedListTask.setOnFailed(event ->
-	    	System.out.println("ERROR: " + lastEditedListTask.getException())
-	    );
-	    new Thread(lastEditedListTask).start();
-	}
 	
-	/**
-	 * Load all Diagnoses
-	 */
-	public void loadAllDiagnoses() {
-		final Task<ObservableList<InspectionResultPreview>> allDiagnosesTask = new Task<ObservableList<InspectionResultPreview>>() {
-            @Override
-            protected ObservableList<InspectionResultPreview> call() throws Exception {
-        		return FXCollections.observableArrayList(InspectionReportAccess.getResultsPreview(false));
-            }
-        };
-        diagnosisTableProgress.visibleProperty().bind(allDiagnosesTask.runningProperty());
-        allDiagnosesTask.setOnSucceeded(event ->
-        tableViewInspectionReports.setItems(allDiagnosesTask.getValue())
-	    );
-        allDiagnosesTask.setOnFailed(event ->
-	    	System.out.println("ERROR: " + allDiagnosesTask.getException())
-	    );
-	    new Thread(allDiagnosesTask).start();
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////// TASKS
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
+	private static class LoadReportstask extends Service<ObservableList<InspectionResultPreview>> {
+		private boolean lastEdited;
+		
+		public LoadReportstask (boolean lastEdited) {
+			this.lastEdited = lastEdited;
+		}
+		
+		protected Task<ObservableList<InspectionResultPreview>> createTask() {
+			return new Task<ObservableList<InspectionResultPreview>>() {
+				protected ObservableList<InspectionResultPreview> call() throws SQLException {
+					return FXCollections.observableArrayList(InspectionReportAccess.getResultsPreview(lastEdited));
+				}
+			};
+		}
 	}
 }

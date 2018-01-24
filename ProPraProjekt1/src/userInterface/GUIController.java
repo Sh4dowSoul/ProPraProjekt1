@@ -59,7 +59,6 @@ public class GUIController implements Initializable{
 		mainTabPane.getSelectionModel().select(0);
 		diagnosisTab.setDisable(true);
 		homeTab1.setDisable(false);
-		homeTabController.loadAllDiagnoses();
-		homeTabController.loadLastEdited();
+		homeTabController.loadReports();
 	}
 }
