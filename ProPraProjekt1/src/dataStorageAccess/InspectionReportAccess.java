@@ -45,7 +45,9 @@ public class InspectionReportAccess {
 		int diagnosisId = 0;
 		try {
 			diagnosisId = DiagnosisController.insertDiagnosis(result);
-			FlawListController.insertFlawList(result.getDefects(), diagnosisId);
+			if (result.getDefects() != null) {
+				FlawListController.insertFlawList(result.getDefects(), diagnosisId);
+			}
 			Notifications.create()
             .title("Erfolgreich gespeichert")
             .text("Der Befundschein wurde erfolgreich gespeichert ")
