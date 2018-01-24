@@ -71,10 +71,10 @@
                                         <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
                                         <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
                                         <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="75.0" vgrow="SOMETIMES" />
                                     </rowConstraints>
                                     <children>
-                                        <Label prefHeight="78.0" prefWidth="303.0" text="Sind frequenzgesteuerte Betriebsmittel (z.B. Motoren) in der elektrischen Anlage installiert?" wrapText="true" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                        <Label prefHeight="78.0" prefWidth="303.0" text="Sind frequenzgesteuerte Betriebsmittel in der elektrischen Anlage installiert?" wrapText="true" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
                                         <RadioButton id="freqYesBtn" fx:id="freqYesBtn" mnemonicParsing="false" text="Ja" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                             <toggleGroup>
                                                 <ToggleGroup fx:id="freqGroup" />
@@ -105,7 +105,7 @@
                                             </GridPane.margin>
                                         </RadioButton>
                                         <RadioButton id="completeNoBtn" fx:id="completeNoBtn" mnemonicParsing="false" text="Nein" toggleGroup="$completeGroup" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                                        <TextField fx:id="completeReasonField" maxWidth="300.0" promptText="Begründung für nicht geprüfte Bereiche:" GridPane.rowIndex="5" />
+                                        <TextField fx:id="completeReasonField" maxWidth="300.0" promptText="Begründung für nicht geprüfte Bereiche" GridPane.rowIndex="5" />
                                         <Label text="Wurden nach Aussagen des Betreibers Teilbereiche der Anlage seit der letzten Revision erneuert, erweiter oder umgebaut?" wrapText="true" GridPane.rowIndex="6" />
                                         <RadioButton id="changesSinceLastExaminationNoBtn" fx:id="changesSinceLastExaminationNoBtn" mnemonicParsing="false" text="Nein" GridPane.columnIndex="2" GridPane.rowIndex="6">
                                             <toggleGroup>
@@ -173,8 +173,8 @@
                                             </GridPane.margin>
                                         </Label>
                                         <CheckBox id="noDefectsBtn" fx:id="noDefectsBtn" mnemonicParsing="false" text="Keine Mangel festgestellt" GridPane.rowIndex="12" />
-                                        <CheckBox id="defectsAttachedBtn" fx:id="defectsAttachedBtn" mnemonicParsing="false" text="Die festgestellten Mängel sind im Anhang A ausfgeführt und spätestens zu beseitigen bis: " wrapText="true" GridPane.rowIndex="13" />
-                                        <CheckBox id="removeDefectsImmediatelyBtn" fx:id="removeDefectsImmediatelyBtn" mnemonicParsing="false" text="Es wurden Mängel festgestellt, die eine Brandgefahr (mit &quot;X&quot; gekennzeichnet) bzw. eine Unfallgefahr (mit „O“ gekennzeichnet) hervorrufen können. " wrapText="true" GridPane.rowIndex="14" />
+                                        <CheckBox id="defectsAttachedBtn" fx:id="defectsAttachedBtn" mnemonicParsing="false" text="Die festgestellten Mängel sind im Anhang A ausfgeführt" wrapText="true" GridPane.rowIndex="13" />
+                                        <CheckBox id="removeDefectsImmediatelyBtn" fx:id="removeDefectsImmediatelyBtn" mnemonicParsing="false" text="Es wurden Mängel festgestellt, die eine Brandgefahr bzw. eine Unfallgefahr hervorrufen können. " wrapText="true" GridPane.rowIndex="14" />
                                         <Label text="Messungen" GridPane.rowIndex="15">
                                             <font>
                                                 <Font name="System Bold Italic" size="14.0" />
@@ -329,8 +329,8 @@
                                         <Label text="Maximal mögliche Eigenerzeugung (ohne Ersatzstrom) in %, &#10;bezogen auf o. g. Gesamtleistungsbedarf" GridPane.rowIndex="34" />
                                         <TextField id="externalPowerPercentageField" fx:id="externalPowerPercentageField" prefHeight="25.0" prefWidth="47.0" promptText="\%" GridPane.columnIndex="1" GridPane.rowIndex="33" />
                                         <TextField id="maxCapacityPercentageField" fx:id="maxCapacityPercentageField" prefHeight="25.0" prefWidth="47.0" promptText="\%" GridPane.columnIndex="1" GridPane.rowIndex="34" />
-                                        <Label text="Fehlerstrom-Schutzeinrichtung (RCD)oder &#10;Differenzstrom-Überwachung (RCM)" GridPane.rowIndex="35" />
-                                        <TextField id="protectedCirclesPercentageField" fx:id="protectedCirclesPercentageField" prefHeight="25.0" prefWidth="47.0" promptText="geschützte Stromkreise in %" GridPane.columnIndex="1" GridPane.rowIndex="35" />
+                                        <Label text="RCD oder RCM - geschützte Stromkreise" wrapText="true" GridPane.rowIndex="35" />
+                                        <TextField id="protectedCirclesPercentageField" fx:id="protectedCirclesPercentageField" prefHeight="25.0" prefWidth="47.0" promptText="\%" GridPane.columnIndex="1" GridPane.rowIndex="35" />
                                         <Label text="Für statistische Zwecke" GridPane.rowIndex="36">
                                             <font>
                                                 <Font name="System Bold Italic" size="14.0" />
@@ -350,8 +350,10 @@
                                         <RadioButton id="hardWiredLoadsUnder5000Btn" fx:id="hardWiredLoadsUnder5000Btn" mnemonicParsing="false" text="&lt;= 5000" toggleGroup="$HardWiredLoadsGroup" GridPane.columnIndex="1" GridPane.rowIndex="38" />
                                         <RadioButton id="hardWiredLoadsAbove5000Btn" fx:id="hardWiredLoadsAbove5000Btn" mnemonicParsing="false" text="&gt; 5000" toggleGroup="$HardWiredLoadsGroup" GridPane.columnIndex="2" GridPane.rowIndex="38" />
                                         <TextArea id="furtherExplanationsField" fx:id="furtherExplanationsField" prefHeight="81.0" prefWidth="476.0" promptText="Weitere Erläuterungen wie z. B. verwendete Messgeräte (optional)" GridPane.rowIndex="39" />
-                                        <DatePicker fx:id="datePickerSubsequentExaminationDate" editable="false" promptText="Nachbesichtigung bis" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-                                        <DatePicker fx:id="datePickerResolvedUntil" promptText="Datum" GridPane.columnIndex="3" GridPane.rowIndex="13" />
+                                        <DatePicker fx:id="datePickerSubsequentExaminationDate" editable="false" promptText="Datum" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+                                        <DatePicker fx:id="datePickerResolvedUntil" editable="false" promptText="Datum" GridPane.columnIndex="3" GridPane.rowIndex="13" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Zu beseitigen bis" GridPane.columnIndex="2" GridPane.rowIndex="13" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nachbesichtigung bis" GridPane.columnIndex="2" GridPane.rowIndex="5" />
                                     </children>
                                 </GridPane>
                             </bottom>
