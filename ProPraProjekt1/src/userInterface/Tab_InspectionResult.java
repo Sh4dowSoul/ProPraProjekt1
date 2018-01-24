@@ -725,6 +725,9 @@ public class Tab_InspectionResult implements Initializable{
 			//Set FlawList to Tableview
 			defectTableView.setItems(FXCollections.observableArrayList(importedInspectionReport.getDefects()));
 			setImportedFlawList(importedInspectionReport.getDefects());
+			if (importedFlawList == null) {
+				importedInspectionReport.setDefects(null);
+			}
 			
 			//Set current Company(Plant)
 			if(importedInspectionReport.getCompanyPlant()!= null) {
@@ -985,10 +988,12 @@ public class Tab_InspectionResult implements Initializable{
 	
 	
 	private void setImportedFlawList(ObservableList<FlawListElement> flaws) {
-		// TODO Auto-generated method stub
-		importedFlawList = new ArrayList<>();
-		for (FlawListElement flaw : importedInspectionReport.getDefects()) {
-			importedFlawList.add(new FlawListElement(flaw.getElementId(), flaw.getFlaw(), flaw.getBranchId(), flaw.getDanger(), flaw.getBuilding(), flaw.getRoom(), flaw.getMachine(), flaw.getPosition()));
+		importedFlawList = null;
+		if (flaws != null && !flaws.isEmpty()) {
+			importedFlawList = new ArrayList<>();
+			for (FlawListElement flaw : importedInspectionReport.getDefects()) {
+				importedFlawList.add(new FlawListElement(flaw.getElementId(), flaw.getFlaw(), flaw.getBranchId(), flaw.getDanger(), flaw.getBuilding(), flaw.getRoom(), flaw.getMachine(), flaw.getPosition()));
+			}
 		}
 	}
 

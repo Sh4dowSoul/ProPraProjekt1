@@ -80,7 +80,9 @@ public class InspectionReportAccess {
 			//Delete old FlawList
 			FlawListController.removeFlawList(result.getId());
 			//Insert new FlawList
-			FlawListController.insertFlawList(result.getDefects(), result.getId());
+			if (result.getDefects() != null) {
+				FlawListController.insertFlawList(result.getDefects(), result.getId());
+			}
 			Notifications.create()
             .title("Erfolgreich gespeichert")
             .text("Der Befundschein wurde erfolgreich gespeichert (überschrieben)")
