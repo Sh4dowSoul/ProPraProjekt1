@@ -50,7 +50,7 @@ public class StatisticController {
 	 * @return A List of the most Frequent Defects across all Companies
 	 * @throws SQLException
 	 */
-	public static ArrayList<FlawStatistic> getMostFrequentDefectAllCompanies() throws SQLException{
+	public static ArrayList<FlawStatistic> getMostFrequentDefects() throws SQLException{
 		ArrayList<FlawStatistic> result = new ArrayList<FlawStatistic>();
 		try (
 			Connection connection = DataSource.getConnection();
@@ -95,33 +95,5 @@ public class StatisticController {
 			}
 		}
 		return result;
-	}
-	
-	
-	/**
-	 * @param id - Id of a Branch
-	 * @return A List of the most Frequent Defects of a Branch
-	 * @throws SQLException
-	 */
-	public static ArrayList<FlawStatistic> getMostFrequentDefectAllBranches() throws SQLException{
-		ArrayList<FlawStatistic> result = new ArrayList<FlawStatistic>();
-		try (
-			Connection connection = DataSource.getConnection();
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(
-					"SELECT externalFlawId, flawDescription, count(*) " + 
-					"FROM FlawListElement JOIN InspectionReport ON FlawListElement.inspectionReportId = InspectionReport.inspectionReportId NATURAL JOIN Flaw " + 
-					"WHERE InspectionReportvalidated " +
-					"GROUP BY externalFlawId, FlawListElement.BranchId " + 
-					"ORDER BY count(*) desc "
-				);
-			) {
-			while (resultSet.next()) {
-				result.add(new FlawStatistic(resultSet.getInt("externalFlawId"), resultSet.getString("flawDescription"), resultSet.getInt("count(*)")));
-			}
-		}
-		return result;
-	}
-	
-	
+	}	
 }

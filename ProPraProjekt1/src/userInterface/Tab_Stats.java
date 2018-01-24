@@ -114,6 +114,7 @@ public class Tab_Stats implements Initializable {
 		//Chart Labels
 		xAxis.setLabel("Mangel Nr");
 		yAxis.setLabel("Anzahl");
+		barChart.setAnimated(false);
 
 		// TableView
 		statsDefectsColumn.setCellValueFactory(new PropertyValueFactory<FlawStatistic, String>("externalId"));
@@ -147,12 +148,7 @@ public class Tab_Stats implements Initializable {
 					setText(null);
 					setGraphic(null);
 				} else {
-					if (!item.isDummy()) {
-						setText(item.getExternalId() + " - " + item.getDescription());
-					} else {
-						setText(item.getDescription());
-					}
-
+					setText(item.getExternalId() + " - " + item.getDescription());
 				}
 			}
 		});
@@ -174,7 +170,6 @@ public class Tab_Stats implements Initializable {
 		statBranchProgress.visibleProperty().bind(branchesTask.runningProperty());
 		branchesTask.setOnSucceeded(event -> {
 			branchList.setItems((ObservableList<Branch>) branchesTask.getValue());
-			branchList.getItems().add(0, new Branch("Alle Branchen"));
 		});
 
 		// Statistic Task
@@ -323,7 +318,7 @@ public class Tab_Stats implements Initializable {
 					} else {
 						// Statistic of Branch
 						return FXCollections.observableArrayList(DefectAccess
-								.getFrequentDefectsBranch(!((Branch) item).isDummy(), item.getInternalId()));
+								.getFrequentDefectsBranch(item.getExternalId()));
 					}
 				}
 			};
@@ -339,7 +334,6 @@ public class Tab_Stats implements Initializable {
 		for (FlawStatistic flaw : data) {
 			series.getData().add(new XYChart.Data<>(String.valueOf(flaw.getExternalId()), flaw.getNumberOccurrence()));
 		}
-		barChart.getData().clear();
-		barChart.getData().add(series);
+		barChart.setData(FXCollections.observableArrayList(series));
 	}
 }

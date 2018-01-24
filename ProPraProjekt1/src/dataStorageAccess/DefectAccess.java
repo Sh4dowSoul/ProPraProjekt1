@@ -23,7 +23,7 @@ public class DefectAccess {
 		if (singleCompany) {
 			return StatisticController.getMostFrequentDefectCompany(companyId);
 		} else {
-			return StatisticController.getMostFrequentDefectAllCompanies();
+			return StatisticController.getMostFrequentDefects();
 		}
 	}
 	
@@ -35,13 +35,7 @@ public class DefectAccess {
 	 * @return A List of the most frequent defects
 	 * @throws SQLException
 	 */
-	public static ArrayList<FlawStatistic> getFrequentDefectsBranch(boolean singleBranch, int branchId) throws SQLException{
-		if (singleBranch) {
-			return StatisticController.getMostFrequentDefectBranch(branchId);
-		} else {
-			return StatisticController.getMostFrequentDefectAllBranches();
-		}
+	public static ArrayList<FlawStatistic> getFrequentDefectsBranch(int branchId) throws SQLException{
+		return StatisticController.getMostFrequentDefectBranch(branchId);
 	}
-	
-	
 }
