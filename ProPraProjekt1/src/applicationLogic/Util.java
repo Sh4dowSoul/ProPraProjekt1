@@ -3,7 +3,6 @@ package applicationLogic;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Collections;
-import java.util.Optional;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -14,16 +13,15 @@ import javax.validation.ValidatorFactory;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.layout.Pane;
 
 /**
@@ -131,6 +129,10 @@ public class Util {
             			} else {
             				if (newnode instanceof ComboBox) {
             					((ComboBox) newnode).setValue(null);
+            				} else {
+            					if (newnode instanceof TextArea) {
+            						((TextArea) newnode).clear();
+            		            }
             				}
             			}
             		}
