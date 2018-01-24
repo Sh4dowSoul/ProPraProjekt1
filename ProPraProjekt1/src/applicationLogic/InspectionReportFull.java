@@ -49,10 +49,10 @@ public class InspectionReportFull extends InspectionReportMinimal {
 	private Integer dangerCategory;
 	//
 	private String dangerCategoryDescription;
-	private Boolean examinationResultNoDefect;
-	private Boolean examinationResultDefect;
+	private boolean examinationResultNoDefect;
+	private boolean examinationResultDefect;
 	private LocalDate examinationResultDefectDate;
-	private Boolean examinationResultDanger;
+	private boolean examinationResultDanger;
 	@NotNull(message = "Isolationswiderstand")
 	private Boolean isolationChecked;
 	@NotNull(message = "Messprotokolle über Isolationswiderstandsmessungen")
@@ -96,8 +96,8 @@ public class InspectionReportFull extends InspectionReportMinimal {
 			Double examinationDuration, Branch branch, Boolean frequencyControlledUtilities, Boolean precautionsDeclared,
 			String precautionsDeclaredLocation, Boolean examinationComplete, LocalDate subsequentExaminationDate,
 			String examinationIncompleteReason, Integer changesSinceLastExamination, Integer defectsLastExaminationFixed,
-			Integer dangerCategory, String dangerCategoryDescription, Boolean examinationResultNoDefect,
-			Boolean examinationResultDefect, LocalDate examinationResultDefectDate,  Boolean examinationResultDanger, Boolean isolationChecked,
+			Integer dangerCategory, String dangerCategoryDescription, boolean examinationResultNoDefect,
+			boolean examinationResultDefect, LocalDate examinationResultDefectDate,  boolean examinationResultDanger, Boolean isolationChecked,
 			Boolean isolationMesasurementProtocols, Boolean isolationCompensationMeasures,
 			String isolationCompensationMeasuresAnnotation, Boolean rcdAvailable, Double rcdAvailablePercent,
 			String rcdAnnotation, Boolean resistance, Integer resistanceNumber, String resistanceAnnotation,
@@ -624,25 +624,16 @@ public class InspectionReportFull extends InspectionReportMinimal {
 				return false;
 		} else if (!examinationIncompleteReason.equals(other.examinationIncompleteReason))
 			return false;
-		if (examinationResultDanger == null) {
-			if (other.examinationResultDanger != null)
-				return false;
-		} else if (!examinationResultDanger.equals(other.examinationResultDanger))
+		if (examinationResultDanger != other.examinationResultDanger)
 			return false;
-		if (examinationResultDefect == null) {
-			if (other.examinationResultDefect != null)
-				return false;
-		} else if (!examinationResultDefect.equals(other.examinationResultDefect))
+		if (examinationResultDefect != other.examinationResultDefect)
 			return false;
 		if (examinationResultDefectDate == null) {
 			if (other.examinationResultDefectDate != null)
 				return false;
 		} else if (!examinationResultDefectDate.equals(other.examinationResultDefectDate))
 			return false;
-		if (examinationResultNoDefect == null) {
-			if (other.examinationResultNoDefect != null)
-				return false;
-		} else if (!examinationResultNoDefect.equals(other.examinationResultNoDefect))
+		if (examinationResultNoDefect != other.examinationResultNoDefect)
 			return false;
 		if (externalPortableUtilities == null) {
 			if (other.externalPortableUtilities != null)
