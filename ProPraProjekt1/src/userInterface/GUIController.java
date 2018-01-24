@@ -33,7 +33,7 @@ public class GUIController implements Initializable{
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 				switch (newValue.intValue()) {
 				case 2:
-					statsTabController.loadCompaniesWithFlaw();
+					statsTabController.loadData();
 					break;
 
 				default:

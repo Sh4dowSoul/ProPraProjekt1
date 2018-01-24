@@ -91,6 +91,7 @@ public class Tab_Stats implements Initializable {
 
 	// Tasks
 	private LoadCompaniesTask companiesTask;
+	private LoadBranchesTask branchesTask;
 	private LoadStatisticTask statisticTask;
 
 	@Override
@@ -104,10 +105,9 @@ public class Tab_Stats implements Initializable {
 
 	}
 
-	protected void loadCompaniesWithFlaw() {
-		if (!companiesTask.isRunning()) {
-			companiesTask.restart();
-		}
+	protected void loadData() {
+		companiesTask.restart();
+		branchesTask.restart();
 	}
 
 	private void prepareGUI() {
@@ -170,18 +170,12 @@ public class Tab_Stats implements Initializable {
 		});
 
 		// Branch Task
-		Task<ObservableList<Branch>> branchesTask = new Task<ObservableList<Branch>>() {
-			@Override
-			protected ObservableList<Branch> call() throws Exception {
-				return FXCollections.observableArrayList(BranchAccess.getBranches(true));
-			}
-		};
+		branchesTask = new LoadBranchesTask();
+		statBranchProgress.visibleProperty().bind(branchesTask.runningProperty());
 		branchesTask.setOnSucceeded(event -> {
 			branchList.setItems((ObservableList<Branch>) branchesTask.getValue());
 			branchList.getItems().add(0, new Branch("Alle Branchen"));
 		});
-		statBranchProgress.visibleProperty().bind(branchesTask.runningProperty());
-		new Thread(branchesTask).start();
 
 		// Statistic Task
 		statisticTask = new LoadStatisticTask();
@@ -294,6 +288,16 @@ public class Tab_Stats implements Initializable {
 			return new Task<ObservableList<Company>>() {
 				protected ObservableList<Company> call() throws SQLException {
 					return FXCollections.observableArrayList(CompanyAccess.getCompanies(true));
+				}
+			};
+		}
+	}
+	
+	private static class LoadBranchesTask extends Service<ObservableList<Branch>> {
+		protected Task<ObservableList<Branch>> createTask() {
+			return new Task<ObservableList<Branch>>() {
+				protected ObservableList<Branch> call() throws SQLException {
+					return FXCollections.observableArrayList(BranchAccess.getBranches(true));
 				}
 			};
 		}
