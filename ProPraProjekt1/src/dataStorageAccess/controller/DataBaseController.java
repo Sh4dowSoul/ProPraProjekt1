@@ -1,16 +1,25 @@
 package dataStorageAccess.controller;
 
+import java.io.FileNotFoundException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import applicationLogic.Branch;
+import applicationLogic.Flaw;
+import applicationLogic.FlawListElement;
+import applicationLogic.Util;
+import dataStorageAccess.BranchAccess;
 import dataStorageAccess.DataSource;
+import dataStorageAccess.FlawAccess;
 
 public class DataBaseController {
 
-	public static void createNewDataBase() throws SQLException {
+	public static void createNewDataBase() throws SQLException, FileNotFoundException {
 		Statement statement = null;
 		Connection connection = null;
+		PreparedStatement preparedStatement = null;
 		try {
 			connection = DataSource.getConnection();
 			statement = connection.createStatement();
@@ -105,6 +114,35 @@ public class DataBaseController {
 					+ "additionalAnnotations TEXT, "
 					+ "FOREIGN KEY(plantId) REFERENCES CompanyPlant(plantId), "
 					+ "PRIMARY KEY(inspectionReportId))");
+			
+			//Insert Default branches
+			String stmt = "INSERT INTO Branch "
+					+ "(branchId, branchName) "
+					+ "VALUES(?,?)";
+			preparedStatement = connection.prepareStatement(stmt);
+			for(Branch branch : BranchAccess.importBranchesFromXml()) {
+				Util.setValues(
+						preparedStatement, 
+						branch.getInternalId(),
+						branch.getDescription()
+						);
+				preparedStatement.executeUpdate();
+			}
+			
+			//Insert Default Flaws
+			stmt = "INSERT INTO Flaw "
+					+ "(internalFlawId, externalFlawId, isCustomFlaw, flawDescription) "
+					+ "VALUES(?,?,?,?)";
+			preparedStatement = connection.prepareStatement(stmt);
+			for (Flaw flaw : FlawAccess.importFlawsFromXml()) {
+				Util.setValues(preparedStatement,
+						flaw.getInternalId(),
+						flaw.getExternalId(),
+						flaw.isCustomFlaw(),
+						flaw.getDescription()
+						);
+				preparedStatement.executeUpdate();
+			}
 		}
 		catch (SQLException e) {
 			e.printStackTrace();

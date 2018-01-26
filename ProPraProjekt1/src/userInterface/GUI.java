@@ -10,10 +10,12 @@ import com.google.common.io.Files;
 import dataStorageAccess.DataSource;
 import dataStorageAccess.controller.DataBaseController;
 import javafx.application.Application;
+import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
@@ -30,7 +32,7 @@ public class GUI extends Application {
 	
 	
 	@Override
-	public void start(Stage primaryStage) throws IOException, SQLException {
+	public void start(Stage primaryStage) throws IOException, SQLException, InterruptedException {
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("DefectManager");
 		primaryStage.setWidth(1300);	//width of anchorpane/mainLayout
@@ -59,17 +61,45 @@ public class GUI extends Application {
 				// Show save file dialog
 				File file = fileChooser.showOpenDialog(primaryStage);
 
+				//Copy and rename selected DatabaseFile
 				if (file != null) {
 					Files.copy(file, new File(DataSource.getDatabasePath()));
 				}
+				
+				//TODO Validate Imported DB
+				//Initialize Connection Pool
+				DataSource.configDataSource();
+				showMainView();
 			} else {
 				//Create New Database
+				Alert creatingDbDialog = new Alert(AlertType.INFORMATION);
+				creatingDbDialog.setTitle("Erstelle Datenbank");
+				creatingDbDialog.setHeaderText("Erstelle neue Datenbank und füge Standardwerte ein");
+				ProgressIndicator progressIndicator = new ProgressIndicator();
+				creatingDbDialog.setGraphic(progressIndicator);
+				creatingDbDialog.show();
+	            
+				//Initialize Connection Pool
 				DataSource.configDataSource();
-				DataBaseController.createNewDataBase();
-				//showMainView();
+				
+				createNewDbTask.setOnSucceeded(event -> {
+					creatingDbDialog.close();
+					try {
+						showMainView();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				});
+				
+				//Create DB
+				Thread thread = new Thread(createNewDbTask);
+				thread.start();
 			}
-			
 		} else {
+			//Prepare ConnectionPool
+			DataSource.configDataSource();
+			//TODO ValidateDB Structure
 			showMainView();
 		}
 		
@@ -93,4 +123,11 @@ public class GUI extends Application {
 		launch(args);
 	}
 	
+	Task<Void> createNewDbTask = new Task<Void>() {
+		@Override 
+		protected Void call() throws Exception {
+			DataBaseController.createNewDataBase();
+			return null;
+		}
+	};
 }

@@ -2,13 +2,16 @@ package dataStorageAccess;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 
 import applicationLogic.Flaw;
 import dataStorageAccess.controller.FlawController;
@@ -48,5 +51,11 @@ public class FlawAccess {
 		}
 		bw.flush();
 		bw.close();
+	}
+	
+	public static ArrayList<Flaw> importFlawsFromXml() throws FileNotFoundException {
+		XStream xs = new XStream(new DomDriver());
+        FileInputStream fis = new FileInputStream("ressources/Flaws.xml");
+        return (ArrayList<Flaw>) xs.fromXML(fis);
 	}
 }

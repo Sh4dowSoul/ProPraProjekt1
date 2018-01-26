@@ -1235,7 +1235,7 @@ public class Tab_InspectionResult implements Initializable{
         	defectSearchField.getEntries().addAll(autocompleteTask.getValue())
     	);
         autocompleteTask.setOnFailed(event ->
-	    	System.out.println("ERROR: " + autocompleteTask.getException())
+	    	autocompleteTask.getException().printStackTrace()
 	    );
 	    new Thread(autocompleteTask).start();
 	    
@@ -1267,7 +1267,7 @@ public class Tab_InspectionResult implements Initializable{
         	branchText.getEntries().addAll(branchAutocompleteTask.getValue())
     	);
         branchAutocompleteTask.setOnFailed(event ->
-	    	System.out.println("ERROR: " + branchAutocompleteTask.getException())
+	    	branchAutocompleteTask.getException().printStackTrace()
 	    );
 	    new Thread(branchAutocompleteTask).start();
 	    //Change AutoCompletionMode to Complete by ID
@@ -1296,7 +1296,7 @@ public class Tab_InspectionResult implements Initializable{
         	comboBoxCompanyName.setItems(FXCollections.observableArrayList(companyList));
         });
         loadCompaniesTask.setOnFailed(event ->
-	    	System.out.println("ERROR: " + loadCompaniesTask.getException())
+	    	loadCompaniesTask.getException().printStackTrace()
 	    );
 	    new Thread(loadCompaniesTask).start();
 	}
@@ -1317,7 +1317,7 @@ public class Tab_InspectionResult implements Initializable{
         	comboBoxCompanyPlantStreet.setItems(FXCollections.observableArrayList(companyPlantsList));
         });
         loadCompaniePlantTask.setOnFailed(event ->
-	    	System.out.println("ERROR: " + loadCompaniePlantTask.getException())
+	    	loadCompaniePlantTask.getException().printStackTrace()
 	    );
 	    new Thread(loadCompaniePlantTask).start();
 	}

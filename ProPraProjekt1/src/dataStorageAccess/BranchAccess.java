@@ -1,7 +1,12 @@
 package dataStorageAccess;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 
 import applicationLogic.Branch;
 import dataStorageAccess.controller.BranchController;
@@ -24,5 +29,11 @@ public class BranchAccess {
 		} else {
 			return BranchController.getAllBranches();
 		}
+	}
+	
+	public static ArrayList <Branch> importBranchesFromXml() throws FileNotFoundException {
+		XStream xs = new XStream(new DomDriver());
+        FileInputStream fis = new FileInputStream("ressources/Branches.xml");
+        return (ArrayList<Branch>) xs.fromXML(fis);
 	}
 }

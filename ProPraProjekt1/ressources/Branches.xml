@@ -1,0 +1,470 @@
+<list>
+  <applicationLogic.Branch>
+    <externalId>0</externalId>
+    <internalId>0</internalId>
+    <description>Allgemeine Bereiche</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>1</externalId>
+    <internalId>1</internalId>
+    <description>Büroräume, Sozialräume, Unterkünfte und Treppenräume</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>2</externalId>
+    <internalId>2</internalId>
+    <description>Läger, Siloanlagen (auch im Freien)</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>3</externalId>
+    <internalId>3</internalId>
+    <description>Elektrische Betriebsräume, -bereiche (auch im Freien)</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>4</externalId>
+    <internalId>4</internalId>
+    <description>Laboratorien, Dauerversuchsräume</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>5</externalId>
+    <internalId>5</internalId>
+    <description>Elektronische Datenverarbeitung</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>6</externalId>
+    <internalId>6</internalId>
+    <description>Transportanlagen, Fördersysteme</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>7</externalId>
+    <internalId>7</internalId>
+    <description>Freiflächen (Straßen, Hof)</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>8</externalId>
+    <internalId>8</internalId>
+    <description>Dienstleistungsbetriebe</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>9</externalId>
+    <internalId>9</internalId>
+    <description>sonstige Bereiche</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>100</externalId>
+    <internalId>100</internalId>
+    <description>Grundstoffindustrie</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>101</externalId>
+    <internalId>101</internalId>
+    <description>Erze</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>102</externalId>
+    <internalId>102</internalId>
+    <description>Kohle, Koks</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>103</externalId>
+    <internalId>103</internalId>
+    <description>Gas</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>104</externalId>
+    <internalId>104</internalId>
+    <description>Erdöl</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>105</externalId>
+    <internalId>105</internalId>
+    <description>Kali, Saline</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>200</externalId>
+    <internalId>200</internalId>
+    <description>Steine, Erden</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>201</externalId>
+    <internalId>201</internalId>
+    <description>Steinbrüche und Gruben für Kies, Sand, Ton, Gips, Kalk und Quarz</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>202</externalId>
+    <internalId>202</internalId>
+    <description>Herstellung von Zement, Kalk, Gips und feuerfesten Materialien</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>203</externalId>
+    <internalId>203</internalId>
+    <description>Keramik, Glas, Ziegel</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>204</externalId>
+    <internalId>204</internalId>
+    <description>Bauindustrie, Baustoffe, Bauteile, Baustellen</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>205</externalId>
+    <internalId>205</internalId>
+    <description>Bitumen-Mischanlagen, Teersplitt</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>300</externalId>
+    <internalId>300</internalId>
+    <description>Metallverarbeitung</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>301</externalId>
+    <internalId>301</internalId>
+    <description>Metallerzeugung, Metallverarbeitung bis zum Halbzeug (Hochofen, Verhüttung, Gießereien, Walzwerke)</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>302</externalId>
+    <internalId>302</internalId>
+    <description>Metallver- und -bearbeitung</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>303</externalId>
+    <internalId>303</internalId>
+    <description>Fahrzeugbau, Wartung, Reparatur</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>304</externalId>
+    <internalId>304</internalId>
+    <description>Luftfahrzeugbau, Wartung, Reparatur, Flughafenbetriebe</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>305</externalId>
+    <internalId>305</internalId>
+    <description>Schiffbau</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>306</externalId>
+    <internalId>306</internalId>
+    <description>Elektrotechnische Betriebe</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>400</externalId>
+    <internalId>400</internalId>
+    <description>Chemie, Kunststoffe</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>401</externalId>
+    <internalId>401</internalId>
+    <description>Raffinerien einschließlich Produktlagerung</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>402</externalId>
+    <internalId>402</internalId>
+    <description>Herstellung von Kunststoffen, Farben und Lacken</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>403</externalId>
+    <internalId>403</internalId>
+    <description>Verarbeitung von Kunst-, Schaumstoffen, Farben und Lacke</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>404</externalId>
+    <internalId>404</internalId>
+    <description>Pharmazeutische und kosmetische Industrie</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>405</externalId>
+    <internalId>405</internalId>
+    <description>Düngemittelindustrie</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>406</externalId>
+    <internalId>406</internalId>
+    <description>Herstellung von Pulver, Sprengstoff, Zündwaren und anderen pyrotechnischen Erzeugnissen</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>407</externalId>
+    <internalId>407</internalId>
+    <description>Sonstige chemische Fabriken</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>408</externalId>
+    <internalId>408</internalId>
+    <description>Tankstellen und Tankläger</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>500</externalId>
+    <internalId>500</internalId>
+    <description>Textil</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>501</externalId>
+    <internalId>501</internalId>
+    <description>Faserherstellung</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>502</externalId>
+    <internalId>502</internalId>
+    <description>Faserverarbeitung</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>503</externalId>
+    <internalId>503</internalId>
+    <description>Bekleidungsindustrie</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>504</externalId>
+    <internalId>504</internalId>
+    <description>Bett- und Polsterwaren</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>505</externalId>
+    <internalId>505</internalId>
+    <description>Waschanstalten, chemische Reinigung und Färberei</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>600</externalId>
+    <internalId>600</internalId>
+    <description>Leder, Papier</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>601</externalId>
+    <internalId>601</internalId>
+    <description>Lederherstellung</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>602</externalId>
+    <internalId>602</internalId>
+    <description>Lederverarbeitung</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>603</externalId>
+    <internalId>603</internalId>
+    <description>Gummiherstellung und -verarbeitung</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>604</externalId>
+    <internalId>604</internalId>
+    <description>Papier- und Zellstoffherstellung</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>605</externalId>
+    <internalId>605</internalId>
+    <description>Papier- und Zellstoffverarbeitung</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>606</externalId>
+    <internalId>606</internalId>
+    <description>Dachpappenherstellung</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>607</externalId>
+    <internalId>607</internalId>
+    <description>Druckereien, Buchbindereien</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>700</externalId>
+    <internalId>700</internalId>
+    <description>Holz</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>701</externalId>
+    <internalId>701</internalId>
+    <description>Sägewerke</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>702</externalId>
+    <internalId>702</internalId>
+    <description>Spanplattenherstellung</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>703</externalId>
+    <internalId>703</internalId>
+    <description>Holzverarbeitung</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>704</externalId>
+    <internalId>704</internalId>
+    <description>Kork- und Korbwaren</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>800</externalId>
+    <internalId>800</internalId>
+    <description>Nahrungs- und Genussmittel</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>801</externalId>
+    <internalId>801</internalId>
+    <description>Getränkeindustrie (Mälzen, Brauen, Brennen, Kellern, Mineralwässer, Limonaden)</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>802</externalId>
+    <internalId>802</internalId>
+    <description>Mühlenbetriebe und Futtermittelbetriebe</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>803</externalId>
+    <internalId>803</internalId>
+    <description>Milch-, Fleisch-, Fischverarbeitung, Konservenfabriken</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>804</externalId>
+    <internalId>804</internalId>
+    <description>Süßwarenindustrie</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>805</externalId>
+    <internalId>805</internalId>
+    <description>Zuckerindustrie</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>806</externalId>
+    <internalId>806</internalId>
+    <description>Tabakwarenindustrie</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>807</externalId>
+    <internalId>807</internalId>
+    <description>Backwarenherstellung, Darr-, Frittier- und Röstbetriebe</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>808</externalId>
+    <internalId>808</internalId>
+    <description>Speiseöl-, Speisefettherstellung</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>809</externalId>
+    <internalId>809</internalId>
+    <description>Kühlhäuser</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>900</externalId>
+    <internalId>900</internalId>
+    <description>Sonstige industrielle und großgewerbliche Betriebe</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>901</externalId>
+    <internalId>901</internalId>
+    <description>Versammlungsstätten (Theater, Zirkus, Kino, Burgen, Sportstätten, Kirchen)</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>902</externalId>
+    <internalId>902</internalId>
+    <description>Hotel- und Gaststättenbetriebe, Kantinen</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>903</externalId>
+    <internalId>903</internalId>
+    <description>Bars und Diskotheken</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>904</externalId>
+    <internalId>904</internalId>
+    <description>Kauf- und Warenhäuser, Einkaufszentren, Versandhäuser, Markthallen</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>905</externalId>
+    <internalId>905</internalId>
+    <description>Sanatorien, Krankenanstalten, Alters- und Kinderheime</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>906</externalId>
+    <internalId>906</internalId>
+    <description>Parkhäuser, Garagen</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>907</externalId>
+    <internalId>907</internalId>
+    <description>Intensivtierhaltung</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>908</externalId>
+    <internalId>908</internalId>
+    <description>Land- und Forstwirtschaft, Gartenbaubetriebe</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>909</externalId>
+    <internalId>909</internalId>
+    <description>öffentliche Ver- und Entsorgungsbetriebe (Gas, Wasser, Elektrizität, Fernheizwerke, einschließlich Müllverbrennung)</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+  <applicationLogic.Branch>
+    <externalId>10000</externalId>
+    <internalId>10000</internalId>
+    <description>Anlage Mängelfrei</description>
+    <isDummy>false</isDummy>
+  </applicationLogic.Branch>
+</list>
