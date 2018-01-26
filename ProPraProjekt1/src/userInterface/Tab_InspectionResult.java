@@ -56,7 +56,10 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
@@ -424,6 +427,40 @@ public class Tab_InspectionResult implements Initializable{
 		        	contextMenu.getItems().addAll(remove);
 		        	contextMenu.show(row,event.getScreenX(), event.getScreenY());
                 }
+		    });
+		    
+		    //Drag Started
+		    row.setOnDragDetected(event -> {
+                if (! row.isEmpty()) {
+                    Dragboard db = row.startDragAndDrop(TransferMode.MOVE);
+                    db.setDragView(row.snapshot(null, null));
+                    ClipboardContent cc = new ClipboardContent();
+                    cc.putString("Not Needed");
+                    db.setContent(cc);
+                    event.consume();
+                }
+            });
+		    
+		    //Drag dropped
+		    row.setOnDragDropped(event -> {
+		    	//Get Source
+		    	int draggedFrom = Integer.valueOf(((TableRow) event.getGestureSource()).getIndex());
+		    	FlawListElement dragged = defectTableView.getItems().get(draggedFrom);
+		    	//Remove item from Source
+		    	defectTableView.getItems().remove(draggedFrom);
+		    	//Add item to target
+		    	defectTableView.getItems().add(row.getIndex(), dragged);
+                event.setDropCompleted(true);
+                event.consume();
+            });
+		    
+		    //Dragged above another row
+		    row.setOnDragOver(event -> {
+		    	//Drag is not allowed if: - Dragged on source, dragged on empty cell
+		    	if (event.getGestureSource() != row && !row.isEmpty()) {
+		    		event.acceptTransferModes(TransferMode.MOVE);
+		    	}
+		    	event.consume();
 		    });
 		    return row ;
 		});
