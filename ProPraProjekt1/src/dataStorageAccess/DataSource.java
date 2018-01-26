@@ -3,6 +3,8 @@ package dataStorageAccess;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import javax.swing.JFileChooser;
+
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -18,7 +20,7 @@ public class DataSource {
     private static HikariDataSource dataSource;
     
     static {
-        config.setJdbcUrl("jdbc:sqlite:BefundscheineVerwaltung.db");
+        config.setJdbcUrl("jdbc:sqlite:" + new JFileChooser().getFileSystemView().getDefaultDirectory().toString() +"\\MangelManager\\BefundscheineVerwaltung.db");
         config.addDataSourceProperty("cachePrepStmts", "true");
         config.addDataSourceProperty("prepStmtCacheSize", "250");
         config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
