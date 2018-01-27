@@ -67,16 +67,10 @@
                       <ProgressIndicator fx:id="statResultProgress" maxHeight="50.0" maxWidth="50.0" prefHeight="50.0" prefWidth="50.0" />
                   </children>
               </StackPane>
-            <BarChart fx:id="barChart" title="Statistik" GridPane.columnIndex="2">
-              <xAxis>
-                <CategoryAxis label="Mangel Nr." side="BOTTOM" fx:id="xAxis" />
-              </xAxis>
-              <yAxis>
-                <NumberAxis fx:id="yAxis" label="Anzahl" side="LEFT" />
-              </yAxis>
+            <PieChart fx:id="chart" title="Statistik" GridPane.columnIndex="2">
          <GridPane.margin>
             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
          </GridPane.margin>
-            </BarChart>
+            </PieChart>
          </children>
       </GridPane>

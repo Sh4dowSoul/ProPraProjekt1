@@ -29,10 +29,7 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.chart.BarChart;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -81,11 +78,7 @@ public class Tab_Stats implements Initializable {
 	private Button exportButton;
 
 	@FXML
-	private BarChart<String, Number> barChart;
-	@FXML
-	private CategoryAxis xAxis;
-	@FXML
-	private NumberAxis yAxis;
+	private PieChart chart;
 
 	// Tasks
 	private LoadCompaniesTask companiesTask;
@@ -109,10 +102,8 @@ public class Tab_Stats implements Initializable {
 	}
 
 	private void prepareGUI() {
-		//Chart Labels
-		xAxis.setLabel("Mangel Nr");
-		yAxis.setLabel("Anzahl");
-		barChart.setAnimated(false);
+		// Chart Labels
+		chart.setAnimated(false);
 
 		// TableView
 		statsDefectsColumn.setCellValueFactory(new PropertyValueFactory<FlawStatistic, String>("externalId"));
@@ -181,20 +172,22 @@ public class Tab_Stats implements Initializable {
 
 	private void setupSelectionListeners() {
 		// Company List Selection Listener
-		companyList.getSelectionModel().selectedItemProperty().addListener((ChangeListener<Company>) (observable, oldValue, newValue) -> {
-			if (newValue != null) {
-				statisticTask.setItem(newValue);
-				statisticTask.restart();
-				exportButton.setVisible(!newValue.isDummy());
-			}
-		});
+		companyList.getSelectionModel().selectedItemProperty()
+				.addListener((ChangeListener<Company>) (observable, oldValue, newValue) -> {
+					if (newValue != null) {
+						statisticTask.setItem(newValue);
+						statisticTask.restart();
+						exportButton.setVisible(!newValue.isDummy());
+					}
+				});
 		// Branch List Seletion Listener
-		branchList.getSelectionModel().selectedItemProperty().addListener((ChangeListener<Branch>) (observable, oldValue, newValue) -> {
-			if (newValue != null) {
-				statisticTask.setItem(newValue);
-				statisticTask.restart();
-			}
-		});
+		branchList.getSelectionModel().selectedItemProperty()
+				.addListener((ChangeListener<Branch>) (observable, oldValue, newValue) -> {
+					if (newValue != null) {
+						statisticTask.setItem(newValue);
+						statisticTask.restart();
+					}
+				});
 		// TabBar
 		statTabs.getSelectionModel().selectedItemProperty().addListener((ChangeListener<Tab>) (ov, t, t1) -> {
 			statisticTableView.getItems().clear();
@@ -249,8 +242,10 @@ public class Tab_Stats implements Initializable {
 				} catch (FileNotFoundException | SQLException e) {
 					Notifications.create().title("Es ist ein Problem aufgetreten")
 							.text("Die Statistik " + file.getName() + " konnte leider nicht gespeichert werden.")
-							.hideAfter(Duration.INDEFINITE).onAction(event1 -> new ExceptionDialog("Export Fehler", "Fehler beim Exportieren",
-									"Beim Exportieren der Statistik ist leider ein Fehler aufgetreten.", e)).showError();
+							.hideAfter(Duration.INDEFINITE)
+							.onAction(event1 -> new ExceptionDialog("Export Fehler", "Fehler beim Exportieren",
+									"Beim Exportieren der Statistik ist leider ein Fehler aufgetreten.", e))
+							.showError();
 				}
 			}
 		}
@@ -268,7 +263,7 @@ public class Tab_Stats implements Initializable {
 			};
 		}
 	}
-	
+
 	private static class LoadBranchesTask extends Service<ObservableList<Branch>> {
 		protected Task<ObservableList<Branch>> createTask() {
 			return new Task<ObservableList<Branch>>() {
@@ -298,8 +293,8 @@ public class Tab_Stats implements Initializable {
 								.getFrequentDefectsCompany(!((Company) item).isDummy(), item.getInternalId()));
 					} else {
 						// Statistic of Branch
-						return FXCollections.observableArrayList(DefectAccess
-								.getFrequentDefectsBranch(item.getExternalId()));
+						return FXCollections
+								.observableArrayList(DefectAccess.getFrequentDefectsBranch(item.getExternalId()));
 					}
 				}
 			};
@@ -311,10 +306,11 @@ public class Tab_Stats implements Initializable {
 	}
 
 	private void generateChart(ObservableList<FlawStatistic> data) {
-		XYChart.Series series = new XYChart.Series();
+		ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
 		for (FlawStatistic flaw : data) {
-			series.getData().add(new XYChart.Data<>(String.valueOf(flaw.getExternalId()), flaw.getNumberOccurrence()));
+			pieChartData.add(new PieChart.Data(String.valueOf(flaw.getExternalId()), flaw.getNumberOccurrence()));
 		}
-		barChart.setData(FXCollections.observableArrayList(series));
+
+		chart.setData(FXCollections.observableArrayList(pieChartData));
 	}
 }
