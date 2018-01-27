@@ -16,8 +16,6 @@ import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -116,12 +114,7 @@ public class Tab_Home implements Initializable{
 				else {
 					String companyName = item.getCompanyName() != null ? item.getCompanyName() : "Unbekannt";
 					setText("Befundschein " + item.getId() + " - " + companyName + " - " + item.getLastEditedNice() + " - " + item.getValidString() );
-					setOnMouseClicked(new EventHandler<Event>() {
-						@Override
-						public void handle(Event event) {
-							openInspectionResultOptionsDialog(item);
-						}
-			        });
+					setOnMouseClicked(event -> openInspectionResultOptionsDialog(item));
 				} 
 			}
 		});
@@ -164,12 +157,7 @@ public class Tab_Home implements Initializable{
                 .title("Es ist ein Problem aufgetreten")
                 .text("Der ausgewählte Befundschein konnte leider nicht geladen werden.")
                 .hideAfter(Duration.INDEFINITE)
-                .onAction(new EventHandler<ActionEvent>() {
-					@Override
-					public void handle(ActionEvent event) {
-						new ExceptionDialog("Fehler", "Fehler beim laden des Befundscheins", "Beim Laden des Befundscheins ist leider ein Fehler aufgetreten.", e);
-					}
-                })
+                .onAction(event -> new ExceptionDialog("Fehler", "Fehler beim laden des Befundscheins", "Beim Laden des Befundscheins ist leider ein Fehler aufgetreten.", e))
                 .showError();
 			}
 		}

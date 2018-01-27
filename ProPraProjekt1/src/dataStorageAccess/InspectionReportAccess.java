@@ -12,8 +12,6 @@ import applicationLogic.InspectionReportStatistic;
 import applicationLogic.InspectionResultPreview;
 import dataStorageAccess.controller.DiagnosisController;
 import dataStorageAccess.controller.FlawListController;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.util.Duration;
 
 /**
@@ -57,12 +55,7 @@ public class InspectionReportAccess {
             .title("Es ist ein Problem aufgetreten")
             .text("Der Befundschein konnte leider nicht gespeichert werden.")
             .hideAfter(Duration.INDEFINITE)
-            .onAction(new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent event) {
-					new ExceptionDialog("Fehler", "Fehler beim Speichern", "Beim Speichern des Befundscheins ist leider ein Fehler aufgetreten.", e);
-				}
-            })
+            .onAction(event -> new ExceptionDialog("Fehler", "Fehler beim Speichern", "Beim Speichern des Befundscheins ist leider ein Fehler aufgetreten.", e))
             .showError();
 		}
 		return diagnosisId;
@@ -92,12 +85,7 @@ public class InspectionReportAccess {
             .title("Es ist ein Problem aufgetreten")
             .text("Der Befundschein konnte leider nicht gespeichert werden.")
             .hideAfter(Duration.INDEFINITE)
-            .onAction(new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent event) {
-					new ExceptionDialog("Fehler", "Fehler beim Speichern", "Beim Speichern des Befundscheins ist leider ein Fehler aufgetreten.", e);
-				}
-            })
+            .onAction(event -> new ExceptionDialog("Fehler", "Fehler beim Speichern", "Beim Speichern des Befundscheins ist leider ein Fehler aufgetreten.", e))
             .showError();
 		}
 	}

@@ -26,8 +26,6 @@ import be.quodlibet.boxable.VerticalAlignment;
 import be.quodlibet.boxable.line.LineStyle;
 import dataStorageAccess.InspectionReportAccess;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
 
@@ -89,39 +87,26 @@ public class PDFExport {
 					document.save(file);
 					Notifications.create().title("Erfolgreich gespeichert")
 							.text("Der Befundschein " + file.getName() + " wurde erfolgreich gespeichert ")
-							.onAction(new EventHandler<ActionEvent>() {
-								@Override
-								public void handle(ActionEvent event) {
-									try {
-										Desktop.getDesktop().open(file);
-									} catch (IOException e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
-									}
+							.onAction(event -> {
+								try {
+									Desktop.getDesktop().open(file);
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
 								}
 							}).showInformation();
 				} catch (IOException e) {
 					Notifications.create().title("Es ist ein Problem aufgetreten")
 							.text("Der Befundschein " + file.getName() + " konnte leider nicht gespeichert werden.")
-							.hideAfter(Duration.INDEFINITE).onAction(new EventHandler<ActionEvent>() {
-								@Override
-								public void handle(ActionEvent event) {
-									new ExceptionDialog("Export Fehler", "Fehler beim Exportieren",
-											"Beim Exportieren des Befundscheins ist leider ein Fehler aufgetreten.", e);
-								}
-							}).showError();
+							.hideAfter(Duration.INDEFINITE).onAction(event -> new ExceptionDialog("Export Fehler", "Fehler beim Exportieren",
+									"Beim Exportieren des Befundscheins ist leider ein Fehler aufgetreten.", e)).showError();
 				}
 			}
 		} catch (IOException | SQLException e) {
 			Notifications.create().title("Es ist ein Problem aufgetreten")
 					.text("Beim Erstellen des Dokuments ist ein Fehler aufgetreten.").hideAfter(Duration.INDEFINITE)
-					.onAction(new EventHandler<ActionEvent>() {
-						@Override
-						public void handle(ActionEvent event) {
-							new ExceptionDialog("Fehler", "Fehler beim Erstellen",
-									"Beim Erstellen des Dokuments ist leider ein Fehler aufgetreten.", e);
-						}
-					}).showError();
+					.onAction(event -> new ExceptionDialog("Fehler", "Fehler beim Erstellen",
+							"Beim Erstellen des Dokuments ist leider ein Fehler aufgetreten.", e)).showError();
 		} finally {
 			try {
 				// Closing the document
@@ -129,13 +114,8 @@ public class PDFExport {
 			} catch (IOException e) {
 				Notifications.create().title("Es ist ein Problem aufgetreten")
 						.text("Beim Schließen des Dokuments ist ein Fehler aufgetreten.").hideAfter(Duration.INDEFINITE)
-						.onAction(new EventHandler<ActionEvent>() {
-							@Override
-							public void handle(ActionEvent event) {
-								new ExceptionDialog("Fehler", "Fehler beim Schließen",
-										"Beim Schließen des Dokuemnts ist leider ein Fehler aufgetreten.", e);
-							}
-						}).showError();
+						.onAction(event -> new ExceptionDialog("Fehler", "Fehler beim Schließen",
+								"Beim Schließen des Dokuemnts ist leider ein Fehler aufgetreten.", e)).showError();
 			}
 		}
 	}

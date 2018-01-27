@@ -24,8 +24,6 @@ import dataStorageAccess.BranchAccess;
 import dataStorageAccess.CompanyAccess;
 import dataStorageAccess.FlawAccess;
 import dataStorageAccess.InspectionReportAccess;
-import de.schnettler.AutoCompletionEvent;
-import de.schnettler.AutocompleteSuggestion;
 import de.schnettler.AutocompleteTextField;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -33,7 +31,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -46,7 +43,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
@@ -63,7 +59,6 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
-import javafx.util.Callback;
 import javafx.util.Duration;
 import javafx.util.StringConverter;
 
@@ -255,21 +250,16 @@ public class Tab_InspectionResult implements Initializable{
 
 	private void prepareGUI() {
 	//CompanyComboBox
-		comboBoxCompanyName.setCellFactory(new Callback<ListView<Company>, ListCell<Company>>() {
+		comboBoxCompanyName.setCellFactory(param -> new ListCell<Company>(){
 			 @Override
-			 public ListCell<Company> call(ListView<Company> param) {
-				 return new ListCell<Company>(){
-					 @Override
-					 public void updateItem(Company item, boolean empty){
-						 super.updateItem(item, empty);
-						 if(!empty) {
-							 setText(item.getDescription());
-							 setGraphic(null);
-						 }
-					 }
-				 };
-			}
-		});
+			 public void updateItem(Company item, boolean empty){
+				 super.updateItem(item, empty);
+				 if(!empty) {
+					 setText(item.getDescription());
+					 setGraphic(null);
+				 }
+			 }
+		 });
 		comboBoxCompanyName.setConverter(new StringConverter<Company>() {
 	        @Override
 	        public String toString(Company company) {
@@ -335,21 +325,16 @@ public class Tab_InspectionResult implements Initializable{
 		
 		
 	//CompanyPlantComboBox
-		comboBoxCompanyPlantStreet.setCellFactory(new Callback<ListView<CompanyPlant>, ListCell<CompanyPlant>>() {
+		comboBoxCompanyPlantStreet.setCellFactory(param -> new ListCell<CompanyPlant>(){
 			 @Override
-			 public ListCell<CompanyPlant> call(ListView<CompanyPlant> param) {
-				 return new ListCell<CompanyPlant>(){
-					 @Override
-					 public void updateItem(CompanyPlant item, boolean empty){
-						 super.updateItem(item, empty);
-						 if(!empty) {
-							 setText(item.getDescription());
-							 setGraphic(null);
-						 }
-					 }
-				 };
-			}
-		});
+			 public void updateItem(CompanyPlant item, boolean empty){
+				 super.updateItem(item, empty);
+				 if(!empty) {
+					 setText(item.getDescription());
+					 setGraphic(null);
+				 }
+			 }
+		 });
 		comboBoxCompanyPlantStreet.setConverter(new StringConverter<CompanyPlant>() {
 	        @Override
 	        public String toString(CompanyPlant companyPlant) {
@@ -368,34 +353,32 @@ public class Tab_InspectionResult implements Initializable{
                 return new CompanyPlant(-1, string, currentCompany);
 	        }
 	    });
-		comboBoxCompanyPlantStreet.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<CompanyPlant>() {
-	        public void changed(ObservableValue<? extends CompanyPlant> observable, CompanyPlant oldValue, CompanyPlant newValue) {
-	        	if (newValue != null) {
-	        		currentCompanyPlant = newValue;
-		        	switch(newValue.getInternalId()) {
-		        		case -1:
-		        			//New CompanyPlant -> Enable and clear TextFields
-			        		textFieldCompanyPlantZipCode.setDisable(false);
-			        		textFieldCompanyPlantCity.setDisable(false);
-			        		textFieldCompanyPlantZipCode.clear();
-			        		textFieldCompanyPlantCity.clear();
-			        		buttonSaveCompanyPlant.setDisable(false);
-			        		break;
-		        		case 0:
-		        			//CompanyPlant not yet in database
-		        			break;
-		        		default: 
-		        			//Existing CompanyPlant -> Disable TextFields and load Company Data
-			        		disableCompanyPlantTextFields();
-			        		textFieldCompanyPlantZipCode.setText(String.valueOf(newValue.getZipCode()));
-			        		textFieldCompanyPlantCity.setText(newValue.getCity());
-			        		buttonSaveCompanyPlant.setDisable(true);
-			        		break;
-		        	}
-	        	} else {
-	        		System.out.println("ERROR: New CompanyPlant ComboBox Value is Null");
-	        	}
-	        }
+		comboBoxCompanyPlantStreet.getSelectionModel().selectedItemProperty().addListener((ChangeListener<CompanyPlant>) (observable, oldValue, newValue) -> {
+			if (newValue != null) {
+				currentCompanyPlant = newValue;
+		    	switch(newValue.getInternalId()) {
+		    		case -1:
+		    			//New CompanyPlant -> Enable and clear TextFields
+		        		textFieldCompanyPlantZipCode.setDisable(false);
+		        		textFieldCompanyPlantCity.setDisable(false);
+		        		textFieldCompanyPlantZipCode.clear();
+		        		textFieldCompanyPlantCity.clear();
+		        		buttonSaveCompanyPlant.setDisable(false);
+		        		break;
+		    		case 0:
+		    			//CompanyPlant not yet in database
+		    			break;
+		    		default: 
+		    			//Existing CompanyPlant -> Disable TextFields and load Company Data
+		        		disableCompanyPlantTextFields();
+		        		textFieldCompanyPlantZipCode.setText(String.valueOf(newValue.getZipCode()));
+		        		textFieldCompanyPlantCity.setText(newValue.getCity());
+		        		buttonSaveCompanyPlant.setDisable(true);
+		        		break;
+		    	}
+			} else {
+				System.out.println("ERROR: New CompanyPlant ComboBox Value is Null");
+			}
 		});
 		
 		//FlawList TableView
@@ -417,13 +400,10 @@ public class Tab_InspectionResult implements Initializable{
 		        if (!row.isEmpty() && event.getButton() == MouseButton.SECONDARY) {
 		        	final ContextMenu contextMenu = new ContextMenu();
 		        	MenuItem remove = new MenuItem("Entfernen");
-		        	remove.setOnAction(new EventHandler<ActionEvent>() {
-		        	    @Override
-		        	    public void handle(ActionEvent event) {
-		        	    	defectTableView.getItems().remove(row.getIndex());
-		        	    	defectTableView.refresh();
-		        	    }
-		        	});
+		        	remove.setOnAction(event1 -> {
+						defectTableView.getItems().remove(row.getIndex());
+						defectTableView.refresh();
+					});
 		        	contextMenu.getItems().addAll(remove);
 		        	contextMenu.show(row,event.getScreenX(), event.getScreenY());
                 }
@@ -483,12 +463,7 @@ public class Tab_InspectionResult implements Initializable{
                 .title("Es ist ein Problem aufgetreten")
                 .text("Die Firma konnte leider nicht in der Datenbank gespeichert werden")
                 .hideAfter(Duration.INDEFINITE)
-                .onAction(new EventHandler<ActionEvent>() {
-					@Override
-					public void handle(ActionEvent event) {
-						new ExceptionDialog("Export Fehler", "Fehler beim speichern der Firma", "Beim Speichern der Firma ist leider ein Fehler aufgetreten.", e);
-					}
-                })
+                .onAction(event1 -> new ExceptionDialog("Export Fehler", "Fehler beim speichern der Firma", "Beim Speichern der Firma ist leider ein Fehler aufgetreten.", e))
                 .showError();
 			}
 		}
@@ -1240,12 +1215,9 @@ public class Tab_InspectionResult implements Initializable{
 	    new Thread(autocompleteTask).start();
 	    
 	    //Add EventHandler - gets invoked when Suggestion is selected
-	    defectSearchField.setAutoCompletionEvent(new AutoCompletionEvent() {
-			@Override
-			public void onAutoCompleteResult(AutocompleteSuggestion suggestion) {
-				resultDefectId.setText(Integer.toString(suggestion.getExternalId()));
-				currentFlaw = (Flaw) suggestion;
-			}
+	    defectSearchField.setAutoCompletionEvent(suggestion -> {
+			resultDefectId.setText(Integer.toString(suggestion.getExternalId()));
+			currentFlaw = (Flaw) suggestion;
 		});
 	
 	}
@@ -1272,12 +1244,9 @@ public class Tab_InspectionResult implements Initializable{
 	    new Thread(branchAutocompleteTask).start();
 	    //Change AutoCompletionMode to Complete by ID
 	    branchText.setAutoCompleteMode(1);
-	    branchText.setAutoCompletionEvent(new AutoCompletionEvent() {
-			@Override
-			public void onAutoCompleteResult(AutocompleteSuggestion suggestion) {					
-				//Nothing
-			}
-	    });
+	    branchText.setAutoCompletionEvent(suggestion -> {					
+			//Nothing
+		});
 	}
 	
 	

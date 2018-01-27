@@ -22,13 +22,11 @@ import dataStorageAccess.CompanyAccess;
 import dataStorageAccess.DefectAccess;
 import dataStorageAccess.StatisticAccess;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
@@ -183,42 +181,33 @@ public class Tab_Stats implements Initializable {
 
 	private void setupSelectionListeners() {
 		// Company List Selection Listener
-		companyList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Company>() {
-			@Override
-			public void changed(ObservableValue<? extends Company> observable, Company oldValue, Company newValue) {
-				if (newValue != null) {
-					statisticTask.setItem(newValue);
-					statisticTask.restart();
-					exportButton.setVisible(!newValue.isDummy());
-				}
+		companyList.getSelectionModel().selectedItemProperty().addListener((ChangeListener<Company>) (observable, oldValue, newValue) -> {
+			if (newValue != null) {
+				statisticTask.setItem(newValue);
+				statisticTask.restart();
+				exportButton.setVisible(!newValue.isDummy());
 			}
 		});
 		// Branch List Seletion Listener
-		branchList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Branch>() {
-			@Override
-			public void changed(ObservableValue<? extends Branch> observable, Branch oldValue, Branch newValue) {
-				if (newValue != null) {
-					statisticTask.setItem(newValue);
-					statisticTask.restart();
-				}
+		branchList.getSelectionModel().selectedItemProperty().addListener((ChangeListener<Branch>) (observable, oldValue, newValue) -> {
+			if (newValue != null) {
+				statisticTask.setItem(newValue);
+				statisticTask.restart();
 			}
 		});
 		// TabBar
-		statTabs.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
-			@Override
-			public void changed(ObservableValue<? extends Tab> ov, Tab t, Tab t1) {
-				statisticTableView.getItems().clear();
-				switch (t1.getId()) {
-				case "companyListTab":
-					companyList.getSelectionModel().select(0);
-					branchList.getSelectionModel().clearSelection();
-					break;
-				case "branchListTab":
-					branchList.getSelectionModel().select(0);
-					companyList.getSelectionModel().clearSelection();
-					exportButton.setVisible(false);
-					break;
-				}
+		statTabs.getSelectionModel().selectedItemProperty().addListener((ChangeListener<Tab>) (ov, t, t1) -> {
+			statisticTableView.getItems().clear();
+			switch (t1.getId()) {
+			case "companyListTab":
+				companyList.getSelectionModel().select(0);
+				branchList.getSelectionModel().clearSelection();
+				break;
+			case "branchListTab":
+				branchList.getSelectionModel().select(0);
+				companyList.getSelectionModel().clearSelection();
+				exportButton.setVisible(false);
+				break;
 			}
 		});
 	}
@@ -249,27 +238,19 @@ public class Tab_Stats implements Initializable {
 					StatisticAccess.exportStatisticCompany(selectedCompany.getInternalId(), file.getAbsolutePath());
 					Notifications.create().title("Erfolgreich gespeichert")
 							.text("Die Statistik " + file.getName() + " wurde erfolgreich gespeichert ")
-							.onAction(new EventHandler<ActionEvent>() {
-								@Override
-								public void handle(ActionEvent event) {
-									try {
-										Desktop.getDesktop().open(file);
-									} catch (IOException e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
-									}
+							.onAction(event1 -> {
+								try {
+									Desktop.getDesktop().open(file);
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
 								}
 							}).showInformation();
 				} catch (FileNotFoundException | SQLException e) {
 					Notifications.create().title("Es ist ein Problem aufgetreten")
 							.text("Die Statistik " + file.getName() + " konnte leider nicht gespeichert werden.")
-							.hideAfter(Duration.INDEFINITE).onAction(new EventHandler<ActionEvent>() {
-								@Override
-								public void handle(ActionEvent event) {
-									new ExceptionDialog("Export Fehler", "Fehler beim Exportieren",
-											"Beim Exportieren der Statistik ist leider ein Fehler aufgetreten.", e);
-								}
-							}).showError();
+							.hideAfter(Duration.INDEFINITE).onAction(event1 -> new ExceptionDialog("Export Fehler", "Fehler beim Exportieren",
+									"Beim Exportieren der Statistik ist leider ein Fehler aufgetreten.", e)).showError();
 				}
 			}
 		}

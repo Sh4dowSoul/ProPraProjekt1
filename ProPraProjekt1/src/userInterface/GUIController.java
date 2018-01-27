@@ -16,9 +16,7 @@ import applicationLogic.ExceptionDialog;
 import dataStorageAccess.DataSource;
 import dataStorageAccess.FlawAccess;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Tab;
@@ -44,17 +42,14 @@ public class GUIController implements Initializable{
 	public void initialize(URL location, ResourceBundle resources) {
 		homeTabController.setParentController(this);
 		inspectionResultTabController.setParentController(this);
-		mainTabPane.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				switch (newValue.intValue()) {
-				case 2:
-					statsTabController.loadData();
-					break;
+		mainTabPane.getSelectionModel().selectedIndexProperty().addListener((ChangeListener<Number>) (observable, oldValue, newValue) -> {
+			switch (newValue.intValue()) {
+			case 2:
+				statsTabController.loadData();
+				break;
 
-				default:
-					break;
-				}
+			default:
+				break;
 			}
 		});
 	}
@@ -96,15 +91,12 @@ public class GUIController implements Initializable{
 				Notifications.create()
                 .title("Erfolgreich gespeichert")
                 .text("Die eigens erstellten Mängel wurden erfolgreich exportiert ")
-                .onAction(new EventHandler<ActionEvent>() {
-					@Override
-					public void handle(ActionEvent event) {
-						try {
-							Desktop.getDesktop().open(file);
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+                .onAction(event -> {
+					try {
+						Desktop.getDesktop().open(file);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 				})
                 .showInformation();
@@ -113,12 +105,7 @@ public class GUIController implements Initializable{
                 .title("Es ist ein Problem aufgetreten")
                 .text("Die Mängel konnten leider nicht exportiert werden.")
                 .hideAfter(Duration.INDEFINITE)
-                .onAction(new EventHandler<ActionEvent>() {
-					@Override
-					public void handle(ActionEvent event) {
-						new ExceptionDialog("Export Fehler", "Fehler beim Exportieren", "Beim Exportieren der Mängel ist leider ein Fehler aufgetreten.", e);
-					}
-                })
+                .onAction(event -> new ExceptionDialog("Export Fehler", "Fehler beim Exportieren", "Beim Exportieren der Mängel ist leider ein Fehler aufgetreten.", e))
                 .showError();
 			}
         }
@@ -148,12 +135,7 @@ public class GUIController implements Initializable{
                 .title("Es ist ein Problem aufgetreten")
                 .text("Die Daten konnten leider nicht gesichert werden")
                 .hideAfter(Duration.INDEFINITE)
-                .onAction(new EventHandler<ActionEvent>() {
-					@Override
-					public void handle(ActionEvent event) {
-						new ExceptionDialog("Fehler", "Fehler beim Speichern", "Beim Speichern der Daten ist leider ein Fehler aufgetreten.", e);
-					}
-                })
+                .onAction(event -> new ExceptionDialog("Fehler", "Fehler beim Speichern", "Beim Speichern der Daten ist leider ein Fehler aufgetreten.", e))
                 .showError();
 			}
         }
