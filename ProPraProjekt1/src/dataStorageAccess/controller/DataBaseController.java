@@ -3,12 +3,16 @@ package dataStorageAccess.controller;
 import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.util.Map;
 
 import applicationLogic.Branch;
 import applicationLogic.Flaw;
 import applicationLogic.FlawListElement;
+import applicationLogic.InspectionResultPreview;
 import applicationLogic.Util;
 import dataStorageAccess.BranchAccess;
 import dataStorageAccess.DataSource;
@@ -20,100 +24,22 @@ public class DataBaseController {
 		Statement statement = null;
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
+		Map<String, String> tableDefinitions = DataSource.getTableSql();
 		try {
 			connection = DataSource.getConnection();
 			statement = connection.createStatement();
 			//Branches
-			statement.executeUpdate("CREATE TABLE Branch "
-					+ "(branchId INTEGER UNIQUE, "
-					+ "branchName TEXT NOT NULL UNIQUE, "
-					+ "PRIMARY KEY(branchId))");
+			statement.executeUpdate(tableDefinitions.get("Branch"));
 			//Companies
-			statement.executeUpdate("CREATE TABLE Company "
-					+ "(companyId INTEGER NOT NULL, "
-					+ "companyName TEXT NOT NULL, "
-					+ "companyStreet TEXT NOT NULL, "
-					+ "companyZip INTEGER NOT NULL, "
-					+ "companyCity TEXT NOT NULL, "
-					+ "PRIMARY KEY(companyId))");
+			statement.executeUpdate(tableDefinitions.get("Company"));
 			//CompanyPlants
-			statement.executeUpdate("CREATE TABLE CompanyPlant "
-					+ "(plantId INTEGER NOT NULL, "
-					+ "companyId INTEGER NOT NULL, "
-					+ "plantStreet TEXT NOT NULL, "
-					+ "plantZip INTEGER NOT NULL, "
-					+ "plantCity TEXT NOT NULL, "
-					+ "PRIMARY KEY(plantId))");
+			statement.executeUpdate(tableDefinitions.get("CompanyPlant"));
 			//Flaws
-			statement.executeUpdate("CREATE TABLE Flaw "
-					+ "(internalFlawId INTEGER, "
-					+ "externalFlawId INTEGER NOT NULL, "
-					+ "isCustomFlaw INTEGER, "
-					+ "flawDescription TEXT NOT NULL, "
-					+ "PRIMARY KEY(internalFlawId))");
+			statement.executeUpdate(tableDefinitions.get("Flaw"));
 			//FlawListElement
-			statement.executeUpdate("CREATE TABLE FlawListElement "
-					+ "(elementId INTEGER NOT NULL, "
-					+ "inspectionReportId INTEGER NOT NULL, "
-					+ "internalFlawId INTEGER NOT NULL, "
-					+ "branchId	INTEGER NOT NULL, "
-					+ "danger INTEGER, "
-					+ "building TEXT, "
-					+ "room	TEXT, "
-					+ "machine TEXT, "
-					+ "position INTEGER, "
-					+ "FOREIGN KEY(inspectionReportId) REFERENCES InspectionReport(inspectionReportId), "
-					+ "FOREIGN KEY(internalFlawId) REFERENCES Flaw(internalFlawId), "
-					+ "PRIMARY KEY(elementId))");
+			statement.executeUpdate(tableDefinitions.get("FlawListElement"));
 			//InspectionReport
-			statement.executeUpdate("CREATE TABLE InspectionReport "
-					+ "(inspectionReportId INTEGER NOT NULL, "
-					+ "inspectionReportLastEdited TEXT, "
-					+ "inspectionReportValidated INTEGER, "
-					+ "plantId INTEGER, "
-					+ "companion TEXT, "
-					+ "surveyor TEXT, "
-					+ "vdsApprovalNr INTEGER, "
-					+ "examinationDate TEXT, "
-					+ "examinationDuration REAL, "
-					+ "branchId INTEGER, "
-					+ "frequencyControlledUtilities INTEGER, "
-					+ "precautionsDeclared INTEGER, "
-					+ "precautionsDeclaredWhere TEXT, "
-					+ "examinationCompleted INTEGER, "
-					+ "subsequentExaminationDate TEXT, "
-					+ "subsequentExaminationReason TEXT, "
-					+ "changesSinceLastExamination INTEGER, "
-					+ "defectsLastExaminationFixed INTEGER, "
-					+ "dangerCategoryVds INTEGER, "
-					+ "dangerCategoryVdsDescription TEXT, "
-					+ "examinationResultNoDefect INTEGER, "
-					+ "examinationResultDefect INTEGER, "
-					+ "examinationResultDefectDate INTEGER, "
-					+ "examinationResultDanger INTEGER, "
-					+ "isolationCheckedEnough INTEGER, "
-					+ "isolationMeasurementProtocols INTEGER, "
-					+ "isolationCompensationMeasures INTEGER, "
-					+ "isolationCompensationMeasuresAnnotation TEXT, "
-					+ "rcdAvailable INTEGER, "
-					+ "rcdAvailablePercent REAL, "
-					+ "rcdAnnotation TEXT, "
-					+ "resistance INTEGER, "
-					+ "resistanceNumber INTEGER, "
-					+ "resistanceAnnotation TEXT, "
-					+ "thermalAbnormality INTEGER, "
-					+ "thermalAbnormalityAnnotation TEXT, "
-					+ "internalPortableUtilities INTEGER, "
-					+ "externalPortableUtilities INTEGER, "
-					+ "supplySystem INTEGER, "
-					+ "energyDemand INTEGER, "
-					+ "maxEnergyDemandExternal INTEGER, "
-					+ "maxEnergyDemandInternal INTEGER, "
-					+ "protectedCircuitsPercent INTEGER, "
-					+ "hardWiredLoads INTEGER, "
-					+ "additionalAnnotations TEXT, "
-					+ "FOREIGN KEY(plantId) REFERENCES CompanyPlant(plantId), "
-					+ "PRIMARY KEY(inspectionReportId))");
+			statement.executeUpdate(tableDefinitions.get("InspectionReport"));
 			
 			//Insert Default branches
 			String stmt = "INSERT INTO Branch "
@@ -154,5 +80,44 @@ public class DataBaseController {
 				connection.close();
 			}
 		}
+	}
+	
+	public static boolean getTableDeclarations() throws SQLException {
+		Map<String, String> tableSql = DataSource.getTableSql();
+		Boolean isValid = true;
+		//Insert Default branches
+		String stmt = "SELECT sql "
+				+ "FROM sqlite_master "
+				+ "WHERE type = 'table' AND name = ?";
+		Statement statement = null;
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		try {
+			connection = DataSource.getConnection();
+			preparedStatement = connection.prepareStatement(stmt);
+			for (String tableName : tableSql.keySet()) {
+				Util.setValues(preparedStatement, tableName);
+				ResultSet resultSet = preparedStatement.executeQuery();
+				if (resultSet.isBeforeFirst() ) {    
+					String table_schema_there = resultSet.getString(1).replaceAll("\\s+","").replaceAll("[\\[\\]'`\"]", "");
+					if (!(table_schema_there).equals(tableSql.get(tableName).replaceAll("\\s+","").replaceAll("[\\[\\]'`\"]", ""))) {
+						return false;
+					}
+				} else {
+					return false;
+				}
+				
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (statement != null) {
+				statement.close();
+			}
+			if (connection != null) {
+				connection.close();
+			}
+		}
+		return true;
 	}
 }
