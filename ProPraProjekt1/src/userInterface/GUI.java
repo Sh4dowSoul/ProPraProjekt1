@@ -92,6 +92,11 @@ public class GUI extends Application {
 			//Copy and rename selected DatabaseFile
 			if (file != null) {
 				//Database File has been selected
+				//Check if Folder exists
+				File databaseFolder = new File(DataSource.getDataBaseFolder());
+				if (!databaseFolder.isDirectory()) {
+					databaseFolder.mkdirs();
+				}
 				try {
 					Files.copy(file, new File(DataSource.getDatabasePath()));
 				} catch (IOException e) {
