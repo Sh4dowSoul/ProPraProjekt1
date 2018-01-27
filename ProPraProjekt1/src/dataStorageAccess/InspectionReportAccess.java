@@ -50,7 +50,7 @@ public class InspectionReportAccess {
 			}
 			Notifications.create()
             .title("Erfolgreich gespeichert")
-            .text("Der Befundschein wurde erfolgreich gespeichert ")
+            .text("Der Befundschein wurde erfolgreich gespeichert (Befundscheinname: " + diagnosisId + ")")
             .showInformation();
 		} catch (SQLException e) {
 			Notifications.create()
