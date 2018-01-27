@@ -8,8 +8,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import org.controlsfx.control.Notifications;
 
+import org.controlsfx.control.Notifications;
 
 import applicationLogic.Branch;
 import applicationLogic.Company;

@@ -24,7 +24,6 @@ import be.quodlibet.boxable.HorizontalAlignment;
 import be.quodlibet.boxable.Row;
 import be.quodlibet.boxable.VerticalAlignment;
 import be.quodlibet.boxable.line.LineStyle;
-import dataStorageAccess.InspectionReportAccess;
 import javafx.collections.ObservableList;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;

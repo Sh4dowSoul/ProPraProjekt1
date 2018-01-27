@@ -3,9 +3,6 @@ package userInterface;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Optional;
-
-import javax.xml.ws.Response;
 
 import com.google.common.io.Files;
 
@@ -17,10 +14,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;

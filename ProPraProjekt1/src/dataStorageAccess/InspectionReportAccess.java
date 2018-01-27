@@ -6,9 +6,7 @@ import java.util.ArrayList;
 import org.controlsfx.control.Notifications;
 
 import applicationLogic.ExceptionDialog;
-import applicationLogic.FlawListElement;
 import applicationLogic.InspectionReportFull;
-import applicationLogic.InspectionReportStatistic;
 import applicationLogic.InspectionResultPreview;
 import dataStorageAccess.controller.DiagnosisController;
 import dataStorageAccess.controller.FlawListController;

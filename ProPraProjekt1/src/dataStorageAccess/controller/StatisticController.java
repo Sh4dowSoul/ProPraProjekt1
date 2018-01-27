@@ -1,16 +1,12 @@
 package dataStorageAccess.controller;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import applicationLogic.FlawListElement;
 import applicationLogic.FlawStatistic;
-import applicationLogic.InspectionReportStatistic;
-import applicationLogic.Util;
 import dataStorageAccess.DataSource;
 
 /**

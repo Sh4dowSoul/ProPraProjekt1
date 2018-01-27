@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
@@ -11,7 +12,6 @@ import applicationLogic.InspectionReportStatistic;
 import applicationLogic.Statistic;
 import dataStorageAccess.controller.DiagnosisController;
 import dataStorageAccess.controller.FlawController;
-import dataStorageAccess.controller.StatisticController;
 import de.schnettler.AutocompleteSuggestion;
 
 /**

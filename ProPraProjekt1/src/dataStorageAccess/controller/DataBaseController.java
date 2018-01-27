@@ -6,13 +6,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
 import java.util.Map;
 
 import applicationLogic.Branch;
 import applicationLogic.Flaw;
-import applicationLogic.FlawListElement;
-import applicationLogic.InspectionResultPreview;
 import applicationLogic.Util;
 import dataStorageAccess.BranchAccess;
 import dataStorageAccess.DataSource;
