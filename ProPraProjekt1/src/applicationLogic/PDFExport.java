@@ -709,7 +709,7 @@ public class PDFExport {
 		float paddingP1;
 
 		// Creating PDImageXObject object
-		PDImageXObject pdImage = PDImageXObject.createFromFile("img/pdf_komplett_300dpi.png", document);
+		PDImageXObject pdImage = PDImageXObject.createFromFile("img/logo.png", document);
 
 		// Creating the PDPageContentStream object
 		contentStream = new PDPageContentStream(document, page1);
