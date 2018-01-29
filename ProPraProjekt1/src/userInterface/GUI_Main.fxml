@@ -36,17 +36,6 @@
                   </StackPane>
                </content>
         </Tab> 
-                <Tab fx:id="tt" text="Mangel Verwaltung">
-               <content>
-                  <StackPane>
-                     <children>
-                        <fx:include source="GUI_Manager.fxml" />
-                     </children>
-                  </StackPane>
-               </content>
-        </Tab>
-        
-                
         </tabs>
       </TabPane>
       <MenuBar AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
