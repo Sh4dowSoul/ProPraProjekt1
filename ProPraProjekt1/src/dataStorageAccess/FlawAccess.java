@@ -2,10 +2,10 @@ package dataStorageAccess;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -88,7 +88,8 @@ public class FlawAccess {
 	 */
 	public static ArrayList<Flaw> importFlawsFromXml() throws FileNotFoundException {
 		XStream xs = new XStream(new DomDriver());
-        FileInputStream fis = new FileInputStream("ressources/Flaws.xml");
-        return (ArrayList<Flaw>) xs.fromXML(fis);
+		ClassLoader classLoader = BranchAccess.class.getClassLoader();
+		InputStream is = classLoader.getResourceAsStream("resources/Flaws.xml");
+        return (ArrayList<Flaw>) xs.fromXML(is);
 	}
 }

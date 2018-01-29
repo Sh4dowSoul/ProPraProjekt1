@@ -1,9 +1,13 @@
 package dataStorageAccess;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
@@ -33,7 +37,8 @@ public class BranchAccess {
 	
 	public static ArrayList <Branch> importBranchesFromXml() throws FileNotFoundException {
 		XStream xs = new XStream(new DomDriver());
-        FileInputStream fis = new FileInputStream("ressources/Branches.xml");
-        return (ArrayList<Branch>) xs.fromXML(fis);
+		ClassLoader classLoader = BranchAccess.class.getClassLoader();
+		InputStream is = classLoader.getResourceAsStream("resources/Branches.xml");
+        return (ArrayList<Branch>) xs.fromXML(is);
 	}
 }
