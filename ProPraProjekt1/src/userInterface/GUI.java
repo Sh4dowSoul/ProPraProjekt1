@@ -2,10 +2,12 @@ package userInterface;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
 
 import com.google.common.io.Files;
 
+import dataStorageAccess.BranchAccess;
 import dataStorageAccess.DataSource;
 import dataStorageAccess.controller.DataBaseController;
 import javafx.application.Application;
@@ -17,6 +19,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -40,7 +43,7 @@ public class GUI extends Application {
 		this.primaryStage.setTitle("Mangel Manager");
 		primaryStage.setWidth(1300);	//width of anchorpane/mainLayout
 		primaryStage.setHeight(950);
-		
+		primaryStage.getIcons().add(new Image(GUI.class.getClassLoader().getResourceAsStream("resources/images/icon.png")));
 		prepareDataBase();
 	}
 	
