@@ -2,11 +2,15 @@ package applicationLogic;
 
 import java.awt.Color;
 import java.awt.Desktop;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -15,6 +19,8 @@ import org.apache.pdfbox.pdmodel.PDPageContentStream.AppendMode;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType0Font;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.graphics.image.LosslessFactory;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.controlsfx.control.Notifications;
 
@@ -24,6 +30,7 @@ import be.quodlibet.boxable.HorizontalAlignment;
 import be.quodlibet.boxable.Row;
 import be.quodlibet.boxable.VerticalAlignment;
 import be.quodlibet.boxable.line.LineStyle;
+import dataStorageAccess.DataSource;
 import javafx.collections.ObservableList;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
@@ -36,12 +43,12 @@ import javafx.util.Duration;
  */
 
 public class PDFExport {
-	// Loading the Fonts
-	static File arial = new File("fonts/ARIAL.TTF");
-	static File arialBold = new File("fonts/ARIALBD.TTF");
-	static File arialBoldCursive = new File("fonts/ARIALBI.TTF");
-	static File arialCursive = new File("fonts/ARIALI.TTF");
-
+	static ClassLoader classLoader = PDFExport.class.getClassLoader();
+	static InputStream  arial = classLoader.getResourceAsStream("resources/fonts/ARIAL.TTF");
+	static InputStream  arialBold = classLoader.getResourceAsStream("resources/fonts/ARIALBD.TTF");
+	static InputStream  arialBoldCursive = classLoader.getResourceAsStream("resources/fonts/ARIALBI.TTF");
+	static InputStream  arialCursive = classLoader.getResourceAsStream("resources/fonts/ARIALI.TTF");
+	
 	static PDDocument document = null;
 	static PDPageContentStream contentStream;
 	static InspectionReportFull data;
@@ -709,8 +716,17 @@ public class PDFExport {
 		float paddingP1;
 
 		// Creating PDImageXObject object
-		PDImageXObject pdImage = PDImageXObject.createFromFile("img/logo.png", document);
-
+		File pdfHeader = new File(DataSource.getDataBaseFolder()+"pdfHeader.png");
+		PDImageXObject pdImage = null;
+		if (new File(DataSource.getDataBaseFolder()+"PDFHeader.png").isFile()) {
+			//Use custom header
+			pdImage = PDImageXObject.createFromFile(pdfHeader.getAbsolutePath(), document);
+		} else {
+			//use default header
+			BufferedImage im = ImageIO.read(classLoader.getResourceAsStream("resources/images/pdfHeader.png"));
+			pdImage = LosslessFactory.createFromImage(document, im);
+		}
+		
 		// Creating the PDPageContentStream object
 		contentStream = new PDPageContentStream(document, page1);
 
