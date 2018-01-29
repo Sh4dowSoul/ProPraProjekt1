@@ -37,7 +37,7 @@ public class GUI extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
-		this.primaryStage.setTitle("DefectManager");
+		this.primaryStage.setTitle("Mangel Manager");
 		primaryStage.setWidth(1300);	//width of anchorpane/mainLayout
 		primaryStage.setHeight(950);
 		
