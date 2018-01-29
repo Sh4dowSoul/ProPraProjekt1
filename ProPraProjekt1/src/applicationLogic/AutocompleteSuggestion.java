@@ -2,6 +2,8 @@ package applicationLogic;
 
 /**
  * @author Niklas Schnettler
+ * 
+ * Class used for AutoCompleteSuggestions (external Library)
  *
  */
 public class AutocompleteSuggestion implements Comparable<AutocompleteSuggestion>, de.schnettler.AutocompleteSuggestion {

@@ -54,6 +54,12 @@ public class GUIController implements Initializable{
 		});
 	}
 	
+	/**
+	 * Open InspectionReportTab
+	 * 
+	 * @param diagnosisId - The Id of the InspectionReport which should be opened
+	 * @param editMode - If you want to edit an existing Inspection Report or create a new One
+	 */
 	public void openDiagnosisTab(int diagnosisId, boolean editMode) {
 		//ChangeTab
 		mainTabPane.getSelectionModel().select(1);
@@ -66,6 +72,9 @@ public class GUIController implements Initializable{
 		}
 	}	
 	
+	/**
+	 * Close InspectionReportTab
+	 */
 	public void closeDiagnosis() {
 		mainTabPane.getSelectionModel().select(0);
 		diagnosisTab.setDisable(true);
@@ -73,6 +82,10 @@ public class GUIController implements Initializable{
 		homeTabController.loadReports();
 	}
 	
+	/**
+	 * Prepare Export of Custom Flaws
+	 * @param add
+	 */
 	public void exportCustomFlaws(ActionEvent add) {
 		FileChooser fileChooser = new FileChooser();
  		  
@@ -111,6 +124,11 @@ public class GUIController implements Initializable{
         }
 	}
 	
+	/**
+	 * Prepare Export of Database (Backup)
+	 * 
+	 * @param add
+	 */
 	public void exportDataBase(ActionEvent add) {
 		FileChooser fileChooser = new FileChooser();
 		

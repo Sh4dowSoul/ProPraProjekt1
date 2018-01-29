@@ -10,7 +10,19 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 
+/**
+ * @author Niklas Schnettler
+ *
+ */
 public class ExceptionDialog {
+	/**
+	 * Creates a new Dialog, which shows the StackTrace of an exception
+	 * 
+	 * @param title
+	 * @param header
+	 * @param Content
+	 * @param e - Exception
+	 */
 	public ExceptionDialog(String title, String header, String Content, Exception e) {
 		Alert alert = new Alert(AlertType.ERROR);
 		alert.setTitle(title);

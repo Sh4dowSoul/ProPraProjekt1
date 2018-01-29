@@ -15,6 +15,8 @@ import dataStorageAccess.DataSource;
  */
 public class BranchController {
 	/**
+	 * Get all Branches
+	 * 
 	 * @return A List off all Branches
 	 * @throws SQLException
 	 */
@@ -34,6 +36,8 @@ public class BranchController {
 	
 	
 	/**
+	 * Get all Branches which have Flaws
+	 * 
 	 * @return A List off all Branches which had defects
 	 * @throws SQLException
 	 */

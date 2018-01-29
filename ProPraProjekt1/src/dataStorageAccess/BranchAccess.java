@@ -19,7 +19,7 @@ public class BranchAccess {
 	/**
 	 * Get a List of Branches
 	 * 
-	 * @param needsDefect - wether only Branches which had atleast one defect should be returned
+	 * @param needsDefect - Whether only Branches which had at least one defect should be returned
 	 * @return a List of Branches
 	 * @throws SQLException
 	 */

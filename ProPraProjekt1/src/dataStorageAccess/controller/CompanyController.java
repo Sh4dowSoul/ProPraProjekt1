@@ -19,6 +19,8 @@ import dataStorageAccess.DataSource;
 public class CompanyController {
 
 	/**
+	 * Get all Companies
+	 * 
 	 * @return A List of all Companies
 	 * @throws SQLException
 	 */
@@ -47,6 +49,8 @@ public class CompanyController {
 	
 	
 	/**
+	 * Get all Companies with Flaws
+	 * 
 	 * @return A List of all Companies which had a Defect
 	 * @throws SQLException
 	 */
@@ -76,6 +80,8 @@ public class CompanyController {
 	
 	
 	/**
+	 * Get Plants of a Company
+	 * 
 	 * @param company - A Company
 	 * @return A List of Plants of a specific Company
 	 * @throws SQLException
@@ -106,8 +112,9 @@ public class CompanyController {
 	}
 	
 	/**
-	 * @param company - A Company
-	 * @return A List of Plants of a specific Company
+	 * Get all CompanyPlants
+	 * 
+	 * @return A List of Plants of all Companies
 	 * @throws SQLException
 	 */
 	
@@ -134,6 +141,13 @@ public class CompanyController {
 		return result;
 	}
 	
+	/**
+	 * Insert new Company into DataBase
+	 * 
+	 * @param company - A Company
+	 * @return The Id of the new Company (in Database)
+	 * @throws SQLException
+	 */
 	public static int insertCompany(Company company) throws SQLException {
 		String statement = "INSERT INTO Company "
 				+ "(companyName, companyStreet, companyZip, companyCity) "
@@ -164,6 +178,13 @@ public class CompanyController {
 		return companyId;
 	}
 	
+	/**
+	 * Insert a Company Plant
+	 * 
+	 * @param companyPlant - A new Company Plant
+	 * @return The Id of the new CompanyPlant
+	 * @throws SQLException
+	 */
 	public static int insertCompanyPlant(CompanyPlant companyPlant) throws SQLException {
 		String statement = "INSERT INTO CompanyPlant "
 				+ "(companyId, plantStreet, plantZip, plantCity) "

@@ -44,6 +44,9 @@ public class GUI extends Application {
 		prepareDataBase();
 	}
 	
+	/**
+	 * Prepare DataBase (Check if it exists, handle creation of new DataBase)
+	 */
 	private void prepareDataBase() {
 		//Check if Database File exists
 		if (!new File(DataSource.getDatabasePath()).exists()) {
@@ -67,6 +70,13 @@ public class GUI extends Application {
 		}
 	}
 
+	/**
+	 * TroubleShoot missing DataBase. Creates a Dialog asking the User what to do (create New One? , Search for existing Backup?). 
+	 * 
+	 * @param title
+	 * @param header
+	 * @param content
+	 */
 	private void troubleshootMissingDataBase(String title, String header, String content) {
 		//Database does not exist
 		Alert alert = new Alert(AlertType.ERROR);
@@ -134,6 +144,9 @@ public class GUI extends Application {
 		alert.showAndWait().filter(response -> response == createButton).ifPresent(response -> createNewDatabase());
 	}
 	
+	/**
+	 * Delete an invalid Database
+	 */
 	private void deleteInvalidDatabaseFile() {
 		//Delete invalid Database
 		File dbFile = new File(DataSource.getDatabasePath());
@@ -150,6 +163,9 @@ public class GUI extends Application {
 		}
 	}
 
+	/**
+	 * Create a new Database
+	 */
 	private void createNewDatabase() {
 		//Create New Database
 		Alert creatingDbDialog = new Alert(AlertType.INFORMATION);
@@ -201,6 +217,9 @@ public class GUI extends Application {
 	
 	
 	
+	/**
+	 * Task to create new DataBase
+	 */
 	Task<Void> createNewDbTask = new Task<Void>() {
 		@Override 
 		protected Void call() throws Exception {

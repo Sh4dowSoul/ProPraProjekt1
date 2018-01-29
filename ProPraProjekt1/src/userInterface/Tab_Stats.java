@@ -96,11 +96,17 @@ public class Tab_Stats implements Initializable {
 
 	}
 
+	/**
+	 * Load Data (List of Companies and Branches with Flaws)
+	 */
 	protected void loadData() {
 		companiesTask.restart();
 		branchesTask.restart();
 	}
 
+	/**
+	 * Prepare GUI
+	 */
 	private void prepareGUI() {
 		// Chart Labels
 		chart.setAnimated(false);
@@ -144,6 +150,9 @@ public class Tab_Stats implements Initializable {
 
 	}
 
+	/**
+	 * Prepare Tasks to load Data
+	 */
 	private void prepareTasks() {
 		// Company Task
 		companiesTask = new LoadCompaniesTask();
@@ -170,6 +179,9 @@ public class Tab_Stats implements Initializable {
 		});
 	}
 
+	/**
+	 * Setup Selection Listeners
+	 */
 	private void setupSelectionListeners() {
 		// Company List Selection Listener
 		companyList.getSelectionModel().selectedItemProperty()
@@ -254,6 +266,13 @@ public class Tab_Stats implements Initializable {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////// TASKS
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/**
+	 * 
+	 * Task to Load Companies
+	 * 
+	 * @author Niklas Schnettler
+	 *
+	 */
 	private static class LoadCompaniesTask extends Service<ObservableList<Company>> {
 		protected Task<ObservableList<Company>> createTask() {
 			return new Task<ObservableList<Company>>() {
@@ -264,6 +283,13 @@ public class Tab_Stats implements Initializable {
 		}
 	}
 
+	/**
+	 * 
+	 * Task to load Branches
+	 * 
+	 * @author Niklas Schnettler
+	 *
+	 */
 	private static class LoadBranchesTask extends Service<ObservableList<Branch>> {
 		protected Task<ObservableList<Branch>> createTask() {
 			return new Task<ObservableList<Branch>>() {
@@ -275,8 +301,7 @@ public class Tab_Stats implements Initializable {
 	}
 
 	/**
-	 * Task to load Statistics of Company/Branch Be aware: Not typesafe
-	 * (AutoCompleteSuggestion needs to be Branch or Company)
+	 * Task to load Statistics of Company/Branch
 	 * 
 	 * @author Niklas Schnettler
 	 *
@@ -305,6 +330,11 @@ public class Tab_Stats implements Initializable {
 		}
 	}
 
+	/**
+	 * Generate PieChart
+	 * 
+	 * @param data
+	 */
 	private void generateChart(ObservableList<FlawStatistic> data) {
 		ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
 		for (FlawStatistic flaw : data) {

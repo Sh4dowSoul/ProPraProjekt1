@@ -17,6 +17,12 @@ import dataStorageAccess.FlawAccess;
 
 public class DataBaseController {
 
+	/**
+	 * Creates a new Database (Tables, Default Data)
+	 * 
+	 * @throws SQLException
+	 * @throws FileNotFoundException
+	 */
 	public static void createNewDataBase() throws SQLException, FileNotFoundException {
 		Statement statement = null;
 		Connection connection = null;
@@ -79,9 +85,14 @@ public class DataBaseController {
 		}
 	}
 	
+	/**
+	 * Validate TableDeclarations of Connected DataBase
+	 * 
+	 * @return A Map of 
+	 * @throws SQLException
+	 */
 	public static boolean getTableDeclarations() throws SQLException {
 		Map<String, String> tableSql = DataSource.getTableSql();
-		Boolean isValid = true;
 		//Insert Default branches
 		String stmt = "SELECT sql "
 				+ "FROM sqlite_master "

@@ -1,5 +1,9 @@
 package applicationLogic;
 
+/**
+ * @author Niklas Schnettler
+ *
+ */
 public class CompanyPlant extends AutocompleteSuggestion {
 
 	private String street;

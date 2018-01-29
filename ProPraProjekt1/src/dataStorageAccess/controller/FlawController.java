@@ -40,6 +40,12 @@ public class FlawController {
 		return result;
 	}
 	
+	/**
+	 * Get a List of all custom Flaws
+	 * 
+	 * @return The List off all custom Flaws
+	 * @throws SQLException
+	 */
 	public static ArrayList<Flaw> getCustomFlaws() throws SQLException {
 		ArrayList<Flaw> result = new ArrayList<Flaw>();
 		try (
@@ -59,6 +65,13 @@ public class FlawController {
 		return result;
 	}
 	
+	/**
+	 * Fetches a List of Descriptions of a given ExternalFlawId
+	 * 
+	 * @param externalFlawId
+	 * @return  a List of Descriptions
+	 * @throws SQLException
+	 */
 	public static ArrayList<String> getFlawDescription(int externalFlawId) throws SQLException {
 		ArrayList<String> result = new ArrayList<>();
 		try (
@@ -79,10 +92,10 @@ public class FlawController {
 	
 	
 	/**
-	 * Get the Defects of an specific InspectionResult
+	 * Get the Defects of an specific InspectionReport
 	 * 
-	 * @param diagnosisId - The id of an InspectionResult
-	 * @return a List of all Defects of an InspectionResult
+	 * @param diagnosisId - The id of an InspectionReport
+	 * @return a List of all Defects of an InspectionReport
 	 * @throws SQLException
 	 */
 	public static ArrayList<InspectionReportStatistic> getFlawsOfInspectionReportsForXml(ArrayList<InspectionReportStatistic> inspectionReports) throws SQLException{
@@ -117,6 +130,14 @@ public class FlawController {
 		return inspectionReports;
 	}
 	
+	/**
+	 * 
+	 * Insert Custom Flaw
+	 * 
+	 * @param flaw
+	 * @return The new Id
+	 * @throws SQLException
+	 */
 	public static int insertCustomFlaw(Flaw flaw) throws SQLException{
 		
 		String statement = "INSERT INTO Flaw "

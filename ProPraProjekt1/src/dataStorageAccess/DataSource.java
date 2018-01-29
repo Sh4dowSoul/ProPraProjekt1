@@ -16,17 +16,24 @@ import com.zaxxer.hikari.HikariDataSource;
  * @author Niklas Schnettler
  *
  */
+/**
+ * @author Niklas Schnettler
+ *
+ */
 public class DataSource {
 
 	private static HikariConfig config = new HikariConfig();
     private static HikariDataSource dataSource;
     private static String dataBaseFolder = new JFileChooser().getFileSystemView().getDefaultDirectory().toString() +"\\MangelManager\\";
     private static String databasePath = dataBaseFolder +"BefundscheineVerwaltung.db";
-    public static boolean good;
     
     private static Map<String, String> tableDefinitions;
     
 	
+	/**
+	 * Prepares the ConnectionPool for DataBase access
+	 * 
+	 */
 	public static void configDataSource() {
 		config.setJdbcUrl("jdbc:sqlite:" + databasePath);
 		config.addDataSourceProperty("cachePrepStmts", "true");
@@ -35,6 +42,9 @@ public class DataSource {
         dataSource = new HikariDataSource(config);
     }
 	
+	/**
+	 * Close DataSource Access (if not closed yet)
+	 */
 	public static void closeDataSource() {
 		if (dataSource != null && !dataSource.isClosed()) {
 			dataSource.close();
@@ -43,17 +53,15 @@ public class DataSource {
     
     private DataSource() {}
     
+    /**
+     * Get a new Connection to the DataBase from the Connection Pool
+     * 
+     * @return
+     * @throws SQLException
+     */
     public static Connection getConnection() throws SQLException {
         return dataSource.getConnection();
     }
-    
-    public static boolean isGood() {
-		return good;
-	}
-
-	public static void setGood(boolean good) {
-		DataSource.good = good;
-	}
 
 	public static String getDatabasePath() {
 		return databasePath;

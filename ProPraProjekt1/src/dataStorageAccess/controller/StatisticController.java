@@ -16,8 +16,10 @@ import dataStorageAccess.DataSource;
 public class StatisticController {
 	
 	/**
+	 * Get most frequent Flaws of a Company
+	 * 
 	 * @param id - Id of a Company
-	 * @return A List of the most Frequent Defects in Company
+	 * @return A List of the most Frequent Flaws in Company
 	 * @throws SQLException
 	 */
 	public static ArrayList<FlawStatistic> getMostFrequentDefectCompany(int id) throws SQLException{
@@ -43,6 +45,8 @@ public class StatisticController {
 	
 	
 	/**
+	 * Get a list of the most frequent Flaws across all Companies
+	 * 
 	 * @return A List of the most Frequent Defects across all Companies
 	 * @throws SQLException
 	 */
@@ -68,6 +72,8 @@ public class StatisticController {
 	
 	
 	/**
+	 * Get the most frequent Flaws of a Branch
+	 * 
 	 * @param id - Id of a Branch
 	 * @return A List of the most Frequent Defects of a Branch
 	 * @throws SQLException

@@ -9,7 +9,6 @@ import javax.validation.constraints.NotNull;
 import javafx.collections.ObservableList;
 
 /**
- * The Class Diagnosis
  * 
  * @author Niklas Schnettler
  */

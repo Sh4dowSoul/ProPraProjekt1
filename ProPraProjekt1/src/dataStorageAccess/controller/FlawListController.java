@@ -49,6 +49,12 @@ public class FlawListController {
 		return FXCollections.observableArrayList(result);
 	}
 	
+	/**
+	 * Remove complete FlawList of an InspectionReport
+	 * 
+	 * @param reportId - The Id of the inspectionReport
+	 * @throws SQLException
+	 */
 	public static void removeFlawList(int reportId) throws SQLException {
 		Statement statement = null;
 		Connection connection = null;
@@ -75,10 +81,10 @@ public class FlawListController {
 	
 	
 	/**
-	 * Insert a Defect into the Database
+	 * Insert a FlawList into the Database
 	 * 
-	 * @param defect - A Defect
-	 * @param diagnosisId - the Id of an Diagnosis
+	 * @param flawListElements - A List of Flaws
+	 * @param inspectionReportId - the Id of the InspectionReport
 	 * @throws SQLException
 	 */
 	public static void insertFlawList(ObservableList<FlawListElement> flawListElements, int inspectionReportId) throws SQLException {
@@ -107,33 +113,6 @@ public class FlawListController {
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
-		} finally {
-			if (preparedStatement != null) {
-				preparedStatement.close();
-			}
-			if (connection != null) {
-				connection.close();
-			}
-		}
-	}
-	
-	public static void updateDefect(FlawListElement defect, int diagnosisId) throws SQLException {
-		String statement = "UPDATE FlawListElement "
-				+ "SET inspectionReportId = ?, internalFlawId = ?, branchId = ? ,danger = ?, building = ?, "
-				+ "room = ?, machine = ? " 
-				+ "WHERE elementId = " + defect.getElementId();
-
-		PreparedStatement preparedStatement = null;
-		Connection connection = null;
-		try {
-			connection = DataSource.getConnection();
-			preparedStatement = connection.prepareStatement(statement);
-
-			Util.setValues(preparedStatement,
-					diagnosisId, defect.getFlaw().getInternalId(), defect.getBranchId(), defect.getDanger(), defect.getBuilding(), defect.getRoom(), defect.getMachine());
-		
-			// execute insert SQL statement
-			preparedStatement.executeUpdate();
 		} finally {
 			if (preparedStatement != null) {
 				preparedStatement.close();

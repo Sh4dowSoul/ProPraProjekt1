@@ -24,8 +24,10 @@ import dataStorageAccess.DataSource;
 public class DiagnosisController {
 	
 	/**
-	 * @param number of Diagnoses you want to get
-	 * @return a list of the "n" last edited Diagnoses 
+	 * Get Previews of the Last edited InspectionReports
+	 * 
+	 * @param Number of Previews
+	 * @return A List of the n Last Edited InspectionReports
 	 * @throws SQLException
 	 */
 	public static ArrayList<InspectionResultPreview> getLastEditedDiagnosesPreview(int number) throws SQLException {
@@ -58,7 +60,9 @@ public class DiagnosisController {
 	}
 	
 	/**
-	 * @return A List of Previews of Diagnoses (id, date, companyId, companyName)
+	 * Get a preview off all InspectionReports
+	 * 
+	 * @return A List of Previews of all InspectionReports
 	 * @throws SQLException
 	 */
 	public static ArrayList<InspectionResultPreview> getDiagnosesPreview() throws SQLException {
@@ -90,8 +94,10 @@ public class DiagnosisController {
 	}
 	
 	/**
-	 * @param id - diagnosis_id from Diagnosis Table
-	 * @return the whole Diagnosis, loaded from the database
+	 * Get an InspectionReports
+	 * 
+	 * @param id - The Id of the InspectionReport
+	 * @return An InspectionReport
 	 * @throws SQLException
 	 */
 	public static InspectionReportFull getDiagnosis(int id) throws SQLException {
@@ -276,7 +282,7 @@ public class DiagnosisController {
 	
 	
 	/**
-	 * Get a List of Defects and Diagnoses of a company (for statistic export)
+	 * Get a List of Flaws and InspectionReports of a company (for statistic export)
 	 * 
 	 * @param companyId - Id of a Company
 	 * @return A List of StatisticResults
@@ -306,9 +312,9 @@ public class DiagnosisController {
 	}
 	
 	/**
-	 * Update a Disgnosis in the Database
+	 * Update an InspectionReport in the Database
 	 * 
-	 * @param diagnosis - A Diagnosis
+	 * @param diagnosis - An InspectionReport
 	 * @throws SQLException
 	 */
 	public static void updateDiagnosis(InspectionReportFull diagnosis) throws SQLException {
@@ -371,8 +377,8 @@ public class DiagnosisController {
 	
 	
 	/**
-	 * Inserts Diagnosis into Database
-	 * @param diagnosis - Diagnosis, which should be inserted into the Database
+	 * Inserts InspectionReport into Database
+	 * @param diagnosis - InspectionReport, which should be inserted into the Database
 	 * @throws SQLException
 	 */
 	public static int insertDiagnosis(InspectionReportFull diagnosis) throws SQLException {

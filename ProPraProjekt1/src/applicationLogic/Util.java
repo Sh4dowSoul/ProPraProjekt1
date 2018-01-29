@@ -54,22 +54,48 @@ public class Util {
 	    }
 	}
 	
+	/**
+	 * Writes write Integer into TextField if Integer is not null
+	 * 
+	 * @param tf - TextField
+	 * @param value - The Integer
+	 */
 	public static void setNullableIntToTextField(TextField tf, Integer value) {
 		if(value != null) {
 			tf.setText(Integer.toString(value));
 		}
 	}
 	
+	/**
+	 * Writes Double into TextField if Double is not null
+	 * 
+	 * @param tf - TextField
+	 * @param value - The double
+	 */
 	public static void setNullableDoubleToTextField(TextField tf, Double value) {
 		if(value != null) {
 			tf.setText(Double.toString(value));
 		}
 	}
 	
+	/**
+	 * Returns Nullable Boolean generated from Boolean and Object
+	 * 
+	 * @param obj - Object (which can be Null, 0,1)
+	 * @param bln - Boolean (created from Object)
+	 * @return Boolean
+	 */
 	public static Boolean getNullableBoolean(Object obj, Boolean bln) {
 		return obj != null ? bln : null;
 	}
 	
+	/**
+	 * Validates if Input in textField is an Integer
+	 * 
+	 * @param tf - TextField
+	 * @param canBeEmpty - If the textfield is allowed to be empty
+	 * @return
+	 */
 	public static boolean validateInt(TextField tf, boolean canBeEmpty) {
 		if (tf.getText().isEmpty()) {
 			if(canBeEmpty) {
@@ -89,6 +115,12 @@ public class Util {
 		return true;
 	}
 	
+	/**
+	 * Validates if Input in textField is an Double
+	 * 
+	 * @param tf - TextField
+	 * @return
+	 */
 	public static boolean validateDouble(TextField tf) {
 		if (tf.getText().isEmpty()) {
 			tf.getStyleClass().removeAll(Collections.singleton("error"));
@@ -104,6 +136,12 @@ public class Util {
 		return true;
 	}
 	
+	/**
+	 * Validates that an TextField is not empty
+	 * 
+	 * @param tf
+	 * @return
+	 */
 	public static boolean validateNotEmpty(TextField tf) {
 		if (tf.getText().isEmpty()) {
 			tf.getStyleClass().add("error");
@@ -113,6 +151,11 @@ public class Util {
 		return true;
 	}
 	
+	/**
+	 * Clears all childs of given Pane
+	 * 
+	 * @param parentPane - The ParentPane
+	 */
 	public static <T extends Pane> void clearNode(T parentPane) {
 		for (Node newnode : parentPane.getChildren()) {
 			if (newnode instanceof TextField) {
@@ -144,6 +187,12 @@ public class Util {
 		} 
 	}
 	
+	/**
+	 * Gets the selected Toggle of a given ToogleGroup
+	 * 
+	 * @param toggleGroup - A ToogleGroup (sorted ascending)
+	 * @return The selected Toggle
+	 */
 	public static int getSelectedToggle(ToggleGroup toggleGroup) {
 		ObservableList<Toggle> toggles = toggleGroup.getToggles();
 		for (int i = 0; i < toggles.size(); i++) {
@@ -154,6 +203,13 @@ public class Util {
 		return 0;
 	}
 	
+	/**
+	 * Validates InspectionReport
+	 * 
+	 * @param inspectionReport - An InspectionReport
+	 * @param isOpened - Wether the result of the Validation should be shown in GUI (Dialog)
+	 * @return If the InspectionReport is Valid
+	 */
 	public static boolean validateInspectionReport(InspectionReportFull inspectionReport, boolean isOpened) {
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory(); 
 		Validator validator = factory.getValidator();

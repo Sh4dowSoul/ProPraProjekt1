@@ -66,6 +66,30 @@ import javafx.util.StringConverter;
  * @author Niklas Schnettler, Salih Arslan, Sven Meyer, Sven Motschnig, Daniel Novakovic
  *
  */
+/**
+ * @author Niklas Schnettler
+ *
+ */
+/**
+ * @author Niklas Schnettler
+ *
+ */
+/**
+ * @author Niklas Schnettler
+ *
+ */
+/**
+ * @author Niklas Schnettler
+ *
+ */
+/**
+ * @author Niklas Schnettler
+ *
+ */
+/**
+ * @author Niklas Schnettler
+ *
+ */
 public class Tab_InspectionResult implements Initializable{
 // *** BEFUNDSCHEIN TAB ***
 // Versicherungsnehmer Adresse
@@ -243,11 +267,17 @@ public class Tab_InspectionResult implements Initializable{
 		prepareDefectsAutocomplete();
     }
 	
+	/**
+	 * Prepare Company Data (For Company selection)
+	 */
 	private void prepareData() {
 		loadCompanies();
 		loadCompanyPlants();
 	}
 
+	/**
+	 * Prepare the GUI
+	 */
 	private void prepareGUI() {
 	//CompanyComboBox
 		comboBoxCompanyName.setCellFactory(param -> new ListCell<Company>(){
@@ -446,6 +476,12 @@ public class Tab_InspectionResult implements Initializable{
 		});
 	}
 
+	/**
+	 * Handle SaveCompanyButton Clicks - Save a new Company
+	 * 
+	 * @param event
+	 * @throws IOException
+	 */
 	public void saveCompany(ActionEvent event) throws IOException {
 		if(Util.validateInt(textFieldCompanyZipCode, false) & Util.validateNotEmpty(textFieldCompanyCity) & Util.validateNotEmpty(textFieldCompanyStreet)) {
 			currentCompany.setCity(textFieldCompanyCity.getText());
@@ -469,6 +505,12 @@ public class Tab_InspectionResult implements Initializable{
 		}
 	}
 	
+	/**
+	 * Handle SaveCompanyPlantButton Clicks - Save a new CompanyPlant
+	 * 
+	 * @param event
+	 * @throws IOException
+	 */
 	public void saveCompanyPlant(ActionEvent event) throws IOException {
 		if(Util.validateInt(textFieldCompanyPlantZipCode, false) & Util.validateNotEmpty(textFieldCompanyPlantCity)) {
 			currentCompanyPlant.setCity(textFieldCompanyPlantCity.getText());
@@ -489,6 +531,9 @@ public class Tab_InspectionResult implements Initializable{
 		}
 	}
 	
+	/**
+	 * Disables the TextFields (which are used to add data for a new Company) and Prepare for Plant slection
+	 */
 	private void disableCompanyPrepareCompanyPlant() {
 		textFieldCompanyStreet.setDisable(true);
 		textFieldCompanyZipCode.setDisable(true);
@@ -504,6 +549,10 @@ public class Tab_InspectionResult implements Initializable{
 		}
 		comboBoxCompanyPlantStreet.setItems(FXCollections.observableArrayList(plants));
 	}
+	
+	/**
+	 * Disables the TextFields (which are used to add data for a new CompanyPlant)
+	 */
 	private void disableCompanyPlantTextFields() {
 		textFieldCompanyPlantZipCode.setDisable(true);
 		textFieldCompanyPlantCity.setDisable(true);
@@ -520,6 +569,11 @@ public class Tab_InspectionResult implements Initializable{
 	
 	
 	
+	/**
+	 * 
+	 * Fetch Data for the creation of a new FlawListElement
+	 * @return The new FlawListElement
+	 */
 	public FlawListElement getNewFlawData() {
 		//Get Danger Category
 		int defectDanger = 0;
@@ -566,6 +620,11 @@ public class Tab_InspectionResult implements Initializable{
 		return new FlawListElement(currentFlaw, Integer.valueOf(branchText.getText()), defectDanger, buildingText.getText(), roomText.getText(), machineText.getText(), 0);
 	}
 	
+	/**
+	 * Handle "AddFlawToTable" Button press and add FlawListElement to table
+	 * 
+	 * @param add
+	 */
 	public void addFlawToTable(ActionEvent add) {
 		if (Util.validateInt(resultDefectId, false) & Util.validateInt(branchText, false)) {
 			
@@ -592,7 +651,7 @@ public class Tab_InspectionResult implements Initializable{
 	
 	
 	/**
-	 * Reset add to defect table textfields & CheckBoxes
+	 * Reset add to flaw table textfields & CheckBoxes
 	 */
 	private void resetAddToTable() {
 		defectSearchField.clear();
@@ -639,7 +698,7 @@ public class Tab_InspectionResult implements Initializable{
 	
 	
 	/**
-	 * Prepare Result for export to Database
+	 * Prepare Report for export to Database
 	 * @throws SQLException 
 	 */
 	public void saveInspectionReportPrepare(ActionEvent add){
@@ -683,6 +742,12 @@ public class Tab_InspectionResult implements Initializable{
 		}
 	}
 	
+	
+	/**
+	 *Save InspectionReport in DataBase
+	 * 
+	 * @param newReport
+	 */
 	private void saveInspectionReport(boolean newReport) {
 		//save as new Report
 		if (newReport) {
@@ -702,6 +767,9 @@ public class Tab_InspectionResult implements Initializable{
 		}
 	}
 	
+	/**
+	 * Update curent Information
+	 */
 	private void updateInformation() {
 		informationReportId.setText(String.valueOf(importedInspectionReport.getId()));
 		String time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"));
@@ -712,7 +780,10 @@ public class Tab_InspectionResult implements Initializable{
 	}
 	
 	
-	 public void createNewInspectionReport() {
+	 /**
+	 * Prepare for creating an new InspectionReport
+	 */
+	public void createNewInspectionReport() {
 		 isEditMode = false;
 		 informationMode.setText("Neuerstellung");
 		 importedInspectionReport = new InspectionReportFull();
@@ -720,7 +791,7 @@ public class Tab_InspectionResult implements Initializable{
 	    
 
 	/**
-	 * Import Result for edit
+	 * Import InspectionReport for edit
 	 * @throws SQLException 
 	 */
 	public void importInspectionReport(int id) {
@@ -999,6 +1070,12 @@ public class Tab_InspectionResult implements Initializable{
 	}
 	
 	
+	/**
+	 * 
+	 * Handle imported FlawList problems
+	 * 
+	 * @param flaws
+	 */
 	private void setImportedFlawList(ObservableList<FlawListElement> flaws) {
 		importedFlawList = null;
 		if (flaws != null && !flaws.isEmpty()) {
@@ -1010,9 +1087,8 @@ public class Tab_InspectionResult implements Initializable{
 	}
 
 	/**
-	 * Get user Input
+	 * Fetch user Input (of InspectionReport)
 	 * 
-	 * @return if loading was sucessful
 	 */
 	private void fetchInspectionReportData() {
 		int currentId = 0;
@@ -1125,7 +1201,7 @@ public class Tab_InspectionResult implements Initializable{
 	
 
 	/**
-	 * Resets all buttons and textfields
+	 * CleanUp session (data, workspace variables)
 	 */
 	public void cleanUpSession() {
 		currentCompany = null;
@@ -1165,6 +1241,12 @@ public class Tab_InspectionResult implements Initializable{
 		}
 	}
 	
+	/**
+	 * Handle "CloseDiagnosisButton" clicks - Check for changes and close Tab
+	 * 
+	 * @param event
+	 * @throws IOException
+	 */
 	public void closeDiagnosis (ActionEvent event) throws IOException{
 		fetchInspectionReportData();
 		//Check for Changes 
@@ -1194,7 +1276,7 @@ public class Tab_InspectionResult implements Initializable{
 	}
 	
 	/**
-	 * Prepares the Defects Autocomplete TextField
+	 * Prepares the Flaw Autocomplete TextField
 	 */
 	private void prepareDefectsAutocomplete() {
 	//Defects
@@ -1251,7 +1333,7 @@ public class Tab_InspectionResult implements Initializable{
 	
 	
 	/**
-	 * Prepares the Companies Autocomplete TextField
+	 * Load all Companies
 	 */
 	private void loadCompanies() {
 		final Task<ArrayList<Company>> loadCompaniesTask = new Task<ArrayList<Company>>() {
@@ -1271,7 +1353,7 @@ public class Tab_InspectionResult implements Initializable{
 	}
 	
 	/**
-	 * Prepares the Company Plants Autocomplete TextField
+	 * Load all CompanyPlants
 	 */
 	private void loadCompanyPlants() {
 		final Task<ArrayList<CompanyPlant>> loadCompaniePlantTask = new Task<ArrayList<CompanyPlant>>() {

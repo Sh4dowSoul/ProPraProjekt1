@@ -14,7 +14,7 @@ public class DefectAccess {
 	/**
 	 * Get the most frequent defects of a Company / all Companies
 	 * 
-	 * @param singleCompany - Weather you want the defects of a) one or b) all companies
+	 * @param singleCompany - Whether you want the defects of a) one or b) all companies
 	 * @param companyId - the id off a company (in case of a)) 
 	 * @return A List of the most frequent defects
 	 * @throws SQLException
@@ -28,10 +28,9 @@ public class DefectAccess {
 	}
 	
 	/**
-	 * Get the most frequent defects of a Branch / all Branches
+	 * Get the most frequent defects of a Branch
 	 * 
-	 * @param singleCompany - Weather you want the defects of a) one or b) all companies
-	 * @param companyId - the id off a company (in case of a)) 
+	 * @param companyId - the id off a company
 	 * @return A List of the most frequent defects
 	 * @throws SQLException
 	 */

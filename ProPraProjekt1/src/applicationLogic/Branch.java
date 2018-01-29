@@ -1,6 +1,10 @@
 package applicationLogic;
 
 
+/**
+ * @author Niklas Schnettler
+ *
+ */
 public class Branch extends AutocompleteSuggestion {
 	
 	private boolean isDummy;

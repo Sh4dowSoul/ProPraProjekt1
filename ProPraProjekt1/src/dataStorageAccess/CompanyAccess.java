@@ -15,7 +15,7 @@ public class CompanyAccess {
 	/**
 	 * Get a List of Companies
 	 * 
-	 * @param needsDefect - wether only companies which had atleast one defect should be returned
+	 * @param needsDefect - whether only companies which had at least one defect should be returned
 	 * @return a List of Companies
 	 * @throws SQLException
 	 */

@@ -64,12 +64,17 @@ public class Tab_Home implements Initializable{
 		loadReports();
     }
 	
+	/**
+	 * Load Lists of InspectionReport Previews (Last EditedList, All Table)
+	 */
 	protected void loadReports() {
-		System.out.println("LOADING DATA");
 		loadLastEditedReports.restart();
 		loadAllReports.restart();
 	}
 
+	/**
+	 * Prepare Tasks to load InspectionReport Previews
+	 */
 	private void prepareTasks() {
 		// Load Last Edited Task
 		loadLastEditedReports = new LoadReportstask(true);
@@ -87,6 +92,9 @@ public class Tab_Home implements Initializable{
 		});
 	}
 
+	/**
+	 * Setup the GUI
+	 */
 	private void setupGUI() {
 		//InspectionReport TableView
 		tableColumnInspectionReportId.setCellValueFactory(new PropertyValueFactory<InspectionResultPreview,String>("id"));
@@ -123,13 +131,18 @@ public class Tab_Home implements Initializable{
 	
 	
 	/**
-	 * Adds diagnosis to the database
+	 * Handle newInspectionReport Button Clicks
 	 * @throws SQLException 
 	 */
 	public void createNewDiagnosisButton(ActionEvent add){
 		mainController.openDiagnosisTab(0, false);
 	}
 
+	/**
+	 * Open Dialog asking what to do with a selected InspectionReport
+	 * 
+	 * @param item
+	 */
 	private void openInspectionResultOptionsDialog(InspectionResultPreview item) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Befundschein " + item.getId() + " - " + item.getCompanyName());
@@ -167,6 +180,12 @@ public class Tab_Home implements Initializable{
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////// TASKS
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/**
+	 * Task to load InspectionReports
+	 * 
+	 * @author Niklas Schnettler
+	 *
+	 */
 	private static class LoadReportstask extends Service<ObservableList<InspectionResultPreview>> {
 		private boolean lastEdited;
 		

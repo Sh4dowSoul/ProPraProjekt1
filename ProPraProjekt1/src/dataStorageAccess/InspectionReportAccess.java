@@ -19,10 +19,10 @@ import javafx.util.Duration;
 public class InspectionReportAccess {
 	
 	/**
-	 * Get a complete InspectionResult (inclusive defectsList) by its id
+	 * Get an InspectionReport
 	 * 
-	 * @param diagnosisId - Id of a Diagnosis
-	 * @return A complete InspectionResult
+	 * @param diagnosisId - The Id of the InspectionReport
+	 * @return The InspectionReport
 	 * @throws SQLException
 	 */
 	public static InspectionReportFull getCompleteResult(int diagnosisId) throws SQLException {
@@ -32,9 +32,9 @@ public class InspectionReportAccess {
 	}
 	
 	/**
-	 * Save a complete InspectionResult in the Database
+	 * Save a new InspectionReport
 	 * 
-	 * @param result - The complete InspectionResult
+	 * @param result - The complete InspectionReport
 	 * @throws SQLException
 	 */
 	public static int saveNewCompleteResult(InspectionReportFull result) {
@@ -60,9 +60,9 @@ public class InspectionReportAccess {
 	}
 	
 	/**
-	 * Update a complete InspectionResult which is already saved in the Database
+	 * Update an InspectionReport which is already saved in the Database
 	 * 
-	 * @param result - The complete InspectionResult
+	 * @param result - The complete InspectionReport
 	 * @throws SQLException
 	 */
 	public static void updateCompleteResult(InspectionReportFull result) {
@@ -93,8 +93,8 @@ public class InspectionReportAccess {
 	 * 	a) The 10 Last edited Results
 	 *  b) All Results
 	 * 
-	 * @param lastEdited - wether you want to get the last edited Results 
-	 * @return A List of ResultPreviews
+	 * @param lastEdited - Whether you want to get the last edited Results 
+	 * @return A List of InspectionReportPreviews
 	 * @throws SQLException
 	 */
 	public static ArrayList<InspectionResultPreview> getResultsPreview(boolean lastEdited) throws SQLException {
