@@ -214,7 +214,7 @@ public class Tab_InspectionResult implements Initializable{
 	@FXML private TableColumn<FlawListElement,String> descriptionColumn;
 	@FXML private Button AddDiagnosisBtn;
 	@FXML private Button pdfExpBtn;
-	//Hinzufügen
+//Hinzufügen
 	@FXML private AutocompleteTextField defectSearchField;
 	@FXML private TextField resultDefectId;
 	@FXML private AutocompleteTextField branchText;
@@ -224,6 +224,7 @@ public class Tab_InspectionResult implements Initializable{
 	@FXML private CheckBox dangerFireSwitchBox;
 	@FXML private CheckBox dangerPersonSwitchBox;
 	@FXML private Button addDefectButton;
+	@FXML private Button cancelAddFlawButton;
 	
 	@FXML private BorderPane borderPane;
 	@FXML private GridPane gridPaneFlawForm;
@@ -474,6 +475,7 @@ public class Tab_InspectionResult implements Initializable{
 		    });
 		    return row ;
 		});
+		cancelAddFlawButton.setVisible(false);
 	}
 
 	/**
@@ -653,7 +655,7 @@ public class Tab_InspectionResult implements Initializable{
 	/**
 	 * Reset add to flaw table textfields & CheckBoxes
 	 */
-	private void resetAddToTable() {
+	public void resetAddToTable() {
 		defectSearchField.clear();
 		resultDefectId.clear();
 		dangerFireSwitchBox.setSelected(false);
@@ -662,6 +664,8 @@ public class Tab_InspectionResult implements Initializable{
 		roomText.clear();
 		machineText.clear();
 		machineText.clear();
+		cancelAddFlawButton.setVisible(false);//Hide Cancel Button
+		addDefectButton.setText("Hinzufügen");
 	}
 	
 	/**
@@ -670,6 +674,7 @@ public class Tab_InspectionResult implements Initializable{
 	 * @param defect
 	 */
 	private void prepareEditOfFlawListElement(FlawListElement defect) {
+		cancelAddFlawButton.setVisible(true);//Show Cancel Button
 		currentFlawListElementEdit = defect;
 		currentFlaw = defect.getFlaw();
 		flawFormIsEditMode = true;
@@ -694,6 +699,7 @@ public class Tab_InspectionResult implements Initializable{
 		buildingText.setText(defect.getBuilding());
 		roomText.setText(defect.getRoom());
 		machineText.setText(defect.getMachine());
+		addDefectButton.setText("Ändern");
 	}
 	
 	
@@ -1221,8 +1227,7 @@ public class Tab_InspectionResult implements Initializable{
 		defectTableView.getItems().clear();
 		Util.clearNode(borderPane);
 		Util.clearNode(gridPaneFlawForm);
-		
-		//TODO: Cleanup Table
+		cancelAddFlawButton.setVisible(false);
 	}
 	
 	
