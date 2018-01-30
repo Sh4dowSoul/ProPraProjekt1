@@ -764,6 +764,7 @@ public class Tab_InspectionResult implements Initializable{
 			}
 			isEditMode = true;
 			updateInformation();
+			pdfExpBtn.setDisable(false);
 		} else {
 			//Override Report
 			InspectionReportAccess.updateCompleteResult(newInspectionReport);
@@ -793,6 +794,7 @@ public class Tab_InspectionResult implements Initializable{
 		 isEditMode = false;
 		 informationMode.setText("Neuerstellung");
 		 importedInspectionReport = new InspectionReportFull();
+		 pdfExpBtn.setDisable(true);
 	 }
 	    
 
