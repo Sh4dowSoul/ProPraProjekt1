@@ -708,44 +708,63 @@ public class Tab_InspectionResult implements Initializable{
 	 * @throws SQLException 
 	 */
 	public void saveInspectionReportPrepare(ActionEvent add){
+		//Fetch Data
 		fetchInspectionReportData();
 		//Validate
-		newInspectionReport.setValid(Util.validateInspectionReport(newInspectionReport, false));
-		//Set imported Defects for Comparison (Unlinked from ObservableList)
-		if (importedFlawList != null) {
-			importedInspectionReport.setDefects(FXCollections.observableArrayList(importedFlawList));
-		}
+		validateIspectionReport(false);
 		//Check if edited
-		if (!importedInspectionReport.equals(newInspectionReport)) {									//InspectionReport has been edited
+		if (!compareInspectionReports()) {									//InspectionReport has been edited
 			if (!isEditMode) {
 				//Save as new InspectionReport
 				saveInspectionReport(true);
 			} else {
-				Alert alert = new Alert(AlertType.CONFIRMATION);
-				alert.setTitle("Speichere Befundschein");
-				alert.setHeaderText("Überschreiben oder neu speichern?");
-				alert.setContentText("Wollen sie den alten Befundschein überschreiben oder einen neuen Befundschein speichern?");
-
-				ButtonType overrideButton = new ButtonType("Überschreiben");
-				ButtonType newButton = new ButtonType("Als neuen Befundschein speichern");
-				ButtonType cancelButton = new ButtonType("Abbrechen", ButtonData.CANCEL_CLOSE);
-				alert.getButtonTypes().setAll(overrideButton, newButton, cancelButton);
-
-				Optional<ButtonType> Dialogresult = alert.showAndWait();
-				if (Dialogresult.get() == overrideButton){
-					saveInspectionReport(false);
-				}
-				if (Dialogresult.get() == newButton){
-					saveInspectionReport(true);
-				}
+				showSaveModeDialog();
 			}
 		} else {
 				Alert alert = new Alert(AlertType.INFORMATION);
 				alert.setTitle("Information: Keine Änderung erkannt");
 				alert.setHeaderText("Information: Keine Änderung erkannt");
-				alert.setContentText("Es wurde keine Änderung des Befundscheins erkannt, deshabl wurde der Speichervorgnag abgebrochen");
+				alert.setContentText("Es wurde keine Änderung des Befundscheins erkannt, deshalb wurde der Speichervorgnag abgebrochen");
 				alert.show();
 		}
+	}
+	
+	private boolean compareInspectionReports() {
+		//Set imported Defects for Comparison (Unlinked from ObservableList)
+		if (importedFlawList != null) {
+			importedInspectionReport.setDefects(FXCollections.observableArrayList(importedFlawList));
+		}
+		return importedInspectionReport.equals(newInspectionReport);
+	}
+	
+	private boolean validateIspectionReport(boolean showInGui) {
+		//Validate
+		boolean valid = Util.validateInspectionReport(newInspectionReport, showInGui);
+		newInspectionReport.setValid(valid);
+		return valid;
+	}
+	
+	private boolean showSaveModeDialog() {
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Speichere Befundschein");
+		alert.setHeaderText("Überschreiben oder neu speichern?");
+		alert.setContentText("Wollen sie den alten Befundschein überschreiben oder einen neuen Befundschein speichern?");
+
+		ButtonType overrideButton = new ButtonType("Überschreiben");
+		ButtonType newButton = new ButtonType("Als neuen Befundschein speichern");
+		ButtonType cancelButton = new ButtonType("Abbrechen", ButtonData.CANCEL_CLOSE);
+		alert.getButtonTypes().setAll(overrideButton, newButton, cancelButton);
+
+		Optional<ButtonType> Dialogresult = alert.showAndWait();
+		if (Dialogresult.get() == overrideButton){
+			saveInspectionReport(false);
+			return true;
+		}
+		if (Dialogresult.get() == newButton){
+			saveInspectionReport(true);
+			return true;
+		}
+		return false;
 	}
 	
 	
@@ -1243,8 +1262,19 @@ public class Tab_InspectionResult implements Initializable{
 	 */
 	public void exportDiagnosis (ActionEvent event) throws IOException{
 		fetchInspectionReportData();
-		if(Util.validateInspectionReport(newInspectionReport, true)) {
-			PDFExport.export(newInspectionReport);
+		if(validateIspectionReport(true)) {
+			//Check for Changes 
+			if (!compareInspectionReports()) {
+				//Save before Export
+				if (showSaveModeDialog()) {
+					//Changes saved, export
+					PDFExport.export(newInspectionReport);
+				}
+			} else {
+				//No Changes, export
+				PDFExport.export(newInspectionReport);
+			}
+			
 		}
 	}
 	
