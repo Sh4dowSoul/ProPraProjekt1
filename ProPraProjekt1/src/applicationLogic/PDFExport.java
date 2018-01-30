@@ -44,10 +44,6 @@ import javafx.util.Duration;
 
 public class PDFExport {
 	static ClassLoader classLoader = PDFExport.class.getClassLoader();
-	static InputStream  arial = classLoader.getResourceAsStream("resources/fonts/ARIAL.TTF");
-	static InputStream  arialBold = classLoader.getResourceAsStream("resources/fonts/ARIALBD.TTF");
-	static InputStream  arialBoldCursive = classLoader.getResourceAsStream("resources/fonts/ARIALBI.TTF");
-	static InputStream  arialCursive = classLoader.getResourceAsStream("resources/fonts/ARIALI.TTF");
 	
 	static PDDocument document = null;
 	static PDPageContentStream contentStream;
@@ -81,10 +77,10 @@ public class PDFExport {
 			File file = fileChooser.showSaveDialog(null);
 
 			// Setting Fonts
-			PDFont fontArial = PDType0Font.load(document, arial);
-			PDFont fontArialBold = PDType0Font.load(document, arialBold);
-			PDFont fontArialBoldCursive = PDType0Font.load(document, arialBoldCursive);
-			PDFont fontArialCursive = PDType0Font.load(document, arialCursive);
+			PDFont fontArial = PDType0Font.load(document, classLoader.getResourceAsStream("resources/fonts/ARIAL.TTF"));
+			PDFont fontArialBold = PDType0Font.load(document, classLoader.getResourceAsStream("resources/fonts/ARIALBD.TTF"));
+			PDFont fontArialBoldCursive = PDType0Font.load(document, classLoader.getResourceAsStream("resources/fonts/ARIALBI.TTF"));
+			PDFont fontArialCursive = PDType0Font.load(document, classLoader.getResourceAsStream("resources/fonts/ARIALI.TTF"));
 
 			createPDF(fontArial, fontArialBold, fontArialBoldCursive, fontArialCursive);
 
