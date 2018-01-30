@@ -373,11 +373,33 @@ public class PDFExport {
 	 */
 	private static void setThreeCheckboxes(int getStatus, float positionLeft, float positionMiddle, float positionRight,
 			float heightPosition) throws IOException {
-		if (getStatus == 0) {
+		if (getStatus == 2) {
 			setCheckboxChecked(positionLeft, heightPosition);
 			setCheckboxUnchecked(positionMiddle, heightPosition);
 			setCheckboxUnchecked(positionRight, heightPosition);
 		} else if (getStatus == 1) {
+			setCheckboxUnchecked(positionLeft, heightPosition);
+			setCheckboxChecked(positionMiddle, heightPosition);
+			setCheckboxUnchecked(positionRight, heightPosition);
+		} else if (getStatus == 0) {
+			setCheckboxUnchecked(positionLeft, heightPosition);
+			setCheckboxUnchecked(positionMiddle, heightPosition);
+			setCheckboxChecked(positionRight, heightPosition);
+		} else {
+			setCheckboxUnchecked(positionLeft, heightPosition);
+			setCheckboxUnchecked(positionMiddle, heightPosition);
+			setCheckboxUnchecked(positionRight, heightPosition);
+		}
+	}
+	
+	//HotFix
+	private static void setThreeCheckboxes2(int getStatus, float positionLeft, float positionMiddle, float positionRight,
+			float heightPosition) throws IOException {
+		if (getStatus == 1) {
+			setCheckboxChecked(positionLeft, heightPosition);
+			setCheckboxUnchecked(positionMiddle, heightPosition);
+			setCheckboxUnchecked(positionRight, heightPosition);
+		} else if (getStatus == 0) {
 			setCheckboxUnchecked(positionLeft, heightPosition);
 			setCheckboxChecked(positionMiddle, heightPosition);
 			setCheckboxUnchecked(positionRight, heightPosition);
@@ -622,46 +644,47 @@ public class PDFExport {
 		int id = 1;
 
 		ObservableList<FlawListElement> list = data.getDefects();
-		for (FlawListElement output : list) {
-			Row<PDPage> row = table.createRow(20f);
-			Cell<PDPage> cell = row.createCell(4.45f, String.valueOf(id++), HorizontalAlignment.CENTER,
-					VerticalAlignment.MIDDLE);
-			cell.setBorderStyle(MiddleStyle);
-			cell.setLeftBorderStyle(BorderStyle);
-			cell.setBottomBorderStyle(BorderStyle);
-			cell.setFont(fontArial);
-			cell.setFontSize(9);
-			cell = row.createCell(6.27f, output.getDangerString(), HorizontalAlignment.CENTER,
-					VerticalAlignment.MIDDLE);
-			cell.setBorderStyle(MiddleStyle);
-			cell.setBottomBorderStyle(BorderStyle);
-			cell.setFont(fontArial);
-			cell.setFontSize(9);
-			cell = row.createCell(
-					69.155f, (output.getBuilding()) + "<br />" + output.getRoom() + "<br />" + output.getMachine()
-							+ "<br />" + output.getFlaw().getDescription(),
-					HorizontalAlignment.LEFT, VerticalAlignment.MIDDLE);
-			cell.setBorderStyle(MiddleStyle);
-			cell.setLineSpacing(1.5f);
-			cell.setBottomBorderStyle(BorderStyle);
-			cell.setFont(fontArial);
-			cell.setFontSize(9);
-			cell = row.createCell(10.02f, String.valueOf(output.getFlaw().getExternalId()), HorizontalAlignment.CENTER,
-					VerticalAlignment.MIDDLE);
-			cell.setBorderStyle(MiddleStyle);
-			cell.setBottomBorderStyle(BorderStyle);
-			cell.setFont(fontArial);
-			cell.setFontSize(9);
-			cell = row.createCell(10.1f, String.valueOf(output.getBranchId()), HorizontalAlignment.CENTER,
-					VerticalAlignment.MIDDLE);
-			cell.setBorderStyle(MiddleStyle);
-			cell.setRightBorderStyle(BorderStyle);
-			cell.setBottomBorderStyle(BorderStyle);
-			cell.setFont(fontArial);
-			cell.setFontSize(9);
+		if (list != null) {
+			for (FlawListElement output : list) {
+				Row<PDPage> row = table.createRow(20f);
+				Cell<PDPage> cell = row.createCell(4.45f, String.valueOf(id++), HorizontalAlignment.CENTER,
+						VerticalAlignment.MIDDLE);
+				cell.setBorderStyle(MiddleStyle);
+				cell.setLeftBorderStyle(BorderStyle);
+				cell.setBottomBorderStyle(BorderStyle);
+				cell.setFont(fontArial);
+				cell.setFontSize(9);
+				cell = row.createCell(6.27f, output.getDangerString(), HorizontalAlignment.CENTER,
+						VerticalAlignment.MIDDLE);
+				cell.setBorderStyle(MiddleStyle);
+				cell.setBottomBorderStyle(BorderStyle);
+				cell.setFont(fontArial);
+				cell.setFontSize(9);
+				cell = row.createCell(
+						69.155f, (output.getBuilding()) + "<br />" + output.getRoom() + "<br />" + output.getMachine()
+								+ "<br />" + output.getFlaw().getDescription(),
+						HorizontalAlignment.LEFT, VerticalAlignment.MIDDLE);
+				cell.setBorderStyle(MiddleStyle);
+				cell.setLineSpacing(1.5f);
+				cell.setBottomBorderStyle(BorderStyle);
+				cell.setFont(fontArial);
+				cell.setFontSize(9);
+				cell = row.createCell(10.02f, String.valueOf(output.getFlaw().getExternalId()), HorizontalAlignment.CENTER,
+						VerticalAlignment.MIDDLE);
+				cell.setBorderStyle(MiddleStyle);
+				cell.setBottomBorderStyle(BorderStyle);
+				cell.setFont(fontArial);
+				cell.setFontSize(9);
+				cell = row.createCell(10.1f, String.valueOf(output.getBranchId()), HorizontalAlignment.CENTER,
+						VerticalAlignment.MIDDLE);
+				cell.setBorderStyle(MiddleStyle);
+				cell.setRightBorderStyle(BorderStyle);
+				cell.setBottomBorderStyle(BorderStyle);
+				cell.setFont(fontArial);
+				cell.setFontSize(9);
+			}
+			table.draw();
 		}
-		table.draw();
-
 		return table;
 	}
 
@@ -967,7 +990,7 @@ public class PDFExport {
 				"ortsveränderliche Betriebsmittel, d. h. privat mitgebrachte, gemietete,");
 		setStaticText(fontArialCursive, 9, 59, 519 - paddingP2,
 				"geleaste oder durch Dritte bereitgestellte Betriebsmittel?");
-		setThreeCheckboxes(data.getExternalPortableUtilities(), 353, 423, 493, 529 - paddingP2);
+		setThreeCheckboxes2(data.getExternalPortableUtilities(), 353, 423, 493, 529 - paddingP2);
 		setStaticText(fontArialCursive, 9, 365, 529 - paddingP2, "ja");
 		setStaticText(fontArialCursive, 9, 435, 529 - paddingP2, "nein");
 		setStaticText(fontArialCursive, 9, 505, 529 - paddingP2, "nr");
