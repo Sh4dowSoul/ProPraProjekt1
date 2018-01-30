@@ -27,7 +27,7 @@ public class InspectionReportFull extends InspectionReportMinimal {
 	private Integer vdsApprovalNr;
 	@NotNull(message = "Prüfungsdauer")
 	private Double examinationDuration;
-	@NotNull(message = "Art des bertiebs oder der Anlage")
+	@NotNull(message = "Art des Betriebs oder der Anlage")
 	private Branch branch;
 	@NotNull(message = "Frequenzgesteuerte Betriebsmittel")
 	private Boolean frequencyControlledUtilities;

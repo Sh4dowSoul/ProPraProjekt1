@@ -218,8 +218,7 @@ public class Util {
 			//Validation failed
 			if (isOpened) {
 				Alert alert = new Alert(AlertType.ERROR);
-				alert.setTitle("Befundschein nicht komplett");
-				alert.setHeaderText("Bitte überprüfen Sie Ihre Eingaben");
+				alert.setHeaderText("Der Befundschein ist nicht komplett. Bitte überprüfen Sie Ihre Eingaben");
 				String content = "";
 				for(ConstraintViolation<InspectionReportFull> error : constraintViolations){
 					content += "- " +error.getMessage() + "\n";

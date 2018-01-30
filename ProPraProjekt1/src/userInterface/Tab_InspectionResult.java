@@ -724,7 +724,7 @@ public class Tab_InspectionResult implements Initializable{
 				Alert alert = new Alert(AlertType.CONFIRMATION);
 				alert.setTitle("Speichere Befundschein");
 				alert.setHeaderText("Überschreiben oder neu speichern?");
-				alert.setContentText("Wollen sie den alten Befundschein überschreiben oder einen neuen Befundschein speichern?");
+				alert.setContentText("Wollen sie den ursprünglichen Befundschein überschreiben oder den aktuellen als neuen Befundschein abspeichern?");
 
 				ButtonType overrideButton = new ButtonType("Überschreiben");
 				ButtonType newButton = new ButtonType("Als neuen Befundschein speichern");
@@ -741,9 +741,8 @@ public class Tab_InspectionResult implements Initializable{
 			}
 		} else {
 				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setTitle("Information: Keine Änderung erkannt");
 				alert.setHeaderText("Information: Keine Änderung erkannt");
-				alert.setContentText("Es wurde keine Änderung des Befundscheins erkannt, deshabl wurde der Speichervorgnag abgebrochen");
+				alert.setContentText("Es wurde keine Änderung des Befundscheins erkannt. Der Speichervorgang wurde deshalb abgebrochen");
 				alert.show();
 		}
 	}
@@ -1257,12 +1256,11 @@ public class Tab_InspectionResult implements Initializable{
 		//Check for Changes 
 		if (!importedInspectionReport.equals(newInspectionReport)) {
 			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("Warnung - Befundschein nicht gesichert");
 			alert.setHeaderText("Achtung, der aktuelle Befundschein wurde noch nicht gespeichert.");
-			alert.setContentText("Wollen sie den Befundschein verwerfen?");
+			alert.setContentText("Wollen sie den Befundschein verwerfen oder abspeichern?");
 			ButtonType discardButton = new ButtonType("Verwerfen");
 			ButtonType saveButton = new ButtonType("Speichern");
-			ButtonType cancelButton = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+			ButtonType cancelButton = new ButtonType("Abbrechen", ButtonData.CANCEL_CLOSE);
 			alert.getButtonTypes().setAll(discardButton, saveButton, cancelButton);					
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get() == discardButton){
