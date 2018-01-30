@@ -940,8 +940,8 @@ public class PDFExport {
 		setStaticText(fontArialBoldCursive, 9, 59, 676 - paddingP2, "• Fehlerstrom-Schutzeinrichtungen (RCDs)");
 		setTwoCheckboxes(data.getRcdAvailable(), 353, 463, 676 - paddingP2);
 		setStaticText(fontArialCursive, 9, 365, 676 - paddingP2, "alle oder");
-		setDatabaseText(fontArial, 9, 424, 676 - paddingP2, String.valueOf(data.getRcdAvailablePercent()));
-		setStaticText(fontArialCursive, 9, 439, 676 - paddingP2, "%");
+		setDatabaseText(fontArial, 9, 424, 676 - paddingP2, (data.getRcdAvailablePercent()) != null ? String.valueOf(data.getRcdAvailablePercent()):"");
+		setStaticText(fontArialCursive, 9, 439, 676 - paddingP2, " %");
 		setStaticText(fontArialCursive, 9, 475, 676 - paddingP2, "nein");
 		setStaticText(fontArialBoldCursive, 6, 493, 679 - paddingP2, "3");
 		setStaticText(fontArialCursive, 9, 64, 664 - paddingP2, "Bemerkung hierzu:");
@@ -953,7 +953,7 @@ public class PDFExport {
 		setTwoCheckboxes(data.isResistance(), 353, 463, 646 - paddingP2);
 		setStaticText(fontArialCursive, 9, 365, 646 - paddingP2, "ja, Anzahl  :");
 		setStaticText(fontArialBoldCursive, 6, 406, 649 - paddingP2, "4");
-		setDatabaseText(fontArial, 9, 424, 646 - paddingP2, String.valueOf(data.getResistanceNumber()));
+		setDatabaseText(fontArial, 9, 424, 646 - paddingP2, data.getResistanceNumber() != null ? String.valueOf(data.getResistanceNumber()) : "");
 		setStaticText(fontArialCursive, 9, 439, 646 - paddingP2, "%");
 		setStaticText(fontArialCursive, 9, 475, 646 - paddingP2, "nein");
 		setStaticText(fontArialBoldCursive, 6, 493, 649 - paddingP2, "3");
