@@ -71,7 +71,7 @@ public class PDFExport {
 			FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PDF-Dateien (*.pdf)", "*.pdf");
 			fileChooser.getExtensionFilters().add(extFilter);
 			fileChooser
-					.setInitialFileName("BS" + "_" + data.getCompanyPlant().getCompany().getDescription() + "_" + data.getId() + ".pdf");
+					.setInitialFileName("Befundschein_" + data.getCompanyPlant().getCompany().getDescription() + "_" + data.getId() + ".pdf");
 
 			// Show save file dialog
 			File file = fileChooser.showSaveDialog(null);
