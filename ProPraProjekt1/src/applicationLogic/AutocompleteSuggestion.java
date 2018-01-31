@@ -1,5 +1,8 @@
 package applicationLogic;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 /**
  * @author Niklas Schnettler
  * 
@@ -8,7 +11,9 @@ package applicationLogic;
  */
 public class AutocompleteSuggestion implements Comparable<AutocompleteSuggestion>, de.schnettler.AutocompleteSuggestion {
 	
+	@XStreamOmitField
 	private Integer externalId;
+	@XStreamOmitField
 	private int internalId;
 	private String description;
 
