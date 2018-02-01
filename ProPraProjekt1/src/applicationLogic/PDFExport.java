@@ -1005,18 +1005,18 @@ public class PDFExport {
 		setStaticText(fontArial, 9, 268, 458 - paddingP2, "kVA");
 		setStaticText(fontArialCursive, 9, 59, 442 - paddingP2,
 				"Maximal möglicher Fremdbezug in %, bezogen auf o. g. Gesamtleistungsbedarf");
-		setDatabaseText(fontArial, 9, 490, 442 - paddingP2, String.valueOf(data.getMaxEnergyDemandExternal()));
+		setDatabaseText(fontArial, 9, 490, 442 - paddingP2, (data.getMaxEnergyDemandExternal()) != null ? String.valueOf(data.getMaxEnergyDemandExternal()):"");
 		setStaticText(fontArial, 9, 530, 442 - paddingP2, "%");
 		setStaticText(fontArialCursive, 9, 59, 428 - paddingP2,
 				"Maximal mögliche Eigenerzeugung (ohne Ersatzstrom) in %, bezogen auf o. g.");
-		setDatabaseText(fontArial, 9, 490, 428 - paddingP2, String.valueOf(data.getMaxEnergyDemandInternal()));
+		setDatabaseText(fontArial, 9, 490, 428 - paddingP2, (data.getMaxEnergyDemandInternal()) != null ? String.valueOf(data.getMaxEnergyDemandInternal()):"");
 		setStaticText(fontArial, 9, 530, 428 - paddingP2, "%");
 		setStaticText(fontArialCursive, 9, 59, 418 - paddingP2, "Gesamtleistungsbedarf");
 		setStaticText(fontArialBoldCursive, 9, 59, 398 - paddingP2, "Schutzeinrichtung (RCD / RCM):");
 		setStaticText(fontArialCursive, 9, 59, 382 - paddingP2, "Fehlerstrom-Schutzeinrichtung (RCD)");
 		setStaticText(fontArialCursive, 9, 59, 372 - paddingP2, "oder Differenzstrom-Überwachung (RCM)");
 		setStaticText(fontArialCursive, 9, 250, 377 - paddingP2, "geschützte Stromkreise in %:");
-		setDatabaseText(fontArial, 9, 380, 377 - paddingP2, String.valueOf(data.getProtectedCircuitsPercent()));
+		setDatabaseText(fontArial, 9, 380, 377 - paddingP2, (data.getProtectedCircuitsPercent()) != null ? String.valueOf(data.getProtectedCircuitsPercent()):"");
 		drawSingleCellTable(page2, 498.5f - paddingP2, 140f, 100f);
 
 		// Frame: singleFrame (Für statische Zwecke)
