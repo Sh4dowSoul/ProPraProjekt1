@@ -160,6 +160,7 @@ public class Util {
 		for (Node newnode : parentPane.getChildren()) {
 			if (newnode instanceof TextField) {
 				((TextField) newnode).clear();
+				((TextField) newnode).getStyleClass().removeAll(Collections.singleton("error"));
             } else {
             	if (newnode instanceof RadioButton) {
             		((RadioButton) newnode).setSelected(false);

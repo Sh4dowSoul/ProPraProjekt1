@@ -66,30 +66,6 @@ import javafx.util.StringConverter;
  * @author Niklas Schnettler, Salih Arslan, Sven Meyer, Sven Motschnig, Daniel Novakovic
  *
  */
-/**
- * @author Niklas Schnettler
- *
- */
-/**
- * @author Niklas Schnettler
- *
- */
-/**
- * @author Niklas Schnettler
- *
- */
-/**
- * @author Niklas Schnettler
- *
- */
-/**
- * @author Niklas Schnettler
- *
- */
-/**
- * @author Niklas Schnettler
- *
- */
 public class Tab_InspectionResult implements Initializable{
 // *** BEFUNDSCHEIN TAB ***
 // Versicherungsnehmer Adresse
