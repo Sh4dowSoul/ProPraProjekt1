@@ -52,7 +52,7 @@ public class FlawController {
 		try (
 			Connection connection = DataSource.getConnection();
 			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery("SELECT * FROM Flaw WHERE isCustomFlaw");
+			ResultSet resultSet = statement.executeQuery("SELECT * FROM Flaw WHERE isCustomFlaw and dontShowAsSuggestion = 0");
 		) {
 			while (resultSet.next()) {
 				result.add(new Flaw(
