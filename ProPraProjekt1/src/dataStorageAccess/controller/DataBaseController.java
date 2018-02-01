@@ -60,15 +60,16 @@ public class DataBaseController {
 			
 			//Insert Default Flaws
 			stmt = "INSERT INTO Flaw "
-					+ "(internalFlawId, externalFlawId, isCustomFlaw, flawDescription) "
-					+ "VALUES(?,?,?,?)";
+					+ "(internalFlawId, externalFlawId, isCustomFlaw, flawDescription, dontShowAsSuggestion) "
+					+ "VALUES(?,?,?,?,?)";
 			preparedStatement = connection.prepareStatement(stmt);
 			for (Flaw flaw : FlawAccess.importFlawsFromXml()) {
 				Util.setValues(preparedStatement,
 						flaw.getInternalId(),
 						flaw.getExternalId(),
 						flaw.isCustomFlaw(),
-						flaw.getDescription()
+						flaw.getDescription(),
+						flaw.isDontShowAsSuggestion()
 						);
 				preparedStatement.executeUpdate();
 			}

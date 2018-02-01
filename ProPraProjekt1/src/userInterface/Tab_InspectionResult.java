@@ -575,20 +575,24 @@ public class Tab_InspectionResult implements Initializable{
 				Alert alert = new Alert(AlertType.CONFIRMATION);
 				alert.setTitle("Neuen Mangel anlegen");
 				alert.setHeaderText("Textbaustein als neuen Mangel abspeichern?");
-				alert.setContentText("Unter der Mangelnummer " + currentFlaw.getExternalId() +" ist bisher keine Mangel mit der Beschreibung \n\n'" + 
+				alert.setContentText("Unter der Mangelnummer " + currentFlaw.getExternalId() +" ist bisher kein wiederverwendbarer Textbaustein mit der Beschreibung \n\n'" + 
 				flawDescriptionEntered +
 				"'\n\nbekannt. Soll der eingegebene Textbaustein für eine spätere Verwendung gespeichert werden?" );
+					
 
-
-				ButtonType noButton = new ButtonType("Nein", ButtonData.NO);
-				ButtonType yesButton = new ButtonType("Ja", ButtonData.YES);
+				ButtonType noButton = new ButtonType("Nein");
+				ButtonType yesButton = new ButtonType("Ja");
 				alert.getButtonTypes().setAll(noButton, yesButton);
 
 				Optional<ButtonType> Dialogresult = alert.showAndWait();
+				currentFlaw = new Flaw(currentFlaw.getExternalId(), true, flawDescriptionEntered);
+				
+				if(Dialogresult.get() == noButton) {
+					currentFlaw.setDontShowAsSuggestion(true);
+				}
+				currentFlaw.setInternalId(FlawAccess.insertCustomFlaw(currentFlaw));
 				if (Dialogresult.get() == yesButton) {
-					currentFlaw = new Flaw(currentFlaw.getExternalId(), true, flawDescriptionEntered);
-					currentFlaw.setInternalId(FlawAccess.insertCustomFlaw(currentFlaw));
-					defectSearchField.getEntries().add(currentFlaw);
+					defectSearchField.getEntries().add(currentFlaw);	
 				}
 			}
 		} catch (SQLException e) {

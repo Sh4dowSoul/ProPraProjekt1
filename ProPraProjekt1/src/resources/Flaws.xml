@@ -4,347 +4,405 @@
     <internalId>1</internalId>
     <description>Keinen Mangel</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1000</externalId>
     <internalId>2</internalId>
     <description>Nicht zuordbarer Mangel</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1101</externalId>
     <internalId>3</internalId>
     <description>Zugänge, Türen und Bedienungsgänge mangelhaft</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1102</externalId>
     <internalId>4</internalId>
     <description>Wand- und Deckendurchführungen mangelhaft</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1103</externalId>
     <internalId>5</internalId>
     <description>Auffangeinrichtungen für Isolierflüssigkeiten fehlen/mangelhaft</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1104</externalId>
     <internalId>6</internalId>
     <description>Feuerlöscher fehlen/mangelhaft</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1105</externalId>
     <internalId>7</internalId>
     <description>Sauberkeit der elektrischen Anlage unzureichend</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1106</externalId>
     <internalId>8</internalId>
     <description>Staubablagerungen auf und in Betriebsmitteln unzulässig hoch</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1107</externalId>
     <internalId>9</internalId>
     <description>Abstand elektrischer Betriebsmittel zu brennbaren Stoffen zu gering</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1108</externalId>
     <internalId>10</internalId>
     <description>Feuersichere Trennung elektrischer Betriebsmittel fehlt/mangelhaft</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1201</externalId>
     <internalId>11</internalId>
     <description>Technische Unterlagen (Übersichtspläne, Stromlaufpläne, Kabelverlegungspläne, Klemmenanschlusspläne) fehlen/mangelhaft </description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1202</externalId>
     <internalId>12</internalId>
     <description>Zubehör (Warn-, Sicherheits- und Bezeichnungsschilder, Aushänge, Wartungsbuch, Wartungsbuchgeräte) fehlen/mangelhaft</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1203</externalId>
     <internalId>13</internalId>
     <description>Provisorien brand-, explosions- und unfallgefährlich</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1204</externalId>
     <internalId>14</internalId>
     <description>Nenn- und Einstellbereiche der Sicherheitsorgane falsch, Werte falsch eingestellt</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1205</externalId>
     <internalId>15</internalId>
     <description>Nennbereich der Sicherungsorgane fehlt</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1106</externalId>
     <internalId>16</internalId>
     <description>Es konnte nicht festgestellt werden, dass die feste elektrische Installation nach BGV A3 regelmäßig geprüft wurde</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1207</externalId>
     <internalId>17</internalId>
     <description>Es konnte nicht festgestellt werden, dass vorhandene explosionsgefährliche Bereiche nach BetrSichV regemäßig geprüft werden</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1301</externalId>
     <internalId>18</internalId>
     <description>Schutz gegen direktes Berühren nicht gewährleistet</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1302</externalId>
     <internalId>19</internalId>
     <description>Schutz bei indirektem Berühren nicht gewährleistet (Schleifenimpedanz zu groß, Abschaltzeiten zu lang)</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1303</externalId>
     <internalId>20</internalId>
     <description>Überlast- und Kurzschlussschutzorgane fehlen/mangelhaft</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1304</externalId>
     <internalId>21</internalId>
     <description>Kurzschluss- und Erdschlussfestigkeit /-sicherheit nicht gewährleistet</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1305</externalId>
     <internalId>22</internalId>
     <description>Isolationsüberwachungseinrichtung fehlt/mangelhaft</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1306</externalId>
     <internalId>23</internalId>
     <description>FI-Schutzschalter nicht funktionstüchtig</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1401</externalId>
     <internalId>24</internalId>
     <description>Anhäufungen von Kabel und Leitungen unzulässig</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1402</externalId>
     <internalId>25</internalId>
     <description>Isolationswiderstand nicht ausreichend</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1403</externalId>
     <internalId>26</internalId>
     <description>Getrennte Kabel- und Leitungsverlegung nicht durchgeführt</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1404</externalId>
     <internalId>27</internalId>
     <description>Hauseinführungsleitungen in feuergefährdeten Räumen/Bereichen</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1501</externalId>
     <internalId>28</internalId>
     <description>Kabel- und Leitungsverlegung mangelhaft</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1502</externalId>
     <internalId>29</internalId>
     <description>Schutz von Kabeln und Leitungen fehlt/schadhaft</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1503</externalId>
     <internalId>30</internalId>
     <description>Kabel, Leitungen beschädigt (mechanisch, chemisch, thermisch)</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1504</externalId>
     <internalId>31</internalId>
     <description>Kabel- und Leitungseinführungen an elektrischen Betriebsmitteln mangelhaft</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1601</externalId>
     <internalId>32</internalId>
     <description>Leiteranschlüsse und -verbindungen mangelhaft</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1602</externalId>
     <internalId>33</internalId>
     <description>Schutzleiter führt Spannung, unterbrochen</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1603</externalId>
     <internalId>34</internalId>
     <description>Schutzleiter nicht einzeln lösbar, hat Verbindung zu N-Leiter</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1604</externalId>
     <internalId>35</internalId>
     <description>Trennklemme für N-Leiter fehlt/mangelhaft</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1701</externalId>
     <internalId>36</internalId>
     <description>Steckvorrichtung unzulässig</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1702</externalId>
     <internalId>37</internalId>
     <description>Stecker-Stifte/Schutzkontakte führen Spannung, Schutzkontakte nicht angeschlossen</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1703</externalId>
     <internalId>38</internalId>
     <description>Leuchtenabstand zu brennbaren Stoffen zu gering, falsche Montageart, Aufhängevorrichtung unzureichend</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1704</externalId>
     <internalId>39</internalId>
     <description>Leuchtenschutzabdeckungen (Wanne, Gläser, Schutzkörbe) fehlen/beschädigt</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1705</externalId>
     <internalId>40</internalId>
     <description>Vorschaltgeräte nicht geeignet, falsch angeordnet </description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1706</externalId>
     <internalId>41</internalId>
     <description>Hauptschalter fehlt</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1707</externalId>
     <internalId>42</internalId>
     <description>Schalterstellungskennzeichnung fehlt</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1801</externalId>
     <internalId>43</internalId>
     <description>Beschriftungen, Kennzeichnungen der Stromkreise und elektrischer Betriebsmittel fehlen/unvollständig</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1802</externalId>
     <internalId>44</internalId>
     <description>Bauart elektrischer Betriebsmittel unzulässig</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1803</externalId>
     <internalId>45</internalId>
     <description>Schutzart elektrischer Betriebsmittel unzureichend</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1804</externalId>
     <internalId>46</internalId>
     <description>Kühlung elektrischer Betriebsmittel unzureichend</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1805</externalId>
     <internalId>47</internalId>
     <description>Betriebsmittel beschädigt</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1806</externalId>
     <internalId>48</internalId>
     <description>Betriebsmittel elektrisch fehlerhaft/überbeansprucht</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1807</externalId>
     <internalId>49</internalId>
     <description>Betriebsmittel unzureichend befestigt</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1901</externalId>
     <internalId>50</internalId>
     <description>Erdungsanlage fehlt/mangelhaft</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1902</externalId>
     <internalId>51</internalId>
     <description>Potenzialausgleich fehlt/mangelhaft</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1903</externalId>
     <internalId>52</internalId>
     <description>Ableitung elektrostatischer Aufladung fehlt/mangelhaft</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1904</externalId>
     <internalId>53</internalId>
     <description>Blitzschutz fehlt/mangelhaft</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1905</externalId>
     <internalId>54</internalId>
     <description>Überspannungsschutz fehlt/mangelhaft</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1906</externalId>
     <internalId>55</internalId>
     <description>Notstrom-/Netzersatzanlage fehlt/unzureichend/mangelhaft, Wartung ungenügend</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1907</externalId>
     <internalId>56</internalId>
     <description>Ladeeinrichtung (auch Zubehör) defekt/falsch dimensioniert/verschmutzt, Aufstellungsort nicht geeignet</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1908</externalId>
     <internalId>57</internalId>
     <description>Überwachungseinrichtungen (Gefahrenmeldeanlagen, SMR-Systeme u.ä.)  fehlen/defekt/mangelhaft</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
   <applicationLogic.Flaw>
     <externalId>1909</externalId>
     <internalId>58</internalId>
     <description>Nicht mehr benötigte Anlagen bzw. Betriebsmittel vorhanden</description>
     <isCustomFlaw>false</isCustomFlaw>
+	<dontShowAsSuggestion>false</dontShowAsSuggestion>
   </applicationLogic.Flaw>
 </list>

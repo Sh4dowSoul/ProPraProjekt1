@@ -1,6 +1,5 @@
 package applicationLogic;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 /**
@@ -20,6 +19,11 @@ public class AutocompleteSuggestion implements Comparable<AutocompleteSuggestion
 	public AutocompleteSuggestion(Integer externalId, int internalId, String description) {
 		this.externalId = externalId;
 		this.internalId = internalId;
+		this.description = description;
+	}
+	
+	public AutocompleteSuggestion(Integer externalId, String description) {
+		this.externalId = externalId;
 		this.description = description;
 	}
 

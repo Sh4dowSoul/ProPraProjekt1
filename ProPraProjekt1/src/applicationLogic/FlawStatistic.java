@@ -19,14 +19,14 @@ public class FlawStatistic extends Flaw{
 	
 	//For Export to XML
 	public FlawStatistic(int externalFlawId, int branchId) {
-		super(externalFlawId, 0, false, null);
+		super(externalFlawId, 0, false, null, false);
 		this.branchId = branchId;
 		this.externalFlawId = externalFlawId;
 	}
 	
 	//For Display in GUI
 	public FlawStatistic(int externalFlawId, String flawDescription, int numberOccurrence) {
-		super(externalFlawId, 0, false, flawDescription);
+		super(externalFlawId, flawDescription);
 		this.numberOccurrence = numberOccurrence;
 	}
 	

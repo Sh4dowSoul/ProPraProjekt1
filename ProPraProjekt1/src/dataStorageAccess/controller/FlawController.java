@@ -26,14 +26,15 @@ public class FlawController {
 		try (
 			Connection connection = DataSource.getConnection();
 			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery("SELECT * FROM Flaw");
+			ResultSet resultSet = statement.executeQuery("SELECT * FROM Flaw WHERE dontShowAsSuggestion = 0");
 		) {
 			while (resultSet.next()) {
 				result.add(new Flaw(
 						resultSet.getInt("externalFlawId"),
 						resultSet.getInt("internalFlawId"),
 						resultSet.getBoolean("isCustomFlaw"),
-						resultSet.getString("flawDescription")
+						resultSet.getString("flawDescription"),
+						resultSet.getBoolean("dontShowAsSuggestion")
 						));
 			}
 		}
@@ -58,7 +59,8 @@ public class FlawController {
 						resultSet.getInt("externalFlawId"),
 						resultSet.getInt("internalFlawId"),
 						resultSet.getBoolean("isCustomFlaw"),
-						resultSet.getString("flawDescription")
+						resultSet.getString("flawDescription"),
+						resultSet.getBoolean("dontShowAsSuggestion")
 						));
 			}
 		}
@@ -80,7 +82,7 @@ public class FlawController {
 			ResultSet resultSet = statement.executeQuery(
 				"SELECT * " + 
 				"FROM Flaw " + 
-				"WHERE externalFlawId = " + externalFlawId
+				"WHERE externalFlawId = " + externalFlawId + " and dontShowAsSuggestion = 0"
 				);
 			) {
 				while (resultSet.next()) {
@@ -141,8 +143,8 @@ public class FlawController {
 	public static int insertCustomFlaw(Flaw flaw) throws SQLException{
 		
 		String statement = "INSERT INTO Flaw "
-				+ "(externalFlawId, isCustomFlaw, flawDescription) "
-				+ "VALUES(?,?,?)";
+				+ "(externalFlawId, isCustomFlaw, flawDescription, dontShowAsSuggestion) "
+				+ "VALUES(?,?,?,?)";
 		PreparedStatement preparedStatement = null;
 		Connection connection = null;
 		int internalFlawId;
@@ -150,7 +152,7 @@ public class FlawController {
 			connection = DataSource.getConnection();
 			preparedStatement = connection.prepareStatement(statement);
 
-			Util.setValues(preparedStatement, flaw.getExternalId(), true, flaw.getDescription());
+			Util.setValues(preparedStatement, flaw.getExternalId(), true, flaw.getDescription(), flaw.isDontShowAsSuggestion());
 			
 			// execute insert SQL statement
 			preparedStatement.executeUpdate();

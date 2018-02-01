@@ -105,6 +105,7 @@ public class DataSource {
 				+ "externalFlawId INTEGER NOT NULL, "
 				+ "isCustomFlaw INTEGER, "
 				+ "flawDescription TEXT NOT NULL, "
+				+ "dontShowAsSuggestion INTEGER, "
 				+ "PRIMARY KEY(internalFlawId))");
         tableDefinitions.put("FlawListElement", 
         		"CREATE TABLE FlawListElement "

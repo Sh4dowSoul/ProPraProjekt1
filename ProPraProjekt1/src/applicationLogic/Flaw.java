@@ -11,18 +11,32 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 public class Flaw extends AutocompleteSuggestion {
 	@XStreamOmitField
 	private boolean isCustomFlaw;
+	@XStreamOmitField
+	private boolean dontShowAsSuggestion;
 	
-	public Flaw(int externalFlawId,  int internalFlawId, boolean isCustomFlaw, String flawDescription) {
+	public Flaw(int externalFlawId,  int internalFlawId, boolean isCustomFlaw, String flawDescription, boolean dontShowAsSuggestion) {
 		super(externalFlawId, internalFlawId, flawDescription);
 		this.isCustomFlaw = isCustomFlaw;
 	}
 	
 	public Flaw(int externalFlawId, boolean isCustomFlaw, String flawDescription) {
-		super(externalFlawId, 0, flawDescription);
+		super(externalFlawId, flawDescription);
 		this.isCustomFlaw = isCustomFlaw;
+	}
+	
+	public Flaw(int externalFlawId, String flawDescription) {
+		super(externalFlawId, flawDescription);
 	}
 
 	public boolean isCustomFlaw() {
 		return isCustomFlaw;
+	}
+
+	public boolean isDontShowAsSuggestion() {
+		return dontShowAsSuggestion;
+	}
+
+	public void setDontShowAsSuggestion(boolean dontShowAsSuggestion) {
+		this.dontShowAsSuggestion = dontShowAsSuggestion;
 	}
 }

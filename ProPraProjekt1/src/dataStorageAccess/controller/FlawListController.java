@@ -37,7 +37,7 @@ public class FlawListController {
 			while (resultSet.next()) {
 				result.add(new FlawListElement(
 						resultSet.getInt("elementId"), 
-						new Flaw(resultSet.getInt("externalFlawId"), resultSet.getInt("internalFlawId"), resultSet.getBoolean("isCustomFlaw"), resultSet.getString("flawDescription")), 
+						new Flaw(resultSet.getInt("externalFlawId"), resultSet.getInt("internalFlawId"), resultSet.getBoolean("isCustomFlaw"), resultSet.getString("flawDescription"), resultSet.getBoolean("dontShowAsSuggestion")), 
 						resultSet.getInt("branchId"), 
 						resultSet.getInt("danger"), 
 						resultSet.getString("building"), 
