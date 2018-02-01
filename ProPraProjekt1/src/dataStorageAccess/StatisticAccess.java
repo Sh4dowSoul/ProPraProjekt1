@@ -12,7 +12,6 @@ import applicationLogic.InspectionReportStatistic;
 import applicationLogic.Statistic;
 import dataStorageAccess.controller.DiagnosisController;
 import dataStorageAccess.controller.FlawController;
-import de.schnettler.AutocompleteSuggestion;
 
 /**
  * @author Niklas Schnettler
@@ -37,9 +36,6 @@ public class StatisticAccess {
 			
 		XStream xStream = new XStream(new DomDriver());
 		xStream.autodetectAnnotations(true);
-		xStream.omitField(AutocompleteSuggestion.class, "externalId");
-		xStream.omitField(AutocompleteSuggestion.class, "internalId");
-		xStream.omitField(AutocompleteSuggestion.class, "isCustomFlaw");
 		FileOutputStream fs = new FileOutputStream(fileName);
 		xStream.toXML(diagnoses, fs);
 	}

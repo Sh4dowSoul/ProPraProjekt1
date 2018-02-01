@@ -30,7 +30,7 @@ public class InspectionReportStatistic extends InspectionReportMinimal {
 		super(id, date);
 		this.year = date.getYear();
 		this.branch = branch;
-		this.fileName = "BS_" + companyName + "_" + id;
+		this.fileName = "Befundschein_" + companyName + "_" + id;
 		switch (technicalEquipment) {
 			case 0:
 				this.technicalEquipment = "250";
