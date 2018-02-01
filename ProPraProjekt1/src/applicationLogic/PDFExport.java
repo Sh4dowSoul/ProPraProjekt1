@@ -98,26 +98,19 @@ public class PDFExport {
 								}
 							}).showInformation();
 				} catch (IOException e) {
-					Notifications.create().title("Es ist ein Problem aufgetreten")
-							.text("Der Befundschein " + file.getName() + " konnte leider nicht gespeichert werden.")
-							.hideAfter(Duration.INDEFINITE).onAction(event -> new ExceptionDialog("Export Fehler", "Fehler beim Exportieren",
-									"Beim Exportieren des Befundscheins ist leider ein Fehler aufgetreten.", e)).showError();
+					new ErrorNotification("Der Befundschein " + file.getName() + " konnte leider nicht gespeichert werden.", "Fehler beim Speichern der Datei. Stellen sie sicher, dass die Datei nicht in einem anderen Programm geöffnet ist.", e);
 				}
 			}
-		} catch (IOException | SQLException e) {
-			Notifications.create().title("Es ist ein Problem aufgetreten")
-					.text("Beim Erstellen des Dokuments ist ein Fehler aufgetreten.").hideAfter(Duration.INDEFINITE)
-					.onAction(event -> new ExceptionDialog("Fehler", "Fehler beim Erstellen",
-							"Beim Erstellen des Dokuments ist leider ein Fehler aufgetreten.", e)).showError();
+		} catch (SQLException e) {
+			new ErrorNotification("Beim Erstellen des Dokuments ist ein Fehler aufgetreten.", "Fehler beim Laden des Befundscheins (Datenbankverbindung)", e);
+		} catch (IOException e) {
+			new ErrorNotification("Beim Erstellen des Dokuments ist ein Fehler aufgetreten.", "Fehler beim Speichern des Befundscheins (IO). Stellen sie sicher, dass die Datei nicht in einem anderen Programm geöffnet ist", e);
 		} finally {
 			try {
 				// Closing the document
 				document.close();
 			} catch (IOException e) {
-				Notifications.create().title("Es ist ein Problem aufgetreten")
-						.text("Beim Schließen des Dokuments ist ein Fehler aufgetreten.").hideAfter(Duration.INDEFINITE)
-						.onAction(event -> new ExceptionDialog("Fehler", "Fehler beim Schließen",
-								"Beim Schließen des Dokuemnts ist leider ein Fehler aufgetreten.", e)).showError();
+				new ErrorNotification("Beim Schließen des Dokuments ist ein Fehler aufgetreten.", "Fehler beim schließen des Dokuments (IO)", e);
 			}
 		}
 	}

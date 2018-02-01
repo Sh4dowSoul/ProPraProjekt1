@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 import org.controlsfx.control.Notifications;
 
+import applicationLogic.ErrorNotification;
 import applicationLogic.ExceptionDialog;
 import applicationLogic.InspectionResultPreview;
 import applicationLogic.PDFExport;
@@ -166,12 +167,7 @@ public class Tab_Home implements Initializable{
 			try {
 				PDFExport.export(InspectionReportAccess.getCompleteResult(item.getId()));
 			} catch (SQLException e) {
-				Notifications.create()
-                .title("Es ist ein Problem aufgetreten")
-                .text("Der ausgewählte Befundschein konnte leider nicht geladen werden.")
-                .hideAfter(Duration.INDEFINITE)
-                .onAction(event -> new ExceptionDialog("Fehler", "Fehler beim laden des Befundscheins", "Beim Laden des Befundscheins ist leider ein Fehler aufgetreten.", e))
-                .showError();
+                new ErrorNotification("Beim Laden des Befundscheins ist leider ein Fehler aufgetreten.", "Fehler beim Laden der Daten aus der Datenbank" ,e);
 			}
 		}
 	}

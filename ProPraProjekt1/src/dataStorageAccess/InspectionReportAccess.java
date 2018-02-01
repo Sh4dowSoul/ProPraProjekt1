@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import org.controlsfx.control.Notifications;
 
+import applicationLogic.ErrorNotification;
 import applicationLogic.ExceptionDialog;
 import applicationLogic.InspectionReportFull;
 import applicationLogic.InspectionResultPreview;
@@ -49,12 +50,7 @@ public class InspectionReportAccess {
             .text("Der Befundschein wurde erfolgreich gespeichert (Befundscheinname: " + diagnosisId + ")")
             .showInformation();
 		} catch (SQLException e) {
-			Notifications.create()
-            .title("Es ist ein Problem aufgetreten")
-            .text("Der Befundschein konnte leider nicht gespeichert werden.")
-            .hideAfter(Duration.INDEFINITE)
-            .onAction(event -> new ExceptionDialog("Fehler", "Fehler beim Speichern", "Beim Speichern des Befundscheins ist leider ein Fehler aufgetreten.", e))
-            .showError();
+			new ErrorNotification("Der Befundschein konnte leider nicht gespeichert werden.", "Fehler beim Speichern des Befundscheins in Datenbank", e);
 		}
 		return diagnosisId;
 	}
@@ -79,12 +75,7 @@ public class InspectionReportAccess {
             .text("Der Befundschein wurde erfolgreich gespeichert (überschrieben)")
             .showInformation();
 		} catch (SQLException e) {
-			Notifications.create()
-            .title("Es ist ein Problem aufgetreten")
-            .text("Der Befundschein konnte leider nicht gespeichert werden.")
-            .hideAfter(Duration.INDEFINITE)
-            .onAction(event -> new ExceptionDialog("Fehler", "Fehler beim Speichern", "Beim Speichern des Befundscheins ist leider ein Fehler aufgetreten.", e))
-            .showError();
+			new ErrorNotification("Der Befundschein konnte leider nicht gespeichert werden.", "Fehler beim Speichern des Befundscheins in Datenbank", e);
 		}
 	}
 	

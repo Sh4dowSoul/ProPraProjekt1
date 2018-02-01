@@ -23,11 +23,9 @@ public class ExceptionDialog {
 	 * @param Content
 	 * @param e - Exception
 	 */
-	public ExceptionDialog(String title, String header, String Content, Exception e) {
+	public ExceptionDialog(String advancedDescription, Exception e) {
 		Alert alert = new Alert(AlertType.ERROR);
-		alert.setTitle(title);
-		alert.setHeaderText(header);
-		alert.setContentText(Content);
+		alert.setContentText(advancedDescription);
 
 		// Create expandable Exception.
 		StringWriter sw = new StringWriter();

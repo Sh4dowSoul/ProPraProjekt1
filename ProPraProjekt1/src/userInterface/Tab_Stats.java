@@ -15,6 +15,7 @@ import org.controlsfx.control.Notifications;
 import applicationLogic.AutocompleteSuggestion;
 import applicationLogic.Branch;
 import applicationLogic.Company;
+import applicationLogic.ErrorNotification;
 import applicationLogic.ExceptionDialog;
 import applicationLogic.FlawStatistic;
 import dataStorageAccess.BranchAccess;
@@ -252,12 +253,7 @@ public class Tab_Stats implements Initializable {
 								}
 							}).showInformation();
 				} catch (FileNotFoundException | SQLException e) {
-					Notifications.create().title("Es ist ein Problem aufgetreten")
-							.text("Die Statistik " + file.getName() + " konnte leider nicht gespeichert werden.")
-							.hideAfter(Duration.INDEFINITE)
-							.onAction(event1 -> new ExceptionDialog("Export Fehler", "Fehler beim Exportieren",
-									"Beim Exportieren der Statistik ist leider ein Fehler aufgetreten.", e))
-							.showError();
+					new ErrorNotification("Die Statistik " + file.getName() + " konnte leider nicht gespeichert werden.", "Fehler beim Laden der Daten aus der Datenbank", e);
 				}
 			}
 		}

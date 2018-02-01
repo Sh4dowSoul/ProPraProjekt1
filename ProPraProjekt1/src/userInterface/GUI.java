@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 import com.google.common.io.Files;
 
+import applicationLogic.ErrorNotification;
 import dataStorageAccess.BranchAccess;
 import dataStorageAccess.DataSource;
 import dataStorageAccess.controller.DataBaseController;
@@ -66,8 +67,7 @@ public class GUI extends Application {
 					troubleshootMissingDataBase("Datenbank nicht kompatibel", "Die ausgewählte Datenbank ist nicht kompatibel", "Falls sie ein Backup der Datenbank besitzen, können sie es nun wiederherstellen. Ansonsten muss eine neue leere Datenbank erstellt werden.");
 				}
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				new ErrorNotification("Die ausgewählte Datenbank konnte leider nicht validiert werden.", "Fehler beim Laden der Tabellendeklarationen", e);
 			}
 			
 		}
@@ -113,8 +113,7 @@ public class GUI extends Application {
 				try {
 					Files.copy(file, new File(DataSource.getDatabasePath()));
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					new ErrorNotification("Leider konnte die ausgewählte Datenbank nicht kopiert werden.", "Fehler beim kopieren der Datenbank (IO)", e);
 				}
 				
 				//Initialize Connection Pool
@@ -133,8 +132,7 @@ public class GUI extends Application {
 						event.consume();
 					}
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					new ErrorNotification("Die ausgewählte Datenbank konnte leider nicht validiert werden.", "Fehler beim Laden der Tabellendeklarationen", e);
 				}
 				
 			} else {
@@ -207,8 +205,7 @@ public class GUI extends Application {
 		try {
 			mainLayout = loader.load();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			new ErrorNotification("Schwerer Fehler: Die grafische Benutzeroberfläche konnte leider nicht geladen werden.", "Fehler beim Laden des GUI. Bitte kontaktieren Sie den Hersteller der Software", e);
 		}
 		Scene scene = new Scene(mainLayout);
 		scene.getStylesheets().add(getClass().getResource("text-field-red-border.css").toExternalForm());

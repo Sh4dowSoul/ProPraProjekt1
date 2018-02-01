@@ -14,6 +14,7 @@ import org.controlsfx.control.Notifications;
 import applicationLogic.Branch;
 import applicationLogic.Company;
 import applicationLogic.CompanyPlant;
+import applicationLogic.ErrorNotification;
 import applicationLogic.ExceptionDialog;
 import applicationLogic.Flaw;
 import applicationLogic.FlawListElement;
@@ -473,12 +474,7 @@ public class Tab_InspectionResult implements Initializable{
 				companyList.add(currentCompany);
 				buttonSaveCompany.setDisable(true);
 			} catch (SQLException e) {
-				Notifications.create()
-                .title("Es ist ein Problem aufgetreten")
-                .text("Die Firma konnte leider nicht in der Datenbank gespeichert werden")
-                .hideAfter(Duration.INDEFINITE)
-                .onAction(event1 -> new ExceptionDialog("Export Fehler", "Fehler beim speichern der Firma", "Beim Speichern der Firma ist leider ein Fehler aufgetreten.", e))
-                .showError();
+                new ErrorNotification("Beim Speichern der Firma ist leider ein Fehler aufgetreten", "Fehler beim Speichern der Daten (Firma) in der Datenbank" ,e);
 			}
 		}
 	}
@@ -503,7 +499,7 @@ public class Tab_InspectionResult implements Initializable{
 				companyPlantsList.add(currentCompanyPlant);//CompanyPlant List
 				buttonSaveCompanyPlant.setDisable(true);
 			} catch (SQLException e) {
-				e.printStackTrace();
+				new ErrorNotification("Beim Speichern des Werks ist leider ein Fehler aufgetreten", "Fehler beim Speichern der Daten (Werk) in der Datenbank" ,e);
 			}
 			
 		}
@@ -1070,8 +1066,7 @@ public class Tab_InspectionResult implements Initializable{
 			
 			furtherExplanationsField.setText(importedInspectionReport.getAdditionalAnnotations());
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			new ErrorNotification("Der ausgewählte Befundschein konnte leider nicht geladen werden", "Fehler beim Laden des Befundscheins aus der Datenbank", e);
 		}
 	}
 	

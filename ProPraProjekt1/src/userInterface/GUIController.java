@@ -12,6 +12,7 @@ import org.controlsfx.control.Notifications;
 
 import com.google.common.io.Files;
 
+import applicationLogic.ErrorNotification;
 import applicationLogic.ExceptionDialog;
 import dataStorageAccess.DataSource;
 import dataStorageAccess.FlawAccess;
@@ -113,13 +114,10 @@ public class GUIController implements Initializable{
 					}
 				})
                 .showInformation();
-			} catch (SQLException | IOException e) {
-				Notifications.create()
-                .title("Es ist ein Problem aufgetreten")
-                .text("Die Mängel konnten leider nicht exportiert werden.")
-                .hideAfter(Duration.INDEFINITE)
-                .onAction(event -> new ExceptionDialog("Export Fehler", "Fehler beim Exportieren", "Beim Exportieren der Mängel ist leider ein Fehler aufgetreten.", e))
-                .showError();
+			} catch (SQLException e) {
+				new ErrorNotification("Die Mängel konnten leider nicht exportiert werden.", "Fehler beim Laden der Daten aus der Datenbank", e);
+			} catch (IOException e) {
+				new ErrorNotification("Die Mängel konnten leider nicht exportiert werden.", "Fehler beim Schreiben der Daten an gewünschten Speicherort. Bitte stellen Sie sicher, dass der ausgewählte Speicherort existiert.", e);
 			}
         }
 	}
@@ -149,12 +147,7 @@ public class GUIController implements Initializable{
                 .text("Das Backup der Daten wurde erfolgreich gespeichert")
                 .showInformation();
 			} catch (IOException e) {
-				Notifications.create()
-                .title("Es ist ein Problem aufgetreten")
-                .text("Die Daten konnten leider nicht gesichert werden")
-                .hideAfter(Duration.INDEFINITE)
-                .onAction(event -> new ExceptionDialog("Fehler", "Fehler beim Speichern", "Beim Speichern der Daten ist leider ein Fehler aufgetreten.", e))
-                .showError();
+				new ErrorNotification("Beim Speichern der Daten ist leider ein Fehler aufgetreten.", "Fehler beim Schreiben der Daten an gewünschten Speicherort. Bitte stellen Sie sicher, dass der ausgewählte Speicherort existiert.", e);
 			}
         }
 	}
