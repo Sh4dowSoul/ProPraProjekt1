@@ -6,23 +6,17 @@
 	<classpathentry kind="lib" path="commons-logging-1.2.jar"/>
 	<classpathentry kind="lib" path="fontbox-2.0.8.jar"/>
 	<classpathentry kind="lib" path="pdfbox-2.0.8.jar"/>
-	<classpathentry kind="lib" path="pdfbox-tools-2.0.8.jar"/>
-	<classpathentry kind="lib" path="preflight-2.0.8.jar"/>
-	<classpathentry kind="lib" path="xmpbox-2.0.8.jar"/>
 	<classpathentry kind="lib" path="boxable-1.5-RC.jar"/>
-	<classpathentry kind="lib" path="slf4j-api-1.7.25.jar"/>
-	<classpathentry kind="lib" path="slf4j-simple-1.7.25.jar"/>
-	<classpathentry kind="lib" path="commons-csv-1.2.jar"/>
-	<classpathentry kind="lib" path="guava-18.0.jar"/>
 	<classpathentry kind="lib" path="xstream-1.4.10.jar"/>
 	<classpathentry kind="lib" path="HikariCP-2.7.4.jar"/>
 	<classpathentry kind="lib" path="controlsfx-8.40.14.jar"/>
-	<classpathentry kind="lib" path="simple-odf-0.8.2-incubating-jar-with-dependencies.jar"/>
 	<classpathentry kind="lib" path="AutocompleteTextField.jar"/>
 	<classpathentry kind="lib" path="hibernate-validator-6.0.7.Final.jar"/>
 	<classpathentry kind="lib" path="classmate-1.3.1.jar"/>
-	<classpathentry kind="lib" path="javax.el-3.0.1-b08.jar"/>
 	<classpathentry kind="lib" path="jboss-logging-3.3.0.Final.jar"/>
 	<classpathentry kind="lib" path="validation-api-2.0.1.Final.jar"/>
+	<classpathentry kind="lib" path="slf4j-api-1.7.25.jar"/>
+	<classpathentry kind="lib" path="guava-18.0.jar"/>
+	<classpathentry kind="lib" path="javax.el-3.0.1-b08.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
